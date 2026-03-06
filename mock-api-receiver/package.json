@@ -1,0 +1,15 @@
+{
+  "name": "mock-api-receiver",
+  "version": "1.0.0",
+  "description": "Mock API receiver for testing - accepts POST requests and saves payloads to disk",
+  "main": "server.js",
+  "type": "module",
+  "engines": {
+    "node": ">=22.16.0"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "Defra DDTS",
+  "license": "OGL-UK-3.0"
+}

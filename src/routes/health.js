@@ -1,3 +1,7 @@
+/**
+ * Health endpoint for CDP container
+ */
+/** @type {import('@hapi/hapi').ServerRoute} */
 const health = {
   method: 'GET',
   path: '/health',

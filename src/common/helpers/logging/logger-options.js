@@ -2,8 +2,13 @@ import { ecsFormat } from '@elastic/ecs-pino-format'
 import { config } from '../../../config.js'
 import { getTraceId } from '@defra/hapi-tracing'
 
-const logConfig = config.get('log')
+const logConfig =
+  /** @type {{ isEnabled: boolean, level: string, format: 'ecs' | 'pino-pretty', redact: string[] }} */ (
+    config.get('log')
+  )
+/** @type {string} */
 const serviceName = config.get('serviceName')
+/** @type {string | null} */
 const serviceVersion = config.get('serviceVersion')
 
 const formatters = {

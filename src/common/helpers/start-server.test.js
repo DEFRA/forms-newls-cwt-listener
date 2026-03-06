@@ -8,7 +8,6 @@ describe('#startServer', () => {
 
   beforeAll(async () => {
     vi.stubEnv('PORT', '3098')
-
     createServerImport = await import('../../server.js')
     startServerImport = await import('./start-server.js')
 
@@ -17,18 +16,12 @@ describe('#startServer', () => {
   })
 
   afterAll(() => {
-    vi.unstubAllEnvs()
+    vi.resetAllMocks()
   })
 
   describe('When server starts', () => {
-    let server
-
-    afterAll(async () => {
-      await server.stop({ timeout: 0 })
-    })
-
     test('Should start up server as expected', async () => {
-      server = await startServerImport.startServer()
+      await startServerImport.startServer()
 
       expect(createServerSpy).toHaveBeenCalled()
       expect(hapiServerSpy).toHaveBeenCalled()

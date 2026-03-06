@@ -1,0 +1,111 @@
+{
+  "_id": {
+    "$oid": "68c2de0feccb168dd0fbe99e"
+  },
+  "title": "Simple Form",
+  "organisation": "Defra",
+  "teamName": "Forms Team",
+  "teamEmail": "name@example.gov.uk",
+  "slug": "simple-form",
+  "createdAt": {
+    "$date": "2025-09-11T14:34:55.637Z"
+  },
+  "createdBy": {
+    "id": "86758ba9-92e7-4287-9751-7705e449688e",
+    "displayName": "Local Service Account"
+  },
+  "updatedAt": {
+    "$date": "2025-09-11T14:49:39.896Z"
+  },
+  "updatedBy": {
+    "id": "86758ba9-92e7-4287-9751-7705e449688e",
+    "displayName": "Local Service Account"
+  },
+  "versions": [
+    {
+      "versionNumber": 9,
+      "createdAt": {
+        "$date": "2025-09-11T14:49:39.906Z"
+      }
+    },
+    {
+      "versionNumber": 8,
+      "createdAt": {
+        "$date": "2025-09-11T14:49:33.186Z"
+      }
+    },
+    {
+      "versionNumber": 7,
+      "createdAt": {
+        "$date": "2025-09-11T14:49:26.09Z"
+      }
+    },
+    {
+      "versionNumber": 6,
+      "createdAt": {
+        "$date": "2025-09-11T14:49:18.78Z"
+      }
+    },
+    {
+      "versionNumber": 5,
+      "createdAt": {
+        "$date": "2025-09-11T14:49:11.038Z"
+      }
+    },
+    {
+      "versionNumber": 4,
+      "createdAt": {
+        "$date": "2025-09-11T14:49:01.774Z"
+      }
+    },
+    {
+      "versionNumber": 3,
+      "createdAt": {
+        "$date": "2025-09-11T14:35:40.804Z"
+      }
+    },
+    {
+      "versionNumber": 2,
+      "createdAt": {
+        "$date": "2025-09-11T14:35:20.97Z"
+      }
+    },
+    {
+      "versionNumber": 1,
+      "createdAt": {
+        "$date": "2025-09-11T14:34:55.681Z"
+      }
+    }
+  ],
+  "lastVersionNumber": 9,
+  "notificationEmail": "example@defra.gov.uk",
+  "contact": {
+    "phone": "Telephone: 020 7946 0101\r\n    Monday to Friday, 8am to 6pm",
+    "email": {
+      "address": "someone@example.uk",
+      "responseTime": "We aim to respond within 2 working days"
+    },
+    "online": {
+      "url": "https://www.gov.uk/guidance/contact-defra",
+      "text": "Online contact form"
+    }
+  },
+  "submissionGuidance": "We’ll send you an email to let you know the outcome. You’ll usually get a response within 10 working days.",
+  "privacyNoticeUrl": "https://www.gov.uk/help/privacy-notice",
+  "live": {
+    "updatedAt": {
+      "$date": "2025-09-11T14:49:39.896Z"
+    },
+    "updatedBy": {
+      "id": "86758ba9-92e7-4287-9751-7705e449688e",
+      "displayName": "Local Service Account"
+    },
+    "createdAt": {
+      "$date": "2025-09-11T14:49:39.896Z"
+    },
+    "createdBy": {
+      "id": "86758ba9-92e7-4287-9751-7705e449688e",
+      "displayName": "Local Service Account"
+    }
+  }
+}

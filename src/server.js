@@ -8,12 +8,16 @@ import { failAction } from './common/helpers/fail-action.js'
 import { pulse } from './common/helpers/pulse.js'
 import { requestTracing } from './common/helpers/request-tracing.js'
 import { setupProxy } from './common/helpers/proxy/setup-proxy.js'
+import { runTask } from './tasks/receive-messages.js'
+
+/** @type {number} */
+const numberOfCoroutines = config.get('numberOfConcurrentPollingCoroutines')
 
 async function createServer() {
   setupProxy()
   const server = Hapi.server({
-    host: config.get('host'),
-    port: config.get('port'),
+    host: /** @type {string} */ (config.get('host')),
+    port: /** @type {number} */ (config.get('port')),
     routes: {
       validate: {
         options: {
@@ -50,6 +54,10 @@ async function createServer() {
     pulse,
     router
   ])
+
+  for (let i = 0; i < numberOfCoroutines; i++) {
+    await runTask()
+  }
 
   return server
 }

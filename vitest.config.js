@@ -5,12 +5,11 @@ export default defineConfig({
     globals: true,
     environment: 'node',
     clearMocks: true,
-    fileParallelism: false,
     coverage: {
       provider: 'v8',
       reportsDirectory: './coverage',
       reporter: ['text', 'lcov'],
-      include: ['src/**/*.js'],
+      include: ['src/**'],
       exclude: [...configDefaults.exclude, 'coverage']
     },
     setupFiles: ['.vite/setup-files.js']

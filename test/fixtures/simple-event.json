@@ -1,0 +1,30 @@
+{
+  "meta": {
+    "schemaVersion": 1,
+    "timestamp": "2025-09-11T14:53:58.466Z",
+    "referenceNumber": "1A5-F72-704",
+    "formName": "Simple Form",
+    "formId": "68c2de0feccb168dd0fbe99e",
+    "formSlug": "simple-form",
+    "status": "live",
+    "isPreview": false,
+    "notificationEmail": "example@defra.gov.uk",
+    "versionMetadata": {
+      "versionNumber": 9,
+      "createdAt": "2025-09-11T14:49:39.906Z"
+    }
+  },
+  "data": {
+    "main": {
+      "fFzkDs": "Aragorn"
+    },
+    "repeaters": {},
+    "files": {}
+  },
+  "result": {
+    "files": {
+      "main": "dcbabeac-d828-451e-99cc-08c5e4e71e3f",
+      "repeaters": {}
+    }
+  }
+}
