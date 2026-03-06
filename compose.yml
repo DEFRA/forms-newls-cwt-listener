@@ -55,7 +55,7 @@ services:
   #   networks:
   #     - cdp-tenant
 
-  cdp-node-backend-template:
+  forms-newls-cwt-listener:
     build:
       context: .
       target: development
