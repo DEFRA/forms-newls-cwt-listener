@@ -102,8 +102,7 @@ function mapConsultingBody(main) {
   // ueDuNl = "What is the name of your organisation?"
   const organisationName = /** @type {string | undefined} */ (main.ueDuNl)
   // Xszriq = "Other organisation name"
-  const otherOrganisationName =
-    /** @type {string | undefined} */ (main.Xszriq)
+  const otherOrganisationName = /** @type {string | undefined} */ (main.Xszriq)
   // XAZlxH = "Which local authority are you representing?"
   const localAuthority = /** @type {string | undefined} */ (main.XAZlxH)
   // cfPoiN = "Which public body are you representing?"
@@ -341,8 +340,7 @@ export function mapFormSubmission(message) {
   // vUHwan = "Which category best describes the public body you're representing?"
   const publicBodyCategory = /** @type {string | undefined} */ (main.vUHwan)
   // XydYUD = "Could the planned activities affect a European site?"
-  const couldAffectEuroSite =
-    /** @type {boolean | undefined} */ (main.XydYUD)
+  const couldAffectEuroSite = /** @type {boolean | undefined} */ (main.XydYUD)
 
   return {
     form_type: 'assent',

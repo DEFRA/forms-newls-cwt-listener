@@ -119,8 +119,7 @@ function mapDescription(main, repeaters) {
     if (parts.length === 0) {
       const schemeRepeater = repeaters.gWZwzI ?? []
       for (const entry of schemeRepeater) {
-        const schemeSssiName =
-          /** @type {string | undefined} */ (entry.gVlMxz)
+        const schemeSssiName = /** @type {string | undefined} */ (entry.gVlMxz)
         if (schemeSssiName) {
           parts.push(schemeSssiName)
         }

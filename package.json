@@ -31,7 +31,7 @@
   "dependencies": {
     "@aws-sdk/client-sqs": "3.864.0",
     "@defra/cdp-auditing": "0.1.0",
-    "@defra/forms-engine-plugin": "file:/Users/aaron/Temp/npms/defra-forms-engine-plugin-4.0.58.tgz",
+    "@defra/forms-engine-plugin": "4.1.2",
     "@defra/forms-model": "3.0.543",
     "@defra/hapi-secure-context": "0.1.3",
     "@defra/hapi-tracing": "1.22.0",

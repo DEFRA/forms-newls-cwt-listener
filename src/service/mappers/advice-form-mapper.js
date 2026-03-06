@@ -206,8 +206,9 @@ function mapDescription(main, repeaters) {
   }
 
   // YhWlKB = "Give a description of the damaging activity"
-  const damagingActivityDescription =
-    /** @type {string | undefined} */ (main.YhWlKB)
+  const damagingActivityDescription = /** @type {string | undefined} */ (
+    main.YhWlKB
+  )
   if (damagingActivityDescription) {
     parts.push(damagingActivityDescription)
   }
@@ -228,15 +229,13 @@ function mapConsultingBody(main) {
   // PvUZyQ = "Which government agency do you work for?"
   const governmentAgency = /** @type {string | undefined} */ (main.PvUZyQ)
   // hOsLRu = "Tell us which government agency you work for"
-  const otherGovernmentAgency =
-    /** @type {string | undefined} */ (main.hOsLRu)
+  const otherGovernmentAgency = /** @type {string | undefined} */ (main.hOsLRu)
   // YouDQP = "Which local authority do you work for?"
   const localAuthority = /** @type {string | undefined} */ (main.YouDQP)
   // HiTHQX = "Which public body do you work for?"
   const publicBody = /** @type {string | undefined} */ (main.HiTHQX)
   // OYxtmu = "Which public body are you representing?"
-  const publicBodyRepresenting =
-    /** @type {string | undefined} */ (main.OYxtmu)
+  const publicBodyRepresenting = /** @type {string | undefined} */ (main.OYxtmu)
 
   // Determine the effective body type - either direct from teEzOl or via PBmxNM
   const effectiveType = workingOnBehalfOf ?? applicantCategory
@@ -284,8 +283,7 @@ function mapConsultingBody(main) {
 
   // Consultant or Other - follow PBmxNM chain
   if (
-    (applicantCategory === 'Consultant' ||
-      applicantCategory === 'Other') &&
+    (applicantCategory === 'Consultant' || applicantCategory === 'Other') &&
     workingOnBehalfOf
   ) {
     return mapConsultingBodyFromWorkingOnBehalfOf(main)
@@ -305,15 +303,13 @@ function mapConsultingBodyFromWorkingOnBehalfOf(main) {
   // PvUZyQ = "Which government agency do you work for?"
   const governmentAgency = /** @type {string | undefined} */ (main.PvUZyQ)
   // hOsLRu = "Tell us which government agency you work for"
-  const otherGovernmentAgency =
-    /** @type {string | undefined} */ (main.hOsLRu)
+  const otherGovernmentAgency = /** @type {string | undefined} */ (main.hOsLRu)
   // YouDQP = "Which local authority do you work for?"
   const localAuthority = /** @type {string | undefined} */ (main.YouDQP)
   // HiTHQX = "Which public body do you work for?"
   const publicBody = /** @type {string | undefined} */ (main.HiTHQX)
   // OYxtmu = "Which public body are you representing?"
-  const publicBodyRepresenting =
-    /** @type {string | undefined} */ (main.OYxtmu)
+  const publicBodyRepresenting = /** @type {string | undefined} */ (main.OYxtmu)
 
   if (workingOnBehalfOf === 'Government agency') {
     if (governmentAgency === 'Forestry Commission') {
@@ -379,15 +375,13 @@ function mapPublicBody(main) {
   // PvUZyQ = "Which government agency do you work for?"
   const governmentAgency = /** @type {string | undefined} */ (main.PvUZyQ)
   // hOsLRu = "Tell us which government agency you work for"
-  const otherGovernmentAgency =
-    /** @type {string | undefined} */ (main.hOsLRu)
+  const otherGovernmentAgency = /** @type {string | undefined} */ (main.hOsLRu)
   // YouDQP = "Which local authority do you work for?"
   const localAuthority = /** @type {string | undefined} */ (main.YouDQP)
   // HiTHQX = "Which public body do you work for?"
   const publicBody = /** @type {string | undefined} */ (main.HiTHQX)
   // OYxtmu = "Which public body are you representing?"
-  const publicBodyRepresenting =
-    /** @type {string | undefined} */ (main.OYxtmu)
+  const publicBodyRepresenting = /** @type {string | undefined} */ (main.OYxtmu)
 
   if (workingOnBehalfOf === 'Government agency') {
     if (governmentAgency === 'Other government agency') {

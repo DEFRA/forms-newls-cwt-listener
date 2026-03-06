@@ -7,7 +7,8 @@ vi.mock('../../config.js')
 vi.mock('../../common/helpers/logging/logger.js', () => ({
   createLogger: () => ({
     info: vi.fn(),
-    error: vi.fn()
+    error: vi.fn(),
+    debug: vi.fn()
   })
 }))
 
