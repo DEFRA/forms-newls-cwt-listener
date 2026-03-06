@@ -45,14 +45,14 @@ const publicBodyCategoryMap = {
  */
 function mapDetailedWorkType(main) {
   // rTreXu = "What land management scheme does this notice relate to?"
-  const rtrexu = /** @type {string | undefined} */ (main.rTreXu)
-  if (!rtrexu) {
+  const landManagementScheme = /** @type {string | undefined} */ (main.rTreXu)
+  if (!landManagementScheme) {
     return 'S28H Assent'
   }
 
   // Check for partial match on MTA (form text may be longer)
   for (const [key, value] of Object.entries(schemeToDetailedWorkType)) {
-    if (rtrexu.startsWith(key)) {
+    if (landManagementScheme.startsWith(key)) {
       return value
     }
   }
@@ -96,38 +96,39 @@ function mapDescription(repeaters) {
  */
 function mapConsultingBody(main) {
   // KTObNK = "What type of customer are you?"
-  const ktobNk = /** @type {string | undefined} */ (main.KTObNK)
+  const customerType = /** @type {string | undefined} */ (main.KTObNK)
   // vUHwan = "Which category best describes the public body you're representing?"
-  const vuhwan = /** @type {string | undefined} */ (main.vUHwan)
+  const publicBodyCategory = /** @type {string | undefined} */ (main.vUHwan)
   // ueDuNl = "What is the name of your organisation?"
-  const uedunl = /** @type {string | undefined} */ (main.ueDuNl)
+  const organisationName = /** @type {string | undefined} */ (main.ueDuNl)
   // Xszriq = "Other organisation name"
-  const xszriq = /** @type {string | undefined} */ (main.Xszriq)
+  const otherOrganisationName =
+    /** @type {string | undefined} */ (main.Xszriq)
   // XAZlxH = "Which local authority are you representing?"
-  const xazlxh = /** @type {string | undefined} */ (main.XAZlxH)
+  const localAuthority = /** @type {string | undefined} */ (main.XAZlxH)
   // cfPoiN = "Which public body are you representing?"
-  const cfpoin = /** @type {string | undefined} */ (main.cfPoiN)
+  const publicBody = /** @type {string | undefined} */ (main.cfPoiN)
   // FyLHmN = "Which public body are you representing?" (other/free text)
-  const fylhmn = /** @type {string | undefined} */ (main.FyLHmN)
+  const otherPublicBody = /** @type {string | undefined} */ (main.FyLHmN)
 
   // Working on behalf of a public body - use organisation name
-  if (ktobNk === 'Somebody working on behalf of a public body') {
-    if (uedunl === 'Other') {
-      return xszriq ?? ''
+  if (customerType === 'Somebody working on behalf of a public body') {
+    if (organisationName === 'Other') {
+      return otherOrganisationName ?? ''
     }
-    return uedunl ?? ''
+    return organisationName ?? ''
   }
 
   // Local planning authority
-  if (vuhwan === 'Local planning authority') {
-    return xazlxh ?? ''
+  if (publicBodyCategory === 'Local planning authority') {
+    return localAuthority ?? ''
   }
 
   // All other categories - use public body autocomplete
-  if (cfpoin === 'Other') {
-    return fylhmn ?? ''
+  if (publicBody === 'Other') {
+    return otherPublicBody ?? ''
   }
-  return cfpoin ?? ''
+  return publicBody ?? ''
 }
 
 /**
@@ -137,30 +138,40 @@ function mapConsultingBody(main) {
  */
 function mapAgreementReference(main) {
   // rTreXu = "What land management scheme does this notice relate to?"
-  const rtrexu = /** @type {string | undefined} */ (main.rTreXu)
-  if (!rtrexu) {
+  const landManagementScheme = /** @type {string | undefined} */ (main.rTreXu)
+  if (!landManagementScheme) {
     return ''
   }
 
   if (
-    rtrexu.startsWith(
+    landManagementScheme.startsWith(
       'A Countryside Stewardship Higher Tier (CSHT) agreement'
     ) ||
-    rtrexu.startsWith(
+    landManagementScheme.startsWith(
       'A Countryside Stewardship Mid Tier (CSMT) agreement extension'
     ) ||
-    rtrexu.startsWith('A Countryside Stewardship Capital Grants agreement')
+    landManagementScheme.startsWith(
+      'A Countryside Stewardship Capital Grants agreement'
+    )
   ) {
     // WZJDQG = "What's your Countryside Stewardship Scheme agreement reference number?"
     return /** @type {string} */ (main.WZJDQG) ?? ''
   }
 
-  if (rtrexu.startsWith('A Higher Level Stewardship (HLS) agreement')) {
+  if (
+    landManagementScheme.startsWith(
+      'A Higher Level Stewardship (HLS) agreement'
+    )
+  ) {
     // OFiizI = "What is your Higher Level Stewardship (HLS) agreement reference number?"
     return /** @type {string} */ (main.OFiizI) ?? ''
   }
 
-  if (rtrexu.startsWith('A Sustainable Farming Incentive (SFI) agreement')) {
+  if (
+    landManagementScheme.startsWith(
+      'A Sustainable Farming Incentive (SFI) agreement'
+    )
+  ) {
     // niVAkO = "What's your Sustainable Farming Incentive (SFI) agreement number?"
     return /** @type {string} */ (main.niVAkO) ?? ''
   }
@@ -175,17 +186,17 @@ function mapAgreementReference(main) {
  */
 function mapPublicBody(main) {
   // vUHwan = "Which category best describes the public body you're representing?"
-  const vuhwan = /** @type {string | undefined} */ (main.vUHwan)
-  if (!vuhwan) {
+  const publicBodyCategory = /** @type {string | undefined} */ (main.vUHwan)
+  if (!publicBodyCategory) {
     return ''
   }
 
-  if (vuhwan === 'Local planning authority') {
+  if (publicBodyCategory === 'Local planning authority') {
     // XAZlxH = "Which local authority are you representing?"
     return /** @type {string} */ (main.XAZlxH) ?? ''
   }
 
-  if (vuhwan === 'Other') {
+  if (publicBodyCategory === 'Other') {
     // FyLHmN = "Which public body are you representing?" (other/free text)
     return /** @type {string} */ (main.FyLHmN) ?? ''
   }
@@ -326,19 +337,20 @@ export function mapFormSubmission(message) {
     )
 
   // KTObNK = "What type of customer are you?"
-  const ktobNk = /** @type {string | undefined} */ (main.KTObNK)
+  const customerType = /** @type {string | undefined} */ (main.KTObNK)
   // vUHwan = "Which category best describes the public body you're representing?"
-  const vuhwan = /** @type {string | undefined} */ (main.vUHwan)
+  const publicBodyCategory = /** @type {string | undefined} */ (main.vUHwan)
   // XydYUD = "Could the planned activities affect a European site?"
-  const xydydud = /** @type {boolean | undefined} */ (main.XydYUD)
+  const couldAffectEuroSite =
+    /** @type {boolean | undefined} */ (main.XydYUD)
 
   return {
     form_type: 'assent',
     broad_work_type: 'S28H Assent',
     detailed_work_type: mapDetailedWorkType(main),
     description: mapDescription(repeaters),
-    consulting_body_type: vuhwan
-      ? (publicBodyCategoryMap[vuhwan] ?? vuhwan)
+    consulting_body_type: publicBodyCategory
+      ? (publicBodyCategoryMap[publicBodyCategory] ?? publicBodyCategory)
       : '',
     consulting_body: mapConsultingBody(main),
     // htlAAq = "What is your first name?", pPocjH = "What is your last name?"
@@ -347,10 +359,14 @@ export function mapFormSubmission(message) {
     customer_email_address: /** @type {string} */ (main.skdDtj) ?? '',
     agreement_reference: mapAgreementReference(main),
     is_contractor_working_for_public_body:
-      ktobNk === 'Somebody working on behalf of a public body' ? 'Yes' : 'No',
-    public_body_type: vuhwan ? (publicBodyCategoryMap[vuhwan] ?? vuhwan) : '',
+      customerType === 'Somebody working on behalf of a public body'
+        ? 'Yes'
+        : 'No',
+    public_body_type: publicBodyCategory
+      ? (publicBodyCategoryMap[publicBodyCategory] ?? publicBodyCategory)
+      : '',
     public_body: mapPublicBody(main),
-    is_there_a_european_site: xydydud ? 'Yes' : 'No',
+    is_there_a_european_site: couldAffectEuroSite ? 'Yes' : 'No',
     SSSI_info: mapSssiInfo(main, repeaters),
     euro_site_info: mapEuroSiteInfo(repeaters)
   }

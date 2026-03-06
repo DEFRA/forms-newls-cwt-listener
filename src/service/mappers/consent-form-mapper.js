@@ -43,14 +43,14 @@ const customerTypeMap = {
  */
 function mapDetailedWorkType(main) {
   // rTreXu = "What land management scheme does this notice relate to?"
-  const rtrexu = /** @type {string | undefined} */ (main.rTreXu)
-  if (!rtrexu) {
+  const landManagementScheme = /** @type {string | undefined} */ (main.rTreXu)
+  if (!landManagementScheme) {
     return 'S28E Consent'
   }
 
   // Check for partial match on MTA (form text may be longer)
   for (const [key, value] of Object.entries(schemeToDetailedWorkType)) {
-    if (rtrexu.startsWith(key)) {
+    if (landManagementScheme.startsWith(key)) {
       return value
     }
   }
@@ -69,8 +69,8 @@ function mapDescription(main, repeaters) {
 
   // Single SSSI path
   // hozdvW = "What is the name of the SSSI where you plan to carry out activities?"
-  const hozdvw = /** @type {string | undefined} */ (main.hozdvW)
-  if (hozdvw) {
+  const sssiName = /** @type {string | undefined} */ (main.hozdvW)
+  if (sssiName) {
     // iTBHrY = Repeater: "Operations requiring Natural England consent"
     const activities = repeaters.iTBHrY ?? []
     // hqsZMS = "Which activity do you plan to carry out?"
@@ -79,38 +79,38 @@ function mapDescription(main, repeaters) {
       .filter(Boolean)
 
     if (activityNames.length > 0) {
-      parts.push(`${hozdvw} - ${activityNames.join(', ')}`)
+      parts.push(`${sssiName} - ${activityNames.join(', ')}`)
     } else {
-      parts.push(hozdvw)
+      parts.push(sssiName)
     }
   }
 
   // Multi SSSI path - repeater cwZgSE ("Site name and operations requiring Natural England consent")
   //   rWrBOK = "What is the name of the SSSI where you plan to carry out this activity?"
   //   BscJLV = "Which activity do you plan to carry out?"
-  if (!hozdvw) {
+  if (!sssiName) {
     const multiRepeater = repeaters.cwZgSE ?? []
 
     /** @type {Map<string, string[]>} */
     const sssiActivities = new Map()
     for (const entry of multiRepeater) {
-      const sssiName = /** @type {string | undefined} */ (entry.rWrBOK)
+      const entrySssiName = /** @type {string | undefined} */ (entry.rWrBOK)
       const activity = /** @type {string | undefined} */ (entry.BscJLV)
-      if (sssiName) {
-        if (!sssiActivities.has(sssiName)) {
-          sssiActivities.set(sssiName, [])
+      if (entrySssiName) {
+        if (!sssiActivities.has(entrySssiName)) {
+          sssiActivities.set(entrySssiName, [])
         }
         if (activity) {
-          sssiActivities.get(sssiName)?.push(activity)
+          sssiActivities.get(entrySssiName)?.push(activity)
         }
       }
     }
 
-    for (const [sssiName, activities] of sssiActivities) {
+    for (const [name, activities] of sssiActivities) {
       if (activities.length > 0) {
-        parts.push(`${sssiName} - ${activities.join(', ')}`)
+        parts.push(`${name} - ${activities.join(', ')}`)
       } else {
-        parts.push(sssiName)
+        parts.push(name)
       }
     }
 
@@ -119,9 +119,10 @@ function mapDescription(main, repeaters) {
     if (parts.length === 0) {
       const schemeRepeater = repeaters.gWZwzI ?? []
       for (const entry of schemeRepeater) {
-        const sssiName = /** @type {string | undefined} */ (entry.gVlMxz)
-        if (sssiName) {
-          parts.push(sssiName)
+        const schemeSssiName =
+          /** @type {string | undefined} */ (entry.gVlMxz)
+        if (schemeSssiName) {
+          parts.push(schemeSssiName)
         }
       }
     }
@@ -137,28 +138,38 @@ function mapDescription(main, repeaters) {
  */
 function mapAgreementReference(main) {
   // rTreXu = "What land management scheme does this notice relate to?"
-  const rtrexu = /** @type {string | undefined} */ (main.rTreXu)
+  const landManagementScheme = /** @type {string | undefined} */ (main.rTreXu)
 
-  if (rtrexu) {
+  if (landManagementScheme) {
     if (
-      rtrexu.startsWith(
+      landManagementScheme.startsWith(
         'A Countryside Stewardship Higher Tier (CSHT) agreement'
       ) ||
-      rtrexu.startsWith(
+      landManagementScheme.startsWith(
         'A Countryside Stewardship Mid Tier (CSMT) agreement extension'
       ) ||
-      rtrexu.startsWith('A Countryside Stewardship Capital Grants agreement')
+      landManagementScheme.startsWith(
+        'A Countryside Stewardship Capital Grants agreement'
+      )
     ) {
       // WZJDQG = "What's your Countryside Stewardship agreement reference number?"
       return /** @type {string} */ (main.WZJDQG) ?? ''
     }
 
-    if (rtrexu.startsWith('A Higher Level Stewardship (HLS) agreement')) {
+    if (
+      landManagementScheme.startsWith(
+        'A Higher Level Stewardship (HLS) agreement'
+      )
+    ) {
       // OFiizI = "What's your Higher Level Stewardship agreement reference number?"
       return /** @type {string} */ (main.OFiizI) ?? ''
     }
 
-    if (rtrexu.startsWith('A Sustainable Farming Incentive (SFI) agreement')) {
+    if (
+      landManagementScheme.startsWith(
+        'A Sustainable Farming Incentive (SFI) agreement'
+      )
+    ) {
       // niVAkO = "What's your Sustainable Farming Incentive agreement number?"
       return /** @type {string} */ (main.niVAkO) ?? ''
     }
@@ -166,9 +177,9 @@ function mapAgreementReference(main) {
 
   // Another permission path
   // VacBun = "What is the name of the permission?" (page: "Other related permission")
-  const vacbun = /** @type {string | undefined} */ (main.VacBun)
-  if (vacbun) {
-    return vacbun
+  const permissionName = /** @type {string | undefined} */ (main.VacBun)
+  if (permissionName) {
+    return permissionName
   }
 
   return ''
@@ -208,14 +219,14 @@ function mapSssiInfo(main, repeaters) {
   const sssiInfo = []
 
   // hozdvW = "What is the name of the SSSI where you plan to carry out activities?"
-  const hozdvw = /** @type {string | undefined} */ (main.hozdvW)
+  const sssiName = /** @type {string | undefined} */ (main.hozdvW)
   // lmqMaY = "Are you planning to carry out activities on more than one SSSI?"
   const isMultipleSssi = /** @type {boolean | undefined} */ (main.lmqMaY)
 
-  if (!isMultipleSssi && hozdvw) {
+  if (!isMultipleSssi && sssiName) {
     // Single SSSI - scheme path (CS/HLS/MTA)
     // JPohUD = "Where are the activities taking place?" (Easting and Northing coordinates)
-    const jpohud =
+    const activityCoordinates =
       /** @type {{ easting: number, northing: number } | undefined} */ (
         main.JPohUD
       )
@@ -248,21 +259,21 @@ function mapSssiInfo(main, repeaters) {
       }
 
       sssiInfo.push({
-        SSSI_id: /** @type {string} */ (hozdvw),
+        SSSI_id: /** @type {string} */ (sssiName),
         coordinates:
           coordStrings.length > 0 ? joinCoordinates(coordStrings) : '',
         ornec: ornecNames.join(', ')
       })
-    } else if (jpohud) {
+    } else if (activityCoordinates) {
       // Scheme path: single coordinate set, no ORNECs
       sssiInfo.push({
-        SSSI_id: /** @type {string} */ (hozdvw),
-        coordinates: formatCoordinates(jpohud),
+        SSSI_id: /** @type {string} */ (sssiName),
+        coordinates: formatCoordinates(activityCoordinates),
         ornec: ''
       })
     } else {
       sssiInfo.push({
-        SSSI_id: /** @type {string} */ (hozdvw),
+        SSSI_id: /** @type {string} */ (sssiName),
         coordinates: '',
         ornec: ''
       })
@@ -279,12 +290,12 @@ function mapSssiInfo(main, repeaters) {
       const sssiData = new Map()
 
       for (const entry of multiRepeater) {
-        const sssiName =
+        const entrySssiName =
           /** @type {string | undefined} */ (entry.rWrBOK) ?? 'Unknown'
-        if (!sssiData.has(sssiName)) {
-          sssiData.set(sssiName, { coords: [], ornecs: [] })
+        if (!sssiData.has(entrySssiName)) {
+          sssiData.set(entrySssiName, { coords: [], ornecs: [] })
         }
-        const data = sssiData.get(sssiName)
+        const data = sssiData.get(entrySssiName)
         if (entry.gjWdrc) {
           data?.coords.push(
             formatCoordinates(
@@ -343,19 +354,21 @@ export function mapFormSubmission(message) {
     )
 
   // KTObNK = "What type of customer are you?"
-  const ktobNk = /** @type {string | undefined} */ (main.KTObNK)
+  const customerType = /** @type {string | undefined} */ (main.KTObNK)
   // oflKhi = "Single business identifier (SBI)"
-  const oflkhi = /** @type {string | undefined} */ (main.oflKhi)
+  const sbiNumber = /** @type {string | undefined} */ (main.oflKhi)
   // VLUhzR = "Single business identifier (SBI)" (page: "Address details")
-  const vluhzr = /** @type {string | undefined} */ (main.VLUhzR)
-  const sbi = oflkhi ?? vluhzr
+  const sbiNumberAddress = /** @type {string | undefined} */ (main.VLUhzR)
+  const sbi = sbiNumber ?? sbiNumberAddress
 
   return {
     form_type: 'consent',
     broad_work_type: 'S28E Consent',
     detailed_work_type: mapDetailedWorkType(main),
     description: mapDescription(main, repeaters),
-    consulting_body_type: ktobNk ? (customerTypeMap[ktobNk] ?? ktobNk) : '',
+    consulting_body_type: customerType
+      ? (customerTypeMap[customerType] ?? customerType)
+      : '',
     // htlAAq = "What is your first name?", pPocjH = "What is your last name?"
     customer_name: `${main.htlAAq ?? ''} ${main.pPocjH ?? ''}`.trim(),
     // skdDtj = "What's your email address?"

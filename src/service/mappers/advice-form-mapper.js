@@ -55,29 +55,29 @@ const consultingBodyTypeMap = {
  * @returns {string}
  */
 function mapBroadWorkType(main) {
-  const nvrbcy = /** @type {string | undefined} */ (main.NVRbCy)
-  const yowpaj = /** @type {string | undefined} */ (main.YOwPAJ)
+  const typeOfAdvice = /** @type {string | undefined} */ (main.NVRbCy)
+  const adviceTypeRequested = /** @type {string | undefined} */ (main.YOwPAJ)
 
-  if (nvrbcy) {
-    if (nvrbcy === 'HRA advice') {
+  if (typeOfAdvice) {
+    if (typeOfAdvice === 'HRA advice') {
       return 'Standalone HRA Reg 63'
     }
-    if (nvrbcy === 'S28I SSSI advice') {
+    if (typeOfAdvice === 'S28I SSSI advice') {
       return 'S28i Advice'
     }
-    if (nvrbcy === 'Something else') {
+    if (typeOfAdvice === 'Something else') {
       return 'Other casework'
     }
   }
 
-  if (yowpaj) {
-    if (yowpaj === 'Standalone HRA advice') {
+  if (adviceTypeRequested) {
+    if (adviceTypeRequested === 'Standalone HRA advice') {
       return 'Standalone HRA Reg 63'
     }
-    if (yowpaj === 'S28i SSSI advice') {
+    if (adviceTypeRequested === 'S28i SSSI advice') {
       return 'S28i Advice'
     }
-    if (yowpaj === 'Something else') {
+    if (adviceTypeRequested === 'Something else') {
       return 'Other casework'
     }
   }
@@ -94,33 +94,33 @@ function mapBroadWorkType(main) {
  */
 function mapDetailedWorkType(main) {
   // NVRbCy = "What type of advice are you requesting?"
-  const nvrbcy = /** @type {string | undefined} */ (main.NVRbCy)
+  const typeOfAdvice = /** @type {string | undefined} */ (main.NVRbCy)
   // YOwPAJ = "Tell us which type of advice you are requesting"
-  const yowpaj = /** @type {string | undefined} */ (main.YOwPAJ)
+  const adviceTypeRequested = /** @type {string | undefined} */ (main.YOwPAJ)
   // xzEslQ = "Which topic fits the nature of your question the best?"
-  const xzeslq = /** @type {string | undefined} */ (main.xzEslQ)
+  const generalTopic = /** @type {string | undefined} */ (main.xzEslQ)
 
-  if (nvrbcy && nvrbcy !== 'Something else') {
-    if (nvrbcy === 'HRA advice') {
+  if (typeOfAdvice && typeOfAdvice !== 'Something else') {
+    if (typeOfAdvice === 'HRA advice') {
       return 'Standalone HRA Reg 63'
     }
-    if (nvrbcy === 'S28I SSSI advice') {
+    if (typeOfAdvice === 'S28I SSSI advice') {
       return 'S28i Advice'
     }
   }
 
-  if (yowpaj && yowpaj !== 'Something else') {
-    if (yowpaj === 'Standalone HRA advice') {
+  if (adviceTypeRequested && adviceTypeRequested !== 'Something else') {
+    if (adviceTypeRequested === 'Standalone HRA advice') {
       return 'Standalone HRA Reg 63'
     }
-    if (yowpaj === 'S28i SSSI advice') {
+    if (adviceTypeRequested === 'S28i SSSI advice') {
       return 'S28i Advice'
     }
   }
 
   // "Something else" on NVRbCy/YOwPAJ or direct xzEslQ path
-  if (xzeslq) {
-    return generalTopicToDetailedWorkType[xzeslq] ?? 'SSSI - Other'
+  if (generalTopic) {
+    return generalTopicToDetailedWorkType[generalTopic] ?? 'SSSI - Other'
   }
 
   return 'SSSI - Other'
@@ -136,21 +136,23 @@ function mapDescription(main, repeaters) {
   const parts = []
 
   // NVRbCy = "What type of advice are you requesting?"
-  const nvrbcy = /** @type {string | undefined} */ (main.NVRbCy)
+  const typeOfAdvice = /** @type {string | undefined} */ (main.NVRbCy)
   // YOwPAJ = "Tell us which type of advice you are requesting"
-  const yowpaj = /** @type {string | undefined} */ (main.YOwPAJ)
+  const adviceTypeRequested = /** @type {string | undefined} */ (main.YOwPAJ)
 
   const isHraPath =
-    nvrbcy === 'HRA advice' || yowpaj === 'Standalone HRA advice'
+    typeOfAdvice === 'HRA advice' ||
+    adviceTypeRequested === 'Standalone HRA advice'
   const isSssiAdvicePath =
-    nvrbcy === 'S28I SSSI advice' || yowpaj === 'S28i SSSI advice'
+    typeOfAdvice === 'S28I SSSI advice' ||
+    adviceTypeRequested === 'S28i SSSI advice'
 
   if (isHraPath) {
     // HRA advice path: HRA stage + European site names
     // emlmbt = "What stage of HRA advice are you requesting?"
-    const emlmbt = /** @type {string | undefined} */ (main.emlmbt)
-    if (emlmbt) {
-      parts.push(`Advice on ${emlmbt.toLowerCase()}`)
+    const hraStage = /** @type {string | undefined} */ (main.emlmbt)
+    if (hraStage) {
+      parts.push(`Advice on ${hraStage.toLowerCase()}`)
     }
     // TJuSNf = Repeater: "European site" on page "Which European site does this plan or project affect?"
     const euroSites = repeaters.TJuSNf ?? []
@@ -184,29 +186,30 @@ function mapDescription(main, repeaters) {
   } else {
     // General topics path
     // xzEslQ = "Which topic fits the nature of your question the best?"
-    const xzeslq = /** @type {string | undefined} */ (main.xzEslQ)
-    if (xzeslq) {
-      parts.push(xzeslq)
+    const generalTopic = /** @type {string | undefined} */ (main.xzEslQ)
+    if (generalTopic) {
+      parts.push(generalTopic)
     }
   }
 
   // Append additional description fields where present
   // QmIGor = "What is your question?"
-  const qmigor = /** @type {string | undefined} */ (main.QmIGor)
-  if (qmigor) {
-    parts.push(qmigor)
+  const question = /** @type {string | undefined} */ (main.QmIGor)
+  if (question) {
+    parts.push(question)
   }
 
   // nJVeix = "Tell us about the proposed activities"
-  const njveix = /** @type {string | undefined} */ (main.nJVeix)
-  if (njveix) {
-    parts.push(njveix)
+  const proposedActivities = /** @type {string | undefined} */ (main.nJVeix)
+  if (proposedActivities) {
+    parts.push(proposedActivities)
   }
 
   // YhWlKB = "Give a description of the damaging activity"
-  const yhwlkb = /** @type {string | undefined} */ (main.YhWlKB)
-  if (yhwlkb) {
-    parts.push(yhwlkb)
+  const damagingActivityDescription =
+    /** @type {string | undefined} */ (main.YhWlKB)
+  if (damagingActivityDescription) {
+    parts.push(damagingActivityDescription)
   }
 
   return parts.join(' - ')
@@ -219,35 +222,37 @@ function mapDescription(main, repeaters) {
  */
 function mapConsultingBody(main) {
   // teEzOl = "Which category best describes who is making this application?"
-  const teezol = /** @type {string | undefined} */ (main.teEzOl)
+  const applicantCategory = /** @type {string | undefined} */ (main.teEzOl)
   // PBmxNM = "Who are you working on behalf of?"
-  const pbmxnm = /** @type {string | undefined} */ (main.PBmxNM)
+  const workingOnBehalfOf = /** @type {string | undefined} */ (main.PBmxNM)
   // PvUZyQ = "Which government agency do you work for?"
-  const pvuzuq = /** @type {string | undefined} */ (main.PvUZyQ)
+  const governmentAgency = /** @type {string | undefined} */ (main.PvUZyQ)
   // hOsLRu = "Tell us which government agency you work for"
-  const hoslru = /** @type {string | undefined} */ (main.hOsLRu)
+  const otherGovernmentAgency =
+    /** @type {string | undefined} */ (main.hOsLRu)
   // YouDQP = "Which local authority do you work for?"
-  const youdqp = /** @type {string | undefined} */ (main.YouDQP)
+  const localAuthority = /** @type {string | undefined} */ (main.YouDQP)
   // HiTHQX = "Which public body do you work for?"
-  const hithqx = /** @type {string | undefined} */ (main.HiTHQX)
+  const publicBody = /** @type {string | undefined} */ (main.HiTHQX)
   // OYxtmu = "Which public body are you representing?"
-  const oyxtmu = /** @type {string | undefined} */ (main.OYxtmu)
+  const publicBodyRepresenting =
+    /** @type {string | undefined} */ (main.OYxtmu)
 
   // Determine the effective body type - either direct from teEzOl or via PBmxNM
-  const effectiveType = pbmxnm ?? teezol
+  const effectiveType = workingOnBehalfOf ?? applicantCategory
 
   if (
     effectiveType === 'Government Agency' ||
     effectiveType === 'Government agency'
   ) {
-    if (pvuzuq === 'Forestry Commission') {
+    if (governmentAgency === 'Forestry Commission') {
       return 'Forestry Commission'
     }
-    if (pvuzuq === 'Environment Agency') {
+    if (governmentAgency === 'Environment Agency') {
       return 'Environment Agency'
     }
-    if (pvuzuq === 'Other government agency') {
-      return hoslru ?? ''
+    if (governmentAgency === 'Other government agency') {
+      return otherGovernmentAgency ?? ''
     }
   }
 
@@ -255,7 +260,7 @@ function mapConsultingBody(main) {
     effectiveType === 'Local Planning Authority' ||
     effectiveType === 'Regional body'
   ) {
-    return youdqp ?? ''
+    return localAuthority ?? ''
   }
 
   if (
@@ -263,10 +268,10 @@ function mapConsultingBody(main) {
     effectiveType === 'Utility provider' ||
     effectiveType === 'Public body or organisation'
   ) {
-    if (hithqx === 'Other') {
-      return oyxtmu ?? ''
+    if (publicBody === 'Other') {
+      return publicBodyRepresenting ?? ''
     }
-    return hithqx ?? ''
+    return publicBody ?? ''
   }
 
   if (
@@ -278,8 +283,12 @@ function mapConsultingBody(main) {
   }
 
   // Consultant or Other - follow PBmxNM chain
-  if ((teezol === 'Consultant' || teezol === 'Other') && pbmxnm) {
-    return mapConsultingBodyFromPbmxnm(main)
+  if (
+    (applicantCategory === 'Consultant' ||
+      applicantCategory === 'Other') &&
+    workingOnBehalfOf
+  ) {
+    return mapConsultingBodyFromWorkingOnBehalfOf(main)
   }
 
   return ''
@@ -290,49 +299,51 @@ function mapConsultingBody(main) {
  * @param {Record<string, unknown>} main
  * @returns {string}
  */
-function mapConsultingBodyFromPbmxnm(main) {
+function mapConsultingBodyFromWorkingOnBehalfOf(main) {
   // PBmxNM = "Who are you working on behalf of?"
-  const pbmxnm = /** @type {string} */ (main.PBmxNM)
+  const workingOnBehalfOf = /** @type {string} */ (main.PBmxNM)
   // PvUZyQ = "Which government agency do you work for?"
-  const pvuzuq = /** @type {string | undefined} */ (main.PvUZyQ)
+  const governmentAgency = /** @type {string | undefined} */ (main.PvUZyQ)
   // hOsLRu = "Tell us which government agency you work for"
-  const hoslru = /** @type {string | undefined} */ (main.hOsLRu)
+  const otherGovernmentAgency =
+    /** @type {string | undefined} */ (main.hOsLRu)
   // YouDQP = "Which local authority do you work for?"
-  const youdqp = /** @type {string | undefined} */ (main.YouDQP)
+  const localAuthority = /** @type {string | undefined} */ (main.YouDQP)
   // HiTHQX = "Which public body do you work for?"
-  const hithqx = /** @type {string | undefined} */ (main.HiTHQX)
+  const publicBody = /** @type {string | undefined} */ (main.HiTHQX)
   // OYxtmu = "Which public body are you representing?"
-  const oyxtmu = /** @type {string | undefined} */ (main.OYxtmu)
+  const publicBodyRepresenting =
+    /** @type {string | undefined} */ (main.OYxtmu)
 
-  if (pbmxnm === 'Government agency') {
-    if (pvuzuq === 'Forestry Commission') {
+  if (workingOnBehalfOf === 'Government agency') {
+    if (governmentAgency === 'Forestry Commission') {
       return 'Forestry Commission'
     }
-    if (pvuzuq === 'Environment Agency') {
+    if (governmentAgency === 'Environment Agency') {
       return 'Environment Agency'
     }
-    if (pvuzuq === 'Other government agency') {
-      return hoslru ?? ''
+    if (governmentAgency === 'Other government agency') {
+      return otherGovernmentAgency ?? ''
     }
   }
 
-  if (pbmxnm === 'Local Planning Authority') {
-    return youdqp ?? ''
+  if (workingOnBehalfOf === 'Local Planning Authority') {
+    return localAuthority ?? ''
   }
 
-  if (pbmxnm === 'Public body or organisation') {
-    if (hithqx === 'Other') {
-      return oyxtmu ?? ''
+  if (workingOnBehalfOf === 'Public body or organisation') {
+    if (publicBody === 'Other') {
+      return publicBodyRepresenting ?? ''
     }
-    return hithqx ?? ''
+    return publicBody ?? ''
   }
 
   if (
-    pbmxnm === 'Landowner' ||
-    pbmxnm === 'Land occupier' ||
-    pbmxnm === 'None of the above'
+    workingOnBehalfOf === 'Landowner' ||
+    workingOnBehalfOf === 'Land occupier' ||
+    workingOnBehalfOf === 'None of the above'
   ) {
-    return pbmxnm
+    return workingOnBehalfOf
   }
 
   return ''
@@ -340,17 +351,17 @@ function mapConsultingBodyFromPbmxnm(main) {
 
 /**
  * Maps the public_body_type from PBmxNM.
- * @param {string | undefined} pbmxnm
+ * @param {string | undefined} workingOnBehalfOf
  * @returns {string}
  */
-function mapPublicBodyType(pbmxnm) {
-  if (!pbmxnm) {
+function mapPublicBodyType(workingOnBehalfOf) {
+  if (!workingOnBehalfOf) {
     return ''
   }
-  if (pbmxnm === 'Government agency') {
+  if (workingOnBehalfOf === 'Government agency') {
     return 'Government Agency'
   }
-  return pbmxnm
+  return workingOnBehalfOf
 }
 
 /**
@@ -360,38 +371,40 @@ function mapPublicBodyType(pbmxnm) {
  */
 function mapPublicBody(main) {
   // PBmxNM = "Who are you working on behalf of?"
-  const pbmxnm = /** @type {string | undefined} */ (main.PBmxNM)
-  if (!pbmxnm) {
+  const workingOnBehalfOf = /** @type {string | undefined} */ (main.PBmxNM)
+  if (!workingOnBehalfOf) {
     return ''
   }
 
   // PvUZyQ = "Which government agency do you work for?"
-  const pvuzuq = /** @type {string | undefined} */ (main.PvUZyQ)
+  const governmentAgency = /** @type {string | undefined} */ (main.PvUZyQ)
   // hOsLRu = "Tell us which government agency you work for"
-  const hoslru = /** @type {string | undefined} */ (main.hOsLRu)
+  const otherGovernmentAgency =
+    /** @type {string | undefined} */ (main.hOsLRu)
   // YouDQP = "Which local authority do you work for?"
-  const youdqp = /** @type {string | undefined} */ (main.YouDQP)
+  const localAuthority = /** @type {string | undefined} */ (main.YouDQP)
   // HiTHQX = "Which public body do you work for?"
-  const hithqx = /** @type {string | undefined} */ (main.HiTHQX)
+  const publicBody = /** @type {string | undefined} */ (main.HiTHQX)
   // OYxtmu = "Which public body are you representing?"
-  const oyxtmu = /** @type {string | undefined} */ (main.OYxtmu)
+  const publicBodyRepresenting =
+    /** @type {string | undefined} */ (main.OYxtmu)
 
-  if (pbmxnm === 'Government agency') {
-    if (pvuzuq === 'Other government agency') {
-      return hoslru ?? ''
+  if (workingOnBehalfOf === 'Government agency') {
+    if (governmentAgency === 'Other government agency') {
+      return otherGovernmentAgency ?? ''
     }
-    return pvuzuq ?? ''
+    return governmentAgency ?? ''
   }
 
-  if (pbmxnm === 'Local Planning Authority') {
-    return youdqp ?? ''
+  if (workingOnBehalfOf === 'Local Planning Authority') {
+    return localAuthority ?? ''
   }
 
-  if (pbmxnm === 'Public body or organisation') {
-    if (hithqx === 'Other') {
-      return oyxtmu ?? ''
+  if (workingOnBehalfOf === 'Public body or organisation') {
+    if (publicBody === 'Other') {
+      return publicBodyRepresenting ?? ''
     }
-    return hithqx ?? ''
+    return publicBody ?? ''
   }
 
   return ''
@@ -430,9 +443,10 @@ function mapSssiInfo(main, repeaters) {
   // Damage reporting path:
   //   MoCXGK = "What is the name of the SSSI that you would like to report damage for?"
   //   rSJTFC = "Where on the SSSI has the damage taken place?"
-  if (sssiInfo.length === 0 && main.MoCXGK) {
+  const sssiDamageName = /** @type {string | undefined} */ (main.MoCXGK)
+  if (sssiInfo.length === 0 && sssiDamageName) {
     sssiInfo.push({
-      SSSI_id: /** @type {string} */ (main.MoCXGK),
+      SSSI_id: sssiDamageName,
       coordinates: main.rSJTFC
         ? formatCoordinates(
             /** @type {{ easting: number, northing: number }} */ (main.rSJTFC)
@@ -492,9 +506,9 @@ export function mapFormSubmission(message) {
     )
 
   // PBmxNM = "Who are you working on behalf of?"
-  const pbmxnm = /** @type {string | undefined} */ (main.PBmxNM)
+  const workingOnBehalfOf = /** @type {string | undefined} */ (main.PBmxNM)
   // teEzOl = "Which category best describes who is making this application?"
-  const teezol = /** @type {string | undefined} */ (main.teEzOl)
+  const applicantCategory = /** @type {string | undefined} */ (main.teEzOl)
   const detailedWorkType = mapDetailedWorkType(main)
   const euroSiteInfo = mapEuroSiteInfo(repeaters)
 
@@ -503,8 +517,8 @@ export function mapFormSubmission(message) {
     broad_work_type: mapBroadWorkType(main),
     detailed_work_type: detailedWorkType,
     description: mapDescription(main, repeaters),
-    consulting_body_type: teezol
-      ? (consultingBodyTypeMap[teezol] ?? teezol)
+    consulting_body_type: applicantCategory
+      ? (consultingBodyTypeMap[applicantCategory] ?? applicantCategory)
       : '',
     consulting_body: mapConsultingBody(main),
     // hUpejP = "What is your full name?"
@@ -512,9 +526,11 @@ export function mapFormSubmission(message) {
     // YOPYRe = "What is your email address?"
     customer_email_address: /** @type {string} */ (main.YOPYRe) ?? '',
     email_header: detailedWorkType,
-    is_contractor_working_for_public_body: pbmxnm ? 'Yes' : 'No',
-    public_body_type: pbmxnm ? mapPublicBodyType(pbmxnm) : '',
-    public_body: pbmxnm ? mapPublicBody(main) : '',
+    is_contractor_working_for_public_body: workingOnBehalfOf ? 'Yes' : 'No',
+    public_body_type: workingOnBehalfOf
+      ? mapPublicBodyType(workingOnBehalfOf)
+      : '',
+    public_body: workingOnBehalfOf ? mapPublicBody(main) : '',
     is_there_a_european_site: euroSiteInfo.length > 0 ? 'Yes' : 'No',
     SSSI_info: mapSssiInfo(main, repeaters),
     euro_site_info: euroSiteInfo

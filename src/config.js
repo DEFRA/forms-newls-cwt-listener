@@ -131,7 +131,7 @@ const config = convict({
     env: 'MANAGER_URL'
   },
   universityApiUrl: {
-    doc: 'URL to call Mock API',
+    doc: 'URL to call the target API',
     format: String,
     default: null,
     env: 'UNIVERSITY_API_URL'
