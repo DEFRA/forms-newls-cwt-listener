@@ -60,6 +60,7 @@ MANAGER_URL=http://localhost:3001
 DESIGNER_URL=http://localhost:3000
 UNIVERSITY_API_URL=http://localhost:3008/api
 UNIVERSITY_API_KEY=your-api-key
+UNIVERSITY_API_HEALTH_CHECK_URL=https://example.com/api/?is_alive=1
 ```
 
 Install application dependencies:
@@ -98,20 +99,21 @@ npm start
 
 ### Environment variables
 
-| Variable                     | Description                                   | Default                    |
-| :--------------------------- | :-------------------------------------------- | :------------------------- |
-| `UNIVERSITY_API_URL`         | URL of the CWT API endpoint                   | —                          |
-| `UNIVERSITY_API_KEY`         | API key for authenticating with the CWT API   | —                          |
-| `ADVICE_FORM_ID`             | Form ID for the advice form                   | `69a07d92093ab56d4fa9f325` |
-| `ASSENT_FORM_ID`             | Form ID for the assent form                   | `69a1a593093ab56d4fa9f330` |
-| `CONSENT_FORM_ID`            | Form ID for the consent form                  | `69a1a64c093ab56d4fa9f339` |
-| `EVENTS_SQS_QUEUE_URL`       | SQS queue URL for form submission events      | —                          |
-| `SQS_ENDPOINT`               | SQS endpoint override (for local development) | —                          |
-| `AWS_REGION`                 | AWS region                                    | `eu-west-2`                |
-| `RECEIVE_MESSAGE_TIMEOUT_MS` | Wait time between polls in milliseconds       | `30000`                    |
-| `SQS_MAX_NUMBER_OF_MESSAGES` | Max messages to receive at once (max 10)      | `10`                       |
-| `SQS_VISIBILITY_TIMEOUT`     | Seconds a message is hidden after retrieval   | `30`                       |
-| `CONCURRENT_COROUTINES`      | Number of concurrent polling coroutines       | `1`                        |
+| Variable                          | Description                                   | Default                    |
+| :-------------------------------- | :-------------------------------------------- | :------------------------- |
+| `UNIVERSITY_API_URL`              | URL of the CWT API endpoint                   | —                          |
+| `UNIVERSITY_API_KEY`              | API key for authenticating with the CWT API   | —                          |
+| `UNIVERSITY_API_HEALTH_CHECK_URL` | Health check URL for the CWT API              | —                          |
+| `ADVICE_FORM_ID`                  | Form ID for the advice form                   | `69a07d92093ab56d4fa9f325` |
+| `ASSENT_FORM_ID`                  | Form ID for the assent form                   | `69a1a593093ab56d4fa9f330` |
+| `CONSENT_FORM_ID`                 | Form ID for the consent form                  | `69a1a64c093ab56d4fa9f339` |
+| `EVENTS_SQS_QUEUE_URL`            | SQS queue URL for form submission events      | —                          |
+| `SQS_ENDPOINT`                    | SQS endpoint override (for local development) | —                          |
+| `AWS_REGION`                      | AWS region                                    | `eu-west-2`                |
+| `RECEIVE_MESSAGE_TIMEOUT_MS`      | Wait time between polls in milliseconds       | `30000`                    |
+| `SQS_MAX_NUMBER_OF_MESSAGES`      | Max messages to receive at once (max 10)      | `10`                       |
+| `SQS_VISIBILITY_TIMEOUT`          | Seconds a message is hidden after retrieval   | `30`                       |
+| `CONCURRENT_COROUTINES`           | Number of concurrent polling coroutines       | `1`                        |
 
 ### SQS queue configuration
 
@@ -132,9 +134,9 @@ SQS Queue
 
 ## API endpoints
 
-| Endpoint       | Description  |
-| :------------- | :----------- |
-| `GET: /health` | Health check |
+| Endpoint       | Description                                                                                                       |
+| :------------- | :---------------------------------------------------------------------------------------------------------------- |
+| `GET: /health` | Health check — also verifies the target CWT API is reachable when `UNIVERSITY_API_HEALTH_CHECK_URL` is configured |
 
 ## Docker
 

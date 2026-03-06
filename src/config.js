@@ -143,6 +143,13 @@ const config = convict({
     default: null,
     env: 'UNIVERSITY_API_KEY'
   },
+  universityApiHealthCheckUrl: {
+    doc: 'Health check URL for the University API',
+    format: String,
+    nullable: true,
+    default: null,
+    env: 'UNIVERSITY_API_HEALTH_CHECK_URL'
+  },
 
   /**
    * Form IDs
