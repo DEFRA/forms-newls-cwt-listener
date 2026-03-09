@@ -95,7 +95,7 @@ describe('submission-transmitter', () => {
     })
 
     await expect(send(mockMessage)).rejects.toThrow(
-      'Failed to send message to mock API: Internal Server Error'
+      'Failed to send message to API: Internal Server Error'
     )
   })
 })

@@ -50,9 +50,7 @@ export async function send(message) {
       },
       'Failed to send message to API'
     )
-    throw new Error(
-      `Failed to send message to mock API: ${response.statusText}`
-    )
+    throw new Error(`Failed to send message to API: ${response.statusText}`)
   }
 
   logger.info(
