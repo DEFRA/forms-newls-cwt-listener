@@ -348,16 +348,17 @@ function mapConsultingBodyFromWorkingOnBehalfOf(main) {
 /**
  * Maps the public_body_type from PBmxNM.
  * @param {string | undefined} workingOnBehalfOf
+ * @param {string | undefined} applicantCategory
  * @returns {string}
  */
-function mapPublicBodyType(workingOnBehalfOf) {
-  if (!workingOnBehalfOf) {
+function mapPublicBodyType(workingOnBehalfOf, applicantCategory) {
+  if (!workingOnBehalfOf && !applicantCategory) {
     return ''
   }
   if (workingOnBehalfOf === 'Government agency') {
     return 'Government Agency'
   }
-  return workingOnBehalfOf
+  return workingOnBehalfOf ?? applicantCategory ?? ''
 }
 
 /**
@@ -369,6 +370,13 @@ function mapPublicBody(main) {
   // PBmxNM = "Who are you working on behalf of?"
   const workingOnBehalfOf = /** @type {string | undefined} */ (main.PBmxNM)
   if (!workingOnBehalfOf) {
+    // teEzOl = "Which category best describes who is making this application?"
+    const applicantCategory = /** @type {string | undefined} */ (main.teEzOl)
+    if (applicantCategory) {
+      // PvUZyQ = "Which government agency do you work for?"
+      const governmentAgency = /** @type {string | undefined} */ (main.PvUZyQ)
+      return governmentAgency ?? ''
+    }
     return ''
   }
 
@@ -521,10 +529,8 @@ export function mapFormSubmission(message) {
     customer_email_address: /** @type {string} */ (main.YOPYRe) ?? '',
     email_header: detailedWorkType,
     is_contractor_working_for_public_body: workingOnBehalfOf ? 'Yes' : 'No',
-    public_body_type: workingOnBehalfOf
-      ? mapPublicBodyType(workingOnBehalfOf)
-      : '',
-    public_body: workingOnBehalfOf ? mapPublicBody(main) : '',
+    public_body_type: mapPublicBodyType(workingOnBehalfOf, applicantCategory),
+    public_body: mapPublicBody(main),
     is_there_a_european_site: euroSiteInfo.length > 0 ? 'Yes' : 'No',
     SSSI_info: mapSssiInfo(main, repeaters),
     euro_site_info: euroSiteInfo
