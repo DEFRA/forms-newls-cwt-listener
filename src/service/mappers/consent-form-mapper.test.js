@@ -200,7 +200,18 @@ describe('consent-form-mapper', () => {
       expect(result.email_header).toBe('Tree removal')
     })
 
-    it('should return empty string when no ORNECs', () => {
+    it('should fall back to land management scheme when no ORNECs', () => {
+      const result = mapFormSubmission(
+        buildMessage({
+          rTreXu: 'A Countryside Stewardship Higher Tier (CSHT) agreement'
+        })
+      )
+      expect(result.email_header).toBe(
+        'A Countryside Stewardship Higher Tier (CSHT) agreement'
+      )
+    })
+
+    it('should return empty string when no ORNECs and no scheme', () => {
       const result = mapFormSubmission(buildMessage({}))
       expect(result.email_header).toBe('')
     })

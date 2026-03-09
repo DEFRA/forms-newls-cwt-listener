@@ -186,10 +186,12 @@ function mapAgreementReference(main) {
 
 /**
  * Gets the first ORNEC (activity) value for the email_header.
+ * Falls back to the land management scheme if no activity is found.
+ * @param {Record<string, unknown>} main
  * @param {Record<string, Array<Record<string, unknown>>>} repeaters
  * @returns {string}
  */
-function mapEmailHeader(repeaters) {
+function mapEmailHeader(main, repeaters) {
   // Single SSSI path - repeater iTBHrY ("Operations requiring Natural England consent")
   //   hqsZMS = "Which activity do you plan to carry out?"
   const singleRepeater = repeaters.iTBHrY ?? []
@@ -202,6 +204,13 @@ function mapEmailHeader(repeaters) {
   const multiRepeater = repeaters.cwZgSE ?? []
   if (multiRepeater.length > 0 && multiRepeater[0].BscJLV) {
     return /** @type {string} */ (multiRepeater[0].BscJLV)
+  }
+
+  // Fallback to land management scheme
+  // rTreXu = "What land management scheme does this notice relate to?"
+  const landManagementScheme = /** @type {string | undefined} */ (main.rTreXu)
+  if (landManagementScheme) {
+    return landManagementScheme
   }
 
   return ''
@@ -374,7 +383,7 @@ export function mapFormSubmission(message) {
     customer_email_address: /** @type {string} */ (main.skdDtj) ?? '',
     SBI: sbi ? Number(sbi) : undefined,
     agreement_reference: mapAgreementReference(main),
-    email_header: mapEmailHeader(repeaters),
+    email_header: mapEmailHeader(main, repeaters),
     SSSI_info: mapSssiInfo(main, repeaters)
   }
 }
