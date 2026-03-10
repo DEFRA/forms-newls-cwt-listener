@@ -3,10 +3,6 @@
   "engine": "V2",
   "schema": 2,
   "startPage": "/summary",
-  "output": {
-    "audience": "machine",
-    "version": "2"
-  },
   "pages": [
     {
       "title": "Before you start",
@@ -670,27 +666,27 @@
       "condition": "82dc409e-6676-4133-bcd2-6d87b35fad5c"
     },
     {
-      "title": "Gaining access to carry out the planned activities",
-      "path": "/gaining-access-to-carry-out-the-planned-activities",
+      "title": "Accessing and working on the SSSI to carry out the planned activities",
+      "path": "/accessing-and-working-on-the-sssi-to-carry-out-the-planned-activities",
       "components": [
         {
           "id": "492dcd1e-7ddd-4d35-ac9a-4ef9e44161e1",
           "type": "Markdown",
-          "content": "Tell us how you intend to gain access to the SSSI to carry out the planned activities.",
+          "content": "Tell us if you intend to use vehicles or machinery on the SSSI to carry out the planned activities.",
           "options": {},
           "schema": {}
         },
         {
           "type": "RadiosField",
-          "title": "How will you gain access to the site?",
+          "title": "How will you move around and work on the site?",
           "name": "Cekuvm",
           "shortDescription": "Access to site",
           "hint": "",
+          "list": "aa1f1e4f-1e83-4950-869b-0202d934090f",
           "options": {
             "required": true
           },
           "schema": {},
-          "list": "aa1f1e4f-1e83-4950-869b-0202d934090f",
           "id": "1267ed2a-f657-4022-9519-5f8b807057e2"
         },
         {
@@ -848,13 +844,13 @@
       "condition": "466ac1f4-e58d-4e5e-baab-fad830c9d10c"
     },
     {
-      "title": "Accessing the sites to carry out the planned activities",
-      "path": "/accessing-the-sites-to-carry-out-the-planned-activities",
+      "title": "Accessing and working on the sites to carry out the planned activities",
+      "path": "/accessing-and-working-on-the-sites-to-carry-out-the-planned-activities",
       "components": [
         {
           "id": "b9390c0f-6322-4372-8ff9-9c2715fd24fd",
           "type": "Markdown",
-          "content": "For each SSSI, tell us how you intend to gain access to carry out the planned activities.\r\n\r\nYou can add details for another site after you select 'Continue'.",
+          "content": "Tell us if you intend to use vehicles or machinery on the SSSI to carry out the planned activities.\r\n\r\nYou can add details for another site after you select 'Continue'.",
           "options": {},
           "schema": {}
         },
@@ -873,15 +869,15 @@
         },
         {
           "type": "RadiosField",
-          "title": "How will you gain access to the site?",
+          "title": "How will you move around and work on the site?",
           "name": "LWzTXp",
           "shortDescription": "Gaining access",
           "hint": "",
+          "list": "34086bbd-2f4e-43f3-a82c-a1f9b5b80627",
           "options": {
             "required": true
           },
           "schema": {},
-          "list": "34086bbd-2f4e-43f3-a82c-a1f9b5b80627",
           "id": "64513151-75ad-46b2-bc80-8d8099c76e70"
         },
         {

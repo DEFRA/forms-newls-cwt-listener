@@ -3,10 +3,6 @@
   "engine": "V2",
   "schema": 2,
   "startPage": "/summary",
-  "output": {
-    "audience": "machine",
-    "version": "2"
-  },
   "pages": [
     {
       "title": "Before you start",
@@ -15,7 +11,7 @@
         {
           "id": "0b631d6b-15d6-4fab-8a7b-adcededcf644",
           "type": "Markdown",
-          "content": "You should use this form to give notice of a planned activity on a site of special scientific interest (SSSI) that needs Natural England’s consent. \r\n\r\nYour planned activities must be taking place within a SSSI.\r\n\r\nOnly certain individuals can submit a notice. They must be either: \r\n* the land owner\r\n* the land occupier\r\n* someone with the land owner or occupier's permission \r\n\r\nYou can only apply for permission for one land owner or occupier at a time. You can apply for permission for activities across more than one SSSI if the land owner or occupier is the same.\r\n\r\nYou may be asked for proof of permission to submit notice if you are not the owner.\r\n \r\n## Check if the activity is an ORNEC\r\n\r\nYou need to give notice for SSSI consent if your planned activities match at least one of the operations requiring Natural England’s consent for the relevant SSSI site. These are known as operations requiring Natural England's consent (ORNEC).\r\n\r\nYou can check if an activity is an ORNEC for any given SSSI by using the free [designated sites system](https://designatedsites.naturalengland.org.uk/) website.\r\n\r\nSearch for the relevant SSSI, select 'View details'  then 'View ORNECs'.\r\n\r\n## Processing time\r\n\r\nThe processing time for this form is approximately 4 months. Natural England will contact you by email at this time.\r\n\r\nIf you have already applied for another Natural England licence or have applied for planning permission, you do not need to submit a notice separately via this form.",
+          "content": "You should use this form to give notice of a planned activity on a site of special scientific interest (SSSI) that needs Natural England’s consent. \r\n\r\nYour planned activities must be taking place within a SSSI.\r\n\r\nOnly certain individuals can submit a notice. They must be either: \r\n* the land owner\r\n* the land occupier\r\n* someone with the land owner or occupier's permission \r\n\r\nYou can only apply for permission for one land owner or occupier at a time. You can apply for permission for activities across more than one SSSI if the land owner or occupier is the same.\r\n\r\nYou may be asked for proof of permission to submit notice if you are not the owner.\r\n \r\n## Check if the activity is an ORNEC\r\n\r\nYou need to give notice for SSSI consent if your planned activities match at least one of the operations requiring Natural England’s consent for the relevant SSSI site. These are known as operations requiring Natural England's consent (ORNEC).\r\n\r\nYou can check if an activity is an ORNEC for any given SSSI by using the free [designated sites system](https://designatedsites.naturalengland.org.uk/) website.\r\n\r\nSearch for the relevant SSSI, select 'View details'  then 'View ORNECs'.\r\n\r\n## Processing time\r\n\r\nWe will assess your application and contact you as soon as possible if we need more information.  \r\n\r\nWe will provide a decision within 4 months of receiving your application.  \r\n\r\nYou do not need to submit this notice if you have already applied for another Natural England licence, or have submitted a planning application for the same activity. We will use the information you have already provided.",
           "options": {},
           "schema": {}
         }
@@ -714,13 +710,13 @@
         {
           "id": "492dcd1e-7ddd-4d35-ac9a-4ef9e44161e1",
           "type": "Markdown",
-          "content": "Tell us how you intend to gain access to the SSSI to carry out the planned activities.",
+          "content": "Tell us if you intend to use vehicles or machinery on the SSSI to carry out the planned activities.",
           "options": {},
           "schema": {}
         },
         {
           "type": "RadiosField",
-          "title": "How will you gain access to the site?",
+          "title": "How will you move around and work on the site?",
           "name": "PkxVSB",
           "shortDescription": "Access to site",
           "hint": "",
@@ -899,13 +895,13 @@
       "condition": "a490ba1e-9756-44e8-bd5d-246076fb2f50"
     },
     {
-      "title": "Accessing the sites to carry out the planned activities",
-      "path": "/accessing-the-sites-to-carry-out-the-planned-activities",
+      "title": "Accessing and working on the sites to carry out the planned activities",
+      "path": "/accessing-and-working-on-the-sites-to-carry-out-the-planned-activities",
       "components": [
         {
           "id": "76f4693a-b9ab-40b3-9198-16eec581cb60",
           "type": "Markdown",
-          "content": "For each SSSI, tell us how you intend to gain access to carry out the planned activities.\r\n\r\nYou can add details for another site after you select 'Continue'.",
+          "content": "For each SSSI, tell us if you intend to use vehicles or machinery to carry out the planned activities.\r\n\r\nYou can add details for another site after you select 'Continue'.",
           "options": {},
           "schema": {}
         },
@@ -924,15 +920,15 @@
         },
         {
           "type": "RadiosField",
-          "title": "How will you gain access to the site?",
+          "title": "How will you move around and work on the site?",
           "name": "OtSedJ",
           "shortDescription": "Access to site",
           "hint": "",
+          "list": "c637aa6f-82aa-44bc-9b93-d6e97de75bd6",
           "options": {
             "required": true
           },
           "schema": {},
-          "list": "c637aa6f-82aa-44bc-9b93-d6e97de75bd6",
           "id": "a210ea93-78bd-49d3-81ff-73f8edf3f269"
         },
         {
