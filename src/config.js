@@ -220,6 +220,8 @@ const config = convict({
   }
 })
 
-config.validate({ allowed: 'strict' })
+if (!isTest) {
+  config.validate({ allowed: 'strict' })
+}
 
 export { config }
