@@ -242,7 +242,7 @@ Each example shows the form submission data (input) and the expected CWT output 
     "repeaters": {
       "sssi_repeater_id": [
         {
-          "Avdzxa": "River Itchen SSSI",
+          "Avdzxa": "River Itchen SSSI, Warwickshire",
           "NMCFES": { "easting": 448500, "northing": 121300 }
         }
       ]
@@ -270,7 +270,7 @@ Each example shows the form submission data (input) and the expected CWT output 
   "is_there_a_european_site": "No",
   "SSSI_info": [
     {
-      "SSSI_id": "River Itchen SSSI",
+      "SSSI_id": "River Itchen SSSI, Warwickshire",
       "coordinates": "448500,121300"
     }
   ],
