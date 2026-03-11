@@ -101,7 +101,9 @@ flowchart TD
         EH_Q -->|"Yes & hqsZMS exists"| EH_SINGLE["First hqsZMS value<br />(first ORNEC activity name)"]
         EH_Q -->|No| EH_Q2{"Repeater cwZgSE (Activity)<br />has entries?"}
         EH_Q2 -->|"Yes & BscJLV exists"| EH_MULTI["First BscJLV value<br />(first ORNEC activity name)"]
-        EH_Q2 -->|No| EH_EMPTY["'' (empty)"]
+        EH_Q2 -->|No| EH_Q3{"rTreXu present?<br />What land management scheme<br />does this notice relate to?"}
+        EH_Q3 -->|Yes| EH_SCHEME["rTreXu value<br />(full scheme text)"]
+        EH_Q3 -->|No| EH_EMPTY["'' (empty)"]
     end
     REP --> EH_Q
 

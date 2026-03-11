@@ -183,3 +183,55 @@ Array of `{ european_site_id, european_site_coordinates }` objects from repeater
 | xeJYcG ("Location coordinates") | Coordinates, formatted as `"<easting>,<northing>"`            |
 
 Only populated on the HRA advice path.
+
+---
+
+## Empty value analysis
+
+This section identifies all scenarios where output fields sent to the University of Southampton API contain empty or missing values.
+
+### Fields that are always populated
+
+| Field                                   | Guarantee                                                                                                                                         |
+| --------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `form_type`                             | Hardcoded `"advice"`                                                                                                                              |
+| `broad_work_type`                       | Always resolves (defaults to `"Other casework"`)                                                                                                  |
+| `detailed_work_type`                    | Always resolves (defaults to `"SSSI - Other"`)                                                                                                    |
+| `description`                           | All paths that reach submission collect at least one mandatory description field (HRA stage, SSSI names, or topic of query)                       |
+| `consulting_body`                       | teEzOl ("Representation category") is the first mandatory question; each category resolves to a non-empty value via mandatory follow-up questions |
+| `customer_name`                         | hUpejP ("What is your full name?") is a mandatory field on all paths                                                                              |
+| `customer_email_address`                | YOPYRe ("What is your email address?") is a mandatory field on all paths                                                                          |
+| `email_header`                          | Always equals `detailed_work_type`, so always populated                                                                                           |
+| `is_contractor_working_for_public_body` | Always `"Yes"` or `"No"`                                                                                                                          |
+| `public_body_type`                      | teEzOl ("Representation category") is always set (first mandatory question), so the empty-string fallback is unreachable                          |
+| `is_there_a_european_site`              | Always `"Yes"` or `"No"`                                                                                                                          |
+
+### Fields that may be empty strings
+
+| Field         | Condition producing empty value                                                                                                                                                                                 | Realistic scenario?                                                          |
+| ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| `public_body` | Non-Government-Agency direct users (Landowner, Member of public, Land occupier, LPA) — PBmxNM ("Who are you working on behalf of?") is empty and PvUZyQ ("Which government agency do you work for?") is not set | **Expected and common** — see Examples 3, 5, 6, 7 where `public_body` = `""` |
+
+### Fields that may be empty arrays
+
+| Field            | Condition producing empty array                                                                                                                                                                                    | Realistic scenario?                                                                                                                          |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| `SSSI_info`      | No SSSI repeater entries via Avdzxa ("What is the name of SSSI where the activities will cause impacts?") and no damage SSSI via MoCXGK ("What is the name of the SSSI that you would like to report damage for?") | **Expected** — general topic paths (NNRs, pre-consent, pre-assent, SSSI sale, something else) do not collect SSSI data. See Examples 5, 7, 9 |
+| `euro_site_info` | Not on HRA path, or HRA path with no European site entries                                                                                                                                                         | **Expected** — all non-HRA paths produce an empty array. See Examples 2, 4, 5, 6, 7, 9                                                       |
+
+### Key empty value scenarios by form path
+
+| Path                       | `public_body` | `SSSI_info` | `euro_site_info` | Notes                                                                                                                                        |
+| -------------------------- | ------------- | ----------- | ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| FC HRA with SSSI impact    | FC name       | Populated   | Populated        | All fields populated                                                                                                                         |
+| FC S28I with SSSI impact   | FC name       | Populated   | `[]` empty       | No European sites on S28I path                                                                                                               |
+| S28G HRA with SSSI impact  | Body name     | Populated   | Populated        | All fields populated                                                                                                                         |
+| S28G S28I with SSSI impact | Body name     | Populated   | `[]` empty       | No European sites on S28I path                                                                                                               |
+| Direct LPA (any path)      | `""` empty    | Varies      | Varies           | `public_body` is always empty for direct LPA users — PvUZyQ ("Which government agency do you work for?") not set                             |
+| General: Pre-consent       | `""` empty    | `[]` empty  | `[]` empty       | No SSSI or European site data collected on general question path                                                                             |
+| General: NNRs              | `""` empty    | `[]` empty  | `[]` empty       | No SSSI or European site data collected on general question path                                                                             |
+| General: Damage report     | `""` empty    | Populated   | `[]` empty       | SSSI from damage fields MoCXGK ("SSSI name for damage report") / rSJTFC ("Where on the SSSI has the damage taken place?"), no European sites |
+| General: Drones (MoP only) | `""` empty    | `[]` empty  | `[]` empty       | Drone SSSI PxvdiH ("What is the name of the SSSI?") is not mapped to SSSI_info; no European sites                                            |
+| General: SSSI sale         | `""` empty    | `[]` empty  | `[]` empty       | No SSSI or European site data collected                                                                                                      |
+| General: Something else    | `""` empty    | `[]` empty  | `[]` empty       | No SSSI or European site data collected                                                                                                      |
+| Consultant for Landowner   | `""` empty    | `[]` empty  | `[]` empty       | `public_body` empty because PBmxNM ("Who are you working on behalf of?") = Landowner doesn't resolve to a body name                          |

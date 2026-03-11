@@ -60,18 +60,18 @@ Every submission includes an applicant identity. The identity determines which q
 
 ### Topic selection (xzEslQ) - Non-S28G users + "Something else" from above
 
-| #   | Topic                                 | Leads to                   | Exits form? |
-| --- | ------------------------------------- | -------------------------- | ----------- |
-| C1  | Pre-consent advice (SSSI landowner)   | General question path      | No          |
-| C2  | Pre-assent advice (public body)       | Pre-assent advice path     | Maybe       |
-| C3  | Report potentially damaging activity  | Damage reporting path      | Maybe       |
-| C4  | Submit/request surveys or SSSI info   | General question path      | No          |
-| C5  | Question about NNRs                   | General question path      | No          |
-| C6  | Designating a Local Nature Reserve    | LNR info page              | Yes         |
-| C7  | Flying drones (Member of public only) | Drone flying path          | Maybe       |
-| C8  | Designating or de-designating SSSIs   | SSSI designation info page | Yes         |
-| C9  | Sale of SSSI land                     | General question path      | No          |
-| C10 | Something else                        | General question path      | No          |
+| #   | Topic                                  | Leads to                                                       | Exits form? |
+| --- | -------------------------------------- | -------------------------------------------------------------- | ----------- |
+| C1  | Pre-consent advice (SSSI landowner)    | General question path                                          | No          |
+| C2  | Pre-assent advice (public body)        | Pre-assent advice path                                         | Maybe       |
+| C3  | Report potentially damaging activity   | Damage reporting path                                          | Maybe       |
+| C4  | Submit/request surveys or SSSI info    | General question path                                          | No          |
+| C5  | Question about NNRs                    | General question path                                          | No          |
+| C6  | Designating a Local Nature Reserve     | LNR info page                                                  | Yes         |
+| C7  | Flying drones on/near a protected site | Drone flying path (Member of public) or exit page (all others) | Maybe       |
+| C8  | Designating or de-designating SSSIs    | SSSI designation info page                                     | Yes         |
+| C9  | Sale of SSSI land                      | General question path                                          | No          |
+| C10 | Something else                         | General question path                                          | No          |
 
 ## Decision table: Statutory advice sub-routing
 
@@ -116,17 +116,17 @@ These apply within the HRA and S28I paths.
 
 Combining the above tables, these are all the scenarios that result in a CWT submission:
 
-| Scenario               | Identity rows                 | Advice type | Sub-routing       | Description                                              |
-| ---------------------- | ----------------------------- | ----------- | ----------------- | -------------------------------------------------------- |
-| FC HRA                 | 1, 12, 21                     | A1          | D1 or D2          | FC user requesting HRA advice with SSSI impact           |
-| FC S28I SSSI           | 1, 12, 21                     | A2          | D4 or D5          | FC user requesting S28I advice with SSSI impact          |
-| S28G HRA               | 2-8, 13-17, 22-26             | B1          | D1 or D2          | S28G body requesting HRA advice with SSSI impact         |
-| S28G S28I SSSI         | 2-8, 13-17, 22-26             | B2          | D4 or D5          | S28G body requesting S28I advice with SSSI impact        |
-| General: Pre-consent   | 9-11, 18-20, 27-29 (or A3/B3) | C1          | -                 | Landowner/occupier seeking pre-consent advice            |
-| General: Pre-assent    | 9-11, 18-20, 27-29 (or A3/B3) | C2          | G2 or G4          | Public body representative needing further assent advice |
-| General: Damage report | 9-11, 18-20, 27-29 (or A3/B3) | C3          | F1                | Reporting SSSI damage with evidence                      |
-| General: Surveys/info  | 9-11, 18-20, 27-29 (or A3/B3) | C4          | -                 | Requesting SSSI survey/condition info                    |
-| General: NNRs          | 9-11, 18-20, 27-29 (or A3/B3) | C5          | -                 | Question about National Nature Reserves                  |
-| General: Drones        | 11 (Member of public only)    | C7          | Permission needed | Drone flying request on SSSI                             |
-| General: SSSI sale     | 9-11, 18-20, 27-29 (or A3/B3) | C9          | -                 | Question about SSSI land sale                            |
-| General: Other         | 9-11, 18-20, 27-29 (or A3/B3) | C10         | -                 | Any other question                                       |
+| Scenario               | Identity rows                 | Advice type | Sub-routing       | Description                                                           |
+| ---------------------- | ----------------------------- | ----------- | ----------------- | --------------------------------------------------------------------- |
+| FC HRA                 | 1, 12, 21                     | A1          | D1 or D2          | FC user requesting HRA advice with SSSI impact                        |
+| FC S28I SSSI           | 1, 12, 21                     | A2          | D4 or D5          | FC user requesting S28I advice with SSSI impact                       |
+| S28G HRA               | 2-8, 13-17, 22-26             | B1          | D1 or D2          | S28G body requesting HRA advice with SSSI impact                      |
+| S28G S28I SSSI         | 2-8, 13-17, 22-26             | B2          | D4 or D5          | S28G body requesting S28I advice with SSSI impact                     |
+| General: Pre-consent   | 9-11, 18-20, 27-29 (or A3/B3) | C1          | -                 | Landowner/occupier seeking pre-consent advice                         |
+| General: Pre-assent    | 9-11, 18-20, 27-29 (or A3/B3) | C2          | G2 or G4          | Public body representative needing further assent advice              |
+| General: Damage report | 9-11, 18-20, 27-29 (or A3/B3) | C3          | F1                | Reporting SSSI damage with evidence                                   |
+| General: Surveys/info  | 9-11, 18-20, 27-29 (or A3/B3) | C4          | -                 | Requesting SSSI survey/condition info                                 |
+| General: NNRs          | 9-11, 18-20, 27-29 (or A3/B3) | C5          | -                 | Question about National Nature Reserves                               |
+| General: Drones        | 11 (Member of public only)    | C7          | Permission needed | Drone flying request on SSSI (other customer types exit to info page) |
+| General: SSSI sale     | 9-11, 18-20, 27-29 (or A3/B3) | C9          | -                 | Question about SSSI land sale                                         |
+| General: Other         | 9-11, 18-20, 27-29 (or A3/B3) | C10         | -                 | Any other question                                                    |

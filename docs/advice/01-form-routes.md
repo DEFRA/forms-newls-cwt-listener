@@ -184,7 +184,7 @@ graph TD
     F --> G[Contact details]
 ```
 
-Only available when category is **Member of public** AND topic is **Flying drones**. If user is an S28G body, they see the info page and cannot proceed to the drone application.
+The drone flying topic appears on the topic selection page, which is accessible to all non-S28G users and S28G users who selected "Something else". However, only **Member of public** users proceed to the drone application path. All other customer types (**Landowner**, **Land occupier**, **Other**, **None of the above**) who select this topic are directed to the "Flying drones and SSSIs" information page (exit) and cannot proceed to the drone application.
 
 ### Pre-assent advice path
 

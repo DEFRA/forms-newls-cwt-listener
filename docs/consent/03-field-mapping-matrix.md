@@ -163,3 +163,48 @@ SSSI name from hozdvW ("What is the name of the SSSI where you plan to carry out
 | `SSSI_id`     | gVlMxz ("What is the name of the SSSI where activities are planned?") from repeater gWZwzI ("Sites where you plan to carry out activities") | SSSI name    |
 | `coordinates` | -                                                                                                                                           | Empty string |
 | `ornec`       | -                                                                                                                                           | Empty string |
+
+---
+
+## Empty value analysis
+
+This section identifies all scenarios where output fields sent to the University of Southampton API contain empty or missing values.
+
+### Fields that are always populated
+
+| Field                    | Guarantee                                                                                                    |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------ |
+| `form_type`              | Hardcoded `"consent"`                                                                                        |
+| `broad_work_type`        | Hardcoded `"S28E Consent"`                                                                                   |
+| `detailed_work_type`     | Always resolves (defaults to `"S28E Consent"`)                                                               |
+| `description`            | SSSI selection is a mandatory step on all paths; always has at least the SSSI name (hozdvW or repeater data) |
+| `consulting_body_type`   | KTObNK ("What type of customer are you?") is the first mandatory question                                    |
+| `customer_name`          | htlAAq ("What is your first name?") and pPocjH ("What is your last name?") are mandatory fields on all paths |
+| `customer_email_address` | skdDtj ("What's your email address?") is a mandatory field on all paths                                      |
+
+### Fields that may be empty strings or undefined
+
+| Field                 | Condition producing empty/undefined value                                                                                                                                                                                                                              | Realistic scenario?                                                                                       |
+| --------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
+| `SBI`                 | Neither oflKhi ("Single business identifier (SBI)") nor VLUhzR ("Single business identifier (SBI)", address details page) present — field is `undefined` (omitted from output)                                                                                         | **Expected** — some customer types (e.g. Consultant, Somebody else) may not have SBI shown. See Example 3 |
+| `agreement_reference` | No scheme selected AND no VacBun ("What is the name of the permission?") permission name                                                                                                                                                                               | **Expected** — users without a scheme or other permission get empty reference. See Example 3              |
+| `email_header`        | No ORNEC activities — iTBHrY ("Operations requiring Natural England consent") / cwZgSE ("Site name and operations requiring Natural England consent") empty — AND no land management scheme rTreXu ("What land management scheme does this notice relate to?") not set | **Expected** — users without ORNECs and without a scheme get empty email_header. See Example 6            |
+
+### Fields with empty sub-properties in SSSI_info entries
+
+| Field in SSSI_info | Condition producing empty value                                                                                                                                                                                    | Realistic scenario?                                                              |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------- |
+| `coordinates`      | Single SSSI without scheme coordinates JPohUD ("Where are the activities taking place?") and without ORNEC repeater entries; or multi SSSI scheme path via gWZwzI ("Sites where you plan to carry out activities") | **Expected** — scheme multi-SSSI path never has coordinates. See Examples 5, 6   |
+| `ornec`            | Single SSSI scheme path (no ORNEC repeater); multi SSSI scheme path via gWZwzI ("Sites where you plan to carry out activities"); single SSSI fallback path                                                         | **Expected** — scheme paths don't collect ORNEC activities. See Examples 2, 5, 6 |
+
+### Key empty value scenarios by form path
+
+| Path                                                                           | `SBI`       | `agreement_reference` | `email_header` | `coordinates` (in SSSI_info)                             | `ornec` (in SSSI_info) | Notes                                                                                |
+| ------------------------------------------------------------------------------ | ----------- | --------------------- | -------------- | -------------------------------------------------------- | ---------------------- | ------------------------------------------------------------------------------------ |
+| Landowner, CS scheme, single SSSI with ORNECs                                  | SBI number  | CS reference          | First ORNEC    | ORNEC coords                                             | Activity names         | All fields populated                                                                 |
+| Land occupier, HLS, single SSSI (scheme coords)                                | SBI number  | HLS reference         | Scheme text    | JPohUD ("Where are the activities taking place?") coords | `""` empty             | **ornec empty** — scheme path has no ORNEC activities                                |
+| Consultant, no scheme, single SSSI with ORNECs                                 | `undefined` | `""` empty            | First ORNEC    | ORNEC coords                                             | Activity names         | **SBI undefined, agreement_reference empty** — consultant without scheme             |
+| Landowner, SFI, multiple SSSIs with ORNECs                                     | SBI number  | SFI reference         | First ORNEC    | Per-SSSI coords                                          | Per-SSSI activities    | All fields populated                                                                 |
+| Other, CSMT, multiple SSSIs (scheme)                                           | SBI number  | CS reference          | Scheme text    | `""` empty                                               | `""` empty             | **coordinates and ornec empty** — scheme multi-SSSI path has no coords or activities |
+| Landowner, other permission via VacBun ("What is the name of the permission?") | SBI number  | VacBun text           | `""` empty     | `""` empty                                               | `""` empty             | **email_header, coordinates, ornec all empty** — no ORNECs, no scheme, no coords     |
+| Somebody else, no scheme, no ORNECs                                            | May be set  | `""` empty            | `""` empty     | `""` empty                                               | `""` empty             | **Most optional fields empty** — no scheme, no ORNECs, no coordinates                |
