@@ -61,11 +61,51 @@ function mapDetailedWorkType(main) {
 }
 
 /**
- * Builds the description from activity repeaters.
+ * Collects SSSI names from all possible sources.
+ * @param {Record<string, unknown>} main
+ * @param {Record<string, Array<Record<string, unknown>>>} repeaters
+ * @returns {string[]}
+ */
+function collectSssiNames(main, repeaters) {
+  // Single SSSI path - gVlMxz = "What is the name of the SSSI where you plan to carry out activities?"
+  const singleSssiName = /** @type {string | undefined} */ (main.gVlMxz)
+  if (singleSssiName) {
+    return [singleSssiName]
+  }
+
+  // Multiple SSSI scheme path - repeater hhGvmX
+  //   flbYHq = "What is the name of the SSSI where activities are planned?"
+  const schemeRepeater = repeaters.hhGvmX ?? []
+  if (schemeRepeater.length > 0) {
+    return schemeRepeater
+      .map((entry) => /** @type {string} */ (entry.flbYHq))
+      .filter(Boolean)
+  }
+
+  // Multiple SSSI ORNEC path - repeater QxIzSB
+  //   wRGnMW = "What is the name of the SSSI where you plan to carry out this activity?"
+  const ornecRepeater = repeaters.QxIzSB ?? []
+  if (ornecRepeater.length > 0) {
+    return [
+      ...new Set(
+        ornecRepeater
+          .map((entry) => /** @type {string} */ (entry.wRGnMW))
+          .filter(Boolean)
+      )
+    ]
+  }
+
+  return []
+}
+
+/**
+ * Builds the description from activity repeaters, falling back to
+ * the scheme name and SSSI names when no activities are specified.
+ * @param {Record<string, unknown>} main
  * @param {Record<string, Array<Record<string, unknown>>>} repeaters
  * @returns {string}
  */
-function mapDescription(repeaters) {
+function mapDescription(main, repeaters) {
   // Single SSSI path - repeater gzSkgC ("Activities requiring Natural England's assent")
   //   lGsnXi = "What activity is planned to be carried out?"
   const singleSssiActivities = repeaters.gzSkgC ?? []
@@ -86,7 +126,13 @@ function mapDescription(repeaters) {
       .join(', ')
   }
 
-  return ''
+  // Fallback: combine scheme name with SSSI names
+  // rTreXu = "What land management scheme does this notice relate to?"
+  const scheme = /** @type {string | undefined} */ (main.rTreXu)
+  const sssiNames = collectSssiNames(main, repeaters)
+  const parts = [scheme, ...sssiNames].filter(Boolean)
+
+  return parts.length > 0 ? parts.join(', ') : ''
 }
 
 /**
@@ -346,7 +392,7 @@ export function mapFormSubmission(message) {
     form_type: 'assent',
     broad_work_type: 'S28H Assent',
     detailed_work_type: mapDetailedWorkType(main),
-    description: mapDescription(repeaters),
+    description: mapDescription(main, repeaters),
     consulting_body_type: publicBodyCategory
       ? (publicBodyCategoryMap[publicBodyCategory] ?? publicBodyCategory)
       : '',

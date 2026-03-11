@@ -73,9 +73,8 @@ Mapped from vUHwan ("Which category best describes the public body you're repres
 | `Local planning authority` | `Local Planning Authority` |
 | `Utility provider`         | `Utility Provider`         |
 | `Other`                    | `Other`                    |
-| (not set)                  | Empty string               |
 
-**Note:** The mapping changes capitalisation for Government Agency, Local Planning Authority, and Utility Provider.
+**Note:** The mapping changes capitalisation for Government Agency, Local Planning Authority, and Utility Provider. This field is always populated — the question is shown on both public body and contractor paths (no condition in the form definition).
 
 ## consulting_body
 
@@ -117,7 +116,7 @@ Determined by the land management scheme selection (rTreXu).
 
 ## public_body_type
 
-Same mapping as `consulting_body_type` - mapped from vUHwan ("Which category best describes the public body you're representing?") via `publicBodyCategoryMap`. Returns empty string if vUHwan is not set.
+Same mapping as `consulting_body_type` — mapped from vUHwan ("Which category best describes the public body you're representing?") via `publicBodyCategoryMap`. Always populated since vUHwan is shown on all paths.
 
 ## public_body
 
@@ -128,7 +127,6 @@ Resolved from vUHwan-dependent fields.
 | vUHwan ("Which category best describes the public body you're representing?") = `Local planning authority` | XAZlxH ("Which local authority are you representing?")        | Selected local authority name |
 | vUHwan ("Which category best describes the public body you're representing?") = `Other`                    | FyLHmN ("Which public body are you representing?", free text) | Free text public body name    |
 | vUHwan ("Which category best describes the public body you're representing?") = any other value            | cfPoiN ("Which public body are you representing?")            | Selected public body name     |
-| vUHwan not set                                                                                             | -                                                             | Empty string                  |
 
 ## is_there_a_european_site
 
@@ -191,18 +189,18 @@ This section identifies all scenarios where output fields sent to the University
 | `consulting_body`                       | At least one source field (ueDuNl, XAZlxH, cfPoiN, or FyLHmN) is collected as a mandatory field on every path |
 | `customer_name`                         | htlAAq ("What is your first name?") and pPocjH ("What is your last name?") are mandatory fields on all paths  |
 | `customer_email_address`                | skdDtj ("What is your email address?") is a mandatory field on all paths                                      |
+| `consulting_body_type`                  | vUHwan ("Which category best describes the public body?") is shown on all paths (no condition)                |
+| `public_body_type`                      | Same as `consulting_body_type`                                                                                |
+| `public_body`                           | Resolved from vUHwan-dependent fields (XAZlxH, cfPoiN, or FyLHmN) — at least one is mandatory on every path   |
 | `is_contractor_working_for_public_body` | Always `"Yes"` or `"No"`                                                                                      |
 | `is_there_a_european_site`              | Always `"Yes"` or `"No"`                                                                                      |
 
 ### Fields that may be empty strings
 
-| Field                  | Condition producing empty value                                                                                                                                                       | Realistic scenario?                                                                                                                                                    |
-| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `description`          | Neither gzSkgC ("Activities requiring Natural England's assent") nor QxIzSB ("Site name and activities requiring Natural England assent") repeaters have entries with activity fields | **Expected** — the scheme multi-SSSI path via hhGvmX ("Sites where you plan to carry out activities") has no activity fields. See Example 3 where `description` = `""` |
-| `consulting_body_type` | vUHwan ("Which category best describes the public body?") is not set — this happens on the contractor path                                                                            | **Expected** — contractors skip the public body category question. See Examples 2, 5                                                                                   |
-| `agreement_reference`  | Scheme is MTA, Other, or not set — no agreement reference field is shown                                                                                                              | **Expected** — MTA and Other schemes don't require references. See Examples 4, 5                                                                                       |
-| `public_body_type`     | vUHwan ("Which category best describes the public body you're representing?") not set (contractor path)                                                                               | **Expected** — same as `consulting_body_type`. See Examples 2, 5                                                                                                       |
-| `public_body`          | vUHwan ("Which category best describes the public body you're representing?") not set (contractor path)                                                                               | **Expected** — contractors don't select a public body. See Examples 2, 5                                                                                               |
+| Field                 | Condition producing empty value                                                                                                                                                       | Realistic scenario?                                                                                                                                                    |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `description`         | Neither gzSkgC ("Activities requiring Natural England's assent") nor QxIzSB ("Site name and activities requiring Natural England assent") repeaters have entries with activity fields | **Expected** — the scheme multi-SSSI path via hhGvmX ("Sites where you plan to carry out activities") has no activity fields. See Example 3 where `description` = `""` |
+| `agreement_reference` | Scheme is MTA, Other, or not set — no agreement reference field is shown                                                                                                              | **Expected** — MTA and Other schemes don't require references. See Examples 4, 5                                                                                       |
 
 ### Fields that may be empty arrays
 
@@ -213,11 +211,11 @@ This section identifies all scenarios where output fields sent to the University
 
 ### Key empty value scenarios by form path
 
-| Path                                              | `description` | `consulting_body_type` | `public_body_type` | `public_body` | `agreement_reference` | Notes                                                                  |
-| ------------------------------------------------- | ------------- | ---------------------- | ------------------ | ------------- | --------------------- | ---------------------------------------------------------------------- |
-| Public body, CS scheme, single SSSI               | Activities    | Body category          | Body category      | Body name     | CS reference          | All fields populated                                                   |
-| Public body, HLS, multiple SSSIs (scheme)         | `""` empty    | Body category          | Body category      | Body name     | HLS reference         | **description empty** — scheme multi-SSSI path has no activity fields  |
-| Contractor, SFI, single SSSI                      | Activities    | `""` empty             | `""` empty         | `""` empty    | SFI reference         | **consulting_body_type, public_body_type, public_body all empty**      |
-| Public body, MTA, single SSSI                     | Activities    | Body category          | Body category      | Body name     | `""` empty            | **agreement_reference empty** — MTA has no reference field             |
-| Contractor, Other scheme, multiple SSSIs (scheme) | `""` empty    | `""` empty             | `""` empty         | `""` empty    | `""` empty            | **Most fields empty** — contractor + scheme multi-SSSI + no-ref scheme |
-| Public body, no scheme, multiple SSSIs (ORNEC)    | Activities    | Body category          | Body category      | Body name     | `""` empty            | Only agreement_reference is empty                                      |
+| Path                                              | `description` | `consulting_body_type` | `public_body_type` | `public_body` | `agreement_reference` | Notes                                                                 |
+| ------------------------------------------------- | ------------- | ---------------------- | ------------------ | ------------- | --------------------- | --------------------------------------------------------------------- |
+| Public body, CS scheme, single SSSI               | Activities    | Body category          | Body category      | Body name     | CS reference          | All fields populated                                                  |
+| Public body, HLS, multiple SSSIs (scheme)         | `""` empty    | Body category          | Body category      | Body name     | HLS reference         | **description empty** — scheme multi-SSSI path has no activity fields |
+| Contractor, SFI, single SSSI                      | Activities    | Body category          | Body category      | Body name     | SFI reference         | Only **description** may vary                                         |
+| Public body, MTA, single SSSI                     | Activities    | Body category          | Body category      | Body name     | `""` empty            | **agreement_reference empty** — MTA has no reference field            |
+| Contractor, Other scheme, multiple SSSIs (scheme) | `""` empty    | Body category          | Body category      | Body name     | `""` empty            | **description and agreement_reference empty**                         |
+| Public body, no scheme, multiple SSSIs (ORNEC)    | Activities    | Body category          | Body category      | Body name     | `""` empty            | Only agreement_reference is empty                                     |

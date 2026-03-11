@@ -17,8 +17,12 @@ Every submission includes an applicant identity. The identity determines which f
 | 7   | A public body                               | Utility provider              | -                     | -                  | -                        | {selected body}      | -                          | Public body: Utility          |
 | 8   | A public body                               | Other                         | -                     | -                  | -                        | -                    | {free text}                | Public body: Other            |
 | 9   | A public body                               | (any except LPA/Other)        | -                     | -                  | -                        | Other                | -                          | Public body: Other via cfPoiN |
-| 10  | Somebody working on behalf of a public body | -                             | {selected org}        | -                  | -                        | -                    | -                          | Contractor: named org         |
-| 11  | Somebody working on behalf of a public body | -                             | Other                 | {free text}        | -                        | -                    | -                          | Contractor: other org         |
+| 10  | Somebody working on behalf of a public body | (any except LPA/Other)        | {selected org}        | -                  | -                        | {selected body}      | -                          | Contractor: named org         |
+| 11  | Somebody working on behalf of a public body | Local planning authority      | {selected org}        | -                  | {selected LA}            | -                    | -                          | Contractor: named org (LPA)   |
+| 12  | Somebody working on behalf of a public body | Other                         | {selected org}        | -                  | -                        | -                    | {free text}                | Contractor: named org (Other) |
+| 13  | Somebody working on behalf of a public body | (any except LPA/Other)        | Other                 | {free text}        | -                        | {selected body}      | -                          | Contractor: other org         |
+| 14  | Somebody working on behalf of a public body | Local planning authority      | Other                 | {free text}        | {selected LA}            | -                    | -                          | Contractor: other org (LPA)   |
+| 15  | Somebody working on behalf of a public body | Other                         | Other                 | {free text}        | -                        | -                    | {free text}                | Contractor: other org (Other) |
 
 ## Decision table: Land management scheme
 
@@ -58,7 +62,7 @@ Combining the above tables, these are the main scenarios that result in a CWT su
 | ---------------------------------------------- | --------- | ------ | --------- | ------------------------------------------------------------- |
 | Public body, CSHT, single SSSI                 | Row 1-9   | S1     | P1        | Public body with CS HT scheme, single SSSI with activities    |
 | Public body, HLS, multiple SSSIs (scheme)      | Row 1-9   | S4     | P2        | Public body with HLS scheme, multiple SSSIs (scheme repeater) |
-| Contractor, SFI, single SSSI                   | Row 10-11 | S5     | P1        | Contractor with SFI scheme, single SSSI                       |
+| Contractor, SFI, single SSSI                   | Row 10-15 | S5     | P1        | Contractor with SFI scheme, single SSSI                       |
 | Public body, no scheme, multiple SSSIs (ORNEC) | Row 1-9   | S8     | P3        | Public body with no scheme, multiple SSSIs (ORNEC repeater)   |
 | Public body, MTA, single SSSI, European site   | Row 1-9   | S6     | P1        | Public body with MTA, single SSSI, affects European site      |
-| Contractor, other scheme, multiple SSSIs       | Row 10-11 | S7     | P2/P3     | Contractor with other scheme, multiple SSSIs                  |
+| Contractor, other scheme, multiple SSSIs       | Row 10-15 | S7     | P2/P3     | Contractor with other scheme, multiple SSSIs                  |

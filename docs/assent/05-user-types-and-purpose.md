@@ -134,17 +134,17 @@ _"For example, a contractor or an organisation."_
 
 #### How contractors differ from public bodies in the output
 
-When a contractor submits, several fields are **empty** because the contractor's own organisation details are collected differently:
+Contractors answer the same public body category question (vUHwan) and public body selection as public bodies. The key differences are:
 
-| Field                                   | Public body value                          | Contractor value                   |
-| --------------------------------------- | ------------------------------------------ | ---------------------------------- |
-| `consulting_body_type`                  | Body category (e.g. `"Government Agency"`) | `""` (empty)                       |
-| `consulting_body`                       | Organisation name                          | Selected/entered organisation name |
-| `public_body_type`                      | Body category                              | `""` (empty)                       |
-| `public_body`                           | Organisation name                          | `""` (empty)                       |
-| `is_contractor_working_for_public_body` | `"No"`                                     | `"Yes"`                            |
+| Field                                   | Public body value                          | Contractor value                                           |
+| --------------------------------------- | ------------------------------------------ | ---------------------------------------------------------- |
+| `consulting_body_type`                  | Body category (e.g. `"Government Agency"`) | Body category (same — vUHwan is shown on both paths)       |
+| `consulting_body`                       | Organisation name (from public body field) | Contractor's own organisation name (from ueDuNl or Xszriq) |
+| `public_body_type`                      | Body category                              | Body category (same as consulting_body_type)               |
+| `public_body`                           | Organisation name                          | Selected/entered public body name                          |
+| `is_contractor_working_for_public_body` | `"No"`                                     | `"Yes"`                                                    |
 
-The contractor selects their organisation from an autocomplete list, or chooses "Other" and enters a free text name. The organisation they represent is captured in the `consulting_body` field, but the downstream system does not receive the public body type or name — only the contractor's organisation.
+The contractor selects their own organisation from an autocomplete list (or chooses "Other" and enters a free text name), then also selects the public body category and the public body they are acting on behalf of. The contractor's organisation is captured in `consulting_body`, while the public body they represent is captured in `public_body`.
 
 ---
 

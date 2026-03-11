@@ -96,9 +96,52 @@ describe('assent-form-mapper', () => {
       expect(result.description).toBe('Tree removal, Drainage')
     })
 
-    it('should return empty string when no activities', () => {
+    it('should return empty string when no activities and no scheme', () => {
       const result = mapFormSubmission(buildMessage({}))
       expect(result.description).toBe('')
+    })
+
+    it('should fall back to scheme name with SSSI names from scheme repeater', () => {
+      const result = mapFormSubmission(
+        buildMessage(
+          {
+            rTreXu: 'A Higher Level Stewardship (HLS) agreement',
+            ASataH: true
+          },
+          {
+            hhGvmX: [
+              { flbYHq: 'Thursley Common SSSI' },
+              { flbYHq: 'Chobham Common SSSI' }
+            ]
+          }
+        )
+      )
+      expect(result.description).toBe(
+        'A Higher Level Stewardship (HLS) agreement, Thursley Common SSSI, Chobham Common SSSI'
+      )
+    })
+
+    it('should fall back to scheme name alone when no SSSIs', () => {
+      const result = mapFormSubmission(
+        buildMessage({
+          rTreXu: 'A Higher Level Stewardship (HLS) agreement'
+        })
+      )
+      expect(result.description).toBe(
+        'A Higher Level Stewardship (HLS) agreement'
+      )
+    })
+
+    it('should fall back to scheme name with single SSSI name', () => {
+      const result = mapFormSubmission(
+        buildMessage({
+          rTreXu: 'A Sustainable Farming Incentive (SFI) agreement',
+          gVlMxz: 'Test SSSI'
+        })
+      )
+      expect(result.description).toBe(
+        'A Sustainable Farming Incentive (SFI) agreement, Test SSSI'
+      )
     })
   })
 

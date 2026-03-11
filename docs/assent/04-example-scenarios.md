@@ -73,7 +73,7 @@ Each example shows the form submission data (input) and the expected CWT output 
 
 ## Example 2: Contractor working on behalf, SFI scheme, single SSSI with European site
 
-**Scenario:** A contractor working on behalf of a public body submits an assent notice for an SFI agreement. The planned activities could affect a European site.
+**Scenario:** A contractor working on behalf of a government agency submits an assent notice for an SFI agreement. The planned activities could affect a European site. The contractor also selects the public body category and the public body they represent.
 
 ### Input
 
@@ -82,7 +82,9 @@ Each example shows the form submission data (input) and the expected CWT output 
   "data": {
     "main": {
       "KTObNK": "Somebody working on behalf of a public body",
-      "ueDuNl": "Natural England",
+      "ueDuNl": "Ecology Consulting Ltd",
+      "vUHwan": "Government agency",
+      "cfPoiN": "Natural England",
       "rTreXu": "A Sustainable Farming Incentive (SFI) agreement",
       "niVAkO": "SFI-2025-00456",
       "ASataH": false,
@@ -113,14 +115,14 @@ Each example shows the form submission data (input) and the expected CWT output 
   "broad_work_type": "S28H Assent",
   "detailed_work_type": "S28H Assent SFI",
   "description": "Drainage management",
-  "consulting_body_type": "",
-  "consulting_body": "Natural England",
+  "consulting_body_type": "Government Agency",
+  "consulting_body": "Ecology Consulting Ltd",
   "customer_name": "James Carter",
   "customer_email_address": "james.carter@ecologyconsulting.co.uk",
   "agreement_reference": "SFI-2025-00456",
   "is_contractor_working_for_public_body": "Yes",
-  "public_body_type": "",
-  "public_body": "",
+  "public_body_type": "Government Agency",
+  "public_body": "Natural England",
   "is_there_a_european_site": "Yes",
   "SSSI_info": [
     {
@@ -274,7 +276,7 @@ Each example shows the form submission data (input) and the expected CWT output 
 
 ## Example 5: Contractor with "Other" organisation, MTA scheme, single SSSI
 
-**Scenario:** A contractor working on behalf of a public body with a custom organisation name, MTA scheme, single SSSI.
+**Scenario:** A contractor working on behalf of a public body landowner, with a custom organisation name, MTA scheme, single SSSI.
 
 ### Input
 
@@ -285,6 +287,8 @@ Each example shows the form submission data (input) and the expected CWT output 
       "KTObNK": "Somebody working on behalf of a public body",
       "ueDuNl": "Other",
       "Xszriq": "Regional Wildlife Trust",
+      "vUHwan": "Landowner",
+      "cfPoiN": "Ministry of Defence",
       "rTreXu": "A Minor and Temporary Adjustments (MTA)",
       "ASataH": false,
       "gVlMxz": "Ashdown Forest SSSI",
@@ -313,14 +317,14 @@ Each example shows the form submission data (input) and the expected CWT output 
   "broad_work_type": "S28H Assent",
   "detailed_work_type": "S28H Assent MTA",
   "description": "Temporary fencing installation",
-  "consulting_body_type": "",
+  "consulting_body_type": "Landowner",
   "consulting_body": "Regional Wildlife Trust",
   "customer_name": "Lucy Davies",
   "customer_email_address": "lucy.davies@wildlife-trust.org.uk",
   "agreement_reference": "",
   "is_contractor_working_for_public_body": "Yes",
-  "public_body_type": "",
-  "public_body": "",
+  "public_body_type": "Landowner",
+  "public_body": "Ministry of Defence",
   "is_there_a_european_site": "No",
   "SSSI_info": [
     {
@@ -412,8 +416,8 @@ Each example shows the form submission data (input) and the expected CWT output 
 | #   | Identity type                  | Scheme            | SSSI path               | Key features tested                                                                |
 | --- | ------------------------------ | ----------------- | ----------------------- | ---------------------------------------------------------------------------------- |
 | 1   | Public body: Government agency | CSHT              | Single SSSI             | CS agreement ref, activities with coordinates, consulting_body_type capitalisation |
-| 2   | Contractor (named org)         | SFI               | Single SSSI             | Working on behalf chain, SFI agreement ref, European site                          |
+| 2   | Contractor (named org)         | SFI               | Single SSSI             | Working on behalf chain, SFI agreement ref, European site, public body populated   |
 | 3   | Public body: LPA               | HLS               | Multiple SSSIs (scheme) | Local authority consulting_body, HLS ref, scheme repeater (no coordinates)         |
 | 4   | Public body: Landowner         | None              | Multiple SSSIs (ORNEC)  | ORNEC repeater grouped by SSSI, coordinates stitched per SSSI                      |
-| 5   | Contractor (Other org)         | MTA               | Single SSSI             | Other organisation free text, MTA scheme, no agreement ref                         |
+| 5   | Contractor (Other org)         | MTA               | Single SSSI             | Other organisation free text, MTA scheme, no agreement ref, public body populated  |
 | 6   | Public body: Other             | CS Capital Grants | Single SSSI             | Other public body free text, Capital Grants ref, multiple European sites           |
