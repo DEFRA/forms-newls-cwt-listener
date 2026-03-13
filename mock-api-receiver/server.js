@@ -13,7 +13,7 @@
 
 import { createServer } from 'node:http'
 import { mkdir, writeFile } from 'node:fs/promises'
-import { join, dirname } from 'node:path'
+import { join, dirname, extname, basename } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const PORT = 3013
@@ -36,6 +36,38 @@ function formatDateTime(date) {
   const mm = pad(date.getMinutes())
   const ss = pad(date.getSeconds())
   return `${yyyy}-${MM}-${dd}--${HH}-${mm}-${ss}`
+}
+
+/**
+ * Writes content to a file, ensuring no existing file is overwritten.
+ * Uses the `wx` flag which atomically fails if the file already exists,
+ * avoiding TOCTOU race conditions. If the file exists, a counter is
+ * appended before the extension and the write is retried.
+ * @param {string} filepath
+ * @param {string} content
+ * @returns {Promise<string>} The filepath that was actually written to.
+ */
+async function writeFileExclusive(filepath, content) {
+  const ext = extname(filepath)
+  const base = basename(filepath, ext)
+  const dir = dirname(filepath)
+
+  let candidate = filepath
+  let counter = 1
+
+  while (true) {
+    try {
+      await writeFile(candidate, content, { encoding: 'utf8', flag: 'wx' })
+      return candidate
+    } catch (err) {
+      if (err.code === 'EEXIST') {
+        counter++
+        candidate = join(dir, `${base}-${counter}${ext}`)
+      } else {
+        throw err
+      }
+    }
+  }
 }
 
 /**
@@ -86,10 +118,13 @@ const server = createServer(async (req, res) => {
 
       await mkdir(receivedDir, { recursive: true })
 
-      const filename = `received-${formatDateTime(new Date())}.json`
-      const filepath = join(receivedDir, filename)
-
-      await writeFile(filepath, JSON.stringify(body, null, 2), 'utf8')
+      const baseFilename = `received-${formatDateTime(new Date())}.json`
+      const content = JSON.stringify(body, null, 2)
+      const filepath = await writeFileExclusive(
+        join(receivedDir, baseFilename),
+        content
+      )
+      const filename = basename(filepath)
 
       console.log(`Saved payload to ${filename}`)
 

@@ -211,9 +211,9 @@ describe('consent-form-mapper', () => {
       )
     })
 
-    it('should return empty string when no ORNECs and no scheme', () => {
+    it('should fall back to detailed_work_type when no ORNECs and no scheme', () => {
       const result = mapFormSubmission(buildMessage({}))
-      expect(result.email_header).toBe('')
+      expect(result.email_header).toBe('S28E Consent')
     })
   })
 
@@ -255,6 +255,35 @@ describe('consent-form-mapper', () => {
       )
       expect(result.SSSI_info).toEqual([
         { SSSI_id: 'Test SSSI', coordinates: '500,600', ornec: '' }
+      ])
+    })
+
+    it('should build multi SSSI info with scheme coordinates from JPohUD', () => {
+      const result = mapFormSubmission(
+        buildMessage(
+          {
+            lmqMaY: true,
+            JPohUD: { easting: 490200, northing: 139800 }
+          },
+          {
+            gWZwzI: [
+              { gVlMxz: 'Chobham Common SSSI' },
+              { gVlMxz: 'Horsell Common SSSI' }
+            ]
+          }
+        )
+      )
+      expect(result.SSSI_info).toEqual([
+        {
+          SSSI_id: 'Chobham Common SSSI',
+          coordinates: '490200,139800',
+          ornec: ''
+        },
+        {
+          SSSI_id: 'Horsell Common SSSI',
+          coordinates: '490200,139800',
+          ornec: ''
+        }
       ])
     })
 

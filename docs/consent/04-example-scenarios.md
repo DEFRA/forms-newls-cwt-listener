@@ -247,7 +247,7 @@ Each example shows the form submission data (input) and the expected CWT output 
 
 ## Example 5: Other user, CSMT scheme, multiple SSSIs (scheme path)
 
-**Scenario:** A "Somebody else" user with a CSMT agreement extension, multiple SSSIs via the scheme repeater (no ORNEC activities).
+**Scenario:** A "Somebody else" user with a CSMT agreement extension, multiple SSSIs via the scheme repeater (no ORNEC activities). The scheme path provides a single set of coordinates via JPohUD, shared across all SSSIs.
 
 ### Input
 
@@ -260,6 +260,7 @@ Each example shows the form submission data (input) and the expected CWT output 
       "WZJDQG": "CS-MT-99876",
       "oflKhi": "444555666",
       "lmqMaY": true,
+      "JPohUD": { "easting": 497600, "northing": 161200 },
       "htlAAq": "Peter",
       "pPocjH": "Stone",
       "skdDtj": "peter.stone@email.com"
@@ -289,17 +290,25 @@ Each example shows the form submission data (input) and the expected CWT output 
   "agreement_reference": "CS-MT-99876",
   "email_header": "A Countryside Stewardship Mid Tier (CSMT) agreement extension",
   "SSSI_info": [
-    { "SSSI_id": "Chobham Common SSSI", "coordinates": "", "ornec": "" },
-    { "SSSI_id": "Horsell Common SSSI", "coordinates": "", "ornec": "" }
+    {
+      "SSSI_id": "Chobham Common SSSI",
+      "coordinates": "497600,161200",
+      "ornec": ""
+    },
+    {
+      "SSSI_id": "Horsell Common SSSI",
+      "coordinates": "497600,161200",
+      "ornec": ""
+    }
   ]
 }
 ```
 
 ---
 
-## Example 6: Landowner with other permission, single SSSI
+## Example 6: Landowner with other permission, single SSSI with ORNEC activities
 
-**Scenario:** A landowner without a land management scheme but with a named permission (VacBun), single SSSI without ORNEC activities.
+**Scenario:** A landowner without a land management scheme but with a named permission (VacBun), single SSSI with ORNEC activities. The "another permission" path requires ORNEC details including coordinates.
 
 ### Input
 
@@ -316,7 +325,14 @@ Each example shows the form submission data (input) and the expected CWT output 
       "pPocjH": "Ward",
       "skdDtj": "catherine.ward@email.com"
     },
-    "repeaters": {}
+    "repeaters": {
+      "iTBHrY": [
+        {
+          "hqsZMS": "Tree felling",
+          "QKdhfh": { "easting": 537100, "northing": 108900 }
+        }
+      ]
+    }
   }
 }
 ```
@@ -328,15 +344,19 @@ Each example shows the form submission data (input) and the expected CWT output 
   "form_type": "consent",
   "broad_work_type": "S28E Consent",
   "detailed_work_type": "S28E Consent",
-  "description": "Castle Hill SSSI",
+  "description": "Castle Hill SSSI - Tree felling",
   "consulting_body_type": "Landowner",
   "customer_name": "Catherine Ward",
   "customer_email_address": "catherine.ward@email.com",
   "SBI": 777888999,
   "agreement_reference": "Planning Permission PP/2025/0042",
-  "email_header": "",
+  "email_header": "Tree felling",
   "SSSI_info": [
-    { "SSSI_id": "Castle Hill SSSI", "coordinates": "", "ornec": "" }
+    {
+      "SSSI_id": "Castle Hill SSSI",
+      "coordinates": "537100,108900",
+      "ornec": "Tree felling"
+    }
   ]
 }
 ```
@@ -345,11 +365,11 @@ Each example shows the form submission data (input) and the expected CWT output 
 
 ## Scenario coverage summary
 
-| #   | Identity type | Scheme           | SSSI path                   | Key features tested                                                                             |
-| --- | ------------- | ---------------- | --------------------------- | ----------------------------------------------------------------------------------------------- |
-| 1   | Landowner     | CSHT             | Single SSSI (ORNEC)         | CS agreement ref, SBI (oflKhi), ORNEC activities with coordinates, email_header from ORNEC      |
-| 2   | Land occupier | HLS              | Single SSSI (scheme)        | HLS ref, scheme coordinates (JPohUD), email_header fallback to scheme, no ORNEC                 |
-| 3   | Consultant    | None             | Single SSSI (ORNEC)         | No scheme, no SBI, ORNEC activity, default detailed_work_type                                   |
-| 4   | Landowner     | SFI              | Multiple SSSIs (ORNEC)      | SFI ref, SBI (VLUhzR fallback), multi SSSI grouped by name, coordinates + ORNECs per SSSI       |
-| 5   | Other         | CSMT             | Multiple SSSIs (scheme)     | Scheme repeater (no coordinates/ORNECs), email_header from scheme, description semicolon-joined |
-| 6   | Landowner     | Other permission | Single SSSI (no activities) | VacBun agreement ref, no ORNEC, empty email_header, empty coordinates                           |
+| #   | Identity type | Scheme           | SSSI path               | Key features tested                                                                                    |
+| --- | ------------- | ---------------- | ----------------------- | ------------------------------------------------------------------------------------------------------ |
+| 1   | Landowner     | CSHT             | Single SSSI (ORNEC)     | CS agreement ref, SBI (oflKhi), ORNEC activities with coordinates, email_header from ORNEC             |
+| 2   | Land occupier | HLS              | Single SSSI (scheme)    | HLS ref, scheme coordinates (JPohUD), email_header fallback to scheme, no ORNEC                        |
+| 3   | Consultant    | None             | Single SSSI (ORNEC)     | No scheme, no SBI, ORNEC activity, default detailed_work_type                                          |
+| 4   | Landowner     | SFI              | Multiple SSSIs (ORNEC)  | SFI ref, SBI (VLUhzR fallback), multi SSSI grouped by name, coordinates + ORNECs per SSSI              |
+| 5   | Other         | CSMT             | Multiple SSSIs (scheme) | Scheme repeater with shared JPohUD coordinates, email_header from scheme, description semicolon-joined |
+| 6   | Landowner     | Other permission | Single SSSI (ORNEC)     | VacBun agreement ref, ORNEC activity with coordinates, email_header from ORNEC                         |

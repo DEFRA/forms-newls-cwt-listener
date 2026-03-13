@@ -187,6 +187,7 @@ function mapAgreementReference(main) {
 /**
  * Gets the first ORNEC (activity) value for the email_header.
  * Falls back to the land management scheme if no activity is found.
+ * Falls back to the detailed_work_type if no activity is found.
  * @param {Record<string, unknown>} main
  * @param {Record<string, Array<Record<string, unknown>>>} repeaters
  * @returns {string}
@@ -213,7 +214,9 @@ function mapEmailHeader(main, repeaters) {
     return landManagementScheme
   }
 
-  return ''
+  // Requirement is to return the detailed_work_type as a fallback, which is what this value
+  // essentially is when landManagementScheme is falsy.
+  return 'S28E Consent'
 }
 
 /**
@@ -329,12 +332,21 @@ function mapSssiInfo(main, repeaters) {
     } else {
       // Multi SSSI scheme path - repeater gWZwzI ("Sites where you plan to carry out activities")
       //   gVlMxz = "What is the name of the SSSI where activities are planned?"
+      // JPohUD = "Where are the activities taking place?" (shared across all SSSIs on scheme path)
+      const activityCoordinates =
+        /** @type {{ easting: number, northing: number } | undefined} */ (
+          main.JPohUD
+        )
+      const formattedCoordinates = activityCoordinates
+        ? formatCoordinates(activityCoordinates)
+        : ''
+
       const schemeRepeater = repeaters.gWZwzI ?? []
       for (const entry of schemeRepeater) {
         if (entry.gVlMxz) {
           sssiInfo.push({
             SSSI_id: /** @type {string} */ (entry.gVlMxz),
-            coordinates: '',
+            coordinates: formattedCoordinates,
             ornec: ''
           })
         }
