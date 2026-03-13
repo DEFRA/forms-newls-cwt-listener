@@ -1,0 +1,150 @@
+---
+title: Consent Form Mapping (consent-form-mapper.js)
+---
+flowchart TD
+    subgraph Input["Form Submission Input"]
+        MSG["message<br />(FormAdapterSubmissionMessage)"]
+        MAIN["message.data.main"]
+        REP["message.data.repeaters"]
+    end
+
+    MSG --> MAIN
+    MSG --> REP
+
+    %% ===== form_type & broad_work_type (hardcoded) =====
+    MAIN --> FT["form_type = 'consent'<br />(hardcoded)"]
+    MAIN --> BW["broad_work_type = 'S28E Consent'<br />(hardcoded)"]
+
+    %% ===== detailed_work_type =====
+    subgraph OutDetailedWorkType["detailed_work_type"]
+        DW_Q{"rTreXu<br />What land management scheme<br />does this notice relate to?"}
+        DW_Q -->|"CSHT agreement"| DW_CSHT["'S28E Consent CS HT'"]
+        DW_Q -->|"CSMT agreement extension"| DW_CSMT["'S28E Consent CS MT'"]
+        DW_Q -->|"CS Capital Grants"| DW_CSCG["'S28E Consent CS Capital Grants'"]
+        DW_Q -->|"HLS agreement"| DW_HLS["'S28E Consent HLS extension'"]
+        DW_Q -->|"SFI agreement"| DW_SFI["'S28E Consent SFI'"]
+        DW_Q -->|"MTA"| DW_MTA["'S28E Consent MTA'"]
+        DW_Q -->|"Other schemes"| DW_OTHER["'S28E Consent'"]
+        DW_Q -->|"Not present"| DW_DEFAULT["'S28E Consent' (default)"]
+    end
+    MAIN --> DW_Q
+
+    %% ===== description =====
+    subgraph OutDescription["description<br />(parts joined with '; ')"]
+        DESC_Q{"hozdvW present?<br />What is the name of the SSSI<br />where you plan to carry out<br />activities? (single SSSI)"}
+
+        DESC_Q -->|Yes| DESC_SINGLE
+        DESC_Q -->|No| DESC_MULTI
+
+        subgraph DESC_SINGLE["Single SSSI Path"]
+            DESC_S1["hozdvW = SSSI name"]
+            DESC_S2{"Repeater iTBHrY (Activity)<br />has entries?"}
+            DESC_S2 -->|Yes| DESC_S3["'{SSSI name} - {activities}'<br />hqsZMS = Which activity do you<br />plan to carry out?<br />(comma-joined)"]
+            DESC_S2 -->|No| DESC_S4["'{SSSI name}' only"]
+        end
+
+        subgraph DESC_MULTI["Multi SSSI Path"]
+            DESC_M1{"Repeater cwZgSE (Activity)<br />has entries?"}
+            DESC_M1 -->|Yes| DESC_M2["For each SSSI:<br />rWrBOK = SSSI name<br />BscJLV = Which activity?<br />Grouped: '{SSSI} - {activities}'<br />Joined with '; '"]
+            DESC_M1 -->|No| DESC_M3{"Repeater gWZwzI (SSSI name)<br />has entries?"}
+            DESC_M3 -->|Yes| DESC_M4["gVlMxz = SSSI name<br />for each entry<br />Joined with '; '"]
+            DESC_M3 -->|No| DESC_M5["'' (empty)"]
+        end
+    end
+    MAIN --> DESC_Q
+    REP --> DESC_Q
+
+    %% ===== consulting_body_type =====
+    subgraph OutConsultingBodyType["consulting_body_type"]
+        CBT_Q{"KTObNK<br />What type of customer are you?"}
+        CBT_Q -->|"Owner of SSSI land"| CBT_LO["'Landowner'"]
+        CBT_Q -->|"Occupier of SSSI land"| CBT_OCC["'Land occupier'"]
+        CBT_Q -->|"Permission to work on<br />behalf of owner/occupier"| CBT_CON["'Consultant'"]
+        CBT_Q -->|"Somebody else"| CBT_OTH["'Other'"]
+        CBT_Q -->|"Not present"| CBT_EMPTY["'' (empty)"]
+    end
+    MAIN --> CBT_Q
+
+    %% ===== customer fields =====
+    subgraph OutCustomer["Customer Fields"]
+        CN["customer_name =<br />'{htlAAq} {pPocjH}'.trim()<br />First name + Last name"]
+        CE["customer_email_address =<br />skdDtj<br />What's your email address?"]
+    end
+    MAIN --> CN
+    MAIN --> CE
+
+    %% ===== SBI =====
+    subgraph OutSBI["SBI (Single Business Identifier)"]
+        SBI_Q{"oflKhi present?<br />(SBI field)"}
+        SBI_Q -->|Yes| SBI_1["Number(oflKhi)"]
+        SBI_Q -->|No| SBI_Q2{"VLUhzR present?<br />(alternate SBI field)"}
+        SBI_Q2 -->|Yes| SBI_2["Number(VLUhzR)"]
+        SBI_Q2 -->|No| SBI_UNDEF["undefined"]
+    end
+    MAIN --> SBI_Q
+
+    %% ===== agreement_reference =====
+    subgraph OutAgreementRef["agreement_reference"]
+        AR_Q{"rTreXu<br />What land management scheme<br />does this notice relate to?"}
+        AR_Q -->|"CSHT / CSMT /<br />CS Capital Grants"| AR_CS["WZJDQG<br />What's your Countryside<br />Stewardship agreement<br />reference number?"]
+        AR_Q -->|"HLS agreement"| AR_HLS["OFiizI<br />What's your HLS<br />agreement reference number?"]
+        AR_Q -->|"SFI agreement"| AR_SFI["niVAkO<br />What's your SFI<br />agreement number?"]
+        AR_Q -->|"Not present /<br />other scheme"| AR_Q2{"VacBun present?<br />What is the name<br />of the permission?"}
+        AR_Q2 -->|Yes| AR_VAC["VacBun value"]
+        AR_Q2 -->|No| AR_EMPTY["'' (empty)"]
+    end
+    MAIN --> AR_Q
+
+    %% ===== email_header =====
+    subgraph OutEmailHeader["email_header"]
+        EH_Q{"Repeater iTBHrY (Activity)<br />has entries?"}
+        EH_Q -->|"Yes & hqsZMS exists"| EH_SINGLE["First hqsZMS value<br />(first ORNEC activity name)"]
+        EH_Q -->|No| EH_Q2{"Repeater cwZgSE (Activity)<br />has entries?"}
+        EH_Q2 -->|"Yes & BscJLV exists"| EH_MULTI["First BscJLV value<br />(first ORNEC activity name)"]
+        EH_Q2 -->|No| EH_Q3{"rTreXu present?<br />What land management scheme<br />does this notice relate to?"}
+        EH_Q3 -->|Yes| EH_SCHEME["rTreXu value<br />(full scheme text)"]
+        EH_Q3 -->|No| EH_EMPTY["'' (empty)"]
+    end
+    REP --> EH_Q
+
+    %% ===== SSSI_info =====
+    subgraph OutSSSI["SSSI_info[]"]
+        SSSI_Q{"lmqMaY<br />Are you planning to carry out<br />activities on more than one SSSI?"}
+
+        SSSI_Q -->|"false / not set"| SSSI_SINGLE
+        SSSI_Q -->|"true"| SSSI_MULTI
+
+        subgraph SSSI_SINGLE["Single SSSI Path (hozdvW = SSSI name)"]
+            SS_Q{"Repeater iTBHrY (Activity)<br />has entries?"}
+            SS_Q -->|Yes| SS_ORNEC["SSSI_id = 0<br />coordinates = QKdhfh values<br />(Where do you plan to carry<br />out this activity? easting,northing)<br />joined with ';'<br />ornec = hqsZMS values<br />(Which activity?<br />comma-joined)"]
+            SS_Q -->|No| SS_Q2{"JPohUD present?<br />(Easting/Northing coordinates)"}
+            SS_Q2 -->|Yes| SS_SCHEME["SSSI_id = 0<br />coordinates = JPohUD<br />(easting,northing)<br />ornec = ''"]
+            SS_Q2 -->|No| SS_EMPTY["SSSI_id = 0<br />coordinates = ''<br />ornec = ''"]
+        end
+
+        subgraph SSSI_MULTI["Multiple SSSI Path"]
+            SM_Q{"Repeater cwZgSE (Activity)<br />has entries?"}
+            SM_Q -->|Yes| SM_ORNEC["For each unique SSSI<br />(rWrBOK = SSSI name):<br />SSSI_id = 0<br />coordinates = gjWdrc values<br />(Where on the SSSI?<br />easting,northing joined with ';')<br />ornec = BscJLV values<br />(Which activity? comma-joined)<br />Grouped by SSSI name"]
+            SM_Q -->|No| SM_Q2{"Repeater gWZwzI (SSSI name)<br />has entries?"}
+            SM_Q2 -->|Yes| SM_SCHEME["For each entry with gVlMxz<br />(SSSI name):<br />SSSI_id = 0<br />coordinates = ''<br />ornec = ''"]
+            SM_Q2 -->|No| SM_EMPTY["[] (empty array)"]
+        end
+    end
+    MAIN --> SSSI_Q
+    REP --> SSSI_Q
+
+    %% ===== Output Summary =====
+    subgraph Output["ConsentFormOutput"]
+        direction LR
+        O1["form_type"]
+        O2["broad_work_type"]
+        O3["detailed_work_type"]
+        O4["description"]
+        O5["consulting_body_type"]
+        O6["customer_name"]
+        O7["customer_email_address"]
+        O8["SBI"]
+        O9["agreement_reference"]
+        O10["email_header"]
+        O11["SSSI_info[]"]
+    end

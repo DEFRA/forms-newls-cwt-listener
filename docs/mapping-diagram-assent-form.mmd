@@ -1,0 +1,180 @@
+---
+title: Assent Form Mapping (assent-form-mapper.js)
+---
+flowchart TD
+    subgraph Input["Form Submission Input"]
+        MSG["message<br />(FormAdapterSubmissionMessage)"]
+        MAIN["message.data.main"]
+        REP["message.data.repeaters"]
+    end
+
+    MSG --> MAIN
+    MSG --> REP
+
+    %% ===== form_type & broad_work_type (hardcoded) =====
+    MAIN --> FT["form_type = 'assent'<br />(hardcoded)"]
+    MAIN --> BW["broad_work_type = 'S28H Assent'<br />(hardcoded)"]
+
+    %% ===== detailed_work_type =====
+    subgraph OutDetailedWorkType["detailed_work_type"]
+        DW_Q{"rTreXu<br />What land management scheme<br />does this notice relate to?"}
+        DW_Q -->|"CSHT agreement"| DW_CSHT["'S28H Assent CS HT'"]
+        DW_Q -->|"CSMT agreement extension"| DW_CSMT["'S28H Assent CS MT'"]
+        DW_Q -->|"CS Capital Grants"| DW_CSCG["'S28H Assent CS Capital Grants'"]
+        DW_Q -->|"HLS agreement"| DW_HLS["'S28H Assent HLS extension'"]
+        DW_Q -->|"SFI agreement"| DW_SFI["'S28H Assent SFI'"]
+        DW_Q -->|"MTA"| DW_MTA["'S28H Assent MTA'"]
+        DW_Q -->|"Other schemes"| DW_OTHER["'S28H Assent'"]
+        DW_Q -->|"Not present"| DW_DEFAULT["'S28H Assent' (default)"]
+    end
+    MAIN --> DW_Q
+
+    %% ===== description =====
+    subgraph OutDescription["description"]
+        DESC_Q{"Repeater gzSkgC (Activity)<br />has entries?<br />(single SSSI activities)"}
+        DESC_Q -->|Yes| DESC_SINGLE["lGsnXi values<br />What activity is planned<br />to be carried out?<br />(comma-joined)"]
+        DESC_Q -->|No| DESC_Q2{"Repeater QxIzSB (Activity)<br />has entries?<br />(multi SSSI activities)"}
+        DESC_Q2 -->|Yes| DESC_MULTI["iNDqRN values<br />What activity is planned<br />to be carried out?<br />(comma-joined)"]
+        DESC_Q2 -->|No| DESC_EMPTY["'' (empty)"]
+    end
+    REP --> DESC_Q
+
+    %% ===== consulting_body_type =====
+    subgraph OutConsultingBodyType["consulting_body_type"]
+        CBT_Q{"vUHwan<br />Which category best describes<br />the public body you're representing?"}
+        CBT_Q -->|"Consultant"| CBT_CON["'Consultant'"]
+        CBT_Q -->|"Government agency"| CBT_GOV["'Government Agency'"]
+        CBT_Q -->|"Harbour authority"| CBT_HARB["'Harbour authority'"]
+        CBT_Q -->|"Landowner"| CBT_LAND["'Landowner'"]
+        CBT_Q -->|"Land occupier"| CBT_OCC["'Land occupier'"]
+        CBT_Q -->|"Local planning authority"| CBT_LPA["'Local Planning Authority'"]
+        CBT_Q -->|"Utility provider"| CBT_UTIL["'Utility Provider'"]
+        CBT_Q -->|"Other"| CBT_OTH["'Other'"]
+        CBT_Q -->|"Not present"| CBT_EMPTY["'' (empty)"]
+    end
+    MAIN --> CBT_Q
+
+    %% ===== consulting_body =====
+    subgraph OutConsultingBody["consulting_body"]
+        CB_Q{"KTObNK<br />What type of customer<br />are you?"}
+
+        CB_Q -->|"'Somebody working on behalf<br />of a public body'"| CB_BEHALF
+        CB_Q -->|Other| CB_DIRECT
+
+        subgraph CB_BEHALF["Working on Behalf Path"]
+            CB_B1{"ueDuNl<br />What is the name of<br />your organisation?"}
+            CB_B1 -->|"'Other'"| CB_B2["Xszriq<br />Other organisation name<br />(free text)"]
+            CB_B1 -->|Other value| CB_B3["ueDuNl value<br />(organisation name)"]
+        end
+
+        subgraph CB_DIRECT["Direct Public Body Path"]
+            CB_D1{"vUHwan<br />Which category best describes<br />the public body?"}
+            CB_D1 -->|"'Local planning authority'"| CB_D_LPA["XAZlxH<br />Which local authority<br />are you representing?"]
+            CB_D1 -->|Other| CB_D2{"cfPoiN<br />Which public body<br />are you representing?"}
+            CB_D2 -->|"'Other'"| CB_D3["FyLHmN<br />Which public body are<br />you representing?<br />(free text)"]
+            CB_D2 -->|Other value| CB_D4["cfPoiN value<br />(public body name)"]
+        end
+    end
+    MAIN --> CB_Q
+
+    %% ===== customer fields =====
+    subgraph OutCustomer["Customer Fields"]
+        CN["customer_name =<br />'{htlAAq} {pPocjH}'.trim()<br />First name + Last name"]
+        CE["customer_email_address =<br />skdDtj<br />What is your email address?"]
+    end
+    MAIN --> CN
+    MAIN --> CE
+
+    %% ===== agreement_reference =====
+    subgraph OutAgreementRef["agreement_reference"]
+        AR_Q{"rTreXu<br />What land management scheme<br />does this notice relate to?"}
+        AR_Q -->|"CSHT / CSMT /<br />CS Capital Grants"| AR_CS["WZJDQG<br />What's your Countryside<br />Stewardship agreement<br />reference number?"]
+        AR_Q -->|"HLS agreement"| AR_HLS["OFiizI<br />What is your HLS<br />agreement reference number?"]
+        AR_Q -->|"SFI agreement"| AR_SFI["niVAkO<br />What's your SFI<br />agreement number?"]
+        AR_Q -->|"Not present /<br />other scheme"| AR_EMPTY["'' (empty)"]
+    end
+    MAIN --> AR_Q
+
+    %% ===== is_contractor_working_for_public_body =====
+    subgraph OutContractor["is_contractor_working_for_public_body"]
+        CONT{"KTObNK<br />What type of customer are you?<br />= 'Somebody working on behalf<br />of a public body'?"}
+        CONT -->|Yes| CONT_Y["'Yes'"]
+        CONT -->|No| CONT_N["'No'"]
+    end
+    MAIN --> CONT
+
+    %% ===== public_body_type =====
+    subgraph OutPublicBodyType["public_body_type"]
+        PBT["vUHwan<br />Which category best describes<br />the public body?<br />→ lookup in publicBodyCategoryMap<br />(same mapping as consulting_body_type)"]
+    end
+    MAIN --> PBT
+
+    %% ===== public_body =====
+    subgraph OutPublicBody["public_body"]
+        PB_Q{"vUHwan value"}
+        PB_Q -->|"'Local planning authority'"| PB_LPA["XAZlxH<br />Which local authority<br />are you representing?"]
+        PB_Q -->|"'Other'"| PB_OTHER["FyLHmN<br />Which public body are<br />you representing? (free text)"]
+        PB_Q -->|Other| PB_DEFAULT["cfPoiN<br />Which public body are<br />you representing?"]
+        PB_Q -->|"Not present"| PB_EMPTY["'' (empty)"]
+    end
+    MAIN --> PB_Q
+
+    %% ===== is_there_a_european_site =====
+    subgraph OutEuroFlag["is_there_a_european_site"]
+        EUROFLAG{"XydYUD<br />Could the planned activities<br />affect a European site?<br />(boolean)"}
+        EUROFLAG -->|true| EURO_Y["'Yes'"]
+        EUROFLAG -->|false / undefined| EURO_N["'No'"]
+    end
+    MAIN --> EUROFLAG
+
+    %% ===== SSSI_info =====
+    subgraph OutSSSI["SSSI_info[]"]
+        SSSI_Q{"ASataH<br />Are you planning to carry out<br />activities on more than one SSSI?"}
+        SSSI_Q -->|"false / not set"| SSSI_SINGLE
+        SSSI_Q -->|"true"| SSSI_MULTI
+
+        subgraph SSSI_SINGLE["Single SSSI Path"]
+            SS_1["gVlMxz<br />What is the name of the SSSI<br />where you plan to carry<br />out activities?"]
+            SS_Q{"Repeater gzSkgC (Activity)<br />has uqfCOY coords?<br />(Where do you plan to<br />carry out this activity?)"}
+            SS_Q -->|Yes| SS_COORDS["SSSI_id = 0<br />coordinates = uqfCOY values<br />(easting,northing<br />joined with ';')"]
+            SS_Q -->|No| SS_EMPTY["SSSI_id = 0<br />coordinates = ''"]
+        end
+
+        subgraph SSSI_MULTI["Multiple SSSI Path"]
+            SM_Q{"Repeater hhGvmX (SSSI name)<br />has entries?<br />(scheme path)"}
+            SM_Q -->|Yes| SM_SCHEME["For each entry:<br />flbYHq = SSSI name<br />SSSI_id = 0<br />coordinates = ''"]
+            SM_Q -->|No| SM_Q2{"Repeater QxIzSB (Activity)<br />has entries?<br />(ORNEC path)"}
+            SM_Q2 -->|Yes| SM_ORNEC["For each unique SSSI:<br />wRGnMW = SSSI name<br />SSSI_id = 0<br />coordinates = KnBNzJ values<br />(Where on the SSSI?<br />easting,northing<br />grouped by SSSI, joined with ';')"]
+            SM_Q2 -->|No| SM_EMPTY["[] (empty array)"]
+        end
+    end
+    MAIN --> SSSI_Q
+    REP --> SSSI_Q
+
+    %% ===== euro_site_info =====
+    subgraph OutEuro["euro_site_info[]"]
+        EURO_Q{"Repeater aQYWxD (EU site)<br />has entries with IzQfir?<br />(What is the name of<br />the European site?)"}
+        EURO_Q -->|Yes| EURO_SITES["For each entry:<br />european_site_id = 0 (placeholder)<br />european_site_coordinates = ''"]
+        EURO_Q -->|No| EURO_EMPTY["[] (empty array)"]
+    end
+    REP --> EURO_Q
+
+    %% ===== Output Summary =====
+    subgraph Output["AssentFormOutput"]
+        direction LR
+        O1["form_type"]
+        O2["broad_work_type"]
+        O3["detailed_work_type"]
+        O4["description"]
+        O5["consulting_body_type"]
+        O6["consulting_body"]
+        O7["customer_name"]
+        O8["customer_email_address"]
+        O9["agreement_reference"]
+        O10["is_contractor_<br />working_for_public_body"]
+        O11["public_body_type"]
+        O12["public_body"]
+        O13["is_there_a_<br />european_site"]
+        O14["SSSI_info[]"]
+        O15["euro_site_info[]"]
+    end

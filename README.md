@@ -1,6 +1,14 @@
-# forms-newls-cwt-listener
+# forms-transmit-listener
 
-Core delivery platform Node.js Backend Template.
+Listens for Defra Forms submission events from an SQS queue, transforms them into the required format, and forwards them to the University of Southampton CWT (Casework Tracker) API.
+
+The service handles three form types:
+
+- **Advice** — SSSI/HRA advice requests (S28I, Standalone HRA, general topics)
+- **Assent** — S28H assent applications from public bodies
+- **Consent** — S28E consent applications from landowners/occupiers
+
+Each form submission is mapped from the Defra Forms data model into a CWT-specific JSON payload and transmitted via HTTP POST.
 
 - [Requirements](#requirements)
   - [Node.js](#nodejs)
@@ -9,21 +17,16 @@ Core delivery platform Node.js Backend Template.
   - [Development](#development)
   - [Testing](#testing)
   - [Production](#production)
-  - [Npm scripts](#npm-scripts)
-  - [Update dependencies](#update-dependencies)
-  - [Formatting](#formatting)
-    - [Windows prettier issue](#windows-prettier-issue)
+- [Configuration](#configuration)
+  - [Environment variables](#environment-variables)
+  - [SQS queue configuration](#sqs-queue-configuration)
+- [Architecture](#architecture)
 - [API endpoints](#api-endpoints)
-- [Development helpers](#development-helpers)
-  - [Proxy](#proxy)
 - [Docker](#docker)
   - [Development image](#development-image)
   - [Production image](#production-image)
   - [Docker Compose](#docker-compose)
-  - [Dependabot](#dependabot)
-  - [SonarCloud](#sonarcloud)
 - [Licence](#licence)
-  - [About the licence](#about-the-licence)
 
 ## Requirements
 
@@ -35,13 +38,30 @@ easier to use the Node Version Manager [nvm](https://github.com/creationix/nvm)
 To use the correct version of Node.js for this application, via nvm:
 
 ```bash
-cd forms-newls-cwt-listener
+cd forms-transmit-listener
 nvm use
 ```
 
 ## Local development
 
 ### Setup
+
+Create a `.env` file (this will be ignored in `.gitignore`) and put the following variables inside:
+
+```
+LOG_LEVEL=debug
+SQS_ENDPOINT=http://localhost:4566
+AWS_REGION=eu-west-2
+AWS_ACCESS_KEY_ID=dummy
+AWS_SECRET_ACCESS_KEY=dummy
+EVENTS_SQS_QUEUE_URL=http://sqs.eu-west-2.127.0.0.1:4566/000000000000/forms_adaptor_events
+RECEIVE_MESSAGE_TIMEOUT_MS=5000
+MANAGER_URL=http://localhost:3001
+DESIGNER_URL=http://localhost:3000
+UNIVERSITY_API_URL=http://localhost:3008/api
+UNIVERSITY_API_KEY=your-api-key
+UNIVERSITY_API_HEALTH_CHECK_URL=https://example.com/api/?is_alive=1
+```
 
 Install application dependencies:
 
@@ -56,6 +76,8 @@ To run the application in `development` mode run:
 ```bash
 npm run dev
 ```
+
+This starts both the listener service and a mock API receiver for local testing.
 
 ### Testing
 
@@ -73,67 +95,48 @@ To mimic the application running in `production` mode locally run:
 npm start
 ```
 
-### Npm scripts
+## Configuration
 
-All available Npm scripts can be seen in [package.json](./package.json).
-To view them in your command line run:
+### Environment variables
 
-```bash
-npm run
+| Variable                          | Description                                   | Default                    |
+| :-------------------------------- | :-------------------------------------------- | :------------------------- |
+| `UNIVERSITY_API_URL`              | URL of the CWT API endpoint                   | —                          |
+| `UNIVERSITY_API_KEY`              | API key for authenticating with the CWT API   | —                          |
+| `UNIVERSITY_API_HEALTH_CHECK_URL` | Health check URL for the CWT API              | —                          |
+| `ADVICE_FORM_ID`                  | Form ID for the advice form                   | `69a07d92093ab56d4fa9f325` |
+| `ASSENT_FORM_ID`                  | Form ID for the assent form                   | `69a1a593093ab56d4fa9f330` |
+| `CONSENT_FORM_ID`                 | Form ID for the consent form                  | `69a1a64c093ab56d4fa9f339` |
+| `EVENTS_SQS_QUEUE_URL`            | SQS queue URL for form submission events      | —                          |
+| `SQS_ENDPOINT`                    | SQS endpoint override (for local development) | —                          |
+| `AWS_REGION`                      | AWS region                                    | `eu-west-2`                |
+| `RECEIVE_MESSAGE_TIMEOUT_MS`      | Wait time between polls in milliseconds       | `30000`                    |
+| `SQS_MAX_NUMBER_OF_MESSAGES`      | Max messages to receive at once (max 10)      | `10`                       |
+| `SQS_VISIBILITY_TIMEOUT`          | Seconds a message is hidden after retrieval   | `30`                       |
+| `CONCURRENT_COROUTINES`           | Number of concurrent polling coroutines       | `1`                        |
+
+### SQS queue configuration
+
+`ReceiveMessageWaitTime` controls long polling vs short polling. When greater than 0, long polling is in effect (max 20s). With long polling, if no messages are found the connection is held open until messages arrive or the timeout elapses. CDP sets `ReceiveMessageWaitTime` to 20s by default.
+
+See the [AWS documentation](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-short-and-long-polling.html) for more information.
+
+## Architecture
+
 ```
-
-### Update dependencies
-
-To update dependencies use [npm-check-updates](https://github.com/raineorshine/npm-check-updates):
-
-> The following script is a good start. Check out all the options on
-> the [npm-check-updates](https://github.com/raineorshine/npm-check-updates)
-
-```bash
-ncu --interactive --format group
-```
-
-### Formatting
-
-#### Windows prettier issue
-
-If you are having issues with formatting of line breaks on Windows update your global git config by running:
-
-```bash
-git config --global core.autocrlf false
+SQS Queue
+  -> src/tasks/receive-messages.js     (polls for messages)
+  -> src/service/events.js             (parses submission events)
+  -> src/service/submission-handler.js  (routes by form ID)
+  -> src/service/mappers/*-mapper.js   (transforms to CWT format)
+  -> src/service/transmitters/         (POSTs to University API)
 ```
 
 ## API endpoints
 
-| Endpoint             | Description                    |
-| :------------------- | :----------------------------- |
-| `GET: /health`       | Health                         |
-| `GET: /example    `  | Example API (remove as needed) |
-| `GET: /example/<id>` | Example API (remove as needed) |
-
-## Development helpers
-
-### Proxy
-
-We are using forward-proxy which is set up by default. To make use of this: `import { fetch } from 'undici'` then
-because of the `setGlobalDispatcher(new ProxyAgent(proxyUrl))` calls will use the ProxyAgent Dispatcher
-
-If you are not using Wreck, Axios or Undici or a similar http that uses `Request`. Then you may have to provide the
-proxy dispatcher:
-
-To add the dispatcher to your own client:
-
-```javascript
-import { ProxyAgent } from 'undici'
-
-return await fetch(url, {
-  dispatcher: new ProxyAgent({
-    uri: proxyUrl,
-    keepAliveTimeout: 10,
-    keepAliveMaxTimeout: 10
-  })
-})
-```
+| Endpoint       | Description                                                                                                       |
+| :------------- | :---------------------------------------------------------------------------------------------------------------- |
+| `GET: /health` | Health check — also verifies the target CWT API is reachable when `UNIVERSITY_API_HEALTH_CHECK_URL` is configured |
 
 ## Docker
 
@@ -142,13 +145,13 @@ return await fetch(url, {
 Build:
 
 ```bash
-docker build --target development --no-cache --tag forms-newls-cwt-listener:development .
+docker build --target development --no-cache --tag forms-transmit-listener:development .
 ```
 
 Run:
 
 ```bash
-docker run -e PORT=3001 -p 3001:3001 forms-newls-cwt-listener:development
+docker run -e PORT=3007 -p 3007:3007 forms-transmit-listener:development
 ```
 
 ### Production image
@@ -156,13 +159,13 @@ docker run -e PORT=3001 -p 3001:3001 forms-newls-cwt-listener:development
 Build:
 
 ```bash
-docker build --no-cache --tag forms-newls-cwt-listener .
+docker build --no-cache --tag forms-transmit-listener .
 ```
 
 Run:
 
 ```bash
-docker run -e PORT=3001 -p 3001:3001 forms-newls-cwt-listener
+docker run -e PORT=3007 -p 3007:3007 forms-transmit-listener
 ```
 
 ### Docker Compose
@@ -171,21 +174,11 @@ A local environment with:
 
 - Localstack for AWS services (S3, SQS)
 - Redis
-- This service.
-- A commented out frontend example.
+- This service
 
 ```bash
 docker compose up --build -d
 ```
-
-### Dependabot
-
-We have added an example dependabot configuration file to the repository. You can enable it by renaming
-the [.github/example.dependabot.yml](.github/example.dependabot.yml) to `.github/dependabot.yml`
-
-### SonarCloud
-
-Instructions for setting up SonarCloud can be found in [sonar-project.properties](./sonar-project.properties)
 
 ## Licence
 
@@ -195,12 +188,4 @@ THIS INFORMATION IS LICENSED UNDER THE CONDITIONS OF THE OPEN GOVERNMENT LICENCE
 
 The following attribution statement MUST be cited in your products and applications when using this information.
 
-> Contains public sector information licensed under the Open Government license v3
-
-### About the licence
-
-The Open Government Licence (OGL) was developed by the Controller of Her Majesty's Stationery Office (HMSO) to enable
-information providers in the public sector to license the use and re-use of their information under a common open
-licence.
-
-It is designed to encourage use and re-use of information freely and flexibly, with only a few conditions.
+> Contains public sector information licensed under the Open Government licence v3

@@ -1,0 +1,192 @@
+---
+title: Advice Form Mapping (advice-form-mapper.js)
+---
+flowchart TD
+    subgraph Input["Form Submission Input"]
+        MSG["message<br />(FormAdapterSubmissionMessage)"]
+        MAIN["message.data.main"]
+        REP["message.data.repeaters"]
+    end
+
+    MSG --> MAIN
+    MSG --> REP
+
+    %% ===== form_type (hardcoded) =====
+    MAIN --> FT["form_type = 'advice'<br />(hardcoded)"]
+
+    %% ===== broad_work_type =====
+    subgraph OutBroadWorkType["broad_work_type"]
+        BWQ1{"NVRbCy<br />What type of advice<br />are you requesting?<br />(FC path)"}
+        BWQ1 -->|"'HRA advice'"| BW_HRA["'Standalone HRA Reg 63'"]
+        BWQ1 -->|"'S28I SSSI advice'"| BW_S28I["'S28i Advice'"]
+        BWQ1 -->|"'Something else'"| BW_OTHER["'Other casework'"]
+        BWQ1 -->|Not set| BWQ2{"YOwPAJ<br />Tell us which type of advice<br />you are requesting<br />(S28G path)"}
+        BWQ2 -->|"'Standalone HRA advice'"| BW_HRA2["'Standalone HRA Reg 63'"]
+        BWQ2 -->|"'S28i SSSI advice'"| BW_S28I2["'S28i Advice'"]
+        BWQ2 -->|"'Something else'"| BW_OTHER2["'Other casework'"]
+        BWQ2 -->|Not set| BW_DEFAULT["'Other casework'<br />(default)"]
+    end
+    MAIN --> BWQ1
+
+    %% ===== detailed_work_type =====
+    subgraph OutDetailedWorkType["detailed_work_type"]
+        DWQ1{"NVRbCy<br />(not 'Something else')"}
+        DWQ1 -->|"'HRA advice'"| DW_HRA["'Standalone HRA Reg 63'"]
+        DWQ1 -->|"'S28I SSSI advice'"| DW_S28I["'S28i Advice'"]
+        DWQ1 -->|Not set or 'Something else'| DWQ2{"YOwPAJ<br />(not 'Something else')"}
+        DWQ2 -->|"'Standalone HRA advice'"| DW_HRA2["'Standalone HRA Reg 63'"]
+        DWQ2 -->|"'S28i SSSI advice'"| DW_S28I2["'S28i Advice'"]
+        DWQ2 -->|Not set or 'Something else'| DWQ3{"xzEslQ<br />Which topic fits the nature<br />of your question the best?"}
+        DWQ3 -->|"Pre Consent advice"| DW_CONSENT["'SSSI - Pre Consent advice'"]
+        DWQ3 -->|"Pre Assent advice"| DW_ASSENT["'SSSI - Pre Assent advice'"]
+        DWQ3 -->|"Report damaging activity"| DW_VISITS["'SSSI - Site visits/surveys'"]
+        DWQ3 -->|"Submit/request surveys"| DW_REG["'SSSI - Regulation and Enforcement'"]
+        DWQ3 -->|"LNR question"| DW_LNR["'LNRs'"]
+        DWQ3 -->|"NNR / Drones / Designating<br />/ Sale / Something else"| DW_SSSI_OTHER["'SSSI - Other'"]
+        DWQ3 -->|Not set| DW_DEFAULT["'SSSI - Other' (default)"]
+    end
+    MAIN --> DWQ1
+
+    %% ===== description =====
+    subgraph OutDescription["description<br />(parts joined with ' - ')"]
+        DESC_PATH{"Which path is active?"}
+
+        DESC_PATH -->|"HRA path<br />(NVRbCy='HRA advice' or<br />YOwPAJ='Standalone HRA advice')"| DESC_HRA
+        DESC_PATH -->|"SSSI advice path<br />(NVRbCy='S28I SSSI advice' or<br />YOwPAJ='S28i SSSI advice')"| DESC_SSSI
+        DESC_PATH -->|"General topics path<br />(neither HRA nor SSSI)"| DESC_GENERAL
+
+        subgraph DESC_HRA["HRA Description Path"]
+            DESC_HRA1["emlmbt<br />What stage of HRA advice<br />are you requesting?<br />→ 'Advice on {stage}'"]
+            DESC_HRA2["Repeater TJuSNf → rtuWky<br />What is the name of the<br />European site?<br />→ site names comma-joined"]
+        end
+
+        subgraph DESC_SSSI["SSSI Advice Description Path"]
+            DESC_SSSI1["Repeater entries → Avdzxa<br />What is the name of the SSSI<br />where activities will cause impacts?<br />→ SSSI names comma-joined"]
+        end
+
+        subgraph DESC_GENERAL["General Topics Description Path"]
+            DESC_GEN1["xzEslQ<br />Which topic fits the nature of<br />your question the best?<br />→ topic text"]
+        end
+
+        DESC_APPEND["Additional fields appended:<br />+ QmIGor: What is your question?<br />+ nJVeix: Tell us about the proposed activities<br />+ YhWlKB: Give a description of the damaging activity"]
+    end
+    MAIN --> DESC_PATH
+    REP --> DESC_PATH
+    DESC_HRA --> DESC_APPEND
+    DESC_SSSI --> DESC_APPEND
+    DESC_GENERAL --> DESC_APPEND
+
+    %% ===== consulting_body_type =====
+    subgraph OutConsultingBodyType["consulting_body_type"]
+        CBT["teEzOl<br />Which category best describes<br />who is making this application?"]
+        CBT_MAP["Consultant → 'Consultant'<br />Government Agency → 'Government Agency'<br />Harbour authority → 'Harbour Authority'<br />Landowner → 'Landowner'<br />Land occupier → 'Land occupier'<br />Member of public → 'Member of public'<br />Other → 'Other'<br />Regional body → 'Local Planning Authority'<br />Utility provider → 'Utility Provider'"]
+    end
+    MAIN --> CBT --> CBT_MAP
+
+    %% ===== consulting_body =====
+    subgraph OutConsultingBody["consulting_body"]
+        CB_TYPE{"effectiveType =<br />PBmxNM ?? teEzOl<br />(Who are you working on behalf of?<br />?? Representation category)"}
+
+        CB_TYPE -->|"'Government Agency'"| CB_GOV{"PvUZyQ<br />Which government agency<br />do you work for?"}
+        CB_GOV -->|"'Forestry Commission'"| CB_FC["'Forestry Commission'"]
+        CB_GOV -->|"'Environment Agency'"| CB_EA["'Environment Agency'"]
+        CB_GOV -->|"'Other government agency'"| CB_OTHER_GOV["hOsLRu<br />Tell us which government<br />agency you work for"]
+
+        CB_TYPE -->|"'Local Planning Authority'<br />or 'Regional body'"| CB_LPA["YouDQP<br />Which local authority<br />do you work for?"]
+
+        CB_TYPE -->|"'Harbour authority'<br />'Utility provider'<br />'Public body or organisation'"| CB_PUB{"HiTHQX<br />Which public body<br />do you work for?"}
+        CB_PUB -->|"'Other'"| CB_PUB_OTHER["OYxtmu<br />Which public body are<br />you representing?"]
+        CB_PUB -->|Other value| CB_PUB_NAME["HiTHQX value"]
+
+        CB_TYPE -->|"'Landowner' / 'Land occupier'<br />/ 'None of the above'"| CB_SELF["effectiveType<br />used as value"]
+
+        CB_TYPE -->|"'Consultant' or 'Other'<br />with PBmxNM set"| CB_PBMXNM["Follow same logic above<br />using PBmxNM value<br />as the category"]
+    end
+    MAIN --> CB_TYPE
+
+    %% ===== customer fields =====
+    subgraph OutCustomer["Customer Fields"]
+        CNAME["customer_name<br />← hUpejP: What is your full name?"]
+        CEMAIL["customer_email_address<br />← YOPYRe: What is your email address?"]
+    end
+    MAIN --> CNAME
+    MAIN --> CEMAIL
+
+    %% ===== email_header =====
+    EH["email_header<br />= detailed_work_type value"]
+
+    %% ===== is_contractor_working_for_public_body =====
+    subgraph OutContractor["is_contractor_working_for_public_body"]
+        CONT{"PBmxNM<br />Who are you working<br />on behalf of?<br />(present?)"}
+        CONT -->|Yes| CONT_Y["'Yes'"]
+        CONT -->|No| CONT_N["'No'"]
+    end
+    MAIN --> CONT
+
+    %% ===== public_body_type & public_body =====
+    subgraph OutPublicBody["public_body_type & public_body<br />(only populated when PBmxNM is present)"]
+        PBT_Q{"PBmxNM value<br />Who are you working<br />on behalf of?"}
+        PBT_Q -->|"'Government agency'"| PBT_GOV["public_body_type =<br />'Government Agency'"]
+        PBT_Q -->|Other| PBT_PASS["public_body_type =<br />PBmxNM value"]
+
+        PB_Q{"PBmxNM value"}
+        PB_Q -->|"'Government agency'"| PB_GOV{"PvUZyQ<br />Which government agency?"}
+        PB_GOV -->|"'Other government agency'"| PB_OTHER["public_body =<br />hOsLRu (agency name)"]
+        PB_GOV -->|Other| PB_NAME["public_body =<br />PvUZyQ value"]
+        PB_Q -->|"'Local Planning Authority'"| PB_LPA["public_body =<br />YouDQP (LPA name)"]
+        PB_Q -->|"'Public body or organisation'"| PB_PUB{"HiTHQX<br />Which public body?"}
+        PB_PUB -->|"'Other'"| PB_PUB_O["public_body =<br />OYxtmu (name)"]
+        PB_PUB -->|Other| PB_PUB_N["public_body =<br />HiTHQX value"]
+    end
+    MAIN --> PBT_Q
+    MAIN --> PB_Q
+
+    %% ===== SSSI_info =====
+    subgraph OutSSSI["SSSI_info[]"]
+        SSSI_PATH{"Which SSSI source?"}
+        SSSI_PATH -->|"Repeater entries<br />containing Avdzxa<br />(SSSI name)"| SSSI_ADV
+        SSSI_PATH -->|"MoCXGK present<br />(damage report SSSI)<br />and no repeater SSSIs"| SSSI_DMG
+
+        subgraph SSSI_ADV["SSSI Advice Repeater Path"]
+            SSSI_ADV1["For each entry with Avdzxa<br />(SSSI where activities cause impacts):<br />SSSI_id = 0 (placeholder)<br />coordinates = NMCFES<br />(Where are activities planned?<br />easting,northing format)"]
+        end
+
+        subgraph SSSI_DMG["Damage Reporting Path"]
+            SSSI_DMG1["MoCXGK = SSSI name for damage report<br />SSSI_id = 0 (placeholder)<br />coordinates = rSJTFC<br />(Where on the SSSI has damage<br />taken place? easting,northing)"]
+        end
+    end
+    REP --> SSSI_PATH
+    MAIN --> SSSI_PATH
+
+    %% ===== euro_site_info =====
+    subgraph OutEuro["euro_site_info[]"]
+        EURO1["Repeater TJuSNf (European site)<br />For each entry with rtuWky<br />(What is the name of the European site?):<br />european_site_id = 0 (placeholder)<br />european_site_coordinates =<br />xeJYcG (Where are activities taking place?<br />easting,northing format)"]
+    end
+    REP --> EURO1
+
+    %% ===== is_there_a_european_site =====
+    subgraph OutEuroFlag["is_there_a_european_site"]
+        EUROFLAG{"euro_site_info<br />has entries?"}
+        EUROFLAG -->|Yes| EURO_Y["'Yes'"]
+        EUROFLAG -->|No| EURO_N["'No'"]
+    end
+
+    %% ===== Output Summary =====
+    subgraph Output["AdviceFormOutput"]
+        direction LR
+        O1["form_type"]
+        O2["broad_work_type"]
+        O3["detailed_work_type"]
+        O4["description"]
+        O5["consulting_body_type"]
+        O6["consulting_body"]
+        O7["customer_name"]
+        O8["customer_email_address"]
+        O9["email_header"]
+        O10["is_contractor_<br />working_for_public_body"]
+        O11["public_body_type"]
+        O12["public_body"]
+        O13["is_there_a_<br />european_site"]
+        O14["SSSI_info[]"]
+        O15["euro_site_info[]"]
+    end

@@ -12,6 +12,7 @@ const logger = createLogger()
  * Node Fetch will still need to pass a ProxyAgent in on each call.
  */
 export function setupProxy() {
+  /** @type {string | null} */
   const proxyUrl = config.get('httpProxy')
 
   if (proxyUrl) {
@@ -22,6 +23,9 @@ export function setupProxy() {
 
     // global-agent (axios/request/and others)
     bootstrap()
-    global.GLOBAL_AGENT.HTTP_PROXY = proxyUrl
+    const globalObj = /** @type {Record<string, Record<string, unknown>>} */ (
+      /** @type {unknown} */ (global)
+    )
+    globalObj.GLOBAL_AGENT.HTTP_PROXY = proxyUrl
   }
 }

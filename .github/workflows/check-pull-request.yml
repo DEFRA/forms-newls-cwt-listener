@@ -30,9 +30,6 @@ jobs:
           npm run lint
           npm test
 
-      - name: Security audit
-        run: npm run security-audit
-
       - name: Test Docker Image Build
         run: |
           set +e

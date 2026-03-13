@@ -6,6 +6,10 @@ import {
 import { config } from '../../config.js'
 import { createLogger } from './logging/logger.js'
 
+/**
+ * @param {string} metricName
+ * @param {number} [value]
+ */
 const metricsCounter = async (metricName, value = 1) => {
   if (!config.get('isMetricsEnabled')) {
     return
@@ -21,7 +25,7 @@ const metricsCounter = async (metricName, value = 1) => {
     )
     await metricsLogger.flush()
   } catch (error) {
-    createLogger().error(error, error.message)
+    createLogger().error(error, /** @type {Error} */ (error).message)
   }
 }
 
