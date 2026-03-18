@@ -27,7 +27,7 @@ Handles requests for Natural England advice on proposed works near protected sit
 
 ### Output fields
 
-`form_type`, `broad_work_type`, `detailed_work_type`, `description`, `consulting_body_type`, `consulting_body`, `customer_name`, `customer_email_address`, `email_header`, `is_contractor_working_for_public_body`, `public_body_type`, `public_body`, `is_there_a_european_site`, `SSSI_info`, `euro_site_info`
+`form_type`, `DF_reference_number`, `broad_work_type`, `detailed_work_type`, `description`, `consulting_body_type`, `consulting_body`, `customer_name`, `customer_email_address`, `email_header`, `is_contractor_working_for_public_body`, `public_body_type`, `public_body`, `is_there_a_european_site`, `SSSI_info`, `euro_site_info`
 
 ## Assent form mapper
 
@@ -42,7 +42,7 @@ Handles S28H assent applications for works under agri-environment agreements (e.
 
 ### Output fields
 
-`form_type`, `broad_work_type`, `detailed_work_type`, `description`, `customer_name`, `customer_email_address`, `email_header`, `agreement_reference`, `SSSI_info`
+`form_type`, `DF_reference_number`, `broad_work_type`, `detailed_work_type`, `description`, `customer_name`, `customer_email_address`, `email_header`, `agreement_reference`, `SSSI_info`
 
 ## Consent form mapper
 
@@ -58,7 +58,7 @@ Handles S28E consent applications for works by land owners/occupiers on SSSIs.
 
 ### Output fields
 
-`form_type`, `broad_work_type`, `detailed_work_type`, `description`, `customer_name`, `customer_email_address`, `email_header`, `SBI`, `agreement_reference`, `SSSI_info`
+`form_type`, `DF_reference_number`, `broad_work_type`, `detailed_work_type`, `description`, `customer_name`, `customer_email_address`, `email_header`, `SBI`, `agreement_reference`, `SSSI_info`
 
 ## Helper functions
 

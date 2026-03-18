@@ -31,6 +31,13 @@ describe('advice-form-mapper', () => {
     expect(result.form_type).toBe('advice')
   })
 
+  it('should set DF_reference_number from meta.referenceNumber', () => {
+    const result = mapFormSubmission(
+      buildMessage({ teEzOl: 'Landowner', xzEslQ: 'Something else' })
+    )
+    expect(result.DF_reference_number).toBe('576-225-943')
+  })
+
   describe('broad_work_type', () => {
     it('should map NVRbCy "HRA advice" to "Standalone HRA Reg 63"', () => {
       const result = mapFormSubmission(

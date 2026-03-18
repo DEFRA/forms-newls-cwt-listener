@@ -20,6 +20,7 @@
 /**
  * @typedef {object} AdviceFormOutput
  * @property {'advice'} form_type
+ * @property {string} DF_reference_number
  * @property {string} broad_work_type
  * @property {string} detailed_work_type
  * @property {string} description
@@ -39,6 +40,7 @@
 /**
  * @typedef {object} AssentFormOutput
  * @property {'assent'} form_type
+ * @property {string} DF_reference_number
  * @property {'S28H Assent'} broad_work_type
  * @property {string} detailed_work_type
  * @property {string} description
@@ -58,6 +60,7 @@
 /**
  * @typedef {object} ConsentFormOutput
  * @property {'consent'} form_type
+ * @property {string} DF_reference_number
  * @property {'S28E Consent'} broad_work_type
  * @property {string} detailed_work_type
  * @property {string} description

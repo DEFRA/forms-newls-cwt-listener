@@ -29,6 +29,11 @@ describe('consent-form-mapper', () => {
     expect(result.form_type).toBe('consent')
   })
 
+  it('should set DF_reference_number from meta.referenceNumber', () => {
+    const result = mapFormSubmission(buildMessage({}))
+    expect(result.DF_reference_number).toBe('576-225-943')
+  })
+
   it('should set broad_work_type to "S28E Consent"', () => {
     const result = mapFormSubmission(buildMessage({}))
     expect(result.broad_work_type).toBe('S28E Consent')

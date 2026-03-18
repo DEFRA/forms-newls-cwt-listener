@@ -9,6 +9,7 @@ Source: [src/service/mappers/assent-form-mapper.js](../../src/service/mappers/as
 | Output field                            | Type             | Always present?    |
 | --------------------------------------- | ---------------- | ------------------ |
 | `form_type`                             | `"assent"`       | Yes                |
+| `DF_reference_number`                   | string           | Yes                |
 | `broad_work_type`                       | `"S28H Assent"`  | Yes                |
 | `detailed_work_type`                    | string           | Yes                |
 | `description`                           | string           | Yes                |

@@ -31,6 +31,13 @@ describe('assent-form-mapper', () => {
     expect(result.form_type).toBe('assent')
   })
 
+  it('should set DF_reference_number from meta.referenceNumber', () => {
+    const result = mapFormSubmission(
+      buildMessage({ vUHwan: 'Landowner', htlAAq: 'John', pPocjH: 'Doe' })
+    )
+    expect(result.DF_reference_number).toBe('576-225-943')
+  })
+
   it('should set broad_work_type to "S28H Assent"', () => {
     const result = mapFormSubmission(buildMessage({}))
     expect(result.broad_work_type).toBe('S28H Assent')

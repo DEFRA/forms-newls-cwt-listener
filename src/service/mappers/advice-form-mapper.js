@@ -516,6 +516,7 @@ export function mapFormSubmission(message) {
 
   return {
     form_type: 'advice',
+    DF_reference_number: message.meta.referenceNumber,
     broad_work_type: mapBroadWorkType(main),
     detailed_work_type: detailedWorkType,
     description: mapDescription(main, repeaters),

@@ -390,6 +390,7 @@ export function mapFormSubmission(message) {
 
   return {
     form_type: 'assent',
+    DF_reference_number: message.meta.referenceNumber,
     broad_work_type: 'S28H Assent',
     detailed_work_type: mapDetailedWorkType(main),
     description: mapDescription(main, repeaters),

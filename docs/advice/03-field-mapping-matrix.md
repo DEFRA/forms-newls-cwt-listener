@@ -9,6 +9,7 @@ Source: [src/service/mappers/advice-form-mapper.js](../../src/service/mappers/ad
 | Output field                            | Type             | Always present?       |
 | --------------------------------------- | ---------------- | --------------------- |
 | `form_type`                             | `"advice"`       | Yes                   |
+| `DF_reference_number`                   | string           | Yes                   |
 | `broad_work_type`                       | string           | Yes                   |
 | `detailed_work_type`                    | string           | Yes                   |
 | `description`                           | string           | Yes                   |

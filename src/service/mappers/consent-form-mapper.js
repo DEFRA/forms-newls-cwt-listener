@@ -383,6 +383,7 @@ export function mapFormSubmission(message) {
 
   return {
     form_type: 'consent',
+    DF_reference_number: message.meta.referenceNumber,
     broad_work_type: 'S28E Consent',
     detailed_work_type: mapDetailedWorkType(main),
     description: mapDescription(main, repeaters),
