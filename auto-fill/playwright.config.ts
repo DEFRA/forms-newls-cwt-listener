@@ -35,6 +35,10 @@ export default defineConfig({
 
   /* Shared settings */
   use: {
+    headless: true, // If you want to view the session, set to false.
+    launchOptions: {
+      slowMo: 0, // If you want to view the session, best to set to 1500 milliseconds (ie 1.5 seconds).
+    },
     /* Collect trace on first retry */
     trace: 'on-first-retry',
 
@@ -52,7 +56,11 @@ export default defineConfig({
   projects: [
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      use: {
+        ...devices['Desktop Chrome'],
+        viewport: null,
+        deviceScaleFactor: undefined,
+      },
     },
   ],
 });
