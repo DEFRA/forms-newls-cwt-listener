@@ -429,7 +429,14 @@ test.describe("Assent Form", () => {
     await fillAutocomplete(page, "arun", "Arun Banks SSSI");
     await page.getByRole("button", { name: "Continue" }).click();
 
-    // Add another? – No
+    // Add another SSSI – Yes
+    await page.getByRole("button", { name: "Add another" }).click();
+
+    // Second site
+    await fillAutocomplete(page, "ash", "Ashdown Forest SSSI");
+    await page.getByRole("button", { name: "Continue" }).click();
+
+    // No more to add
     await page.getByRole("button", { name: "Continue" }).click();
 
     // Upload MTA form
@@ -602,11 +609,46 @@ test.describe("Assent Form", () => {
       .fill("Annual reed management programme");
     await page.getByRole("button", { name: "Continue" }).click();
 
-    // Repeater summary – Continue (don't add another)
+    // Add another ORNEC entry
+    await page.getByRole("button", { name: "Add another" }).click();
+
+    // ORNEC repeater – second site
+    await page
+      .getByRole("textbox", {
+        name: "What activity is planned to be carried out?",
+      })
+      .fill("Grazing");
+    await fillAutocomplete(page, "ash", "Ashdown Forest SSSI");
+    await page.getByRole("textbox", { name: "Easting" }).fill("543200");
+    await page.getByRole("textbox", { name: "Northing" }).fill("132400");
+    await page
+      .getByRole("textbox", {
+        name: "How do you plan to carry out this activity on this site?",
+      })
+      .fill("Controlled grazing on heathland");
     await page.getByRole("button", { name: "Continue" }).click();
 
-    // Accessing and working on sites repeater
+    // No more to add
+    await page.getByRole("button", { name: "Continue" }).click();
+
+    // Accessing and working on sites repeater – first site
     await fillAutocomplete(page, "arun", "Arun Banks SSSI");
+    await page.getByRole("radio", { name: "On foot" }).check();
+    await page
+      .getByRole("group", { name: "Will you use existing access points?" })
+      .getByRole("radio", { name: "Yes" })
+      .check();
+    await page
+      .getByRole("group", { name: "Do you plan to use any machinery?" })
+      .getByRole("radio", { name: "No" })
+      .check();
+    await page.getByRole("button", { name: "Continue" }).click();
+
+    // Add another accessing entry
+    await page.getByRole("button", { name: "Add another" }).click();
+
+    // Accessing – second site
+    await fillAutocomplete(page, "ash", "Ashdown Forest SSSI");
     await page.getByRole("radio", { name: "On foot" }).check();
     await page
       .getByRole("group", { name: "Will you use existing access points?" })

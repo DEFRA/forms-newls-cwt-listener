@@ -93,7 +93,8 @@ async function fillOperationsMultiSSSI(
   sssiOption: string | RegExp,
   easting: string,
   northing: string,
-  method: string
+  method: string,
+  addAnother = false
 ) {
   await page.locator("select").first().selectOption({ label: activity });
   await fillAutocomplete(page, sssiSearch, sssiOption);
@@ -105,8 +106,12 @@ async function fillOperationsMultiSSSI(
     })
     .fill(method);
   await page.getByRole("button", { name: "Continue" }).click();
-  // Continue past repeater summary
-  await page.getByRole("button", { name: "Continue" }).click();
+  // Repeater summary – add another or continue
+  if (addAnother) {
+    await page.getByRole("button", { name: "Add another" }).click();
+  } else {
+    await page.getByRole("button", { name: "Continue" }).click();
+  }
 }
 
 /**
@@ -131,7 +136,8 @@ async function fillGainingAccess(page: import("@playwright/test").Page) {
 async function fillAccessMultiSSSI(
   page: import("@playwright/test").Page,
   sssiSearch: string,
-  sssiOption: string | RegExp
+  sssiOption: string | RegExp,
+  addAnother = false
 ) {
   await fillAutocomplete(page, sssiSearch, sssiOption);
   await page.getByRole("radio", { name: "On foot" }).check();
@@ -144,8 +150,12 @@ async function fillAccessMultiSSSI(
     .getByRole("radio", { name: "No" })
     .check();
   await page.getByRole("button", { name: "Continue" }).click();
-  // Continue past repeater summary
-  await page.getByRole("button", { name: "Continue" }).click();
+  // Repeater summary – add another or continue
+  if (addAnother) {
+    await page.getByRole("button", { name: "Add another" }).click();
+  } else {
+    await page.getByRole("button", { name: "Continue" }).click();
+  }
 }
 
 /** Fill activity dates - start and finish (flow B). */
@@ -488,7 +498,7 @@ test.describe("Consent Form", () => {
       .fill("ORN5678");
     await page.getByRole("button", { name: "Continue" }).click();
 
-    // Site name and operations repeater (multi-SSSI)
+    // Site name and operations repeater (multi-SSSI) – first site
     await fillOperationsMultiSSSI(
       page,
       "Grazing",
@@ -496,11 +506,26 @@ test.describe("Consent Form", () => {
       "Arun Banks SSSI",
       "513000",
       "109000",
-      "Sheep grazing on chalk grassland"
+      "Sheep grazing on chalk grassland",
+      true
     );
 
-    // Accessing and working on sites repeater (multi-SSSI)
-    await fillAccessMultiSSSI(page, "arun", "Arun Banks SSSI");
+    // Site name and operations repeater – second site
+    await fillOperationsMultiSSSI(
+      page,
+      "Cultivation",
+      "ash",
+      "Ashdown Forest SSSI",
+      "543200",
+      "132400",
+      "Ploughing field margins on heathland"
+    );
+
+    // Accessing and working on sites repeater (multi-SSSI) – first site
+    await fillAccessMultiSSSI(page, "arun", "Arun Banks SSSI", true);
+
+    // Accessing – second site
+    await fillAccessMultiSSSI(page, "ash", "Ashdown Forest SSSI");
 
     // Activity dates
     await fillActivityDates(page);
@@ -587,7 +612,13 @@ test.describe("Consent Form", () => {
     // SSSI repeater – first site (comes after scheme type for multi-SSSI)
     await fillAutocomplete(page, "arun", "Arun Banks SSSI");
     await page.getByRole("button", { name: "Continue" }).click();
-    // Continue past SSSI repeater summary
+    // Add another SSSI
+    await page.getByRole("button", { name: "Add another" }).click();
+
+    // SSSI repeater – second site
+    await fillAutocomplete(page, "ash", "Ashdown Forest SSSI");
+    await page.getByRole("button", { name: "Continue" }).click();
+    // No more to add
     await page.getByRole("button", { name: "Continue" }).click();
 
     // HLS agreement reference
