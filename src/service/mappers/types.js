@@ -53,6 +53,7 @@
  * @property {string} consulting_body
  * @property {string} customer_name
  * @property {string} customer_email_address
+ * @property {string} email_header
  * @property {string} [agreement_reference]
  * @property {'Yes' | 'No'} is_contractor_working_for_public_body
  * @property {string} [public_body_type]

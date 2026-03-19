@@ -401,6 +401,7 @@ export function mapFormSubmission(message) {
     customer_name: `${main.htlAAq ?? ''} ${main.pPocjH ?? ''}`.trim(),
     // skdDtj = "What is your email address?"
     customer_email_address: /** @type {string} */ (main.skdDtj) ?? '',
+    email_header: 'Assent Form', // TODO: Update this.
     agreement_reference: mapAgreementReference(main),
     is_contractor_working_for_public_body:
       customerType === 'Somebody working on behalf of a public body'
