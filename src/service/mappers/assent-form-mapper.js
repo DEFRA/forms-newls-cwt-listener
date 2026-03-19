@@ -230,24 +230,16 @@ function mapAgreementReference(main) {
  * @returns {string}
  */
 function mapPublicBody(main) {
-  // vUHwan = "Which category best describes the public body you're representing?"
-  const publicBodyCategory = /** @type {string | undefined} */ (main.vUHwan)
-  if (!publicBodyCategory) {
-    return ''
-  }
+  // Because of the way the form is set up, only one of these values will be truthy. Therefore, return the first truthy value.
 
-  if (publicBodyCategory === 'Local planning authority') {
-    // XAZlxH = "Which local authority are you representing?"
-    return /** @type {string} */ (main.XAZlxH) ?? ''
-  }
-
-  if (publicBodyCategory === 'Other') {
-    // FyLHmN = "Which public body are you representing?" (other/free text)
-    return /** @type {string} */ (main.FyLHmN) ?? ''
-  }
-
+  // XAZlxH = "Which local authority are you representing?"
+  const localAuthority = /** @type {string | undefined} */ (main.XAZlxH)
   // cfPoiN = "Which public body are you representing?"
-  return /** @type {string} */ (main.cfPoiN) ?? ''
+  const publicBody = /** @type {string | undefined} */ (main.cfPoiN)
+  // FyLHmN = "Which public body are you representing?" (other/free text)
+  const otherPublicBody = /** @type {string | undefined} */ (main.FyLHmN)
+
+  return localAuthority ?? publicBody ?? otherPublicBody ?? ''
 }
 
 /**
