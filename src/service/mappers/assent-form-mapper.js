@@ -157,7 +157,7 @@ function mapConsultingBody(main) {
   const otherPublicBody = /** @type {string | undefined} */ (main.FyLHmN)
 
   // Working on behalf of a public body - use organisation name
-  if (customerType === 'Somebody working on behalf of a public body') {
+  if (customerType === 'An organisation working on behalf of a public body') {
     if (organisationName === 'Other') {
       return otherOrganisationName ?? ''
     }
@@ -404,7 +404,7 @@ export function mapFormSubmission(message) {
     email_header: 'Assent Form', // TODO: Update this.
     agreement_reference: mapAgreementReference(main),
     is_contractor_working_for_public_body:
-      customerType === 'Somebody working on behalf of a public body'
+      customerType === 'An organisation working on behalf of a public body'
         ? 'Yes'
         : 'No',
     public_body_type: publicBodyCategory

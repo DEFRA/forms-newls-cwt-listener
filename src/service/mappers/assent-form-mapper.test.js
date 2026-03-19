@@ -169,7 +169,7 @@ describe('assent-form-mapper', () => {
     it('should use organisation name for working on behalf', () => {
       const result = mapFormSubmission(
         buildMessage({
-          KTObNK: 'Somebody working on behalf of a public body',
+          KTObNK: 'An organisation working on behalf of a public body',
           ueDuNl: 'Acme Corp'
         })
       )
@@ -179,7 +179,7 @@ describe('assent-form-mapper', () => {
     it('should use "Other" text for working on behalf with Other org', () => {
       const result = mapFormSubmission(
         buildMessage({
-          KTObNK: 'Somebody working on behalf of a public body',
+          KTObNK: 'An organisation working on behalf of a public body',
           ueDuNl: 'Other',
           Xszriq: 'Custom Org'
         })
@@ -260,7 +260,7 @@ describe('assent-form-mapper', () => {
     it('should be "Yes" when working on behalf', () => {
       const result = mapFormSubmission(
         buildMessage({
-          KTObNK: 'Somebody working on behalf of a public body'
+          KTObNK: 'An organisation working on behalf of a public body'
         })
       )
       expect(result.is_contractor_working_for_public_body).toBe('Yes')
