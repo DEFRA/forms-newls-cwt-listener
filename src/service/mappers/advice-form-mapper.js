@@ -352,9 +352,6 @@ function mapConsultingBodyFromWorkingOnBehalfOf(main) {
  * @returns {string}
  */
 function mapPublicBodyType(workingOnBehalfOf, applicantCategory) {
-  if (!workingOnBehalfOf && !applicantCategory) {
-    return ''
-  }
   if (workingOnBehalfOf === 'Government agency') {
     return 'Government Agency'
   }
@@ -367,23 +364,12 @@ function mapPublicBodyType(workingOnBehalfOf, applicantCategory) {
  * @returns {string}
  */
 function mapPublicBody(main) {
-  // PBmxNM = "Who are you working on behalf of?"
-  const workingOnBehalfOf = /** @type {string | undefined} */ (main.PBmxNM)
-  if (!workingOnBehalfOf) {
-    // teEzOl = "Which category best describes who is making this application?"
-    const applicantCategory = /** @type {string | undefined} */ (main.teEzOl)
-    if (applicantCategory) {
-      // PvUZyQ = "Which government agency do you work for?"
-      const governmentAgency = /** @type {string | undefined} */ (main.PvUZyQ)
-      return governmentAgency ?? ''
-    }
-    return ''
-  }
+  // Because of the way the form is set up, only one of these values will be truthy. Therefore, return the first truthy value.
 
-  // PvUZyQ = "Which government agency do you work for?"
-  const governmentAgency = /** @type {string | undefined} */ (main.PvUZyQ)
   // hOsLRu = "Tell us which government agency you work for"
   const otherGovernmentAgency = /** @type {string | undefined} */ (main.hOsLRu)
+  // PvUZyQ = "Which government agency do you work for?"
+  const governmentAgency = /** @type {string | undefined} */ (main.PvUZyQ)
   // YouDQP = "Which local authority do you work for?"
   const localAuthority = /** @type {string | undefined} */ (main.YouDQP)
   // HiTHQX = "Which public body do you work for?"
@@ -391,25 +377,14 @@ function mapPublicBody(main) {
   // OYxtmu = "Which public body are you representing?"
   const publicBodyRepresenting = /** @type {string | undefined} */ (main.OYxtmu)
 
-  if (workingOnBehalfOf === 'Government agency') {
-    if (governmentAgency === 'Other government agency') {
-      return otherGovernmentAgency ?? ''
-    }
-    return governmentAgency ?? ''
-  }
-
-  if (workingOnBehalfOf === 'Local Planning Authority') {
-    return localAuthority ?? ''
-  }
-
-  if (workingOnBehalfOf === 'Public body or organisation') {
-    if (publicBody === 'Other') {
-      return publicBodyRepresenting ?? ''
-    }
-    return publicBody ?? ''
-  }
-
-  return ''
+  return (
+    otherGovernmentAgency ??
+    governmentAgency ??
+    localAuthority ??
+    publicBody ??
+    publicBodyRepresenting ??
+    ''
+  )
 }
 
 /**
