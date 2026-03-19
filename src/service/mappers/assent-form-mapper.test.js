@@ -94,8 +94,8 @@ describe('assent-form-mapper', () => {
           {},
           {
             QxIzSB: [
-              { iNDqRN: 'Tree removal', wRGnMW: 'SSSI A' },
-              { iNDqRN: 'Drainage', wRGnMW: 'SSSI B' }
+              { iNDqRN: 'Tree removal', wRGnMW: '1001001' },
+              { iNDqRN: 'Drainage', wRGnMW: '1001002' }
             ]
           }
         )
@@ -116,15 +116,12 @@ describe('assent-form-mapper', () => {
             ASataH: true
           },
           {
-            hhGvmX: [
-              { flbYHq: 'Thursley Common SSSI' },
-              { flbYHq: 'Chobham Common SSSI' }
-            ]
+            hhGvmX: [{ flbYHq: '2006159' }, { flbYHq: '1001610' }]
           }
         )
       )
       expect(result.description).toBe(
-        'A Higher Level Stewardship (HLS) agreement, Thursley Common SSSI, Chobham Common SSSI'
+        'A Higher Level Stewardship (HLS) agreement, 2006159, 1001610'
       )
     })
 
@@ -143,11 +140,11 @@ describe('assent-form-mapper', () => {
       const result = mapFormSubmission(
         buildMessage({
           rTreXu: 'A Sustainable Farming Incentive (SFI) agreement',
-          gVlMxz: 'Test SSSI'
+          gVlMxz: '1001001'
         })
       )
       expect(result.description).toBe(
-        'A Sustainable Farming Incentive (SFI) agreement, Test SSSI'
+        'A Sustainable Farming Incentive (SFI) agreement, 1001001'
       )
     })
   })
@@ -293,7 +290,7 @@ describe('assent-form-mapper', () => {
     it('should build single SSSI info with coordinates from repeater', () => {
       const result = mapFormSubmission(
         buildMessage(
-          { ASataH: false, gVlMxz: 'Test SSSI' },
+          { ASataH: false, gVlMxz: '1001001' },
           {
             gzSkgC: [
               {
@@ -309,7 +306,7 @@ describe('assent-form-mapper', () => {
         )
       )
       expect(result.SSSI_info).toEqual([
-        { SSSI_id: 'Test SSSI', coordinates: '400000,300000;400100,300100' }
+        { SSSI_id: 1001001, coordinates: '400000,300000;400100,300100' }
       ])
     })
 
@@ -321,17 +318,17 @@ describe('assent-form-mapper', () => {
             QxIzSB: [
               {
                 iNDqRN: 'Grazing',
-                wRGnMW: 'SSSI A',
+                wRGnMW: '1001001',
                 KnBNzJ: { easting: 100, northing: 200 }
               },
               {
                 iNDqRN: 'Fencing',
-                wRGnMW: 'SSSI A',
+                wRGnMW: '1001001',
                 KnBNzJ: { easting: 300, northing: 400 }
               },
               {
                 iNDqRN: 'Drainage',
-                wRGnMW: 'SSSI B',
+                wRGnMW: '1001002',
                 KnBNzJ: { easting: 500, northing: 600 }
               }
             ]
@@ -339,8 +336,8 @@ describe('assent-form-mapper', () => {
         )
       )
       expect(result.SSSI_info).toEqual([
-        { SSSI_id: 'SSSI A', coordinates: '100,200;300,400' },
-        { SSSI_id: 'SSSI B', coordinates: '500,600' }
+        { SSSI_id: 1001001, coordinates: '100,200;300,400' },
+        { SSSI_id: 1001002, coordinates: '500,600' }
       ])
     })
   })

@@ -148,11 +148,11 @@ flowchart TD
         SSSI_PATH -->|"MoCXGK present<br />(damage report SSSI)<br />and no repeater SSSIs"| SSSI_DMG
 
         subgraph SSSI_ADV["SSSI Advice Repeater Path"]
-            SSSI_ADV1["For each entry with Avdzxa<br />(SSSI where activities cause impacts):<br />SSSI_id = 0 (placeholder)<br />coordinates = NMCFES<br />(Where are activities planned?<br />easting,northing format)"]
+            SSSI_ADV1["For each entry with Avdzxa<br />(SSSI where activities cause impacts):<br />SSSI_id = Avdzxa (parsed as integer)<br />coordinates = NMCFES<br />(Where are activities planned?<br />easting,northing format)"]
         end
 
         subgraph SSSI_DMG["Damage Reporting Path"]
-            SSSI_DMG1["MoCXGK = SSSI name for damage report<br />SSSI_id = 0 (placeholder)<br />coordinates = rSJTFC<br />(Where on the SSSI has damage<br />taken place? easting,northing)"]
+            SSSI_DMG1["MoCXGK = SSSI ID for damage report<br />SSSI_id = MoCXGK (parsed as integer)<br />coordinates = rSJTFC<br />(Where on the SSSI has damage<br />taken place? easting,northing)"]
         end
     end
     REP --> SSSI_PATH

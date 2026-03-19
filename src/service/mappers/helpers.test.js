@@ -1,4 +1,4 @@
-import { formatCoordinates, joinCoordinates } from './helpers.js'
+import { formatCoordinates, joinCoordinates, parseSssiId } from './helpers.js'
 
 describe('helpers', () => {
   describe('formatCoordinates', () => {
@@ -24,6 +24,28 @@ describe('helpers', () => {
 
     it('should return empty string for empty array', () => {
       expect(joinCoordinates([])).toBe('')
+    })
+  })
+
+  describe('parseSssiId', () => {
+    it('should parse a numeric string into an integer', () => {
+      expect(parseSssiId('1001234')).toBe(1001234)
+    })
+
+    it('should parse a number value', () => {
+      expect(parseSssiId(42)).toBe(42)
+    })
+
+    it('should throw an error for a non-numeric string', () => {
+      expect(() => parseSssiId('Arun Banks SSSI')).toThrow(
+        'SSSI_id value "Arun Banks SSSI" cannot be parsed into an integer'
+      )
+    })
+
+    it('should throw an error for an empty string', () => {
+      expect(() => parseSssiId('')).toThrow(
+        'SSSI_id value "" cannot be parsed into an integer'
+      )
     })
   })
 })

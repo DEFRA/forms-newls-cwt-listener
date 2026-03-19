@@ -3,7 +3,7 @@
  * @typedef {import('./types.js').ConsentFormOutput} ConsentFormOutput
  */
 
-import { formatCoordinates, joinCoordinates } from './helpers.js'
+import { formatCoordinates, joinCoordinates, parseSssiId } from './helpers.js'
 
 /**
  * Mapping from the rTreXu scheme selection to detailed_work_type values.
@@ -230,11 +230,11 @@ function mapSssiInfo(main, repeaters) {
   const sssiInfo = []
 
   // hozdvW = "What is the name of the SSSI where you plan to carry out activities?"
-  const sssiName = /** @type {string | undefined} */ (main.hozdvW)
+  const sssiId = /** @type {string | undefined} */ (main.hozdvW)
   // lmqMaY = "Are you planning to carry out activities on more than one SSSI?"
   const isMultipleSssi = /** @type {boolean | undefined} */ (main.lmqMaY)
 
-  if (!isMultipleSssi && sssiName) {
+  if (!isMultipleSssi && sssiId) {
     // Single SSSI - scheme path (CS/HLS/MTA)
     // JPohUD = "Where are the activities taking place?" (Easting and Northing coordinates)
     const activityCoordinates =
@@ -270,7 +270,7 @@ function mapSssiInfo(main, repeaters) {
       }
 
       sssiInfo.push({
-        SSSI_id: /** @type {string} */ (sssiName),
+        SSSI_id: parseSssiId(sssiId),
         coordinates:
           coordStrings.length > 0 ? joinCoordinates(coordStrings) : '',
         ornec: ornecNames.join(', ')
@@ -278,13 +278,13 @@ function mapSssiInfo(main, repeaters) {
     } else if (activityCoordinates) {
       // Scheme path: single coordinate set, no ORNECs
       sssiInfo.push({
-        SSSI_id: /** @type {string} */ (sssiName),
+        SSSI_id: parseSssiId(sssiId),
         coordinates: formatCoordinates(activityCoordinates),
         ornec: ''
       })
     } else {
       sssiInfo.push({
-        SSSI_id: /** @type {string} */ (sssiName),
+        SSSI_id: parseSssiId(sssiId),
         coordinates: '',
         ornec: ''
       })
@@ -301,12 +301,12 @@ function mapSssiInfo(main, repeaters) {
       const sssiData = new Map()
 
       for (const entry of multiRepeater) {
-        const entrySssiName =
+        const entrySssiId =
           /** @type {string | undefined} */ (entry.rWrBOK) ?? 'Unknown'
-        if (!sssiData.has(entrySssiName)) {
-          sssiData.set(entrySssiName, { coords: [], ornecs: [] })
+        if (!sssiData.has(entrySssiId)) {
+          sssiData.set(entrySssiId, { coords: [], ornecs: [] })
         }
-        const data = sssiData.get(entrySssiName)
+        const data = sssiData.get(entrySssiId)
         if (entry.gjWdrc) {
           data?.coords.push(
             formatCoordinates(
@@ -321,9 +321,9 @@ function mapSssiInfo(main, repeaters) {
         }
       }
 
-      for (const [name, data] of sssiData) {
+      for (const [id, data] of sssiData) {
         sssiInfo.push({
-          SSSI_id: name,
+          SSSI_id: parseSssiId(id),
           coordinates:
             data.coords.length > 0 ? joinCoordinates(data.coords) : '',
           ornec: data.ornecs.join(', ')
@@ -345,7 +345,7 @@ function mapSssiInfo(main, repeaters) {
       for (const entry of schemeRepeater) {
         if (entry.gVlMxz) {
           sssiInfo.push({
-            SSSI_id: /** @type {string} */ (entry.gVlMxz),
+            SSSI_id: parseSssiId(entry.gVlMxz),
             coordinates: formattedCoordinates,
             ornec: ''
           })

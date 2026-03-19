@@ -167,10 +167,12 @@ Always from field **YOPYRe** ("Email address").
 
 Array of `{ SSSI_id, coordinates }` objects, populated from two possible sources:
 
-| Source                              | SSSI_id field                         | Coordinates field             | When used                                               |
-| ----------------------------------- | ------------------------------------- | ----------------------------- | ------------------------------------------------------- |
-| Repeater entries (S28I/HRA path)    | Avdzxa ("SSSI site name")             | NMCFES ("Activity location")  | When repeater contains entries with Avdzxa              |
-| Main fields (damage reporting path) | MoCXGK ("SSSI site name with damage") | rSJTFC ("Location of damage") | When no repeater SSSI data exists AND MoCXGK is present |
+SSSI_id values are parsed as integers from the string form field value. An error is thrown if a non-empty value cannot be parsed.
+
+| Source                              | SSSI_id field                                         | Coordinates field             | When used                                               |
+| ----------------------------------- | ----------------------------------------------------- | ----------------------------- | ------------------------------------------------------- |
+| Repeater entries (S28I/HRA path)    | Avdzxa ("SSSI site ID", parsed as integer)            | NMCFES ("Activity location")  | When repeater contains entries with Avdzxa              |
+| Main fields (damage reporting path) | MoCXGK ("SSSI site ID for damage", parsed as integer) | rSJTFC ("Location of damage") | When no repeater SSSI data exists AND MoCXGK is present |
 
 Coordinates are formatted as `"<easting>,<northing>"`.
 

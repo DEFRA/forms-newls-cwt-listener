@@ -3,7 +3,7 @@
  * @typedef {import('./types.js').AdviceFormOutput} AdviceFormOutput
  */
 
-import { formatCoordinates } from './helpers.js'
+import { formatCoordinates, parseSssiId } from './helpers.js'
 
 /**
  * Mapping from the xzEslQ general topic field to detailed_work_type values.
@@ -429,7 +429,7 @@ function mapSssiInfo(main, repeaters) {
     for (const entry of entries) {
       if (entry.Avdzxa) {
         sssiInfo.push({
-          SSSI_id: /** @type {string} */ (entry.Avdzxa),
+          SSSI_id: parseSssiId(entry.Avdzxa),
           coordinates: entry.NMCFES
             ? formatCoordinates(
                 /** @type {{ easting: number, northing: number }} */ (
@@ -445,10 +445,10 @@ function mapSssiInfo(main, repeaters) {
   // Damage reporting path:
   //   MoCXGK = "What is the name of the SSSI that you would like to report damage for?"
   //   rSJTFC = "Where on the SSSI has the damage taken place?"
-  const sssiDamageName = /** @type {string | undefined} */ (main.MoCXGK)
-  if (sssiInfo.length === 0 && sssiDamageName) {
+  const sssiDamageId = /** @type {string | undefined} */ (main.MoCXGK)
+  if (sssiInfo.length === 0 && sssiDamageId) {
     sssiInfo.push({
-      SSSI_id: sssiDamageName,
+      SSSI_id: parseSssiId(sssiDamageId),
       coordinates: main.rSJTFC
         ? formatCoordinates(
             /** @type {{ easting: number, northing: number }} */ (main.rSJTFC)

@@ -114,19 +114,19 @@ flowchart TD
         SSSI_Q -->|"false / not set"| SSSI_SINGLE
         SSSI_Q -->|"true"| SSSI_MULTI
 
-        subgraph SSSI_SINGLE["Single SSSI Path (hozdvW = SSSI name)"]
+        subgraph SSSI_SINGLE["Single SSSI Path (hozdvW = SSSI ID)"]
             SS_Q{"Repeater iTBHrY (Activity)<br />has entries?"}
-            SS_Q -->|Yes| SS_ORNEC["SSSI_id = 0<br />coordinates = QKdhfh values<br />(Where do you plan to carry<br />out this activity? easting,northing)<br />joined with ';'<br />ornec = hqsZMS values<br />(Which activity?<br />comma-joined)"]
+            SS_Q -->|Yes| SS_ORNEC["SSSI_id = hozdvW (parsed as integer)<br />coordinates = QKdhfh values<br />(Where do you plan to carry<br />out this activity? easting,northing)<br />joined with ';'<br />ornec = hqsZMS values<br />(Which activity?<br />comma-joined)"]
             SS_Q -->|No| SS_Q2{"JPohUD present?<br />(Easting/Northing coordinates)"}
-            SS_Q2 -->|Yes| SS_SCHEME["SSSI_id = 0<br />coordinates = JPohUD<br />(easting,northing)<br />ornec = ''"]
-            SS_Q2 -->|No| SS_EMPTY["SSSI_id = 0<br />coordinates = ''<br />ornec = ''"]
+            SS_Q2 -->|Yes| SS_SCHEME["SSSI_id = hozdvW (parsed as integer)<br />coordinates = JPohUD<br />(easting,northing)<br />ornec = ''"]
+            SS_Q2 -->|No| SS_EMPTY["SSSI_id = hozdvW (parsed as integer)<br />coordinates = ''<br />ornec = ''"]
         end
 
         subgraph SSSI_MULTI["Multiple SSSI Path"]
             SM_Q{"Repeater cwZgSE (Activity)<br />has entries?"}
-            SM_Q -->|Yes| SM_ORNEC["For each unique SSSI<br />(rWrBOK = SSSI name):<br />SSSI_id = 0<br />coordinates = gjWdrc values<br />(Where on the SSSI?<br />easting,northing joined with ';')<br />ornec = BscJLV values<br />(Which activity? comma-joined)<br />Grouped by SSSI name"]
-            SM_Q -->|No| SM_Q2{"Repeater gWZwzI (SSSI name)<br />has entries?"}
-            SM_Q2 -->|Yes| SM_SCHEME["For each entry with gVlMxz<br />(SSSI name):<br />SSSI_id = 0<br />coordinates = ''<br />ornec = ''"]
+            SM_Q -->|Yes| SM_ORNEC["For each unique SSSI<br />(rWrBOK = SSSI ID):<br />SSSI_id = rWrBOK (parsed as integer)<br />coordinates = gjWdrc values<br />(Where on the SSSI?<br />easting,northing joined with ';')<br />ornec = BscJLV values<br />(Which activity? comma-joined)<br />Grouped by SSSI ID"]
+            SM_Q -->|No| SM_Q2{"Repeater gWZwzI (SSSI ID)<br />has entries?"}
+            SM_Q2 -->|Yes| SM_SCHEME["For each entry with gVlMxz:<br />SSSI_id = gVlMxz (parsed as integer)<br />coordinates = ''<br />ornec = ''"]
             SM_Q2 -->|No| SM_EMPTY["[] (empty array)"]
         end
     end

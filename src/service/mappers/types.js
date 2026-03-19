@@ -1,6 +1,6 @@
 /**
  * @typedef {object} SSSIInfo
- * @property {string} SSSI_id - The name of the SSSI
+ * @property {number} SSSI_id - The numeric ID of the SSSI
  * @property {string} coordinates - Format "<easting>,<northing>" or "<e1>,<n1>;<e2>,<n2>"
  */
 
@@ -12,7 +12,7 @@
 
 /**
  * @typedef {object} ConsentSSSIInfo
- * @property {string} SSSI_id - The name of the SSSI
+ * @property {number} SSSI_id - The numeric ID of the SSSI
  * @property {string} coordinates - Format "<easting>,<northing>" or "<e1>,<n1>;<e2>,<n2>"
  * @property {string} ornec - The ORNEC activity name for this SSSI
  */

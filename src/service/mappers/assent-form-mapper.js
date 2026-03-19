@@ -3,7 +3,7 @@
  * @typedef {import('./types.js').AssentFormOutput} AssentFormOutput
  */
 
-import { formatCoordinates, joinCoordinates } from './helpers.js'
+import { formatCoordinates, joinCoordinates, parseSssiId } from './helpers.js'
 
 /**
  * Mapping from the rTreXu scheme selection to detailed_work_type values.
@@ -266,8 +266,8 @@ function mapSssiInfo(main, repeaters) {
   if (!isMultipleSssi) {
     // Single SSSI path
     // gVlMxz = "What is the name of the SSSI where you plan to carry out activities?"
-    const sssiName = /** @type {string | undefined} */ (main.gVlMxz)
-    if (sssiName) {
+    const sssiId = /** @type {string | undefined} */ (main.gVlMxz)
+    if (sssiId) {
       // Coordinates from repeater gzSkgC ("Activities requiring Natural England's assent")
       //   uqfCOY = "Where do you plan to carry out this activity?"
       const activities = repeaters.gzSkgC ?? []
@@ -280,7 +280,7 @@ function mapSssiInfo(main, repeaters) {
         )
 
       sssiInfo.push({
-        SSSI_id: /** @type {string} */ (sssiName),
+        SSSI_id: parseSssiId(sssiId),
         coordinates:
           coordStrings.length > 0 ? joinCoordinates(coordStrings) : ''
       })
@@ -294,7 +294,7 @@ function mapSssiInfo(main, repeaters) {
     for (const entry of schemeRepeater) {
       if (entry.flbYHq) {
         sssiInfo.push({
-          SSSI_id: /** @type {string} */ (entry.flbYHq),
+          SSSI_id: parseSssiId(entry.flbYHq),
           coordinates: ''
         })
       }
@@ -306,18 +306,18 @@ function mapSssiInfo(main, repeaters) {
     if (sssiInfo.length === 0) {
       const ornecRepeater = repeaters.QxIzSB ?? []
 
-      // Group by SSSI name to stitch coordinates
+      // Group by SSSI ID to stitch coordinates
       /** @type {Map<string, string[]>} */
       const sssiCoords = new Map()
       for (const entry of ornecRepeater) {
-        const sssiName = /** @type {string | undefined} */ (entry.wRGnMW)
-        if (sssiName) {
-          if (!sssiCoords.has(sssiName)) {
-            sssiCoords.set(sssiName, [])
+        const sssiId = /** @type {string | undefined} */ (entry.wRGnMW)
+        if (sssiId) {
+          if (!sssiCoords.has(sssiId)) {
+            sssiCoords.set(sssiId, [])
           }
           if (entry.KnBNzJ) {
             sssiCoords
-              .get(sssiName)
+              .get(sssiId)
               ?.push(
                 formatCoordinates(
                   /** @type {{ easting: number, northing: number }} */ (
@@ -329,9 +329,9 @@ function mapSssiInfo(main, repeaters) {
         }
       }
 
-      for (const [name, coords] of sssiCoords) {
+      for (const [id, coords] of sssiCoords) {
         sssiInfo.push({
-          SSSI_id: name,
+          SSSI_id: parseSssiId(id),
           coordinates: coords.length > 0 ? joinCoordinates(coords) : ''
         })
       }

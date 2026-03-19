@@ -136,15 +136,15 @@ flowchart TD
         subgraph SSSI_SINGLE["Single SSSI Path"]
             SS_1["gVlMxz<br />What is the name of the SSSI<br />where you plan to carry<br />out activities?"]
             SS_Q{"Repeater gzSkgC (Activity)<br />has uqfCOY coords?<br />(Where do you plan to<br />carry out this activity?)"}
-            SS_Q -->|Yes| SS_COORDS["SSSI_id = 0<br />coordinates = uqfCOY values<br />(easting,northing<br />joined with ';')"]
-            SS_Q -->|No| SS_EMPTY["SSSI_id = 0<br />coordinates = ''"]
+            SS_Q -->|Yes| SS_COORDS["SSSI_id = gVlMxz (parsed as integer)<br />coordinates = uqfCOY values<br />(easting,northing<br />joined with ';')"]
+            SS_Q -->|No| SS_EMPTY["SSSI_id = gVlMxz (parsed as integer)<br />coordinates = ''"]
         end
 
         subgraph SSSI_MULTI["Multiple SSSI Path"]
             SM_Q{"Repeater hhGvmX (SSSI name)<br />has entries?<br />(scheme path)"}
-            SM_Q -->|Yes| SM_SCHEME["For each entry:<br />flbYHq = SSSI name<br />SSSI_id = 0<br />coordinates = ''"]
+            SM_Q -->|Yes| SM_SCHEME["For each entry:<br />SSSI_id = flbYHq (parsed as integer)<br />coordinates = ''"]
             SM_Q -->|No| SM_Q2{"Repeater QxIzSB (Activity)<br />has entries?<br />(ORNEC path)"}
-            SM_Q2 -->|Yes| SM_ORNEC["For each unique SSSI:<br />wRGnMW = SSSI name<br />SSSI_id = 0<br />coordinates = KnBNzJ values<br />(Where on the SSSI?<br />easting,northing<br />grouped by SSSI, joined with ';')"]
+            SM_Q2 -->|Yes| SM_ORNEC["For each unique SSSI:<br />SSSI_id = wRGnMW (parsed as integer)<br />coordinates = KnBNzJ values<br />(Where on the SSSI?<br />easting,northing<br />grouped by SSSI, joined with ';')"]
             SM_Q2 -->|No| SM_EMPTY["[] (empty array)"]
         end
     end

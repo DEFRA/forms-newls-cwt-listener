@@ -15,3 +15,20 @@ export function formatCoordinates(coords) {
 export function joinCoordinates(coordStrings) {
   return coordStrings.join(';')
 }
+
+/**
+ * Parses an SSSI ID value from a form submission string into a number.
+ * @param {unknown} value - The raw value from the form submission
+ * @returns {number} The parsed integer SSSI ID
+ * @throws {Error} If the value is non-empty but cannot be parsed into an integer
+ */
+export function parseSssiId(value) {
+  const stringValue = String(value)
+  const parsed = parseInt(stringValue, 10)
+  if (isNaN(parsed)) {
+    throw new Error(
+      `SSSI_id value "${stringValue}" cannot be parsed into an integer`
+    )
+  }
+  return parsed
+}

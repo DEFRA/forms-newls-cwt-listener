@@ -121,13 +121,13 @@ Array of `{ SSSI_id, coordinates, ornec }` objects. The path is determined by lm
 
 ### Single SSSI path (lmqMaY = false or not set)
 
-SSSI name from hozdvW ("What is the name of the SSSI where you plan to carry out activities?") in main.
+SSSI ID from hozdvW ("What is the name of the SSSI where you plan to carry out activities?") in main. All SSSI_id values are parsed as integers from the string form field value. An error is thrown if a non-empty value cannot be parsed.
 
 #### Non-scheme path (repeater iTBHrY present)
 
 | Field         | Source                                                                                                                         | Description                                                               |
 | ------------- | ------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------- |
-| `SSSI_id`     | hozdvW ("What is the name of the SSSI where you plan to carry out activities?")                                                | SSSI name                                                                 |
+| `SSSI_id`     | hozdvW ("What is the name of the SSSI where you plan to carry out activities?")                                                | Parsed as integer from string value                                       |
 | `coordinates` | QKdhfh ("Where do you plan to carry out this activity?") from repeater iTBHrY ("Operations requiring Natural England consent") | Formatted as `"<easting>,<northing>"`, multiple entries joined with `";"` |
 | `ornec`       | hqsZMS ("Which activity do you plan to carry out?") from repeater iTBHrY                                                       | Activity names comma-joined                                               |
 
@@ -135,17 +135,17 @@ SSSI name from hozdvW ("What is the name of the SSSI where you plan to carry out
 
 | Field         | Source                                                                          | Description                           |
 | ------------- | ------------------------------------------------------------------------------- | ------------------------------------- |
-| `SSSI_id`     | hozdvW ("What is the name of the SSSI where you plan to carry out activities?") | SSSI name                             |
+| `SSSI_id`     | hozdvW ("What is the name of the SSSI where you plan to carry out activities?") | Parsed as integer from string value   |
 | `coordinates` | JPohUD ("Where are the activities taking place?") from main                     | Formatted as `"<easting>,<northing>"` |
 | `ornec`       | -                                                                               | Empty string                          |
 
 #### Fallback (no repeater, no JPohUD)
 
-| Field         | Source                                                                          | Description  |
-| ------------- | ------------------------------------------------------------------------------- | ------------ |
-| `SSSI_id`     | hozdvW ("What is the name of the SSSI where you plan to carry out activities?") | SSSI name    |
-| `coordinates` | -                                                                               | Empty string |
-| `ornec`       | -                                                                               | Empty string |
+| Field         | Source                                                                          | Description                         |
+| ------------- | ------------------------------------------------------------------------------- | ----------------------------------- |
+| `SSSI_id`     | hozdvW ("What is the name of the SSSI where you plan to carry out activities?") | Parsed as integer from string value |
+| `coordinates` | -                                                                               | Empty string                        |
+| `ornec`       | -                                                                               | Empty string                        |
 
 ### Multiple SSSI path (lmqMaY = true)
 
@@ -153,7 +153,7 @@ SSSI name from hozdvW ("What is the name of the SSSI where you plan to carry out
 
 | Field         | Source                                                                                                                                                                 | Description                                                                             |
 | ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
-| `SSSI_id`     | rWrBOK ("What is the name of the SSSI where you plan to carry out this activity?") from repeater cwZgSE ("Site name and operations requiring Natural England consent") | SSSI name (grouped by unique name)                                                      |
+| `SSSI_id`     | rWrBOK ("What is the name of the SSSI where you plan to carry out this activity?") from repeater cwZgSE ("Site name and operations requiring Natural England consent") | Parsed as integer from string value (grouped by unique value)                           |
 | `coordinates` | gjWdrc ("Where on the SSSI do you plan to carry out this activity?") from repeater cwZgSE                                                                              | Formatted as `"<easting>,<northing>"`, multiple entries for same SSSI joined with `";"` |
 | `ornec`       | BscJLV ("Which activity do you plan to carry out?") from repeater cwZgSE                                                                                               | Activity names comma-joined per SSSI                                                    |
 
@@ -161,7 +161,7 @@ SSSI name from hozdvW ("What is the name of the SSSI where you plan to carry out
 
 | Field         | Source                                                                                                                                      | Description                                                                   |
 | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
-| `SSSI_id`     | gVlMxz ("What is the name of the SSSI where activities are planned?") from repeater gWZwzI ("Sites where you plan to carry out activities") | SSSI name                                                                     |
+| `SSSI_id`     | gVlMxz ("What is the name of the SSSI where activities are planned?") from repeater gWZwzI ("Sites where you plan to carry out activities") | Parsed as integer from string value                                           |
 | `coordinates` | JPohUD ("Where are the activities taking place?") from main                                                                                 | Formatted as `"<easting>,<northing>"`, shared across all SSSIs on scheme path |
 | `ornec`       | -                                                                                                                                           | Empty string                                                                  |
 

@@ -312,7 +312,7 @@ describe('advice-form-mapper', () => {
           {
             someRepeater: [
               {
-                Avdzxa: 'Test SSSI',
+                Avdzxa: '1001001',
                 NMCFES: { easting: 400000, northing: 300000 }
               }
             ]
@@ -320,7 +320,7 @@ describe('advice-form-mapper', () => {
         )
       )
       expect(result.SSSI_info).toEqual([
-        { SSSI_id: 'Test SSSI', coordinates: '400000,300000' }
+        { SSSI_id: 1001001, coordinates: '400000,300000' }
       ])
     })
 
@@ -330,12 +330,12 @@ describe('advice-form-mapper', () => {
           teEzOl: 'Landowner',
           xzEslQ:
             'I would like to report potentially damaging activity on or near a protected site',
-          MoCXGK: 'Damaged SSSI',
+          MoCXGK: '2005001',
           rSJTFC: { easting: 500000, northing: 400000 }
         })
       )
       expect(result.SSSI_info).toEqual([
-        { SSSI_id: 'Damaged SSSI', coordinates: '500000,400000' }
+        { SSSI_id: 2005001, coordinates: '500000,400000' }
       ])
     })
   })
