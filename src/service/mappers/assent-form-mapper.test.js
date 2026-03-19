@@ -353,7 +353,7 @@ describe('assent-form-mapper', () => {
         )
       )
       expect(result.euro_site_info).toEqual([
-        { european_site_id: 'Test Euro Site', european_site_coordinates: '' }
+        { european_site_id: 'Test Euro Site' }
       ])
     })
 

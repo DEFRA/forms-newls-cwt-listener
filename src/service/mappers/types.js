@@ -5,6 +5,11 @@
  */
 
 /**
+ * @typedef {object} EuroSiteInfoId
+ * @property {number} european_site_id - The numeric ID of the European site
+ */
+
+/**
  * @typedef {object} EuroSiteInfo
  * @property {number} european_site_id - The numeric ID of the European site
  * @property {string} european_site_coordinates - Format "<easting>,<northing>"
@@ -54,7 +59,7 @@
  * @property {string} [public_body]
  * @property {'Yes' | 'No'} is_there_a_european_site
  * @property {SSSIInfo[]} SSSI_info
- * @property {EuroSiteInfo[]} euro_site_info
+ * @property {EuroSiteInfoId[]} euro_site_info
  */
 
 /**

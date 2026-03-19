@@ -344,10 +344,10 @@ function mapSssiInfo(main, repeaters) {
 /**
  * Builds euro_site_info array from repeater data.
  * @param {Record<string, Array<Record<string, unknown>>>} repeaters
- * @returns {import('./types.js').EuroSiteInfo[]}
+ * @returns {import('./types.js').EuroSiteInfoId[]}
  */
 function mapEuroSiteInfo(repeaters) {
-  /** @type {import('./types.js').EuroSiteInfo[]} */
+  /** @type {import('./types.js').EuroSiteInfoId[]} */
   const euroSiteInfo = []
 
   // aQYWxD = Repeater: "European site affected"
@@ -356,8 +356,7 @@ function mapEuroSiteInfo(repeaters) {
     // IzQfir = "What is the name of the European site?"
     if (entry.IzQfir) {
       euroSiteInfo.push({
-        european_site_id: /** @type {number} */ (entry.IzQfir),
-        european_site_coordinates: ''
+        european_site_id: /** @type {number} */ (entry.IzQfir)
       })
     }
   }
