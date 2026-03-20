@@ -237,6 +237,11 @@ function mapConsultingBody(main) {
   // OYxtmu = "Which public body are you representing?"
   const publicBodyRepresenting = /** @type {string | undefined} */ (main.OYxtmu)
 
+  // Consultant or Other - use their own organisation name
+  if (applicantCategory === 'Consultant' || applicantCategory === 'Other') {
+    return mapOrganisationName(main)
+  }
+
   // Determine the effective body type - either direct from teEzOl or via PBmxNM
   const effectiveType = workingOnBehalfOf ?? applicantCategory
 
@@ -281,67 +286,6 @@ function mapConsultingBody(main) {
     return effectiveType
   }
 
-  // Consultant or Other - follow PBmxNM chain
-  if (
-    (applicantCategory === 'Consultant' || applicantCategory === 'Other') &&
-    workingOnBehalfOf
-  ) {
-    return mapConsultingBodyFromWorkingOnBehalfOf(main)
-  }
-
-  return ''
-}
-
-/**
- * Resolves consulting_body when a PBmxNM value is present (Consultant/Other working on behalf).
- * @param {Record<string, unknown>} main
- * @returns {string}
- */
-function mapConsultingBodyFromWorkingOnBehalfOf(main) {
-  // PBmxNM = "Who are you working on behalf of?"
-  const workingOnBehalfOf = /** @type {string} */ (main.PBmxNM)
-  // PvUZyQ = "Which government agency do you work for?"
-  const governmentAgency = /** @type {string | undefined} */ (main.PvUZyQ)
-  // hOsLRu = "Tell us which government agency you work for"
-  const otherGovernmentAgency = /** @type {string | undefined} */ (main.hOsLRu)
-  // YouDQP = "Which local authority do you work for?"
-  const localAuthority = /** @type {string | undefined} */ (main.YouDQP)
-  // HiTHQX = "Which public body do you work for?"
-  const publicBody = /** @type {string | undefined} */ (main.HiTHQX)
-  // OYxtmu = "Which public body are you representing?"
-  const publicBodyRepresenting = /** @type {string | undefined} */ (main.OYxtmu)
-
-  if (workingOnBehalfOf === 'Government agency') {
-    if (governmentAgency === 'Forestry Commission') {
-      return 'Forestry Commission'
-    }
-    if (governmentAgency === 'Environment Agency') {
-      return 'Environment Agency'
-    }
-    if (governmentAgency === 'Other government agency') {
-      return otherGovernmentAgency ?? ''
-    }
-  }
-
-  if (workingOnBehalfOf === 'Local Planning Authority') {
-    return localAuthority ?? ''
-  }
-
-  if (workingOnBehalfOf === 'Public body or organisation') {
-    if (publicBody === 'Other') {
-      return publicBodyRepresenting ?? ''
-    }
-    return publicBody ?? ''
-  }
-
-  if (
-    workingOnBehalfOf === 'Landowner' ||
-    workingOnBehalfOf === 'Land occupier' ||
-    workingOnBehalfOf === 'None of the above'
-  ) {
-    return workingOnBehalfOf
-  }
-
   return ''
 }
 
@@ -356,6 +300,26 @@ function mapPublicBodyType(workingOnBehalfOf, applicantCategory) {
     return 'Government Agency'
   }
   return workingOnBehalfOf ?? applicantCategory ?? ''
+}
+
+/**
+ * Maps the organisation_name from the Consultant/Other organisation fields.
+ * jYwTmN = "What is the name of your organisation?" (autocomplete from list)
+ * jcctvG = "Other organisation name" (free text, shown when jYwTmN = "Other")
+ * @param {Record<string, unknown>} main
+ * @returns {string}
+ */
+function mapOrganisationName(main) {
+  // jYwTmN = "What is the name of your organisation?"
+  const organisationName = /** @type {string | undefined} */ (main.jYwTmN)
+  // jcctvG = "Other organisation name"
+  const otherOrganisationName = /** @type {string | undefined} */ (main.jcctvG)
+
+  if (organisationName === 'Other') {
+    return otherOrganisationName ?? ''
+  }
+
+  return organisationName ?? ''
 }
 
 /**

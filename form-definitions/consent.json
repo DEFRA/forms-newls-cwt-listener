@@ -121,6 +121,23 @@
       "condition": "4d479feb-ad55-41ce-ba49-f89bd37a9ccb"
     },
     {
+      "title": "You must obtain permission from the land owner or occupier before you can give notice for consent",
+      "controller": "TerminalPageController",
+      "path": "/you-must-obtain-permission-from-the-land-owner-or-occupier-before-you-can-give-notice-for-consent",
+      "components": [
+        {
+          "id": "4e8ab72c-943e-4792-b4a0-88d8bdab0d37",
+          "type": "Markdown",
+          "content": "You must obtain land owner or occupier permission and request their details to continue to submit a notice of proposal to carry out a planned activity on a SSSI.\r\n\r\nNatural England is unable to provide details of SSSI land owners and occupiers.",
+          "options": {},
+          "schema": {}
+        }
+      ],
+      "next": [],
+      "id": "70d3d304-1787-4055-80bf-2af1889a9102",
+      "condition": "eff2466f-965f-4b99-abd8-562abf06fb3a"
+    },
+    {
       "controller": "FileUploadPageController",
       "title": "Proof of permission",
       "path": "/proof-of-permission",
@@ -152,23 +169,6 @@
       "next": [],
       "id": "775aa2f5-9260-4921-a885-cfb50bc1a03e",
       "condition": "98c0d643-15ee-4812-9c4a-df7954d3d693"
-    },
-    {
-      "title": "You must obtain permission from the land owner or occupier before you can give notice for consent",
-      "controller": "TerminalPageController",
-      "path": "/you-must-obtain-permission-from-the-land-owner-or-occupier-before-you-can-give-notice-for-consent",
-      "components": [
-        {
-          "id": "4e8ab72c-943e-4792-b4a0-88d8bdab0d37",
-          "type": "Markdown",
-          "content": "You must obtain land owner or occupier permission and request their details to continue to submit a notice of proposal to carry out a planned activity on a SSSI.\r\n\r\nNatural England is unable to provide details of SSSI land owners and occupiers.",
-          "options": {},
-          "schema": {}
-        }
-      ],
-      "next": [],
-      "id": "70d3d304-1787-4055-80bf-2af1889a9102",
-      "condition": "eff2466f-965f-4b99-abd8-562abf06fb3a"
     },
     {
       "title": "Land owner or occupier details",
@@ -105871,5 +105871,9 @@
       ],
       "id": "91b056c7-4cab-4bc4-8beb-ac3750fd22e6"
     }
-  ]
+  ],
+  "options": {
+    "showReferenceNumber": true,
+    "disableUserFeedback": false
+  }
 }

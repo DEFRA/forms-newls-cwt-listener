@@ -106,19 +106,21 @@ Direct mapping from the applicant category (teEzOl ("Representation category")).
 
 Resolved from multiple conditional fields. The "effective type" is either PBmxNM ("Working on behalf of", when working on behalf) or teEzOl ("Representation category", direct).
 
-| Effective type                                                     | Condition                                              | Source field                       | Output value                               |
-| ------------------------------------------------------------------ | ------------------------------------------------------ | ---------------------------------- | ------------------------------------------ |
-| Government Agency / Government agency                              | PvUZyQ ("Government agency") = Forestry Commission     | PvUZyQ ("Government agency")       | `Forestry Commission`                      |
-| Government Agency / Government agency                              | PvUZyQ ("Government agency") = Environment Agency      | PvUZyQ ("Government agency")       | `Environment Agency`                       |
-| Government Agency / Government agency                              | PvUZyQ ("Government agency") = Other government agency | hOsLRu ("Which government agency") | Free text value                            |
-| Local Planning Authority / Regional body                           | -                                                      | YouDQP ("Local authority")         | Selected local authority name              |
-| Harbour authority / Utility provider / Public body or organisation | HiTHQX ("Public body") != Other                        | HiTHQX ("Public body")             | Selected public body name                  |
-| Harbour authority / Utility provider / Public body or organisation | HiTHQX ("Public body") = Other                         | OYxtmu ("Public body name")        | Free text value                            |
-| Landowner                                                          | -                                                      | -                                  | `Landowner`                                |
-| Land occupier                                                      | -                                                      | -                                  | `Land occupier`                            |
-| None of the above                                                  | -                                                      | -                                  | `None of the above`                        |
-| Consultant (with PBmxNM ("Working on behalf of"))                  | -                                                      | (recurse via PBmxNM)               | Resolved from "working on behalf of" chain |
-| Other (with PBmxNM ("Working on behalf of"))                       | -                                                      | (recurse via PBmxNM)               | Resolved from "working on behalf of" chain |
+| Effective type                                                     | Condition                                              | Source field                       | Output value                  |
+| ------------------------------------------------------------------ | ------------------------------------------------------ | ---------------------------------- | ----------------------------- |
+| Government Agency / Government agency                              | PvUZyQ ("Government agency") = Forestry Commission     | PvUZyQ ("Government agency")       | `Forestry Commission`         |
+| Government Agency / Government agency                              | PvUZyQ ("Government agency") = Environment Agency      | PvUZyQ ("Government agency")       | `Environment Agency`          |
+| Government Agency / Government agency                              | PvUZyQ ("Government agency") = Other government agency | hOsLRu ("Which government agency") | Free text value               |
+| Local Planning Authority / Regional body                           | -                                                      | YouDQP ("Local authority")         | Selected local authority name |
+| Harbour authority / Utility provider / Public body or organisation | HiTHQX ("Public body") != Other                        | HiTHQX ("Public body")             | Selected public body name     |
+| Harbour authority / Utility provider / Public body or organisation | HiTHQX ("Public body") = Other                         | OYxtmu ("Public body name")        | Free text value               |
+| Landowner                                                          | -                                                      | -                                  | `Landowner`                   |
+| Land occupier                                                      | -                                                      | -                                  | `Land occupier`               |
+| None of the above                                                  | -                                                      | -                                  | `None of the above`           |
+| Consultant                                                         | jYwTmN ("Organisation name") != Other                  | jYwTmN ("Organisation name")       | Selected organisation name    |
+| Consultant                                                         | jYwTmN ("Organisation name") = Other                   | jcctvG ("Other organisation name") | Free text organisation name   |
+| Other                                                              | jYwTmN ("Organisation name") != Other                  | jYwTmN ("Organisation name")       | Selected organisation name    |
+| Other                                                              | jYwTmN ("Organisation name") = Other                   | jcctvG ("Other organisation name") | Free text organisation name   |
 
 ## is_contractor_working_for_public_body
 

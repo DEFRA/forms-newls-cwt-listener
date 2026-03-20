@@ -209,16 +209,42 @@ describe('advice-form-mapper', () => {
       expect(result.consulting_body).toBe('Surrey County Council')
     })
 
-    it('should follow PBmxNM chain for Consultant', () => {
+    it('should return organisation name from jYwTmN for Consultant', () => {
       const result = mapFormSubmission(
         buildMessage({
           teEzOl: 'Consultant',
           PBmxNM: 'Local Planning Authority',
           YouDQP: 'Bristol City Council',
+          jYwTmN: 'Environment Agency - EA',
           xzEslQ: 'Something else'
         })
       )
-      expect(result.consulting_body).toBe('Bristol City Council')
+      expect(result.consulting_body).toBe('Environment Agency - EA')
+    })
+
+    it('should return free text organisation for Consultant when jYwTmN is "Other"', () => {
+      const result = mapFormSubmission(
+        buildMessage({
+          teEzOl: 'Consultant',
+          PBmxNM: 'Landowner',
+          jYwTmN: 'Other',
+          jcctvG: 'My Custom Organisation',
+          xzEslQ: 'Something else'
+        })
+      )
+      expect(result.consulting_body).toBe('My Custom Organisation')
+    })
+
+    it('should return organisation name from jYwTmN for Other category', () => {
+      const result = mapFormSubmission(
+        buildMessage({
+          teEzOl: 'Other',
+          PBmxNM: 'Landowner',
+          jYwTmN: 'Forestry Commission',
+          xzEslQ: 'Something else'
+        })
+      )
+      expect(result.consulting_body).toBe('Forestry Commission')
     })
   })
 
