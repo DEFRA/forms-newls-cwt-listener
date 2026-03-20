@@ -94,8 +94,8 @@ describe('assent-form-mapper', () => {
           {},
           {
             QxIzSB: [
-              { iNDqRN: 'Tree removal', wRGnMW: '1001001' },
-              { iNDqRN: 'Drainage', wRGnMW: '1001002' }
+              { iNDqRN: 'Tree removal', wRGnMW: '1001001---Test SSSI A' },
+              { iNDqRN: 'Drainage', wRGnMW: '1001002---Test SSSI B' }
             ]
           }
         )
@@ -116,12 +116,15 @@ describe('assent-form-mapper', () => {
             ASataH: true
           },
           {
-            hhGvmX: [{ flbYHq: '2006159' }, { flbYHq: '1001610' }]
+            hhGvmX: [
+              { flbYHq: '2006159---SSSI One' },
+              { flbYHq: '1001610---SSSI Two' }
+            ]
           }
         )
       )
       expect(result.description).toBe(
-        'A Higher Level Stewardship (HLS) agreement, 2006159, 1001610'
+        'A Higher Level Stewardship (HLS) agreement, 2006159---SSSI One, 1001610---SSSI Two'
       )
     })
 
@@ -140,11 +143,11 @@ describe('assent-form-mapper', () => {
       const result = mapFormSubmission(
         buildMessage({
           rTreXu: 'A Sustainable Farming Incentive (SFI) agreement',
-          gVlMxz: '1001001'
+          gVlMxz: '1001001---Test SSSI'
         })
       )
       expect(result.description).toBe(
-        'A Sustainable Farming Incentive (SFI) agreement, 1001001'
+        'A Sustainable Farming Incentive (SFI) agreement, 1001001---Test SSSI'
       )
     })
   })
@@ -290,7 +293,7 @@ describe('assent-form-mapper', () => {
     it('should build single SSSI info with coordinates from repeater', () => {
       const result = mapFormSubmission(
         buildMessage(
-          { ASataH: false, gVlMxz: '1001001' },
+          { ASataH: false, gVlMxz: '1001001---Test SSSI' },
           {
             gzSkgC: [
               {
@@ -318,17 +321,17 @@ describe('assent-form-mapper', () => {
             QxIzSB: [
               {
                 iNDqRN: 'Grazing',
-                wRGnMW: '1001001',
+                wRGnMW: '1001001---Test SSSI A',
                 KnBNzJ: { easting: 100, northing: 200 }
               },
               {
                 iNDqRN: 'Fencing',
-                wRGnMW: '1001001',
+                wRGnMW: '1001001---Test SSSI A',
                 KnBNzJ: { easting: 300, northing: 400 }
               },
               {
                 iNDqRN: 'Drainage',
-                wRGnMW: '1001002',
+                wRGnMW: '1001002---Test SSSI B',
                 KnBNzJ: { easting: 500, northing: 600 }
               }
             ]
@@ -348,13 +351,11 @@ describe('assent-form-mapper', () => {
         buildMessage(
           {},
           {
-            aQYWxD: [{ IzQfir: 'Test Euro Site' }]
+            aQYWxD: [{ IzQfir: 'UK11004---Test Euro Site' }]
           }
         )
       )
-      expect(result.euro_site_info).toEqual([
-        { european_site_id: 'Test Euro Site' }
-      ])
+      expect(result.euro_site_info).toEqual([{ european_site_id: 'UK11004' }])
     })
 
     it('should return empty array when no euro sites', () => {

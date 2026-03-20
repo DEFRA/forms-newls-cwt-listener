@@ -1,4 +1,9 @@
-import { formatCoordinates, joinCoordinates, parseSssiId } from './helpers.js'
+import {
+  formatCoordinates,
+  joinCoordinates,
+  parseEuroSiteId,
+  parseSssiId
+} from './helpers.js'
 
 describe('helpers', () => {
   describe('formatCoordinates', () => {
@@ -32,6 +37,10 @@ describe('helpers', () => {
       expect(parseSssiId('1001234')).toBe(1001234)
     })
 
+    it('should parse a combined SSSI_ID---Name value into an integer', () => {
+      expect(parseSssiId('1005725---Popehouse Moor SSSI')).toBe(1005725)
+    })
+
     it('should parse a number value', () => {
       expect(parseSssiId(42)).toBe(42)
     })
@@ -45,6 +54,30 @@ describe('helpers', () => {
     it('should throw an error for an empty string', () => {
       expect(() => parseSssiId('')).toThrow(
         'SSSI_id value "" cannot be parsed into an integer'
+      )
+    })
+  })
+
+  describe('parseEuroSiteId', () => {
+    it('should extract the Euro Site ID from a combined value', () => {
+      expect(parseEuroSiteId('UK11004---Arun Valley Ramsar')).toBe('UK11004')
+    })
+
+    it('should handle IDs with different formats', () => {
+      expect(parseEuroSiteId('UK11001---Abberton Reservoir Ramsar')).toBe(
+        'UK11001'
+      )
+    })
+
+    it('should throw an error when separator is missing', () => {
+      expect(() => parseEuroSiteId('Test Euro Site')).toThrow(
+        'european_site_id value "Test Euro Site" does not contain the expected "---" separator'
+      )
+    })
+
+    it('should throw an error for an empty string', () => {
+      expect(() => parseEuroSiteId('')).toThrow(
+        'european_site_id value "" does not contain the expected "---" separator'
       )
     })
   })

@@ -6,12 +6,12 @@
 
 /**
  * @typedef {object} EuroSiteInfoId
- * @property {number} european_site_id - The numeric ID of the European site
+ * @property {string} european_site_id - The European Site ID (e.g. "UK11004")
  */
 
 /**
  * @typedef {object} EuroSiteInfo
- * @property {number} european_site_id - The numeric ID of the European site
+ * @property {string} european_site_id - The European Site ID (e.g. "UK11004")
  * @property {string} european_site_coordinates - Format "<easting>,<northing>"
  */
 

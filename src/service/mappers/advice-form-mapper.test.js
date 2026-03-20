@@ -300,7 +300,7 @@ describe('advice-form-mapper', () => {
           {
             TJuSNf: [
               {
-                rtuWky: 'Arun Valley Ramsar',
+                rtuWky: 'UK11004---Arun Valley Ramsar',
                 xeJYcG: { easting: 100000, northing: 200000 }
               }
             ]
@@ -308,7 +308,7 @@ describe('advice-form-mapper', () => {
         )
       )
       expect(result.description).toBe(
-        'Advice on screening stage - Arun Valley Ramsar'
+        'Advice on screening stage - UK11004---Arun Valley Ramsar'
       )
     })
 
@@ -338,7 +338,7 @@ describe('advice-form-mapper', () => {
           {
             someRepeater: [
               {
-                Avdzxa: '1001001',
+                Avdzxa: '1001001---Test SSSI',
                 NMCFES: { easting: 400000, northing: 300000 }
               }
             ]
@@ -356,7 +356,7 @@ describe('advice-form-mapper', () => {
           teEzOl: 'Landowner',
           xzEslQ:
             'I would like to report potentially damaging activity on or near a protected site',
-          MoCXGK: '2005001',
+          MoCXGK: '2005001---Damage Reporting SSSI',
           rSJTFC: { easting: 500000, northing: 400000 }
         })
       )
@@ -378,7 +378,7 @@ describe('advice-form-mapper', () => {
           {
             TJuSNf: [
               {
-                rtuWky: 'Test Euro Site',
+                rtuWky: 'UK11001---Test Euro Site',
                 xeJYcG: { easting: 100000, northing: 200000 }
               }
             ]
@@ -387,7 +387,7 @@ describe('advice-form-mapper', () => {
       )
       expect(result.euro_site_info).toEqual([
         {
-          european_site_id: 'Test Euro Site',
+          european_site_id: 'UK11001',
           european_site_coordinates: '100000,200000'
         }
       ])

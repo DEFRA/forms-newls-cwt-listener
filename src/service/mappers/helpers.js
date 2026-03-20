@@ -32,3 +32,21 @@ export function parseSssiId(value) {
   }
   return parsed
 }
+
+/**
+ * Parses a European Site ID value from a form submission string.
+ * Expects format "Euro_site_id---Euro Site Name" (e.g. "UK11004---Arun Valley Ramsar").
+ * @param {unknown} value - The raw value from the form submission
+ * @returns {string} The European Site ID (e.g. "UK11004")
+ * @throws {Error} If the value is empty or does not contain the expected separator
+ */
+export function parseEuroSiteId(value) {
+  const stringValue = String(value)
+  const separatorIndex = stringValue.indexOf('---')
+  if (separatorIndex === -1) {
+    throw new Error(
+      `european_site_id value "${stringValue}" does not contain the expected "---" separator`
+    )
+  }
+  return stringValue.substring(0, separatorIndex)
+}

@@ -3,7 +3,7 @@
  * @typedef {import('./types.js').AdviceFormOutput} AdviceFormOutput
  */
 
-import { formatCoordinates, parseSssiId } from './helpers.js'
+import { formatCoordinates, parseEuroSiteId, parseSssiId } from './helpers.js'
 
 /**
  * Mapping from the xzEslQ general topic field to detailed_work_type values.
@@ -414,7 +414,7 @@ function mapEuroSiteInfo(repeaters) {
     // rtuWky = "What is the name of the European site?"
     if (entry.rtuWky) {
       euroSiteInfo.push({
-        european_site_id: /** @type {number} */ (entry.rtuWky),
+        european_site_id: parseEuroSiteId(entry.rtuWky),
         // xeJYcG = "Where are the activities taking place?" (European site coordinates)
         european_site_coordinates: entry.xeJYcG
           ? formatCoordinates(

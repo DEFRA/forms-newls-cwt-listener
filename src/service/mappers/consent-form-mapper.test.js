@@ -68,7 +68,7 @@ describe('consent-form-mapper', () => {
     it('should build description from single SSSI with ORNEC activities', () => {
       const result = mapFormSubmission(
         buildMessage(
-          { hozdvW: '1001001' },
+          { hozdvW: '1001001---Test SSSI' },
           {
             iTBHrY: [
               { hqsZMS: 'Grazing', QKdhfh: { easting: 100, northing: 200 } },
@@ -77,12 +77,14 @@ describe('consent-form-mapper', () => {
           }
         )
       )
-      expect(result.description).toBe('1001001 - Grazing, Fencing')
+      expect(result.description).toBe('1001001---Test SSSI - Grazing, Fencing')
     })
 
     it('should build description from single SSSI without activities', () => {
-      const result = mapFormSubmission(buildMessage({ hozdvW: '1001001' }))
-      expect(result.description).toBe('1001001')
+      const result = mapFormSubmission(
+        buildMessage({ hozdvW: '1001001---Test SSSI' })
+      )
+      expect(result.description).toBe('1001001---Test SSSI')
     })
 
     it('should build description from multi SSSI with activities', () => {
@@ -91,15 +93,15 @@ describe('consent-form-mapper', () => {
           {},
           {
             cwZgSE: [
-              { rWrBOK: '1001001', BscJLV: 'Grazing' },
-              { rWrBOK: '1001001', BscJLV: 'Fencing' },
-              { rWrBOK: '1001002', BscJLV: 'Drainage' }
+              { rWrBOK: '1001001---Test SSSI A', BscJLV: 'Grazing' },
+              { rWrBOK: '1001001---Test SSSI A', BscJLV: 'Fencing' },
+              { rWrBOK: '1001002---Test SSSI B', BscJLV: 'Drainage' }
             ]
           }
         )
       )
       expect(result.description).toBe(
-        '1001001 - Grazing, Fencing; 1001002 - Drainage'
+        '1001001---Test SSSI A - Grazing, Fencing; 1001002---Test SSSI B - Drainage'
       )
     })
   })
@@ -198,7 +200,7 @@ describe('consent-form-mapper', () => {
         buildMessage(
           {},
           {
-            cwZgSE: [{ BscJLV: 'Tree removal', rWrBOK: '1001001' }]
+            cwZgSE: [{ BscJLV: 'Tree removal', rWrBOK: '1001001---Test SSSI' }]
           }
         )
       )
@@ -226,7 +228,7 @@ describe('consent-form-mapper', () => {
     it('should build single SSSI info with coordinates and ORNECs', () => {
       const result = mapFormSubmission(
         buildMessage(
-          { hozdvW: '1001001', lmqMaY: false },
+          { hozdvW: '1001001---Test SSSI', lmqMaY: false },
           {
             iTBHrY: [
               {
@@ -253,7 +255,7 @@ describe('consent-form-mapper', () => {
     it('should build single SSSI info with scheme coordinates', () => {
       const result = mapFormSubmission(
         buildMessage({
-          hozdvW: '1001001',
+          hozdvW: '1001001---Test SSSI',
           lmqMaY: false,
           JPohUD: { easting: 500, northing: 600 }
         })
@@ -271,7 +273,10 @@ describe('consent-form-mapper', () => {
             JPohUD: { easting: 490200, northing: 139800 }
           },
           {
-            gWZwzI: [{ gVlMxz: '1001610' }, { gVlMxz: '1003842' }]
+            gWZwzI: [
+              { gVlMxz: '1001610---SSSI One' },
+              { gVlMxz: '1003842---SSSI Two' }
+            ]
           }
         )
       )
@@ -296,17 +301,17 @@ describe('consent-form-mapper', () => {
           {
             cwZgSE: [
               {
-                rWrBOK: '1001001',
+                rWrBOK: '1001001---Test SSSI A',
                 BscJLV: 'Grazing',
                 gjWdrc: { easting: 100, northing: 200 }
               },
               {
-                rWrBOK: '1001001',
+                rWrBOK: '1001001---Test SSSI A',
                 BscJLV: 'Fencing',
                 gjWdrc: { easting: 300, northing: 400 }
               },
               {
-                rWrBOK: '1001002',
+                rWrBOK: '1001002---Test SSSI B',
                 BscJLV: 'Drainage',
                 gjWdrc: { easting: 500, northing: 600 }
               }

@@ -3,7 +3,12 @@
  * @typedef {import('./types.js').AssentFormOutput} AssentFormOutput
  */
 
-import { formatCoordinates, joinCoordinates, parseSssiId } from './helpers.js'
+import {
+  formatCoordinates,
+  joinCoordinates,
+  parseEuroSiteId,
+  parseSssiId
+} from './helpers.js'
 
 /**
  * Mapping from the rTreXu scheme selection to detailed_work_type values.
@@ -348,7 +353,7 @@ function mapEuroSiteInfo(repeaters) {
     // IzQfir = "What is the name of the European site?"
     if (entry.IzQfir) {
       euroSiteInfo.push({
-        european_site_id: /** @type {number} */ (entry.IzQfir)
+        european_site_id: parseEuroSiteId(entry.IzQfir)
       })
     }
   }
