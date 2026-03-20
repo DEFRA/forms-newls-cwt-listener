@@ -3,7 +3,14 @@
  * @typedef {import('./types.js').AdviceFormOutput} AdviceFormOutput
  */
 
-import { formatCoordinates, parseEuroSiteId, parseSssiId } from './helpers.js'
+import {
+  EMAIL_HEADER_MAX_LENGTH,
+  fitNames,
+  formatCoordinates,
+  parseEuroSiteId,
+  parseName,
+  parseSssiId
+} from './helpers.js'
 
 /**
  * Mapping from the xzEslQ general topic field to detailed_work_type values.
@@ -400,6 +407,76 @@ function mapSssiInfo(main, repeaters) {
 }
 
 /**
+ * Builds the email_header from the detailed work type and relevant site names.
+ *
+ * Rules:
+ *   1. Start with the detailed_work_type as the prefix.
+ *   2. HRA path: append European site names (parsed from "ID---Name" format).
+ *   3. S28I SSSI path: append SSSI names (parsed from "ID---Name" format).
+ *   4. Damage reporting path: append the damaged SSSI name.
+ *   5. General topics path: just the detailed_work_type alone.
+ *   6. Truncate to 255 characters, using "(+N more)" when site names are dropped.
+ *
+ * @param {Record<string, unknown>} main
+ * @param {Record<string, Array<Record<string, unknown>>>} repeaters
+ * @param {string} detailedWorkType
+ * @returns {string}
+ */
+function mapEmailHeader(main, repeaters, detailedWorkType) {
+  const separator = ' - '
+
+  // NVRbCy = "What type of advice are you requesting?"
+  const typeOfAdvice = /** @type {string | undefined} */ (main.NVRbCy)
+  // YOwPAJ = "Tell us which type of advice you are requesting"
+  const adviceTypeRequested = /** @type {string | undefined} */ (main.YOwPAJ)
+
+  const isHraPath =
+    typeOfAdvice === 'HRA advice' ||
+    adviceTypeRequested === 'Standalone HRA advice'
+  const isSssiAdvicePath =
+    typeOfAdvice === 'S28I SSSI advice' ||
+    adviceTypeRequested === 'S28i SSSI advice'
+
+  /** @type {string[]} */
+  let siteNames = []
+
+  if (isHraPath) {
+    // European site names from TJuSNf repeater
+    const euroSites = repeaters.TJuSNf ?? []
+    siteNames = euroSites
+      .map((entry) => (entry.rtuWky ? parseName(entry.rtuWky) : ''))
+      .filter(Boolean)
+  } else if (isSssiAdvicePath) {
+    // SSSI names from repeater entries with Avdzxa
+    const allRepeaters = Object.values(repeaters).flat()
+    siteNames = allRepeaters
+      .map((entry) => (entry.Avdzxa ? parseName(entry.Avdzxa) : ''))
+      .filter(Boolean)
+  } else {
+    // Damage reporting SSSI name
+    // MoCXGK = "What is the name of the SSSI that you would like to report damage for?"
+    const sssiDamageId = /** @type {string | undefined} */ (main.MoCXGK)
+    if (sssiDamageId) {
+      siteNames = [parseName(sssiDamageId)]
+    }
+  }
+
+  if (siteNames.length === 0) {
+    return detailedWorkType.length <= EMAIL_HEADER_MAX_LENGTH
+      ? detailedWorkType
+      : detailedWorkType.substring(0, EMAIL_HEADER_MAX_LENGTH - 3) + '...'
+  }
+
+  const prefixWithSeparator = detailedWorkType + separator
+  const availableForNames = EMAIL_HEADER_MAX_LENGTH - prefixWithSeparator.length
+  const fittedNames = fitNames(siteNames, availableForNames)
+
+  return fittedNames
+    ? prefixWithSeparator + fittedNames
+    : detailedWorkType.substring(0, EMAIL_HEADER_MAX_LENGTH)
+}
+
+/**
  * Builds euro_site_info array from repeater data.
  * @param {Record<string, Array<Record<string, unknown>>>} repeaters
  * @returns {import('./types.js').EuroSiteInfo[]}
@@ -467,7 +544,7 @@ export function mapFormSubmission(message) {
     customer_name: /** @type {string} */ (main.hUpejP) ?? '',
     // YOPYRe = "What is your email address?"
     customer_email_address: /** @type {string} */ (main.YOPYRe) ?? '',
-    email_header: detailedWorkType,
+    email_header: mapEmailHeader(main, repeaters, detailedWorkType),
     is_contractor_working_for_public_body: workingOnBehalfOf ? 'Yes' : 'No',
     public_body_type: mapPublicBodyType(workingOnBehalfOf, applicantCategory),
     public_body: mapPublicBody(main),

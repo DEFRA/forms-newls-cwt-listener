@@ -183,31 +183,56 @@ describe('consent-form-mapper', () => {
   })
 
   describe('email_header', () => {
-    it('should use first ORNEC from single SSSI repeater', () => {
+    it('should include all activities and SSSI name for single SSSI path', () => {
       const result = mapFormSubmission(
         buildMessage(
-          {},
+          { hozdvW: '1001001---Test SSSI' },
           {
             iTBHrY: [{ hqsZMS: 'Grazing' }, { hqsZMS: 'Fencing' }]
           }
         )
       )
-      expect(result.email_header).toBe('Grazing')
+      expect(result.email_header).toBe('Grazing, Fencing - Test SSSI')
     })
 
-    it('should use first ORNEC from multi SSSI repeater', () => {
+    it('should include unique activities and SSSI names for multi SSSI path', () => {
       const result = mapFormSubmission(
         buildMessage(
           {},
           {
-            cwZgSE: [{ BscJLV: 'Tree removal', rWrBOK: '1001001---Test SSSI' }]
+            cwZgSE: [
+              { BscJLV: 'Tree removal', rWrBOK: '1001001---Test SSSI A' },
+              { BscJLV: 'Drainage', rWrBOK: '1001002---Test SSSI B' }
+            ]
           }
         )
       )
-      expect(result.email_header).toBe('Tree removal')
+      expect(result.email_header).toBe(
+        'Tree removal, Drainage - Test SSSI A, Test SSSI B'
+      )
     })
 
-    it('should fall back to land management scheme when no ORNECs', () => {
+    it('should fall back to scheme with SSSI names when no activities', () => {
+      const result = mapFormSubmission(
+        buildMessage(
+          {
+            rTreXu: 'A Countryside Stewardship Higher Tier (CSHT) agreement',
+            lmqMaY: true
+          },
+          {
+            gWZwzI: [
+              { gVlMxz: '1001610---SSSI One' },
+              { gVlMxz: '1003842---SSSI Two' }
+            ]
+          }
+        )
+      )
+      expect(result.email_header).toBe(
+        'A Countryside Stewardship Higher Tier (CSHT) agreement - SSSI One, SSSI Two'
+      )
+    })
+
+    it('should fall back to scheme alone when no activities and no SSSIs', () => {
       const result = mapFormSubmission(
         buildMessage({
           rTreXu: 'A Countryside Stewardship Higher Tier (CSHT) agreement'
@@ -218,9 +243,21 @@ describe('consent-form-mapper', () => {
       )
     })
 
-    it('should fall back to detailed_work_type when no ORNECs and no scheme', () => {
+    it('should fall back to "S28E Consent" when no activities, scheme, or SSSIs', () => {
       const result = mapFormSubmission(buildMessage({}))
       expect(result.email_header).toBe('S28E Consent')
+    })
+
+    it('should truncate to 255 characters when many SSSIs', () => {
+      const repeaterEntries = Array.from({ length: 30 }, (_, i) => ({
+        BscJLV: 'Grazing',
+        rWrBOK: `${1001000 + i}---A Very Long SSSI Name Number ${i + 1}`
+      }))
+      const result = mapFormSubmission(
+        buildMessage({}, { cwZgSE: repeaterEntries })
+      )
+      expect(result.email_header.length).toBeLessThanOrEqual(255)
+      expect(result.email_header).toContain('Grazing')
     })
   })
 

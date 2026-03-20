@@ -3,7 +3,14 @@
  * @typedef {import('./types.js').ConsentFormOutput} ConsentFormOutput
  */
 
-import { formatCoordinates, joinCoordinates, parseSssiId } from './helpers.js'
+import {
+  EMAIL_HEADER_MAX_LENGTH,
+  fitNames,
+  formatCoordinates,
+  joinCoordinates,
+  parseName,
+  parseSssiId
+} from './helpers.js'
 
 /**
  * Mapping from the rTreXu scheme selection to detailed_work_type values.
@@ -185,38 +192,111 @@ function mapAgreementReference(main) {
 }
 
 /**
- * Gets the first ORNEC (activity) value for the email_header.
- * Falls back to the land management scheme if no activity is found.
- * Falls back to the detailed_work_type if no activity is found.
+ * Builds the email_header from activities, SSSI names, and scheme info.
+ *
+ * Rules:
+ *   1. If activities are present (from single or multi SSSI repeaters),
+ *      list all unique activities as the primary segment.
+ *   2. If no activities, use the land management scheme name as the primary segment.
+ *   3. Append SSSI names (parsed from "ID---Name" format) after the primary segment.
+ *   4. Fallback to "S28E Consent" when no activities, scheme, or SSSIs are available.
+ *   5. Truncate to 255 characters, using "(+N more)" when SSSI names are dropped.
+ *
  * @param {Record<string, unknown>} main
  * @param {Record<string, Array<Record<string, unknown>>>} repeaters
  * @returns {string}
  */
 function mapEmailHeader(main, repeaters) {
+  const separator = ' - '
+
+  // Collect all unique activities
+  /** @type {string[]} */
+  let activities = []
+
   // Single SSSI path - repeater iTBHrY ("Operations requiring Natural England consent")
   //   hqsZMS = "Which activity do you plan to carry out?"
   const singleRepeater = repeaters.iTBHrY ?? []
-  if (singleRepeater.length > 0 && singleRepeater[0].hqsZMS) {
-    return /** @type {string} */ (singleRepeater[0].hqsZMS)
+  if (singleRepeater.length > 0) {
+    activities = [
+      ...new Set(
+        singleRepeater
+          .map((entry) => /** @type {string} */ (entry.hqsZMS))
+          .filter(Boolean)
+      )
+    ]
   }
 
   // Multi SSSI path - repeater cwZgSE ("Site name and operations requiring Natural England consent")
   //   BscJLV = "Which activity do you plan to carry out?"
   const multiRepeater = repeaters.cwZgSE ?? []
-  if (multiRepeater.length > 0 && multiRepeater[0].BscJLV) {
-    return /** @type {string} */ (multiRepeater[0].BscJLV)
+  if (activities.length === 0 && multiRepeater.length > 0) {
+    activities = [
+      ...new Set(
+        multiRepeater
+          .map((entry) => /** @type {string} */ (entry.BscJLV))
+          .filter(Boolean)
+      )
+    ]
   }
 
-  // Fallback to land management scheme
-  // rTreXu = "What land management scheme does this notice relate to?"
-  const landManagementScheme = /** @type {string | undefined} */ (main.rTreXu)
-  if (landManagementScheme) {
-    return landManagementScheme
+  // Collect unique SSSI names
+  /** @type {string[]} */
+  let sssiNames = []
+
+  // hozdvW = "What is the name of the SSSI where you plan to carry out activities?"
+  const singleSssi = /** @type {string | undefined} */ (main.hozdvW)
+  if (singleSssi) {
+    sssiNames = [parseName(singleSssi)]
+  } else if (multiRepeater.length > 0) {
+    sssiNames = [
+      ...new Set(
+        multiRepeater
+          .map((entry) => (entry.rWrBOK ? parseName(entry.rWrBOK) : ''))
+          .filter(Boolean)
+      )
+    ]
+  } else {
+    // Multi SSSI scheme path - repeater gWZwzI
+    //   gVlMxz = "What is the name of the SSSI where activities are planned?"
+    const schemeRepeater = repeaters.gWZwzI ?? []
+    sssiNames = schemeRepeater
+      .map((entry) => (entry.gVlMxz ? parseName(entry.gVlMxz) : ''))
+      .filter(Boolean)
   }
 
-  // Requirement is to return the detailed_work_type as a fallback, which is what this value
-  // essentially is when landManagementScheme is falsy.
-  return 'S28E Consent'
+  // Build primary segment: activities or scheme or fallback
+  let primary = ''
+  if (activities.length > 0) {
+    primary = activities.join(', ')
+  } else {
+    // rTreXu = "What land management scheme does this notice relate to?"
+    const landManagementScheme = /** @type {string | undefined} */ (main.rTreXu)
+    if (landManagementScheme) {
+      primary = landManagementScheme
+    }
+  }
+
+  if (!primary && sssiNames.length === 0) {
+    return 'S28E Consent'
+  }
+
+  if (sssiNames.length === 0) {
+    return primary.length <= EMAIL_HEADER_MAX_LENGTH
+      ? primary
+      : primary.substring(0, EMAIL_HEADER_MAX_LENGTH - 3) + '...'
+  }
+
+  if (!primary) {
+    return fitNames(sssiNames, EMAIL_HEADER_MAX_LENGTH)
+  }
+
+  const prefixWithSeparator = primary + separator
+  const availableForNames = EMAIL_HEADER_MAX_LENGTH - prefixWithSeparator.length
+  const fittedNames = fitNames(sssiNames, availableForNames)
+
+  return fittedNames
+    ? prefixWithSeparator + fittedNames
+    : primary.substring(0, EMAIL_HEADER_MAX_LENGTH)
 }
 
 /**

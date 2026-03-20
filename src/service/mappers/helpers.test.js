@@ -1,7 +1,10 @@
 import {
+  EMAIL_HEADER_MAX_LENGTH,
+  fitNames,
   formatCoordinates,
   joinCoordinates,
   parseEuroSiteId,
+  parseName,
   parseSssiId
 } from './helpers.js'
 
@@ -55,6 +58,71 @@ describe('helpers', () => {
       expect(() => parseSssiId('')).toThrow(
         'SSSI_id value "" cannot be parsed into an integer'
       )
+    })
+  })
+
+  describe('parseName', () => {
+    it('should extract the name from a combined "ID---Name" SSSI value', () => {
+      expect(parseName('1005725---Popehouse Moor SSSI')).toBe(
+        'Popehouse Moor SSSI'
+      )
+    })
+
+    it('should extract the name from a combined "ID---Name" Euro site value', () => {
+      expect(parseName('UK11004---Arun Valley Ramsar')).toBe(
+        'Arun Valley Ramsar'
+      )
+    })
+
+    it('should return the original string when no separator is present', () => {
+      expect(parseName('Just a plain name')).toBe('Just a plain name')
+    })
+
+    it('should handle numeric values', () => {
+      expect(parseName(42)).toBe('42')
+    })
+  })
+
+  describe('fitNames', () => {
+    it('should return all names when they fit', () => {
+      expect(fitNames(['Abbey Wood SSSI', 'Popehouse Moor SSSI'], 100)).toBe(
+        'Abbey Wood SSSI, Popehouse Moor SSSI'
+      )
+    })
+
+    it('should return empty string for empty array', () => {
+      expect(fitNames([], 100)).toBe('')
+    })
+
+    it('should truncate names with (+N more) when they do not fit', () => {
+      const names = [
+        'Abbey Wood SSSI',
+        'Popehouse Moor SSSI',
+        'Arun Banks SSSI'
+      ]
+      const result = fitNames(names, 40)
+      expect(result).toBe('Abbey Wood SSSI (+2 more)')
+      expect(result.length).toBeLessThanOrEqual(40)
+    })
+
+    it('should truncate a single long name with ellipsis', () => {
+      const names = ['A Very Long SSSI Name That Exceeds The Limit']
+      const result = fitNames(names, 20)
+      expect(result).toBe('A Very Long SSSI ...')
+      expect(result.length).toBeLessThanOrEqual(20)
+    })
+
+    it('should include (+N more) when first name must be truncated and there are more', () => {
+      const names = ['A Very Long SSSI Name', 'Another SSSI', 'Third SSSI']
+      const result = fitNames(names, 30)
+      expect(result).toContain('(+2 more)')
+      expect(result.length).toBeLessThanOrEqual(30)
+    })
+  })
+
+  describe('EMAIL_HEADER_MAX_LENGTH', () => {
+    it('should be 255', () => {
+      expect(EMAIL_HEADER_MAX_LENGTH).toBe(255)
     })
   })
 

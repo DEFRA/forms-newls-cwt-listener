@@ -345,6 +345,89 @@ describe('assent-form-mapper', () => {
     })
   })
 
+  describe('email_header', () => {
+    it('should include activities and SSSI name for single SSSI path', () => {
+      const result = mapFormSubmission(
+        buildMessage(
+          { ASataH: false, gVlMxz: '1001001---Test SSSI' },
+          {
+            gzSkgC: [{ lGsnXi: 'Grazing' }, { lGsnXi: 'Fencing' }]
+          }
+        )
+      )
+      expect(result.email_header).toBe('Grazing, Fencing - Test SSSI')
+    })
+
+    it('should include activities and SSSI names for multi SSSI path', () => {
+      const result = mapFormSubmission(
+        buildMessage(
+          { ASataH: true },
+          {
+            QxIzSB: [
+              { iNDqRN: 'Tree removal', wRGnMW: '1001001---Test SSSI A' },
+              { iNDqRN: 'Drainage', wRGnMW: '1001002---Test SSSI B' }
+            ]
+          }
+        )
+      )
+      expect(result.email_header).toBe(
+        'Tree removal, Drainage - Test SSSI A, Test SSSI B'
+      )
+    })
+
+    it('should include European site names when present', () => {
+      const result = mapFormSubmission(
+        buildMessage(
+          { ASataH: false, gVlMxz: '1001001---Test SSSI' },
+          {
+            gzSkgC: [{ lGsnXi: 'Grazing' }],
+            aQYWxD: [{ IzQfir: 'UK11004---Arun Valley Ramsar' }]
+          }
+        )
+      )
+      expect(result.email_header).toBe(
+        'Grazing - Test SSSI - Arun Valley Ramsar'
+      )
+    })
+
+    it('should fall back to scheme with SSSI names when no activities', () => {
+      const result = mapFormSubmission(
+        buildMessage(
+          {
+            rTreXu: 'A Higher Level Stewardship (HLS) agreement',
+            ASataH: true
+          },
+          {
+            hhGvmX: [
+              { flbYHq: '2006159---SSSI One' },
+              { flbYHq: '1001610---SSSI Two' }
+            ]
+          }
+        )
+      )
+      expect(result.email_header).toBe(
+        'A Higher Level Stewardship (HLS) agreement - SSSI One, SSSI Two'
+      )
+    })
+
+    it('should fall back to "S28H Assent" when no activities, scheme, SSSIs, or Euro sites', () => {
+      const result = mapFormSubmission(buildMessage({}))
+      expect(result.email_header).toBe('S28H Assent')
+    })
+
+    it('should truncate to 255 characters when many sites', () => {
+      const ornecEntries = Array.from({ length: 30 }, (_, i) => ({
+        iNDqRN: 'Grazing',
+        wRGnMW: `${1001000 + i}---A Very Long SSSI Name Number ${i + 1}`
+      }))
+      const result = mapFormSubmission(
+        buildMessage({ ASataH: true }, { QxIzSB: ornecEntries })
+      )
+      expect(result.email_header.length).toBeLessThanOrEqual(255)
+      expect(result.email_header).toContain('Grazing')
+    })
+  })
+
   describe('euro_site_info', () => {
     it('should build euro site info from aQYWxD repeater', () => {
       const result = mapFormSubmission(

@@ -141,11 +141,92 @@ describe('advice-form-mapper', () => {
   })
 
   describe('email_header', () => {
-    it('should equal detailed_work_type', () => {
+    it('should include detailed_work_type for general topics path', () => {
       const result = mapFormSubmission(
         buildMessage({ teEzOl: 'Landowner', xzEslQ: 'Something else' })
       )
-      expect(result.email_header).toBe(result.detailed_work_type)
+      expect(result.email_header).toBe('SSSI - Other')
+    })
+
+    it('should include Euro site names for HRA path', () => {
+      const result = mapFormSubmission(
+        buildMessage(
+          {
+            teEzOl: 'Government Agency',
+            PvUZyQ: 'Forestry Commission',
+            NVRbCy: 'HRA advice'
+          },
+          {
+            TJuSNf: [
+              {
+                rtuWky: 'UK11004---Arun Valley Ramsar',
+                xeJYcG: { easting: 100000, northing: 200000 }
+              },
+              {
+                rtuWky: 'UK11001---Abberton Reservoir Ramsar',
+                xeJYcG: { easting: 300000, northing: 400000 }
+              }
+            ]
+          }
+        )
+      )
+      expect(result.email_header).toBe(
+        'Standalone HRA Reg 63 - Arun Valley Ramsar, Abberton Reservoir Ramsar'
+      )
+    })
+
+    it('should include SSSI names for S28I path', () => {
+      const result = mapFormSubmission(
+        buildMessage(
+          {
+            teEzOl: 'Government Agency',
+            PvUZyQ: 'Environment Agency',
+            YOwPAJ: 'S28i SSSI advice'
+          },
+          {
+            someRepeater: [
+              {
+                Avdzxa: '1001001---Test SSSI',
+                NMCFES: { easting: 400000, northing: 300000 }
+              }
+            ]
+          }
+        )
+      )
+      expect(result.email_header).toBe('S28i Advice - Test SSSI')
+    })
+
+    it('should include SSSI name for damage reporting path', () => {
+      const result = mapFormSubmission(
+        buildMessage({
+          teEzOl: 'Landowner',
+          xzEslQ:
+            'I would like to report potentially damaging activity on or near a protected site',
+          MoCXGK: '2005001---Damage Reporting SSSI'
+        })
+      )
+      expect(result.email_header).toBe(
+        'SSSI - Site visits/surveys - Damage Reporting SSSI'
+      )
+    })
+
+    it('should truncate to 255 characters when many sites', () => {
+      const euroSites = Array.from({ length: 30 }, (_, i) => ({
+        rtuWky: `UK${11000 + i}---A Very Long European Site Name Number ${i + 1}`,
+        xeJYcG: { easting: 100000, northing: 200000 }
+      }))
+      const result = mapFormSubmission(
+        buildMessage(
+          {
+            teEzOl: 'Government Agency',
+            PvUZyQ: 'Forestry Commission',
+            NVRbCy: 'HRA advice'
+          },
+          { TJuSNf: euroSites }
+        )
+      )
+      expect(result.email_header.length).toBeLessThanOrEqual(255)
+      expect(result.email_header).toContain('Standalone HRA Reg 63')
     })
   })
 
