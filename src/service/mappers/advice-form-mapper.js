@@ -134,14 +134,19 @@ function mapDetailedWorkType(main) {
 }
 
 /**
- * Builds the description field from path-dependent fields.
+ * Collects site names relevant to the advice form path.
+ * Used by both mapDescription and mapEmailHeader.
+ *
+ * - HRA path: European site names (from TJuSNf repeater, parsed from "ID---Name").
+ * - S28I SSSI path: SSSI names (from Avdzxa entries, parsed from "ID---Name").
+ * - Damage reporting path: damaged SSSI name (from MoCXGK, parsed from "ID---Name").
+ * - General topics path: no site names.
+ *
  * @param {Record<string, unknown>} main
  * @param {Record<string, Array<Record<string, unknown>>>} repeaters
- * @returns {string}
+ * @returns {string[]}
  */
-function mapDescription(main, repeaters) {
-  const parts = []
-
+function collectSiteNames(main, repeaters) {
   // NVRbCy = "What type of advice are you requesting?"
   const typeOfAdvice = /** @type {string | undefined} */ (main.NVRbCy)
   // YOwPAJ = "Tell us which type of advice you are requesting"
@@ -155,72 +160,45 @@ function mapDescription(main, repeaters) {
     adviceTypeRequested === 'S28i SSSI advice'
 
   if (isHraPath) {
-    // HRA advice path: HRA stage + European site names
-    // emlmbt = "What stage of HRA advice are you requesting?"
-    const hraStage = /** @type {string | undefined} */ (main.emlmbt)
-    if (hraStage) {
-      parts.push(`Advice on ${hraStage.toLowerCase()}`)
-    }
-    // TJuSNf = Repeater: "European site" on page "Which European site does this plan or project affect?"
     const euroSites = repeaters.TJuSNf ?? []
-    // rtuWky = "What is the name of the European site?"
-    const siteNames = euroSites
-      .map((entry) => /** @type {string} */ (entry.rtuWky))
+    return euroSites
+      .map((entry) => (entry.rtuWky ? parseName(entry.rtuWky) : ''))
       .filter(Boolean)
-    if (siteNames.length > 0) {
-      parts.push(siteNames.join(', '))
-    }
-  } else if (isSssiAdvicePath) {
-    // S28I SSSI advice path: SSSI names from repeater
-    // Avdzxa = "What is the name of SSSI where the activities will cause impacts?" (page: "SSSI affected")
-    // NMCFES = "Where are the activities planned to take place?" (page: "SSSI affected")
-    const sssiRepeater = repeaters.Avdzxa ?? repeaters.NMCFES ?? []
-    // The repeater containing Avdzxa fields - look for entries with Avdzxa
+  }
+
+  if (isSssiAdvicePath) {
     const allRepeaters = Object.values(repeaters).flat()
-    const sssiNames = allRepeaters
-      .map((entry) => /** @type {string} */ (entry.Avdzxa))
+    return allRepeaters
+      .map((entry) => (entry.Avdzxa ? parseName(entry.Avdzxa) : ''))
       .filter(Boolean)
-    if (sssiNames.length > 0) {
-      parts.push(sssiNames.join(', '))
-    } else if (sssiRepeater.length > 0) {
-      parts.push(
-        sssiRepeater
-          .map((e) => String(e.Avdzxa ?? ''))
-          .filter(Boolean)
-          .join(', ')
-      )
-    }
-  } else {
-    // General topics path
-    // xzEslQ = "Which topic fits the nature of your question the best?"
-    const generalTopic = /** @type {string | undefined} */ (main.xzEslQ)
-    if (generalTopic) {
-      parts.push(generalTopic)
-    }
   }
 
-  // Append additional description fields where present
-  // QmIGor = "What is your question?"
-  const question = /** @type {string | undefined} */ (main.QmIGor)
-  if (question) {
-    parts.push(question)
+  // MoCXGK = "What is the name of the SSSI that you would like to report damage for?"
+  const sssiDamageId = /** @type {string | undefined} */ (main.MoCXGK)
+  if (sssiDamageId) {
+    return [parseName(sssiDamageId)]
   }
 
-  // nJVeix = "Tell us about the proposed activities"
-  const proposedActivities = /** @type {string | undefined} */ (main.nJVeix)
-  if (proposedActivities) {
-    parts.push(proposedActivities)
-  }
+  return []
+}
 
-  // YhWlKB = "Give a description of the damaging activity"
-  const damagingActivityDescription = /** @type {string | undefined} */ (
-    main.YhWlKB
-  )
-  if (damagingActivityDescription) {
-    parts.push(damagingActivityDescription)
+/**
+ * Builds the description from the detailed work type and relevant site names.
+ * Uses the same segments as mapEmailHeader but without a length limit.
+ *
+ * Format: "[detailed_work_type] - [site names]"
+ *
+ * @param {Record<string, unknown>} main
+ * @param {Record<string, Array<Record<string, unknown>>>} repeaters
+ * @param {string} detailedWorkType
+ * @returns {string}
+ */
+function mapDescription(main, repeaters, detailedWorkType) {
+  const siteNames = collectSiteNames(main, repeaters)
+  if (siteNames.length === 0) {
+    return detailedWorkType
   }
-
-  return parts.join(' - ')
+  return detailedWorkType + ' - ' + siteNames.join(', ')
 }
 
 /**
@@ -408,14 +386,7 @@ function mapSssiInfo(main, repeaters) {
 
 /**
  * Builds the email_header from the detailed work type and relevant site names.
- *
- * Rules:
- *   1. Start with the detailed_work_type as the prefix.
- *   2. HRA path: append European site names (parsed from "ID---Name" format).
- *   3. S28I SSSI path: append SSSI names (parsed from "ID---Name" format).
- *   4. Damage reporting path: append the damaged SSSI name.
- *   5. General topics path: just the detailed_work_type alone.
- *   6. Truncate to 255 characters, using "(+N more)" when site names are dropped.
+ * Uses the same segments as mapDescription but truncated to 255 characters.
  *
  * @param {Record<string, unknown>} main
  * @param {Record<string, Array<Record<string, unknown>>>} repeaters
@@ -424,42 +395,7 @@ function mapSssiInfo(main, repeaters) {
  */
 function mapEmailHeader(main, repeaters, detailedWorkType) {
   const separator = ' - '
-
-  // NVRbCy = "What type of advice are you requesting?"
-  const typeOfAdvice = /** @type {string | undefined} */ (main.NVRbCy)
-  // YOwPAJ = "Tell us which type of advice you are requesting"
-  const adviceTypeRequested = /** @type {string | undefined} */ (main.YOwPAJ)
-
-  const isHraPath =
-    typeOfAdvice === 'HRA advice' ||
-    adviceTypeRequested === 'Standalone HRA advice'
-  const isSssiAdvicePath =
-    typeOfAdvice === 'S28I SSSI advice' ||
-    adviceTypeRequested === 'S28i SSSI advice'
-
-  /** @type {string[]} */
-  let siteNames = []
-
-  if (isHraPath) {
-    // European site names from TJuSNf repeater
-    const euroSites = repeaters.TJuSNf ?? []
-    siteNames = euroSites
-      .map((entry) => (entry.rtuWky ? parseName(entry.rtuWky) : ''))
-      .filter(Boolean)
-  } else if (isSssiAdvicePath) {
-    // SSSI names from repeater entries with Avdzxa
-    const allRepeaters = Object.values(repeaters).flat()
-    siteNames = allRepeaters
-      .map((entry) => (entry.Avdzxa ? parseName(entry.Avdzxa) : ''))
-      .filter(Boolean)
-  } else {
-    // Damage reporting SSSI name
-    // MoCXGK = "What is the name of the SSSI that you would like to report damage for?"
-    const sssiDamageId = /** @type {string | undefined} */ (main.MoCXGK)
-    if (sssiDamageId) {
-      siteNames = [parseName(sssiDamageId)]
-    }
-  }
+  const siteNames = collectSiteNames(main, repeaters)
 
   if (siteNames.length === 0) {
     return detailedWorkType.length <= EMAIL_HEADER_MAX_LENGTH
@@ -535,7 +471,7 @@ export function mapFormSubmission(message) {
     DF_reference_number: message.meta.referenceNumber,
     broad_work_type: mapBroadWorkType(main),
     detailed_work_type: detailedWorkType,
-    description: mapDescription(main, repeaters),
+    description: mapDescription(main, repeaters, detailedWorkType),
     consulting_body_type: applicantCategory
       ? (consultingBodyTypeMap[applicantCategory] ?? applicantCategory)
       : '',

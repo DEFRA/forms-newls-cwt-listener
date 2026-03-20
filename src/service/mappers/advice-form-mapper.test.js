@@ -369,7 +369,7 @@ describe('advice-form-mapper', () => {
   })
 
   describe('description', () => {
-    it('should build HRA description from stage and site names', () => {
+    it('should include detailed_work_type and Euro site names for HRA path', () => {
       const result = mapFormSubmission(
         buildMessage(
           {
@@ -389,21 +389,53 @@ describe('advice-form-mapper', () => {
         )
       )
       expect(result.description).toBe(
-        'Advice on screening stage - UK11004---Arun Valley Ramsar'
+        'Standalone HRA Reg 63 - Arun Valley Ramsar'
       )
     })
 
-    it('should use xzEslQ topic text for general path', () => {
+    it('should include detailed_work_type and SSSI names for S28I path', () => {
+      const result = mapFormSubmission(
+        buildMessage(
+          {
+            teEzOl: 'Government Agency',
+            PvUZyQ: 'Environment Agency',
+            YOwPAJ: 'S28i SSSI advice'
+          },
+          {
+            someRepeater: [
+              {
+                Avdzxa: '1001001---Test SSSI',
+                NMCFES: { easting: 400000, northing: 300000 }
+              }
+            ]
+          }
+        )
+      )
+      expect(result.description).toBe('S28i Advice - Test SSSI')
+    })
+
+    it('should include SSSI name for damage reporting path', () => {
       const result = mapFormSubmission(
         buildMessage({
           teEzOl: 'Landowner',
-          xzEslQ: 'Something else',
-          QmIGor: 'My question about SSSIs'
+          xzEslQ:
+            'I would like to report potentially damaging activity on or near a protected site',
+          MoCXGK: '2005001---Damage Reporting SSSI'
         })
       )
       expect(result.description).toBe(
-        'Something else - My question about SSSIs'
+        'SSSI - Site visits/surveys - Damage Reporting SSSI'
       )
+    })
+
+    it('should return detailed_work_type alone for general topics', () => {
+      const result = mapFormSubmission(
+        buildMessage({
+          teEzOl: 'Landowner',
+          xzEslQ: 'Something else'
+        })
+      )
+      expect(result.description).toBe('SSSI - Other')
     })
   })
 

@@ -65,7 +65,7 @@ describe('consent-form-mapper', () => {
   })
 
   describe('description', () => {
-    it('should build description from single SSSI with ORNEC activities', () => {
+    it('should include activities and SSSI name for single SSSI path', () => {
       const result = mapFormSubmission(
         buildMessage(
           { hozdvW: '1001001---Test SSSI' },
@@ -77,17 +77,17 @@ describe('consent-form-mapper', () => {
           }
         )
       )
-      expect(result.description).toBe('1001001---Test SSSI - Grazing, Fencing')
+      expect(result.description).toBe('Grazing, Fencing - Test SSSI')
     })
 
-    it('should build description from single SSSI without activities', () => {
+    it('should include SSSI name alone when no activities', () => {
       const result = mapFormSubmission(
         buildMessage({ hozdvW: '1001001---Test SSSI' })
       )
-      expect(result.description).toBe('1001001---Test SSSI')
+      expect(result.description).toBe('Test SSSI')
     })
 
-    it('should build description from multi SSSI with activities', () => {
+    it('should include unique activities and SSSI names for multi SSSI path', () => {
       const result = mapFormSubmission(
         buildMessage(
           {},
@@ -101,8 +101,33 @@ describe('consent-form-mapper', () => {
         )
       )
       expect(result.description).toBe(
-        '1001001---Test SSSI A - Grazing, Fencing; 1001002---Test SSSI B - Drainage'
+        'Grazing, Fencing, Drainage - Test SSSI A, Test SSSI B'
       )
+    })
+
+    it('should fall back to scheme with SSSI names when no activities', () => {
+      const result = mapFormSubmission(
+        buildMessage(
+          {
+            rTreXu: 'A Countryside Stewardship Higher Tier (CSHT) agreement',
+            lmqMaY: true
+          },
+          {
+            gWZwzI: [
+              { gVlMxz: '1001610---SSSI One' },
+              { gVlMxz: '1003842---SSSI Two' }
+            ]
+          }
+        )
+      )
+      expect(result.description).toBe(
+        'A Countryside Stewardship Higher Tier (CSHT) agreement - SSSI One, SSSI Two'
+      )
+    })
+
+    it('should fall back to "S28E Consent" when nothing available', () => {
+      const result = mapFormSubmission(buildMessage({}))
+      expect(result.description).toBe('S28E Consent')
     })
   })
 

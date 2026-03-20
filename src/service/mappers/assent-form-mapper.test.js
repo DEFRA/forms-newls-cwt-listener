@@ -76,7 +76,7 @@ describe('assent-form-mapper', () => {
   })
 
   describe('description', () => {
-    it('should concatenate activities from single SSSI repeater', () => {
+    it('should include activities from single SSSI repeater', () => {
       const result = mapFormSubmission(
         buildMessage(
           {},
@@ -88,7 +88,7 @@ describe('assent-form-mapper', () => {
       expect(result.description).toBe('Grazing, Fencing')
     })
 
-    it('should concatenate activities from multiple SSSI repeater', () => {
+    it('should include activities and SSSI names from multiple SSSI repeater', () => {
       const result = mapFormSubmission(
         buildMessage(
           {},
@@ -100,15 +100,17 @@ describe('assent-form-mapper', () => {
           }
         )
       )
-      expect(result.description).toBe('Tree removal, Drainage')
+      expect(result.description).toBe(
+        'Tree removal, Drainage - Test SSSI A, Test SSSI B'
+      )
     })
 
-    it('should return empty string when no activities and no scheme', () => {
+    it('should fall back to "S28H Assent" when no activities and no scheme', () => {
       const result = mapFormSubmission(buildMessage({}))
-      expect(result.description).toBe('')
+      expect(result.description).toBe('S28H Assent')
     })
 
-    it('should fall back to scheme name with SSSI names from scheme repeater', () => {
+    it('should fall back to scheme with parsed SSSI names from scheme repeater', () => {
       const result = mapFormSubmission(
         buildMessage(
           {
@@ -124,7 +126,7 @@ describe('assent-form-mapper', () => {
         )
       )
       expect(result.description).toBe(
-        'A Higher Level Stewardship (HLS) agreement, 2006159---SSSI One, 1001610---SSSI Two'
+        'A Higher Level Stewardship (HLS) agreement - SSSI One, SSSI Two'
       )
     })
 
@@ -139,7 +141,7 @@ describe('assent-form-mapper', () => {
       )
     })
 
-    it('should fall back to scheme name with single SSSI name', () => {
+    it('should fall back to scheme with parsed single SSSI name', () => {
       const result = mapFormSubmission(
         buildMessage({
           rTreXu: 'A Sustainable Farming Incentive (SFI) agreement',
@@ -147,7 +149,22 @@ describe('assent-form-mapper', () => {
         })
       )
       expect(result.description).toBe(
-        'A Sustainable Farming Incentive (SFI) agreement, 1001001---Test SSSI'
+        'A Sustainable Farming Incentive (SFI) agreement - Test SSSI'
+      )
+    })
+
+    it('should include European site names when present', () => {
+      const result = mapFormSubmission(
+        buildMessage(
+          { ASataH: false, gVlMxz: '1001001---Test SSSI' },
+          {
+            gzSkgC: [{ lGsnXi: 'Grazing' }],
+            aQYWxD: [{ IzQfir: 'UK11004---Arun Valley Ramsar' }]
+          }
+        )
+      )
+      expect(result.description).toBe(
+        'Grazing - Test SSSI - Arun Valley Ramsar'
       )
     })
   })

@@ -66,75 +66,101 @@ function mapDetailedWorkType(main) {
 }
 
 /**
- * Builds the description from SSSI names and ORNEC activities.
+ * Collects the primary segment (activities or scheme) and SSSI names
+ * for building the email header and description.
+ * @param {Record<string, unknown>} main
+ * @param {Record<string, Array<Record<string, unknown>>>} repeaters
+ * @returns {{ primary: string, sssiNames: string[] }}
+ */
+function collectConsentSegments(main, repeaters) {
+  // Collect all unique activities
+  /** @type {string[]} */
+  let activities = []
+
+  // Single SSSI path - repeater iTBHrY ("Operations requiring Natural England consent")
+  //   hqsZMS = "Which activity do you plan to carry out?"
+  const singleRepeater = repeaters.iTBHrY ?? []
+  if (singleRepeater.length > 0) {
+    activities = [
+      ...new Set(
+        singleRepeater
+          .map((entry) => /** @type {string} */ (entry.hqsZMS))
+          .filter(Boolean)
+      )
+    ]
+  }
+
+  // Multi SSSI path - repeater cwZgSE ("Site name and operations requiring Natural England consent")
+  //   BscJLV = "Which activity do you plan to carry out?"
+  const multiRepeater = repeaters.cwZgSE ?? []
+  if (activities.length === 0 && multiRepeater.length > 0) {
+    activities = [
+      ...new Set(
+        multiRepeater
+          .map((entry) => /** @type {string} */ (entry.BscJLV))
+          .filter(Boolean)
+      )
+    ]
+  }
+
+  // Collect unique SSSI names (parsed from "ID---Name" format)
+  /** @type {string[]} */
+  let sssiNames
+
+  // hozdvW = "What is the name of the SSSI where you plan to carry out activities?"
+  const singleSssi = /** @type {string | undefined} */ (main.hozdvW)
+  if (singleSssi) {
+    sssiNames = [parseName(singleSssi)]
+  } else if (multiRepeater.length > 0) {
+    sssiNames = [
+      ...new Set(
+        multiRepeater
+          .map((entry) => (entry.rWrBOK ? parseName(entry.rWrBOK) : ''))
+          .filter(Boolean)
+      )
+    ]
+  } else {
+    // Multi SSSI scheme path - repeater gWZwzI
+    //   gVlMxz = "What is the name of the SSSI where activities are planned?"
+    const schemeRepeater = repeaters.gWZwzI ?? []
+    sssiNames = schemeRepeater
+      .map((entry) => (entry.gVlMxz ? parseName(entry.gVlMxz) : ''))
+      .filter(Boolean)
+  }
+
+  // Build primary segment: activities or scheme
+  let primary = ''
+  if (activities.length > 0) {
+    primary = activities.join(', ')
+  } else {
+    // rTreXu = "What land management scheme does this notice relate to?"
+    const landManagementScheme = /** @type {string | undefined} */ (main.rTreXu)
+    if (landManagementScheme) {
+      primary = landManagementScheme
+    }
+  }
+
+  return { primary, sssiNames }
+}
+
+/**
+ * Builds the description from activities, SSSI names, and scheme info.
+ * Uses the same segments as mapEmailHeader but without a length limit.
+ *
+ * Format: "[activities or scheme] - [SSSI names]"
+ * Fallback: "S28E Consent"
+ *
  * @param {Record<string, unknown>} main
  * @param {Record<string, Array<Record<string, unknown>>>} repeaters
  * @returns {string}
  */
 function mapDescription(main, repeaters) {
-  const parts = []
-
-  // Single SSSI path
-  // hozdvW = "What is the name of the SSSI where you plan to carry out activities?"
-  const sssiName = /** @type {string | undefined} */ (main.hozdvW)
-  if (sssiName) {
-    // iTBHrY = Repeater: "Operations requiring Natural England consent"
-    const activities = repeaters.iTBHrY ?? []
-    // hqsZMS = "Which activity do you plan to carry out?"
-    const activityNames = activities
-      .map((entry) => /** @type {string} */ (entry.hqsZMS))
-      .filter(Boolean)
-
-    if (activityNames.length > 0) {
-      parts.push(`${sssiName} - ${activityNames.join(', ')}`)
-    } else {
-      parts.push(sssiName)
-    }
-  }
-
-  // Multi SSSI path - repeater cwZgSE ("Site name and operations requiring Natural England consent")
-  //   rWrBOK = "What is the name of the SSSI where you plan to carry out this activity?"
-  //   BscJLV = "Which activity do you plan to carry out?"
-  if (!sssiName) {
-    const multiRepeater = repeaters.cwZgSE ?? []
-
-    /** @type {Map<string, string[]>} */
-    const sssiActivities = new Map()
-    for (const entry of multiRepeater) {
-      const entrySssiName = /** @type {string | undefined} */ (entry.rWrBOK)
-      const activity = /** @type {string | undefined} */ (entry.BscJLV)
-      if (entrySssiName) {
-        if (!sssiActivities.has(entrySssiName)) {
-          sssiActivities.set(entrySssiName, [])
-        }
-        if (activity) {
-          sssiActivities.get(entrySssiName)?.push(activity)
-        }
-      }
-    }
-
-    for (const [name, activities] of sssiActivities) {
-      if (activities.length > 0) {
-        parts.push(`${name} - ${activities.join(', ')}`)
-      } else {
-        parts.push(name)
-      }
-    }
-
-    // Multi SSSI scheme path - repeater gWZwzI ("Sites where you plan to carry out activities")
-    //   gVlMxz = "What is the name of the SSSI where activities are planned?"
-    if (parts.length === 0) {
-      const schemeRepeater = repeaters.gWZwzI ?? []
-      for (const entry of schemeRepeater) {
-        const schemeSssiName = /** @type {string | undefined} */ (entry.gVlMxz)
-        if (schemeSssiName) {
-          parts.push(schemeSssiName)
-        }
-      }
-    }
-  }
-
-  return parts.join('; ')
+  const { primary, sssiNames } = collectConsentSegments(main, repeaters)
+  const segments = [
+    primary,
+    sssiNames.length > 0 ? sssiNames.join(', ') : ''
+  ].filter(Boolean)
+  return segments.length > 0 ? segments.join(' - ') : 'S28E Consent'
 }
 
 /**
@@ -193,14 +219,7 @@ function mapAgreementReference(main) {
 
 /**
  * Builds the email_header from activities, SSSI names, and scheme info.
- *
- * Rules:
- *   1. If activities are present (from single or multi SSSI repeaters),
- *      list all unique activities as the primary segment.
- *   2. If no activities, use the land management scheme name as the primary segment.
- *   3. Append SSSI names (parsed from "ID---Name" format) after the primary segment.
- *   4. Fallback to "S28E Consent" when no activities, scheme, or SSSIs are available.
- *   5. Truncate to 255 characters, using "(+N more)" when SSSI names are dropped.
+ * Uses the same segments as mapDescription but truncated to 255 characters.
  *
  * @param {Record<string, unknown>} main
  * @param {Record<string, Array<Record<string, unknown>>>} repeaters
@@ -208,73 +227,7 @@ function mapAgreementReference(main) {
  */
 function mapEmailHeader(main, repeaters) {
   const separator = ' - '
-
-  // Collect all unique activities
-  /** @type {string[]} */
-  let activities = []
-
-  // Single SSSI path - repeater iTBHrY ("Operations requiring Natural England consent")
-  //   hqsZMS = "Which activity do you plan to carry out?"
-  const singleRepeater = repeaters.iTBHrY ?? []
-  if (singleRepeater.length > 0) {
-    activities = [
-      ...new Set(
-        singleRepeater
-          .map((entry) => /** @type {string} */ (entry.hqsZMS))
-          .filter(Boolean)
-      )
-    ]
-  }
-
-  // Multi SSSI path - repeater cwZgSE ("Site name and operations requiring Natural England consent")
-  //   BscJLV = "Which activity do you plan to carry out?"
-  const multiRepeater = repeaters.cwZgSE ?? []
-  if (activities.length === 0 && multiRepeater.length > 0) {
-    activities = [
-      ...new Set(
-        multiRepeater
-          .map((entry) => /** @type {string} */ (entry.BscJLV))
-          .filter(Boolean)
-      )
-    ]
-  }
-
-  // Collect unique SSSI names
-  /** @type {string[]} */
-  let sssiNames = []
-
-  // hozdvW = "What is the name of the SSSI where you plan to carry out activities?"
-  const singleSssi = /** @type {string | undefined} */ (main.hozdvW)
-  if (singleSssi) {
-    sssiNames = [parseName(singleSssi)]
-  } else if (multiRepeater.length > 0) {
-    sssiNames = [
-      ...new Set(
-        multiRepeater
-          .map((entry) => (entry.rWrBOK ? parseName(entry.rWrBOK) : ''))
-          .filter(Boolean)
-      )
-    ]
-  } else {
-    // Multi SSSI scheme path - repeater gWZwzI
-    //   gVlMxz = "What is the name of the SSSI where activities are planned?"
-    const schemeRepeater = repeaters.gWZwzI ?? []
-    sssiNames = schemeRepeater
-      .map((entry) => (entry.gVlMxz ? parseName(entry.gVlMxz) : ''))
-      .filter(Boolean)
-  }
-
-  // Build primary segment: activities or scheme or fallback
-  let primary = ''
-  if (activities.length > 0) {
-    primary = activities.join(', ')
-  } else {
-    // rTreXu = "What land management scheme does this notice relate to?"
-    const landManagementScheme = /** @type {string | undefined} */ (main.rTreXu)
-    if (landManagementScheme) {
-      primary = landManagementScheme
-    }
-  }
+  const { primary, sssiNames } = collectConsentSegments(main, repeaters)
 
   if (!primary && sssiNames.length === 0) {
     return 'S28E Consent'

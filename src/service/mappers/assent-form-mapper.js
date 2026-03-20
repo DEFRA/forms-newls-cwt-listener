@@ -107,40 +107,90 @@ function collectSssiNames(main, repeaters) {
 }
 
 /**
- * Builds the description from activity repeaters, falling back to
- * the scheme name and SSSI names when no activities are specified.
+ * Collects the primary segment (activities or scheme), SSSI names, and
+ * European site names for building the email header and description.
  * @param {Record<string, unknown>} main
  * @param {Record<string, Array<Record<string, unknown>>>} repeaters
- * @returns {string}
+ * @returns {{ primary: string, sssiNames: string[], euroSiteNames: string[] }}
  */
-function mapDescription(main, repeaters) {
+function collectAssentSegments(main, repeaters) {
+  // Collect all unique activities
+  /** @type {string[]} */
+  let activities = []
+
   // Single SSSI path - repeater gzSkgC ("Activities requiring Natural England's assent")
   //   lGsnXi = "What activity is planned to be carried out?"
   const singleSssiActivities = repeaters.gzSkgC ?? []
   if (singleSssiActivities.length > 0) {
-    return singleSssiActivities
-      .map((entry) => /** @type {string} */ (entry.lGsnXi))
-      .filter(Boolean)
-      .join(', ')
+    activities = [
+      ...new Set(
+        singleSssiActivities
+          .map((entry) => /** @type {string} */ (entry.lGsnXi))
+          .filter(Boolean)
+      )
+    ]
   }
 
   // Multiple SSSI path - repeater QxIzSB ("Site name and activities requiring Natural England assent")
   //   iNDqRN = "What activity is planned to be carried out?"
   const multiSssiActivities = repeaters.QxIzSB ?? []
-  if (multiSssiActivities.length > 0) {
-    return multiSssiActivities
-      .map((entry) => /** @type {string} */ (entry.iNDqRN))
-      .filter(Boolean)
-      .join(', ')
+  if (activities.length === 0 && multiSssiActivities.length > 0) {
+    activities = [
+      ...new Set(
+        multiSssiActivities
+          .map((entry) => /** @type {string} */ (entry.iNDqRN))
+          .filter(Boolean)
+      )
+    ]
   }
 
-  // Fallback: combine scheme name with SSSI names
-  // rTreXu = "What land management scheme does this notice relate to?"
-  const scheme = /** @type {string | undefined} */ (main.rTreXu)
-  const sssiNames = collectSssiNames(main, repeaters)
-  const parts = [scheme, ...sssiNames].filter(Boolean)
+  // Collect unique SSSI names (parsed from "ID---Name" format)
+  const sssiNames = collectSssiNames(main, repeaters).map(parseName)
 
-  return parts.length > 0 ? parts.join(', ') : ''
+  // Collect unique European site names (parsed from "ID---Name" format)
+  /** @type {string[]} */
+  const euroSiteNames = (repeaters.aQYWxD ?? [])
+    .map((entry) => (entry.IzQfir ? parseName(entry.IzQfir) : ''))
+    .filter(Boolean)
+
+  // Build primary segment: activities or scheme
+  let primary = ''
+  if (activities.length > 0) {
+    primary = activities.join(', ')
+  } else {
+    // rTreXu = "What land management scheme does this notice relate to?"
+    const landManagementScheme = /** @type {string | undefined} */ (main.rTreXu)
+    if (landManagementScheme) {
+      primary = landManagementScheme
+    }
+  }
+
+  return { primary, sssiNames, euroSiteNames }
+}
+
+/**
+ * Builds the description from activities, SSSI names, European site names,
+ * and scheme info. Uses the same segments as mapEmailHeader but without a
+ * length limit.
+ *
+ * Format: "[activities or scheme] - [SSSI names] - [Euro site names]"
+ * Fallback: "S28H Assent"
+ *
+ * @param {Record<string, unknown>} main
+ * @param {Record<string, Array<Record<string, unknown>>>} repeaters
+ * @returns {string}
+ */
+function mapDescription(main, repeaters) {
+  const { primary, sssiNames, euroSiteNames } = collectAssentSegments(
+    main,
+    repeaters
+  )
+  const segments = [
+    primary,
+    sssiNames.length > 0 ? sssiNames.join(', ') : '',
+    euroSiteNames.length > 0 ? euroSiteNames.join(', ') : ''
+  ].filter(Boolean)
+  return segments.length > 0 ? segments.join(' - ') : 'S28H Assent'
 }
 
 /**
@@ -343,16 +393,8 @@ function mapSssiInfo(main, repeaters) {
 
 /**
  * Builds the email_header from activities, SSSI names, European site names,
- * and scheme info.
- *
- * Rules:
- *   1. If activities are present (from single or multi SSSI repeaters),
- *      list all unique activities as the primary segment.
- *   2. If no activities, use the land management scheme name as the primary segment.
- *   3. Append SSSI names (parsed from "ID---Name" format) after the primary segment.
- *   4. Append European site names (parsed from "ID---Name" format) as a further segment.
- *   5. Fallback to "S28H Assent" when no activities, scheme, SSSIs, or Euro sites are available.
- *   6. Truncate to 255 characters, using "(+N more)" when names are dropped.
+ * and scheme info. Uses the same segments as mapDescription but truncated
+ * to 255 characters.
  *
  * @param {Record<string, unknown>} main
  * @param {Record<string, Array<Record<string, unknown>>>} repeaters
@@ -360,57 +402,10 @@ function mapSssiInfo(main, repeaters) {
  */
 function mapEmailHeader(main, repeaters) {
   const separator = ' - '
-
-  // Collect all unique activities
-  /** @type {string[]} */
-  let activities = []
-
-  // Single SSSI path - repeater gzSkgC ("Activities requiring Natural England's assent")
-  //   lGsnXi = "What activity is planned to be carried out?"
-  const singleSssiActivities = repeaters.gzSkgC ?? []
-  if (singleSssiActivities.length > 0) {
-    activities = [
-      ...new Set(
-        singleSssiActivities
-          .map((entry) => /** @type {string} */ (entry.lGsnXi))
-          .filter(Boolean)
-      )
-    ]
-  }
-
-  // Multiple SSSI path - repeater QxIzSB ("Site name and activities requiring Natural England assent")
-  //   iNDqRN = "What activity is planned to be carried out?"
-  const multiSssiActivities = repeaters.QxIzSB ?? []
-  if (activities.length === 0 && multiSssiActivities.length > 0) {
-    activities = [
-      ...new Set(
-        multiSssiActivities
-          .map((entry) => /** @type {string} */ (entry.iNDqRN))
-          .filter(Boolean)
-      )
-    ]
-  }
-
-  // Collect unique SSSI names
-  const sssiNames = collectSssiNames(main, repeaters).map(parseName)
-
-  // Collect unique European site names
-  /** @type {string[]} */
-  const euroSiteNames = (repeaters.aQYWxD ?? [])
-    .map((entry) => (entry.IzQfir ? parseName(entry.IzQfir) : ''))
-    .filter(Boolean)
-
-  // Build primary segment: activities or scheme or fallback
-  let primary = ''
-  if (activities.length > 0) {
-    primary = activities.join(', ')
-  } else {
-    // rTreXu = "What land management scheme does this notice relate to?"
-    const landManagementScheme = /** @type {string | undefined} */ (main.rTreXu)
-    if (landManagementScheme) {
-      primary = landManagementScheme
-    }
-  }
+  const { primary, sssiNames, euroSiteNames } = collectAssentSegments(
+    main,
+    repeaters
+  )
 
   if (!primary && sssiNames.length === 0 && euroSiteNames.length === 0) {
     return 'S28H Assent'
