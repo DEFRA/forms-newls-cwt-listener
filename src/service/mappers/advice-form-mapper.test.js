@@ -327,6 +327,28 @@ describe('advice-form-mapper', () => {
       )
       expect(result.consulting_body).toBe('Forestry Commission')
     })
+
+    it('should return customer name for Member of public', () => {
+      const result = mapFormSubmission(
+        buildMessage({
+          teEzOl: 'Member of public',
+          xzEslQ: 'Something else',
+          hUpejP: 'Tom Walker'
+        })
+      )
+      expect(result.consulting_body).toBe('Tom Walker')
+    })
+
+    it('should return customer name for Landowner', () => {
+      const result = mapFormSubmission(
+        buildMessage({
+          teEzOl: 'Landowner',
+          xzEslQ: 'Something else',
+          hUpejP: 'Robert Farmer'
+        })
+      )
+      expect(result.consulting_body).toBe('Robert Farmer')
+    })
   })
 
   describe('customer fields', () => {

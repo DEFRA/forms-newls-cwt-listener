@@ -227,6 +227,15 @@ function mapConsultingBody(main) {
     return mapOrganisationName(main)
   }
 
+  // Member of public or Landowner - use the customer name
+  if (
+    applicantCategory === 'Member of public' ||
+    applicantCategory === 'Landowner'
+  ) {
+    // hUpejP = "What is your full name?"
+    return /** @type {string} */ (main.hUpejP) ?? ''
+  }
+
   // Determine the effective body type - either direct from teEzOl or via PBmxNM
   const effectiveType = workingOnBehalfOf ?? applicantCategory
 

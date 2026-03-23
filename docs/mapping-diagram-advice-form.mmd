@@ -98,7 +98,9 @@ flowchart TD
         CB_PUB -->|"'Other'"| CB_PUB_OTHER["OYxtmu<br />Which public body are<br />you representing?"]
         CB_PUB -->|Other value| CB_PUB_NAME["HiTHQX value"]
 
-        CB_TYPE -->|"'Landowner' / 'Land occupier'<br />/ 'None of the above'"| CB_SELF["effectiveType<br />used as value"]
+        CB_TYPE -->|"'Member of public'<br />or 'Landowner'<br />(applicantCategory)"| CB_CUST["hUpejP<br />Customer name"]
+
+        CB_TYPE -->|"'Land occupier'<br />/ 'None of the above'"| CB_SELF["effectiveType<br />used as value"]
 
         CB_TYPE -->|"'Consultant' or 'Other'<br />with PBmxNM set"| CB_PBMXNM["Follow same logic above<br />using PBmxNM value<br />as the category"]
     end

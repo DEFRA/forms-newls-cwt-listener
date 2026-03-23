@@ -114,8 +114,9 @@ Resolved from multiple conditional fields. The "effective type" is either PBmxNM
 | Local Planning Authority / Regional body                           | -                                                      | YouDQP ("Local authority")         | Selected local authority name |
 | Harbour authority / Utility provider / Public body or organisation | HiTHQX ("Public body") != Other                        | HiTHQX ("Public body")             | Selected public body name     |
 | Harbour authority / Utility provider / Public body or organisation | HiTHQX ("Public body") = Other                         | OYxtmu ("Public body name")        | Free text value               |
-| Landowner                                                          | -                                                      | -                                  | `Landowner`                   |
+| Landowner                                                          | -                                                      | hUpejP ("Name")                    | Customer name                 |
 | Land occupier                                                      | -                                                      | -                                  | `Land occupier`               |
+| Member of public                                                   | -                                                      | hUpejP ("Name")                    | Customer name                 |
 | None of the above                                                  | -                                                      | -                                  | `None of the above`           |
 | Consultant                                                         | jYwTmN ("Organisation name") != Other                  | jYwTmN ("Organisation name")       | Selected organisation name    |
 | Consultant                                                         | jYwTmN ("Organisation name") = Other                   | jcctvG ("Other organisation name") | Free text organisation name   |
