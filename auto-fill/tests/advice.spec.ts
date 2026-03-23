@@ -17,7 +17,8 @@ import { test } from "./fixtures";
  *   8.  landowner-general-question        – Landowner → Something else topic → General question (with doc upload)
  *   9.  member-of-public-damage-report    – Member of public → Damage reporting path
  *  10.  member-of-public-drone            – Member of public → Drone flying path
- *  11.  lpa-s28g-pre-assent              – Local Planning Authority → S28G → Something else → Pre-assent advice
+ *  11.  other-category-other-org          – Other → Other org name → Landowner → General question
+ *  12.  lpa-s28g-pre-assent              – Local Planning Authority → S28G → Something else → Pre-assent advice
  */
 
 const FORM_URL = "http://localhost:3009/form/advice/before-you-start";
@@ -100,6 +101,10 @@ test.describe("Advice Form", () => {
     await page.getByRole("radio", { name: "Consultant" }).check();
     await page.getByRole("button", { name: "Continue" }).click();
 
+    // Organisation name (autocomplete)
+    await fillAutocomplete(page, "National", "National Trust");
+    await page.getByRole("button", { name: "Continue" }).click();
+
     // Working on behalf of (NB: typo "Government" is in the live form)
     await page.getByRole("radio", { name: "Government agency" }).check();
     await page.getByRole("button", { name: "Continue" }).click();
@@ -163,6 +168,10 @@ test.describe("Advice Form", () => {
     await page.getByRole("radio", { name: "Consultant" }).check();
     await page.getByRole("button", { name: "Continue" }).click();
 
+    // Organisation name (autocomplete)
+    await fillAutocomplete(page, "National", "National Trust");
+    await page.getByRole("button", { name: "Continue" }).click();
+
     await page.getByRole("radio", { name: "Government agency" }).check();
     await page.getByRole("button", { name: "Continue" }).click();
 
@@ -219,6 +228,10 @@ test.describe("Advice Form", () => {
     await startForm(page);
 
     await page.getByRole("radio", { name: "Consultant" }).check();
+    await page.getByRole("button", { name: "Continue" }).click();
+
+    // Organisation name (autocomplete)
+    await fillAutocomplete(page, "National", "National Trust");
     await page.getByRole("button", { name: "Continue" }).click();
 
     await page.getByRole("radio", { name: "Government agency" }).check();
@@ -660,7 +673,64 @@ test.describe("Advice Form", () => {
     await page.getByRole("button", { name: "Submit" }).click();
   });
 
-  // ── Route 11: Local Planning Authority → S28G → Something else → Pre-assent advice ──
+  // ── Route 11: Other category → Other org → Landowner → General question ──
+  test("other-category-other-org-general-question", async ({ page }) => {
+    await startForm(page);
+
+    // Applicant category – Other
+    await page.getByRole("radio", { name: "Other" }).check();
+    await page.getByRole("button", { name: "Continue" }).click();
+
+    // Organisation name – select "Other" to trigger the other-org-name page
+    // Cannot use fillAutocomplete here because "Other" also partially matches
+    // "Rotherham Borough Council" and "Rother District Council" in the dropdown.
+    const orgInput = page.locator("input.autocomplete__input");
+    await expect(orgInput).toBeVisible();
+    await orgInput.fill("Other");
+    await page.getByRole("option", { name: "Other", exact: true }).click();
+    await page.getByRole("button", { name: "Continue" }).click();
+
+    // Other organisation name (free text)
+    await page
+      .getByRole("textbox", { name: "Other organisation name" })
+      .fill("Acme Environmental Services Ltd");
+    await page.getByRole("button", { name: "Continue" }).click();
+
+    // Who are you working on behalf of?
+    await page.getByRole("radio", { name: "Landowner" }).check();
+    await page.getByRole("button", { name: "Continue" }).click();
+
+    // Topic selection – Something else → general question
+    await page.getByText("Something else", { exact: true }).click();
+    await page.getByRole("button", { name: "Continue" }).click();
+
+    // What is your question?
+    await page
+      .getByRole("textbox", { name: "What is your question?" })
+      .fill(
+        "What are the notification requirements for hedgerow management on SSSI land?"
+      );
+    await page.getByRole("button", { name: "Continue" }).click();
+
+    // Supporting documents? – No
+    await page.getByRole("radio", { name: "No" }).check();
+    await page.getByRole("button", { name: "Continue" }).click();
+
+    // More information? – No
+    await page.getByRole("radio", { name: "No" }).check();
+    await page.getByRole("button", { name: "Continue" }).click();
+
+    await fillContactDetails(
+      page,
+      "Laura Mitchell",
+      "07700900012",
+      "laura.mitchell@do-not-resolve-for-testing.com"
+    );
+    // Summary page – leave confirmation email blank, just submit
+    await page.getByRole("button", { name: "Submit" }).click();
+  });
+
+  // ── Route 12: Local Planning Authority → S28G → Something else → Pre-assent advice ──
   test("lpa-s28g-pre-assent", async ({ page }) => {
     await startForm(page);
 
@@ -700,7 +770,21 @@ test.describe("Advice Form", () => {
     await page.getByRole("radio", { name: "Yes" }).check();
     await page.getByRole("button", { name: "Continue" }).click();
 
-    // Query relates to EU sites? – No → straight to contact details
+    // Query relates to EU sites? – No → general question flow
+    await page.getByRole("radio", { name: "No" }).check();
+    await page.getByRole("button", { name: "Continue" }).click();
+
+    // What is your question?
+    await page
+      .getByRole("textbox", { name: "What is your question?" })
+      .fill("Pre-assent advice on proposed development near SSSI.");
+    await page.getByRole("button", { name: "Continue" }).click();
+
+    // Supporting documents? – No
+    await page.getByRole("radio", { name: "No" }).check();
+    await page.getByRole("button", { name: "Continue" }).click();
+
+    // More information? – No
     await page.getByRole("radio", { name: "No" }).check();
     await page.getByRole("button", { name: "Continue" }).click();
 
