@@ -237,6 +237,18 @@ describe('advice-form-mapper', () => {
       )
     })
 
+    it('should include SSSI name for drone flying path', () => {
+      const result = mapFormSubmission(
+        buildMessage({
+          teEzOl: 'Member of public',
+          xzEslQ:
+            'I have a question about flying drones on or near a protected site',
+          PxvdiH: '1004018---Aqualate Mere SSSI'
+        })
+      )
+      expect(result.email_header).toBe('SSSI - Other - Aqualate Mere SSSI')
+    })
+
     it('should truncate to 255 characters when many sites', () => {
       const euroSites = Array.from({ length: 30 }, (_, i) => ({
         rtuWky: `UK${11000 + i}---A Very Long European Site Name Number ${i + 1}`,
@@ -477,6 +489,18 @@ describe('advice-form-mapper', () => {
       )
     })
 
+    it('should include SSSI name for drone flying path', () => {
+      const result = mapFormSubmission(
+        buildMessage({
+          teEzOl: 'Member of public',
+          xzEslQ:
+            'I have a question about flying drones on or near a protected site',
+          PxvdiH: '1004018---Aqualate Mere SSSI'
+        })
+      )
+      expect(result.description).toBe('SSSI - Other - Aqualate Mere SSSI')
+    })
+
     it('should return detailed_work_type alone for general topics without free text', () => {
       const result = mapFormSubmission(
         buildMessage({
@@ -538,6 +562,18 @@ describe('advice-form-mapper', () => {
       expect(result.SSSI_info).toEqual([
         { SSSI_id: 2005001, coordinates: '500000,400000' }
       ])
+    })
+
+    it('should build SSSI info from drone flying path', () => {
+      const result = mapFormSubmission(
+        buildMessage({
+          teEzOl: 'Member of public',
+          xzEslQ:
+            'I have a question about flying drones on or near a protected site',
+          PxvdiH: '1004018---Aqualate Mere SSSI'
+        })
+      )
+      expect(result.SSSI_info).toEqual([{ SSSI_id: 1004018, coordinates: '' }])
     })
   })
 

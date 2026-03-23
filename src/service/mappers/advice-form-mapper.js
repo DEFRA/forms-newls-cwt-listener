@@ -140,6 +140,7 @@ function mapDetailedWorkType(main) {
  * - HRA path: European site names (from TJuSNf repeater, parsed from "ID---Name").
  * - S28I SSSI path: SSSI names (from Avdzxa entries, parsed from "ID---Name").
  * - Damage reporting path: damaged SSSI name (from MoCXGK, parsed from "ID---Name").
+ * - Drone flying path: drone SSSI name (from PxvdiH, parsed from "ID---Name").
  * - General topics path: no site names.
  *
  * @param {Record<string, unknown>} main
@@ -177,6 +178,12 @@ function collectSiteNames(main, repeaters) {
   const sssiDamageId = /** @type {string | undefined} */ (main.MoCXGK)
   if (sssiDamageId) {
     return [parseName(sssiDamageId)]
+  }
+
+  // PxvdiH = "What is the name of the SSSI?" (drone flying path)
+  const sssiDroneId = /** @type {string | undefined} */ (main.PxvdiH)
+  if (sssiDroneId) {
+    return [parseName(sssiDroneId)]
   }
 
   return []
@@ -394,6 +401,16 @@ function mapSssiInfo(main, repeaters) {
             /** @type {{ easting: number, northing: number }} */ (main.rSJTFC)
           )
         : ''
+    })
+  }
+
+  // Drone flying path:
+  //   PxvdiH = "What is the name of the SSSI?" (drone flying path)
+  const sssiDroneId = /** @type {string | undefined} */ (main.PxvdiH)
+  if (sssiInfo.length === 0 && sssiDroneId) {
+    sssiInfo.push({
+      SSSI_id: parseSssiId(sssiDroneId),
+      coordinates: ''
     })
   }
 

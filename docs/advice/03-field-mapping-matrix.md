@@ -67,7 +67,7 @@ Same precedence as `broad_work_type`, but with finer granularity for general top
 
 ## email_header
 
-Always set to the same value as `detailed_work_type`.
+Format: `"[detailed_work_type] - [site names]"` (truncated to 255 characters). When no site names are collected and the topic is "Something else", the free text question is appended instead. When no site names or free text, equals `detailed_work_type` alone.
 
 ## description
 
@@ -172,10 +172,11 @@ Array of `{ SSSI_id, coordinates }` objects, populated from two possible sources
 
 SSSI_id values are parsed as integers from the string form field value. An error is thrown if a non-empty value cannot be parsed.
 
-| Source                              | SSSI_id field                                         | Coordinates field             | When used                                               |
-| ----------------------------------- | ----------------------------------------------------- | ----------------------------- | ------------------------------------------------------- |
-| Repeater entries (S28I/HRA path)    | Avdzxa ("SSSI site ID", parsed as integer)            | NMCFES ("Activity location")  | When repeater contains entries with Avdzxa              |
-| Main fields (damage reporting path) | MoCXGK ("SSSI site ID for damage", parsed as integer) | rSJTFC ("Location of damage") | When no repeater SSSI data exists AND MoCXGK is present |
+| Source                              | SSSI_id field                                            | Coordinates field             | When used                                                         |
+| ----------------------------------- | -------------------------------------------------------- | ----------------------------- | ----------------------------------------------------------------- |
+| Repeater entries (S28I/HRA path)    | Avdzxa ("SSSI site ID", parsed as integer)               | NMCFES ("Activity location")  | When repeater contains entries with Avdzxa                        |
+| Main fields (damage reporting path) | MoCXGK ("SSSI site ID for damage", parsed as integer)    | rSJTFC ("Location of damage") | When no repeater SSSI data exists AND MoCXGK is present           |
+| Main fields (drone flying path)     | PxvdiH ("SSSI name for drone flying", parsed as integer) | (none)                        | When no repeater or damage SSSI data exists AND PxvdiH is present |
 
 Coordinates are formatted as `"<easting>,<northing>"`.
 
@@ -207,7 +208,7 @@ This section identifies all scenarios where output fields sent to the University
 | `consulting_body`                       | teEzOl ("Representation category") is the first mandatory question; each category resolves to a non-empty value via mandatory follow-up questions |
 | `customer_name`                         | hUpejP ("What is your full name?") is a mandatory field on all paths                                                                              |
 | `customer_email_address`                | YOPYRe ("What is your email address?") is a mandatory field on all paths                                                                          |
-| `email_header`                          | Always equals `detailed_work_type`, so always populated                                                                                           |
+| `email_header`                          | Always contains at least `detailed_work_type`, so always populated                                                                                |
 | `is_contractor_working_for_public_body` | Always `"Yes"` or `"No"`                                                                                                                          |
 | `public_body_type`                      | teEzOl ("Representation category") is always set (first mandatory question), so the empty-string fallback is unreachable                          |
 | `is_there_a_european_site`              | Always `"Yes"` or `"No"`                                                                                                                          |
@@ -220,10 +221,10 @@ This section identifies all scenarios where output fields sent to the University
 
 ### Fields that may be empty arrays
 
-| Field            | Condition producing empty array                                                                                                                                                                                    | Realistic scenario?                                                                                                                          |
-| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------- |
-| `SSSI_info`      | No SSSI repeater entries via Avdzxa ("What is the name of SSSI where the activities will cause impacts?") and no damage SSSI via MoCXGK ("What is the name of the SSSI that you would like to report damage for?") | **Expected** — general topic paths (NNRs, pre-consent, pre-assent, SSSI sale, something else) do not collect SSSI data. See Examples 5, 7, 9 |
-| `euro_site_info` | Not on HRA path, or HRA path with no European site entries                                                                                                                                                         | **Expected** — all non-HRA paths produce an empty array. See Examples 2, 4, 5, 6, 7, 9                                                       |
+| Field            | Condition producing empty array                                                              | Realistic scenario?                                                                                                                          |
+| ---------------- | -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| `SSSI_info`      | No SSSI repeater entries via Avdzxa, no damage SSSI via MoCXGK, and no drone SSSI via PxvdiH | **Expected** — general topic paths (NNRs, pre-consent, pre-assent, SSSI sale, something else) do not collect SSSI data. See Examples 5, 7, 9 |
+| `euro_site_info` | Not on HRA path, or HRA path with no European site entries                                   | **Expected** — all non-HRA paths produce an empty array. See Examples 2, 4, 5, 6, 7, 9                                                       |
 
 ### Key empty value scenarios by form path
 
@@ -237,7 +238,7 @@ This section identifies all scenarios where output fields sent to the University
 | General: Pre-consent       | `""` empty    | `[]` empty  | `[]` empty       | No SSSI or European site data collected on general question path                                                                             |
 | General: NNRs              | `""` empty    | `[]` empty  | `[]` empty       | No SSSI or European site data collected on general question path                                                                             |
 | General: Damage report     | `""` empty    | Populated   | `[]` empty       | SSSI from damage fields MoCXGK ("SSSI name for damage report") / rSJTFC ("Where on the SSSI has the damage taken place?"), no European sites |
-| General: Drones (MoP only) | `""` empty    | `[]` empty  | `[]` empty       | Drone SSSI PxvdiH ("What is the name of the SSSI?") is not mapped to SSSI_info; no European sites                                            |
+| General: Drones (MoP only) | `""` empty    | Populated   | `[]` empty       | SSSI from drone field PxvdiH ("What is the name of the SSSI?"), no coordinates collected; no European sites                                  |
 | General: SSSI sale         | `""` empty    | `[]` empty  | `[]` empty       | No SSSI or European site data collected                                                                                                      |
 | General: Something else    | `""` empty    | `[]` empty  | `[]` empty       | No SSSI or European site data collected                                                                                                      |
 | Consultant for Landowner   | `""` empty    | `[]` empty  | `[]` empty       | `public_body` empty because PBmxNM ("Who are you working on behalf of?") = Landowner doesn't resolve to a body name                          |
