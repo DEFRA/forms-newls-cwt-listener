@@ -10,7 +10,8 @@
     "test:report": "playwright show-report",
     "test:advice": "playwright test --headed tests/advice.spec.ts",
     "test:assent": "playwright test tests/assent.spec.ts",
-    "test:consent": "playwright test tests/consent.spec.ts"
+    "test:consent": "playwright test tests/consent.spec.ts",
+    "test:capture": "bash run-and-capture.sh"
   },
   "keywords": [
     "playwright",
