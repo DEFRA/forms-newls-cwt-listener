@@ -23,7 +23,7 @@ const generalTopicToDetailedWorkType = {
   'I represent a public body and I would like advice before applying for SSSI assent':
     'SSSI - Pre Assent advice',
   'I would like to report potentially damaging activity on or near a protected site':
-    'SSSI - Site visits/surveys',
+    'SSSI - Regulation and Enforcement',
   'I would like to submit or request surveys or information about the condition of SSSIs':
     'SSSI - Regulation and Enforcement',
   'I have a question about Natural England managed National Nature Reserves (NNRs)':

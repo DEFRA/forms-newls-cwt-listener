@@ -233,7 +233,7 @@ describe('advice-form-mapper', () => {
         })
       )
       expect(result.email_header).toBe(
-        'SSSI - Site visits/surveys - Damage Reporting SSSI'
+        'SSSI - Regulation and Enforcement - Damage Reporting SSSI'
       )
     })
 
@@ -473,7 +473,7 @@ describe('advice-form-mapper', () => {
         })
       )
       expect(result.description).toBe(
-        'SSSI - Site visits/surveys - Damage Reporting SSSI'
+        'SSSI - Regulation and Enforcement - Damage Reporting SSSI'
       )
     })
 
