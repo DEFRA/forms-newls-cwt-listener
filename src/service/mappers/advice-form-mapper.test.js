@@ -148,6 +148,33 @@ describe('advice-form-mapper', () => {
       expect(result.email_header).toBe('SSSI - Other')
     })
 
+    it('should include free text question in email_header when xzEslQ is "Something else" and QmIGor is present', () => {
+      const result = mapFormSubmission(
+        buildMessage({
+          teEzOl: 'Landowner',
+          xzEslQ: 'Something else',
+          QmIGor: 'What is the process for FC woodland management consent?'
+        })
+      )
+      expect(result.email_header).toBe(
+        'SSSI - Other - What is the process for FC woodland management consent?'
+      )
+    })
+
+    it('should truncate email_header with free text question to 255 characters', () => {
+      const longQuestion = 'A'.repeat(300)
+      const result = mapFormSubmission(
+        buildMessage({
+          teEzOl: 'Landowner',
+          xzEslQ: 'Something else',
+          QmIGor: longQuestion
+        })
+      )
+      expect(result.email_header.length).toBeLessThanOrEqual(255)
+      expect(result.email_header).toContain('SSSI - Other')
+      expect(result.email_header).toMatch(/\.\.\.$/u)
+    })
+
     it('should include Euro site names for HRA path', () => {
       const result = mapFormSubmission(
         buildMessage(
@@ -450,7 +477,7 @@ describe('advice-form-mapper', () => {
       )
     })
 
-    it('should return detailed_work_type alone for general topics', () => {
+    it('should return detailed_work_type alone for general topics without free text', () => {
       const result = mapFormSubmission(
         buildMessage({
           teEzOl: 'Landowner',
@@ -458,6 +485,19 @@ describe('advice-form-mapper', () => {
         })
       )
       expect(result.description).toBe('SSSI - Other')
+    })
+
+    it('should include free text question in description when xzEslQ is "Something else" and QmIGor is present', () => {
+      const result = mapFormSubmission(
+        buildMessage({
+          teEzOl: 'Landowner',
+          xzEslQ: 'Something else',
+          QmIGor: 'I need advice on managing a hedgerow on my SSSI land.'
+        })
+      )
+      expect(result.description).toBe(
+        'SSSI - Other - I need advice on managing a hedgerow on my SSSI land.'
+      )
     })
   })
 

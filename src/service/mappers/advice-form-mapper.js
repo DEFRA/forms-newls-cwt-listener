@@ -195,7 +195,14 @@ function collectSiteNames(main, repeaters) {
  */
 function mapDescription(main, repeaters, detailedWorkType) {
   const siteNames = collectSiteNames(main, repeaters)
+  // QmIGor = "What is your question?" (free text shown when xzEslQ = "Something else")
+  const generalTopic = /** @type {string | undefined} */ (main.xzEslQ)
+  const freeTextQuestion = /** @type {string | undefined} */ (main.QmIGor)
+
   if (siteNames.length === 0) {
+    if (generalTopic === 'Something else' && freeTextQuestion) {
+      return detailedWorkType + ' - ' + freeTextQuestion
+    }
     return detailedWorkType
   }
   return detailedWorkType + ' - ' + siteNames.join(', ')
@@ -405,8 +412,17 @@ function mapSssiInfo(main, repeaters) {
 function mapEmailHeader(main, repeaters, detailedWorkType) {
   const separator = ' - '
   const siteNames = collectSiteNames(main, repeaters)
+  // QmIGor = "What is your question?" (free text shown when xzEslQ = "Something else")
+  const generalTopic = /** @type {string | undefined} */ (main.xzEslQ)
+  const freeTextQuestion = /** @type {string | undefined} */ (main.QmIGor)
 
   if (siteNames.length === 0) {
+    if (generalTopic === 'Something else' && freeTextQuestion) {
+      const full = detailedWorkType + separator + freeTextQuestion
+      return full.length <= EMAIL_HEADER_MAX_LENGTH
+        ? full
+        : full.substring(0, EMAIL_HEADER_MAX_LENGTH - 3) + '...'
+    }
     return detailedWorkType.length <= EMAIL_HEADER_MAX_LENGTH
       ? detailedWorkType
       : detailedWorkType.substring(0, EMAIL_HEADER_MAX_LENGTH - 3) + '...'

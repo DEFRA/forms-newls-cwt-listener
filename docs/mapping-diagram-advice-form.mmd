@@ -66,6 +66,10 @@ flowchart TD
 
         subgraph DESC_GENERAL["General Topics Description Path"]
             DESC_GEN1["xzEslQ<br />Which topic fits the nature of<br />your question the best?<br />→ topic text"]
+            DESC_GEN2{"xzEslQ = 'Something else'<br />and QmIGor present?"}
+            DESC_GEN1 --> DESC_GEN2
+            DESC_GEN2 -->|Yes| DESC_GEN_SE["+ QmIGor<br />What is your question?<br />(free text appended)"]
+            DESC_GEN2 -->|No| DESC_GEN_ONLY["detailed_work_type only"]
         end
 
         DESC_APPEND["Additional fields appended:<br />+ QmIGor: What is your question?<br />+ nJVeix: Tell us about the proposed activities<br />+ YhWlKB: Give a description of the damaging activity"]
