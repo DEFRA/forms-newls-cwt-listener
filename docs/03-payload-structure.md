@@ -117,6 +117,7 @@ Each form mapper produces a different output structure. All outputs are sent as 
 ```javascript
 {
   form_type: "advice",
+  DF_reference_number: "1A5-F72-704",
   broad_work_type: "Other casework",       // or "S28i Advice", "Standalone HRA Reg 63"
   detailed_work_type: "SSSI - Pre Consent advice",
   description: "Description of the proposed works",
@@ -143,6 +144,7 @@ Each form mapper produces a different output structure. All outputs are sent as 
 ```javascript
 {
   form_type: "assent",
+  DF_reference_number: "1A5-F72-704",
   broad_work_type: "S28H Assent",
   detailed_work_type: "CSHT",             // or "CSMT", "HLS", "SFI", "MTA"
   description: "Description of activities",
@@ -161,6 +163,7 @@ Each form mapper produces a different output structure. All outputs are sent as 
 ```javascript
 {
   form_type: "consent",
+  DF_reference_number: "1A5-F72-704",
   broad_work_type: "S28E Consent",
   detailed_work_type: "CSHT",
   description: "SSSI Name - Activity description",
@@ -180,6 +183,7 @@ Each form mapper produces a different output structure. All outputs are sent as 
 | Field                    | Type   | Description                                   |
 | ------------------------ | ------ | --------------------------------------------- |
 | `form_type`              | string | `"advice"`, `"assent"`, or `"consent"`        |
+| `DF_reference_number`    | string | Defra Forms submission reference number       |
 | `customer_name`          | string | Submitter's full name                         |
 | `customer_email_address` | string | Submitter's email address                     |
 | `email_header`           | string | Text used as the email subject line           |

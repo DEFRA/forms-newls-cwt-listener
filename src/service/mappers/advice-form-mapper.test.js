@@ -31,6 +31,13 @@ describe('advice-form-mapper', () => {
     expect(result.form_type).toBe('advice')
   })
 
+  it('should set DF_reference_number from meta.referenceNumber', () => {
+    const result = mapFormSubmission(
+      buildMessage({ teEzOl: 'Landowner', xzEslQ: 'Something else' })
+    )
+    expect(result.DF_reference_number).toBe('576-225-943')
+  })
+
   describe('broad_work_type', () => {
     it('should map NVRbCy "HRA advice" to "Standalone HRA Reg 63"', () => {
       const result = mapFormSubmission(
@@ -134,11 +141,131 @@ describe('advice-form-mapper', () => {
   })
 
   describe('email_header', () => {
-    it('should equal detailed_work_type', () => {
+    it('should include detailed_work_type for general topics path', () => {
       const result = mapFormSubmission(
         buildMessage({ teEzOl: 'Landowner', xzEslQ: 'Something else' })
       )
-      expect(result.email_header).toBe(result.detailed_work_type)
+      expect(result.email_header).toBe('SSSI - Other')
+    })
+
+    it('should include free text question in email_header when xzEslQ is "Something else" and QmIGor is present', () => {
+      const result = mapFormSubmission(
+        buildMessage({
+          teEzOl: 'Landowner',
+          xzEslQ: 'Something else',
+          QmIGor: 'What is the process for FC woodland management consent?'
+        })
+      )
+      expect(result.email_header).toBe(
+        'SSSI - Other - What is the process for FC woodland management consent?'
+      )
+    })
+
+    it('should truncate email_header with free text question to 255 characters', () => {
+      const longQuestion = 'A'.repeat(300)
+      const result = mapFormSubmission(
+        buildMessage({
+          teEzOl: 'Landowner',
+          xzEslQ: 'Something else',
+          QmIGor: longQuestion
+        })
+      )
+      expect(result.email_header.length).toBeLessThanOrEqual(255)
+      expect(result.email_header).toContain('SSSI - Other')
+      expect(result.email_header).toMatch(/\.\.\.$/u)
+    })
+
+    it('should include Euro site names for HRA path', () => {
+      const result = mapFormSubmission(
+        buildMessage(
+          {
+            teEzOl: 'Government Agency',
+            PvUZyQ: 'Forestry Commission',
+            NVRbCy: 'HRA advice'
+          },
+          {
+            TJuSNf: [
+              {
+                rtuWky: 'UK11004---Arun Valley Ramsar',
+                xeJYcG: { easting: 100000, northing: 200000 }
+              },
+              {
+                rtuWky: 'UK11001---Abberton Reservoir Ramsar',
+                xeJYcG: { easting: 300000, northing: 400000 }
+              }
+            ]
+          }
+        )
+      )
+      expect(result.email_header).toBe(
+        'Standalone HRA Reg 63 - Arun Valley Ramsar, Abberton Reservoir Ramsar'
+      )
+    })
+
+    it('should include SSSI names for S28I path', () => {
+      const result = mapFormSubmission(
+        buildMessage(
+          {
+            teEzOl: 'Government Agency',
+            PvUZyQ: 'Environment Agency',
+            YOwPAJ: 'S28i SSSI advice'
+          },
+          {
+            someRepeater: [
+              {
+                Avdzxa: '1001001---Test SSSI',
+                NMCFES: { easting: 400000, northing: 300000 }
+              }
+            ]
+          }
+        )
+      )
+      expect(result.email_header).toBe('S28i Advice - Test SSSI')
+    })
+
+    it('should include SSSI name for damage reporting path', () => {
+      const result = mapFormSubmission(
+        buildMessage({
+          teEzOl: 'Landowner',
+          xzEslQ:
+            'I would like to report potentially damaging activity on or near a protected site',
+          MoCXGK: '2005001---Damage Reporting SSSI'
+        })
+      )
+      expect(result.email_header).toBe(
+        'SSSI - Regulation and Enforcement - Damage Reporting SSSI'
+      )
+    })
+
+    it('should include SSSI name for drone flying path', () => {
+      const result = mapFormSubmission(
+        buildMessage({
+          teEzOl: 'Member of public',
+          xzEslQ:
+            'I have a question about flying drones on or near a protected site',
+          PxvdiH: '1004018---Aqualate Mere SSSI'
+        })
+      )
+      expect(result.email_header).toBe('SSSI - Other - Aqualate Mere SSSI')
+    })
+
+    it('should truncate to 255 characters when many sites', () => {
+      const euroSites = Array.from({ length: 30 }, (_, i) => ({
+        rtuWky: `UK${11000 + i}---A Very Long European Site Name Number ${i + 1}`,
+        xeJYcG: { easting: 100000, northing: 200000 }
+      }))
+      const result = mapFormSubmission(
+        buildMessage(
+          {
+            teEzOl: 'Government Agency',
+            PvUZyQ: 'Forestry Commission',
+            NVRbCy: 'HRA advice'
+          },
+          { TJuSNf: euroSites }
+        )
+      )
+      expect(result.email_header.length).toBeLessThanOrEqual(255)
+      expect(result.email_header).toContain('Standalone HRA Reg 63')
     })
   })
 
@@ -202,16 +329,64 @@ describe('advice-form-mapper', () => {
       expect(result.consulting_body).toBe('Surrey County Council')
     })
 
-    it('should follow PBmxNM chain for Consultant', () => {
+    it('should return organisation name from jYwTmN for Consultant', () => {
       const result = mapFormSubmission(
         buildMessage({
           teEzOl: 'Consultant',
           PBmxNM: 'Local Planning Authority',
           YouDQP: 'Bristol City Council',
+          jYwTmN: 'Environment Agency - EA',
           xzEslQ: 'Something else'
         })
       )
-      expect(result.consulting_body).toBe('Bristol City Council')
+      expect(result.consulting_body).toBe('Environment Agency - EA')
+    })
+
+    it('should return free text organisation for Consultant when jYwTmN is "Other"', () => {
+      const result = mapFormSubmission(
+        buildMessage({
+          teEzOl: 'Consultant',
+          PBmxNM: 'Landowner',
+          jYwTmN: 'Other',
+          jcctvG: 'My Custom Organisation',
+          xzEslQ: 'Something else'
+        })
+      )
+      expect(result.consulting_body).toBe('My Custom Organisation')
+    })
+
+    it('should return organisation name from jYwTmN for Other category', () => {
+      const result = mapFormSubmission(
+        buildMessage({
+          teEzOl: 'Other',
+          PBmxNM: 'Landowner',
+          jYwTmN: 'Forestry Commission',
+          xzEslQ: 'Something else'
+        })
+      )
+      expect(result.consulting_body).toBe('Forestry Commission')
+    })
+
+    it('should return customer name for Member of public', () => {
+      const result = mapFormSubmission(
+        buildMessage({
+          teEzOl: 'Member of public',
+          xzEslQ: 'Something else',
+          hUpejP: 'Tom Walker'
+        })
+      )
+      expect(result.consulting_body).toBe('Tom Walker')
+    })
+
+    it('should return customer name for Landowner', () => {
+      const result = mapFormSubmission(
+        buildMessage({
+          teEzOl: 'Landowner',
+          xzEslQ: 'Something else',
+          hUpejP: 'Robert Farmer'
+        })
+      )
+      expect(result.consulting_body).toBe('Robert Farmer')
     })
   })
 
@@ -255,7 +430,7 @@ describe('advice-form-mapper', () => {
   })
 
   describe('description', () => {
-    it('should build HRA description from stage and site names', () => {
+    it('should include detailed_work_type and Euro site names for HRA path', () => {
       const result = mapFormSubmission(
         buildMessage(
           {
@@ -267,7 +442,7 @@ describe('advice-form-mapper', () => {
           {
             TJuSNf: [
               {
-                rtuWky: 'Arun Valley Ramsar',
+                rtuWky: 'UK11004---Arun Valley Ramsar',
                 xeJYcG: { easting: 100000, northing: 200000 }
               }
             ]
@@ -275,20 +450,77 @@ describe('advice-form-mapper', () => {
         )
       )
       expect(result.description).toBe(
-        'Advice on screening stage - Arun Valley Ramsar'
+        'Standalone HRA Reg 63 - Arun Valley Ramsar'
       )
     })
 
-    it('should use xzEslQ topic text for general path', () => {
+    it('should include detailed_work_type and SSSI names for S28I path', () => {
+      const result = mapFormSubmission(
+        buildMessage(
+          {
+            teEzOl: 'Government Agency',
+            PvUZyQ: 'Environment Agency',
+            YOwPAJ: 'S28i SSSI advice'
+          },
+          {
+            someRepeater: [
+              {
+                Avdzxa: '1001001---Test SSSI',
+                NMCFES: { easting: 400000, northing: 300000 }
+              }
+            ]
+          }
+        )
+      )
+      expect(result.description).toBe('S28i Advice - Test SSSI')
+    })
+
+    it('should include SSSI name for damage reporting path', () => {
+      const result = mapFormSubmission(
+        buildMessage({
+          teEzOl: 'Landowner',
+          xzEslQ:
+            'I would like to report potentially damaging activity on or near a protected site',
+          MoCXGK: '2005001---Damage Reporting SSSI'
+        })
+      )
+      expect(result.description).toBe(
+        'SSSI - Regulation and Enforcement - Damage Reporting SSSI'
+      )
+    })
+
+    it('should include SSSI name for drone flying path', () => {
+      const result = mapFormSubmission(
+        buildMessage({
+          teEzOl: 'Member of public',
+          xzEslQ:
+            'I have a question about flying drones on or near a protected site',
+          PxvdiH: '1004018---Aqualate Mere SSSI'
+        })
+      )
+      expect(result.description).toBe('SSSI - Other - Aqualate Mere SSSI')
+    })
+
+    it('should return detailed_work_type alone for general topics without free text', () => {
+      const result = mapFormSubmission(
+        buildMessage({
+          teEzOl: 'Landowner',
+          xzEslQ: 'Something else'
+        })
+      )
+      expect(result.description).toBe('SSSI - Other')
+    })
+
+    it('should include free text question in description when xzEslQ is "Something else" and QmIGor is present', () => {
       const result = mapFormSubmission(
         buildMessage({
           teEzOl: 'Landowner',
           xzEslQ: 'Something else',
-          QmIGor: 'My question about SSSIs'
+          QmIGor: 'I need advice on managing a hedgerow on my SSSI land.'
         })
       )
       expect(result.description).toBe(
-        'Something else - My question about SSSIs'
+        'SSSI - Other - I need advice on managing a hedgerow on my SSSI land.'
       )
     })
   })
@@ -305,7 +537,7 @@ describe('advice-form-mapper', () => {
           {
             someRepeater: [
               {
-                Avdzxa: 'Test SSSI',
+                Avdzxa: '1001001---Test SSSI',
                 NMCFES: { easting: 400000, northing: 300000 }
               }
             ]
@@ -313,7 +545,7 @@ describe('advice-form-mapper', () => {
         )
       )
       expect(result.SSSI_info).toEqual([
-        { SSSI_id: 'Test SSSI', coordinates: '400000,300000' }
+        { SSSI_id: 1001001, coordinates: '400000,300000' }
       ])
     })
 
@@ -323,13 +555,25 @@ describe('advice-form-mapper', () => {
           teEzOl: 'Landowner',
           xzEslQ:
             'I would like to report potentially damaging activity on or near a protected site',
-          MoCXGK: 'Damaged SSSI',
+          MoCXGK: '2005001---Damage Reporting SSSI',
           rSJTFC: { easting: 500000, northing: 400000 }
         })
       )
       expect(result.SSSI_info).toEqual([
-        { SSSI_id: 'Damaged SSSI', coordinates: '500000,400000' }
+        { SSSI_id: 2005001, coordinates: '500000,400000' }
       ])
+    })
+
+    it('should build SSSI info from drone flying path', () => {
+      const result = mapFormSubmission(
+        buildMessage({
+          teEzOl: 'Member of public',
+          xzEslQ:
+            'I have a question about flying drones on or near a protected site',
+          PxvdiH: '1004018---Aqualate Mere SSSI'
+        })
+      )
+      expect(result.SSSI_info).toEqual([{ SSSI_id: 1004018, coordinates: '' }])
     })
   })
 
@@ -345,7 +589,7 @@ describe('advice-form-mapper', () => {
           {
             TJuSNf: [
               {
-                rtuWky: 'Test Euro Site',
+                rtuWky: 'UK11001---Test Euro Site',
                 xeJYcG: { easting: 100000, northing: 200000 }
               }
             ]
@@ -354,7 +598,7 @@ describe('advice-form-mapper', () => {
       )
       expect(result.euro_site_info).toEqual([
         {
-          european_site_id: 'Test Euro Site',
+          european_site_id: 'UK11001',
           european_site_coordinates: '100000,200000'
         }
       ])

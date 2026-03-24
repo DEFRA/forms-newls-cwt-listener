@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - feat/DF-880--forms-transmit-listener
 
 permissions:
   id-token: write

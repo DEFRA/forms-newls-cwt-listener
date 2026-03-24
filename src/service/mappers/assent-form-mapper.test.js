@@ -31,6 +31,13 @@ describe('assent-form-mapper', () => {
     expect(result.form_type).toBe('assent')
   })
 
+  it('should set DF_reference_number from meta.referenceNumber', () => {
+    const result = mapFormSubmission(
+      buildMessage({ vUHwan: 'Landowner', htlAAq: 'John', pPocjH: 'Doe' })
+    )
+    expect(result.DF_reference_number).toBe('576-225-943')
+  })
+
   it('should set broad_work_type to "S28H Assent"', () => {
     const result = mapFormSubmission(buildMessage({}))
     expect(result.broad_work_type).toBe('S28H Assent')
@@ -69,7 +76,7 @@ describe('assent-form-mapper', () => {
   })
 
   describe('description', () => {
-    it('should concatenate activities from single SSSI repeater', () => {
+    it('should include activities from single SSSI repeater', () => {
       const result = mapFormSubmission(
         buildMessage(
           {},
@@ -81,27 +88,29 @@ describe('assent-form-mapper', () => {
       expect(result.description).toBe('Grazing, Fencing')
     })
 
-    it('should concatenate activities from multiple SSSI repeater', () => {
+    it('should include activities and SSSI names from multiple SSSI repeater', () => {
       const result = mapFormSubmission(
         buildMessage(
           {},
           {
             QxIzSB: [
-              { iNDqRN: 'Tree removal', wRGnMW: 'SSSI A' },
-              { iNDqRN: 'Drainage', wRGnMW: 'SSSI B' }
+              { iNDqRN: 'Tree removal', wRGnMW: '1001001---Test SSSI A' },
+              { iNDqRN: 'Drainage', wRGnMW: '1001002---Test SSSI B' }
             ]
           }
         )
       )
-      expect(result.description).toBe('Tree removal, Drainage')
+      expect(result.description).toBe(
+        'Tree removal, Drainage - Test SSSI A, Test SSSI B'
+      )
     })
 
-    it('should return empty string when no activities and no scheme', () => {
+    it('should fall back to "S28H Assent" when no activities and no scheme', () => {
       const result = mapFormSubmission(buildMessage({}))
-      expect(result.description).toBe('')
+      expect(result.description).toBe('S28H Assent')
     })
 
-    it('should fall back to scheme name with SSSI names from scheme repeater', () => {
+    it('should fall back to scheme with parsed SSSI names from scheme repeater', () => {
       const result = mapFormSubmission(
         buildMessage(
           {
@@ -110,14 +119,14 @@ describe('assent-form-mapper', () => {
           },
           {
             hhGvmX: [
-              { flbYHq: 'Thursley Common SSSI' },
-              { flbYHq: 'Chobham Common SSSI' }
+              { flbYHq: '2006159---SSSI One' },
+              { flbYHq: '1001610---SSSI Two' }
             ]
           }
         )
       )
       expect(result.description).toBe(
-        'A Higher Level Stewardship (HLS) agreement, Thursley Common SSSI, Chobham Common SSSI'
+        'A Higher Level Stewardship (HLS) agreement - SSSI One, SSSI Two'
       )
     })
 
@@ -132,15 +141,30 @@ describe('assent-form-mapper', () => {
       )
     })
 
-    it('should fall back to scheme name with single SSSI name', () => {
+    it('should fall back to scheme with parsed single SSSI name', () => {
       const result = mapFormSubmission(
         buildMessage({
           rTreXu: 'A Sustainable Farming Incentive (SFI) agreement',
-          gVlMxz: 'Test SSSI'
+          gVlMxz: '1001001---Test SSSI'
         })
       )
       expect(result.description).toBe(
-        'A Sustainable Farming Incentive (SFI) agreement, Test SSSI'
+        'A Sustainable Farming Incentive (SFI) agreement - Test SSSI'
+      )
+    })
+
+    it('should include European site names when present', () => {
+      const result = mapFormSubmission(
+        buildMessage(
+          { ASataH: false, gVlMxz: '1001001---Test SSSI' },
+          {
+            gzSkgC: [{ lGsnXi: 'Grazing' }],
+            aQYWxD: [{ IzQfir: 'UK11004---Arun Valley Ramsar' }]
+          }
+        )
+      )
+      expect(result.description).toBe(
+        'Grazing - Test SSSI - Arun Valley Ramsar'
       )
     })
   })
@@ -165,7 +189,7 @@ describe('assent-form-mapper', () => {
     it('should use organisation name for working on behalf', () => {
       const result = mapFormSubmission(
         buildMessage({
-          KTObNK: 'Somebody working on behalf of a public body',
+          KTObNK: 'An organisation working on behalf of a public body',
           ueDuNl: 'Acme Corp'
         })
       )
@@ -175,7 +199,7 @@ describe('assent-form-mapper', () => {
     it('should use "Other" text for working on behalf with Other org', () => {
       const result = mapFormSubmission(
         buildMessage({
-          KTObNK: 'Somebody working on behalf of a public body',
+          KTObNK: 'An organisation working on behalf of a public body',
           ueDuNl: 'Other',
           Xszriq: 'Custom Org'
         })
@@ -256,7 +280,7 @@ describe('assent-form-mapper', () => {
     it('should be "Yes" when working on behalf', () => {
       const result = mapFormSubmission(
         buildMessage({
-          KTObNK: 'Somebody working on behalf of a public body'
+          KTObNK: 'An organisation working on behalf of a public body'
         })
       )
       expect(result.is_contractor_working_for_public_body).toBe('Yes')
@@ -286,7 +310,7 @@ describe('assent-form-mapper', () => {
     it('should build single SSSI info with coordinates from repeater', () => {
       const result = mapFormSubmission(
         buildMessage(
-          { ASataH: false, gVlMxz: 'Test SSSI' },
+          { ASataH: false, gVlMxz: '1001001---Test SSSI' },
           {
             gzSkgC: [
               {
@@ -302,7 +326,7 @@ describe('assent-form-mapper', () => {
         )
       )
       expect(result.SSSI_info).toEqual([
-        { SSSI_id: 'Test SSSI', coordinates: '400000,300000;400100,300100' }
+        { SSSI_id: 1001001, coordinates: '400000,300000;400100,300100' }
       ])
     })
 
@@ -314,17 +338,17 @@ describe('assent-form-mapper', () => {
             QxIzSB: [
               {
                 iNDqRN: 'Grazing',
-                wRGnMW: 'SSSI A',
+                wRGnMW: '1001001---Test SSSI A',
                 KnBNzJ: { easting: 100, northing: 200 }
               },
               {
                 iNDqRN: 'Fencing',
-                wRGnMW: 'SSSI A',
+                wRGnMW: '1001001---Test SSSI A',
                 KnBNzJ: { easting: 300, northing: 400 }
               },
               {
                 iNDqRN: 'Drainage',
-                wRGnMW: 'SSSI B',
+                wRGnMW: '1001002---Test SSSI B',
                 KnBNzJ: { easting: 500, northing: 600 }
               }
             ]
@@ -332,9 +356,92 @@ describe('assent-form-mapper', () => {
         )
       )
       expect(result.SSSI_info).toEqual([
-        { SSSI_id: 'SSSI A', coordinates: '100,200;300,400' },
-        { SSSI_id: 'SSSI B', coordinates: '500,600' }
+        { SSSI_id: 1001001, coordinates: '100,200;300,400' },
+        { SSSI_id: 1001002, coordinates: '500,600' }
       ])
+    })
+  })
+
+  describe('email_header', () => {
+    it('should include activities and SSSI name for single SSSI path', () => {
+      const result = mapFormSubmission(
+        buildMessage(
+          { ASataH: false, gVlMxz: '1001001---Test SSSI' },
+          {
+            gzSkgC: [{ lGsnXi: 'Grazing' }, { lGsnXi: 'Fencing' }]
+          }
+        )
+      )
+      expect(result.email_header).toBe('Grazing, Fencing - Test SSSI')
+    })
+
+    it('should include activities and SSSI names for multi SSSI path', () => {
+      const result = mapFormSubmission(
+        buildMessage(
+          { ASataH: true },
+          {
+            QxIzSB: [
+              { iNDqRN: 'Tree removal', wRGnMW: '1001001---Test SSSI A' },
+              { iNDqRN: 'Drainage', wRGnMW: '1001002---Test SSSI B' }
+            ]
+          }
+        )
+      )
+      expect(result.email_header).toBe(
+        'Tree removal, Drainage - Test SSSI A, Test SSSI B'
+      )
+    })
+
+    it('should include European site names when present', () => {
+      const result = mapFormSubmission(
+        buildMessage(
+          { ASataH: false, gVlMxz: '1001001---Test SSSI' },
+          {
+            gzSkgC: [{ lGsnXi: 'Grazing' }],
+            aQYWxD: [{ IzQfir: 'UK11004---Arun Valley Ramsar' }]
+          }
+        )
+      )
+      expect(result.email_header).toBe(
+        'Grazing - Test SSSI - Arun Valley Ramsar'
+      )
+    })
+
+    it('should fall back to scheme with SSSI names when no activities', () => {
+      const result = mapFormSubmission(
+        buildMessage(
+          {
+            rTreXu: 'A Higher Level Stewardship (HLS) agreement',
+            ASataH: true
+          },
+          {
+            hhGvmX: [
+              { flbYHq: '2006159---SSSI One' },
+              { flbYHq: '1001610---SSSI Two' }
+            ]
+          }
+        )
+      )
+      expect(result.email_header).toBe(
+        'A Higher Level Stewardship (HLS) agreement - SSSI One, SSSI Two'
+      )
+    })
+
+    it('should fall back to "S28H Assent" when no activities, scheme, SSSIs, or Euro sites', () => {
+      const result = mapFormSubmission(buildMessage({}))
+      expect(result.email_header).toBe('S28H Assent')
+    })
+
+    it('should truncate to 255 characters when many sites', () => {
+      const ornecEntries = Array.from({ length: 30 }, (_, i) => ({
+        iNDqRN: 'Grazing',
+        wRGnMW: `${1001000 + i}---A Very Long SSSI Name Number ${i + 1}`
+      }))
+      const result = mapFormSubmission(
+        buildMessage({ ASataH: true }, { QxIzSB: ornecEntries })
+      )
+      expect(result.email_header.length).toBeLessThanOrEqual(255)
+      expect(result.email_header).toContain('Grazing')
     })
   })
 
@@ -344,13 +451,11 @@ describe('assent-form-mapper', () => {
         buildMessage(
           {},
           {
-            aQYWxD: [{ IzQfir: 'Test Euro Site' }]
+            aQYWxD: [{ IzQfir: 'UK11004---Test Euro Site' }]
           }
         )
       )
-      expect(result.euro_site_info).toEqual([
-        { european_site_id: 'Test Euro Site', european_site_coordinates: '' }
-      ])
+      expect(result.euro_site_info).toEqual([{ european_site_id: 'UK11004' }])
     })
 
     it('should return empty array when no euro sites', () => {

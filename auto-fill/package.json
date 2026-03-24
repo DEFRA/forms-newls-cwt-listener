@@ -1,0 +1,29 @@
+{
+  "name": "auto-fill-playwright",
+  "version": "1.0.0",
+  "description": "Playwright auto-fill scripts for advice, assent, and consent forms",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:debug": "playwright test --debug",
+    "test:ui": "playwright test --ui",
+    "test:report": "playwright show-report",
+    "test:advice": "playwright test --headed tests/advice.spec.ts",
+    "test:assent": "playwright test tests/assent.spec.ts",
+    "test:consent": "playwright test tests/consent.spec.ts",
+    "test:capture": "bash run-and-capture.sh"
+  },
+  "keywords": [
+    "playwright",
+    "typescript",
+    "auto-fill",
+    "e2e"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.49.0",
+    "@types/node": "^22.10.2",
+    "typescript": "^5.7.2"
+  }
+}

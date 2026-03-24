@@ -64,8 +64,20 @@ flowchart TD
             DESC_SSSI1["Repeater entries → Avdzxa<br />What is the name of the SSSI<br />where activities will cause impacts?<br />→ SSSI names comma-joined"]
         end
 
+        subgraph DESC_DMG["Damage Reporting Description Path"]
+            DESC_DMG1["MoCXGK<br />What is the name of the SSSI<br />for damage report?<br />→ SSSI name appended"]
+        end
+
+        subgraph DESC_DRONE["Drone Flying Description Path"]
+            DESC_DRONE1["PxvdiH<br />What is the name of the SSSI?<br />(drone flying)<br />→ SSSI name appended"]
+        end
+
         subgraph DESC_GENERAL["General Topics Description Path"]
             DESC_GEN1["xzEslQ<br />Which topic fits the nature of<br />your question the best?<br />→ topic text"]
+            DESC_GEN2{"xzEslQ = 'Something else'<br />and QmIGor present?"}
+            DESC_GEN1 --> DESC_GEN2
+            DESC_GEN2 -->|Yes| DESC_GEN_SE["+ QmIGor<br />What is your question?<br />(free text appended)"]
+            DESC_GEN2 -->|No| DESC_GEN_ONLY["detailed_work_type only"]
         end
 
         DESC_APPEND["Additional fields appended:<br />+ QmIGor: What is your question?<br />+ nJVeix: Tell us about the proposed activities<br />+ YhWlKB: Give a description of the damaging activity"]
@@ -98,7 +110,9 @@ flowchart TD
         CB_PUB -->|"'Other'"| CB_PUB_OTHER["OYxtmu<br />Which public body are<br />you representing?"]
         CB_PUB -->|Other value| CB_PUB_NAME["HiTHQX value"]
 
-        CB_TYPE -->|"'Landowner' / 'Land occupier'<br />/ 'None of the above'"| CB_SELF["effectiveType<br />used as value"]
+        CB_TYPE -->|"'Member of public'<br />or 'Landowner'<br />(applicantCategory)"| CB_CUST["hUpejP<br />Customer name"]
+
+        CB_TYPE -->|"'Land occupier'<br />/ 'None of the above'"| CB_SELF["effectiveType<br />used as value"]
 
         CB_TYPE -->|"'Consultant' or 'Other'<br />with PBmxNM set"| CB_PBMXNM["Follow same logic above<br />using PBmxNM value<br />as the category"]
     end
@@ -113,7 +127,11 @@ flowchart TD
     MAIN --> CEMAIL
 
     %% ===== email_header =====
-    EH["email_header<br />= detailed_work_type value"]
+    subgraph OutEmailHeader["email_header<br />(max 255 chars)"]
+        EH_DESC["Same logic as description<br />(detailed_work_type + site names)<br />truncated to 255 characters"]
+    end
+    MAIN --> EH_DESC
+    REP --> EH_DESC
 
     %% ===== is_contractor_working_for_public_body =====
     subgraph OutContractor["is_contractor_working_for_public_body"]
@@ -146,13 +164,18 @@ flowchart TD
         SSSI_PATH{"Which SSSI source?"}
         SSSI_PATH -->|"Repeater entries<br />containing Avdzxa<br />(SSSI name)"| SSSI_ADV
         SSSI_PATH -->|"MoCXGK present<br />(damage report SSSI)<br />and no repeater SSSIs"| SSSI_DMG
+        SSSI_PATH -->|"PxvdiH present<br />(drone flying SSSI)<br />and no other SSSIs"| SSSI_DRONE
 
         subgraph SSSI_ADV["SSSI Advice Repeater Path"]
-            SSSI_ADV1["For each entry with Avdzxa<br />(SSSI where activities cause impacts):<br />SSSI_id = 0 (placeholder)<br />coordinates = NMCFES<br />(Where are activities planned?<br />easting,northing format)"]
+            SSSI_ADV1["For each entry with Avdzxa<br />(SSSI where activities cause impacts):<br />SSSI_id = Avdzxa (parsed as integer)<br />coordinates = NMCFES<br />(Where are activities planned?<br />easting,northing format)"]
         end
 
         subgraph SSSI_DMG["Damage Reporting Path"]
-            SSSI_DMG1["MoCXGK = SSSI name for damage report<br />SSSI_id = 0 (placeholder)<br />coordinates = rSJTFC<br />(Where on the SSSI has damage<br />taken place? easting,northing)"]
+            SSSI_DMG1["MoCXGK = SSSI ID for damage report<br />SSSI_id = MoCXGK (parsed as integer)<br />coordinates = rSJTFC<br />(Where on the SSSI has damage<br />taken place? easting,northing)"]
+        end
+
+        subgraph SSSI_DRONE["Drone Flying Path"]
+            SSSI_DRONE1["PxvdiH = SSSI for drone flying<br />SSSI_id = PxvdiH (parsed as integer)<br />coordinates = '' (empty)"]
         end
     end
     REP --> SSSI_PATH

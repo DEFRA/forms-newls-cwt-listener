@@ -3,7 +3,15 @@
  * @typedef {import('./types.js').AssentFormOutput} AssentFormOutput
  */
 
-import { formatCoordinates, joinCoordinates } from './helpers.js'
+import {
+  EMAIL_HEADER_MAX_LENGTH,
+  fitNames,
+  formatCoordinates,
+  joinCoordinates,
+  parseEuroSiteId,
+  parseName,
+  parseSssiId
+} from './helpers.js'
 
 /**
  * Mapping from the rTreXu scheme selection to detailed_work_type values.
@@ -99,40 +107,90 @@ function collectSssiNames(main, repeaters) {
 }
 
 /**
- * Builds the description from activity repeaters, falling back to
- * the scheme name and SSSI names when no activities are specified.
+ * Collects the primary segment (activities or scheme), SSSI names, and
+ * European site names for building the email header and description.
  * @param {Record<string, unknown>} main
  * @param {Record<string, Array<Record<string, unknown>>>} repeaters
- * @returns {string}
+ * @returns {{ primary: string, sssiNames: string[], euroSiteNames: string[] }}
  */
-function mapDescription(main, repeaters) {
+function collectAssentSegments(main, repeaters) {
+  // Collect all unique activities
+  /** @type {string[]} */
+  let activities = []
+
   // Single SSSI path - repeater gzSkgC ("Activities requiring Natural England's assent")
   //   lGsnXi = "What activity is planned to be carried out?"
   const singleSssiActivities = repeaters.gzSkgC ?? []
   if (singleSssiActivities.length > 0) {
-    return singleSssiActivities
-      .map((entry) => /** @type {string} */ (entry.lGsnXi))
-      .filter(Boolean)
-      .join(', ')
+    activities = [
+      ...new Set(
+        singleSssiActivities
+          .map((entry) => /** @type {string} */ (entry.lGsnXi))
+          .filter(Boolean)
+      )
+    ]
   }
 
   // Multiple SSSI path - repeater QxIzSB ("Site name and activities requiring Natural England assent")
   //   iNDqRN = "What activity is planned to be carried out?"
   const multiSssiActivities = repeaters.QxIzSB ?? []
-  if (multiSssiActivities.length > 0) {
-    return multiSssiActivities
-      .map((entry) => /** @type {string} */ (entry.iNDqRN))
-      .filter(Boolean)
-      .join(', ')
+  if (activities.length === 0 && multiSssiActivities.length > 0) {
+    activities = [
+      ...new Set(
+        multiSssiActivities
+          .map((entry) => /** @type {string} */ (entry.iNDqRN))
+          .filter(Boolean)
+      )
+    ]
   }
 
-  // Fallback: combine scheme name with SSSI names
-  // rTreXu = "What land management scheme does this notice relate to?"
-  const scheme = /** @type {string | undefined} */ (main.rTreXu)
-  const sssiNames = collectSssiNames(main, repeaters)
-  const parts = [scheme, ...sssiNames].filter(Boolean)
+  // Collect unique SSSI names (parsed from "ID---Name" format)
+  const sssiNames = collectSssiNames(main, repeaters).map(parseName)
 
-  return parts.length > 0 ? parts.join(', ') : ''
+  // Collect unique European site names (parsed from "ID---Name" format)
+  /** @type {string[]} */
+  const euroSiteNames = (repeaters.aQYWxD ?? [])
+    .map((entry) => (entry.IzQfir ? parseName(entry.IzQfir) : ''))
+    .filter(Boolean)
+
+  // Build primary segment: activities or scheme
+  let primary = ''
+  if (activities.length > 0) {
+    primary = activities.join(', ')
+  } else {
+    // rTreXu = "What land management scheme does this notice relate to?"
+    const landManagementScheme = /** @type {string | undefined} */ (main.rTreXu)
+    if (landManagementScheme) {
+      primary = landManagementScheme
+    }
+  }
+
+  return { primary, sssiNames, euroSiteNames }
+}
+
+/**
+ * Builds the description from activities, SSSI names, European site names,
+ * and scheme info. Uses the same segments as mapEmailHeader but without a
+ * length limit.
+ *
+ * Format: "[activities or scheme] - [SSSI names] - [Euro site names]"
+ * Fallback: "S28H Assent"
+ *
+ * @param {Record<string, unknown>} main
+ * @param {Record<string, Array<Record<string, unknown>>>} repeaters
+ * @returns {string}
+ */
+function mapDescription(main, repeaters) {
+  const { primary, sssiNames, euroSiteNames } = collectAssentSegments(
+    main,
+    repeaters
+  )
+  const segments = [
+    primary,
+    sssiNames.length > 0 ? sssiNames.join(', ') : '',
+    euroSiteNames.length > 0 ? euroSiteNames.join(', ') : ''
+  ].filter(Boolean)
+  return segments.length > 0 ? segments.join(' - ') : 'S28H Assent'
 }
 
 /**
@@ -157,7 +215,7 @@ function mapConsultingBody(main) {
   const otherPublicBody = /** @type {string | undefined} */ (main.FyLHmN)
 
   // Working on behalf of a public body - use organisation name
-  if (customerType === 'Somebody working on behalf of a public body') {
+  if (customerType === 'An organisation working on behalf of a public body') {
     if (organisationName === 'Other') {
       return otherOrganisationName ?? ''
     }
@@ -230,24 +288,16 @@ function mapAgreementReference(main) {
  * @returns {string}
  */
 function mapPublicBody(main) {
-  // vUHwan = "Which category best describes the public body you're representing?"
-  const publicBodyCategory = /** @type {string | undefined} */ (main.vUHwan)
-  if (!publicBodyCategory) {
-    return ''
-  }
+  // Because of the way the form is set up, only one of these values will be truthy. Therefore, return the first truthy value.
 
-  if (publicBodyCategory === 'Local planning authority') {
-    // XAZlxH = "Which local authority are you representing?"
-    return /** @type {string} */ (main.XAZlxH) ?? ''
-  }
-
-  if (publicBodyCategory === 'Other') {
-    // FyLHmN = "Which public body are you representing?" (other/free text)
-    return /** @type {string} */ (main.FyLHmN) ?? ''
-  }
-
+  // XAZlxH = "Which local authority are you representing?"
+  const localAuthority = /** @type {string | undefined} */ (main.XAZlxH)
   // cfPoiN = "Which public body are you representing?"
-  return /** @type {string} */ (main.cfPoiN) ?? ''
+  const publicBody = /** @type {string | undefined} */ (main.cfPoiN)
+  // FyLHmN = "Which public body are you representing?" (other/free text)
+  const otherPublicBody = /** @type {string | undefined} */ (main.FyLHmN)
+
+  return localAuthority ?? publicBody ?? otherPublicBody ?? ''
 }
 
 /**
@@ -266,8 +316,8 @@ function mapSssiInfo(main, repeaters) {
   if (!isMultipleSssi) {
     // Single SSSI path
     // gVlMxz = "What is the name of the SSSI where you plan to carry out activities?"
-    const sssiName = /** @type {string | undefined} */ (main.gVlMxz)
-    if (sssiName) {
+    const sssiId = /** @type {string | undefined} */ (main.gVlMxz)
+    if (sssiId) {
       // Coordinates from repeater gzSkgC ("Activities requiring Natural England's assent")
       //   uqfCOY = "Where do you plan to carry out this activity?"
       const activities = repeaters.gzSkgC ?? []
@@ -280,7 +330,7 @@ function mapSssiInfo(main, repeaters) {
         )
 
       sssiInfo.push({
-        SSSI_id: /** @type {string} */ (sssiName),
+        SSSI_id: parseSssiId(sssiId),
         coordinates:
           coordStrings.length > 0 ? joinCoordinates(coordStrings) : ''
       })
@@ -294,7 +344,7 @@ function mapSssiInfo(main, repeaters) {
     for (const entry of schemeRepeater) {
       if (entry.flbYHq) {
         sssiInfo.push({
-          SSSI_id: /** @type {string} */ (entry.flbYHq),
+          SSSI_id: parseSssiId(entry.flbYHq),
           coordinates: ''
         })
       }
@@ -306,18 +356,18 @@ function mapSssiInfo(main, repeaters) {
     if (sssiInfo.length === 0) {
       const ornecRepeater = repeaters.QxIzSB ?? []
 
-      // Group by SSSI name to stitch coordinates
+      // Group by SSSI ID to stitch coordinates
       /** @type {Map<string, string[]>} */
       const sssiCoords = new Map()
       for (const entry of ornecRepeater) {
-        const sssiName = /** @type {string | undefined} */ (entry.wRGnMW)
-        if (sssiName) {
-          if (!sssiCoords.has(sssiName)) {
-            sssiCoords.set(sssiName, [])
+        const sssiId = /** @type {string | undefined} */ (entry.wRGnMW)
+        if (sssiId) {
+          if (!sssiCoords.has(sssiId)) {
+            sssiCoords.set(sssiId, [])
           }
           if (entry.KnBNzJ) {
             sssiCoords
-              .get(sssiName)
+              .get(sssiId)
               ?.push(
                 formatCoordinates(
                   /** @type {{ easting: number, northing: number }} */ (
@@ -329,9 +379,9 @@ function mapSssiInfo(main, repeaters) {
         }
       }
 
-      for (const [name, coords] of sssiCoords) {
+      for (const [id, coords] of sssiCoords) {
         sssiInfo.push({
-          SSSI_id: name,
+          SSSI_id: parseSssiId(id),
           coordinates: coords.length > 0 ? joinCoordinates(coords) : ''
         })
       }
@@ -342,12 +392,72 @@ function mapSssiInfo(main, repeaters) {
 }
 
 /**
+ * Builds the email_header from activities, SSSI names, European site names,
+ * and scheme info. Uses the same segments as mapDescription but truncated
+ * to 255 characters.
+ *
+ * @param {Record<string, unknown>} main
+ * @param {Record<string, Array<Record<string, unknown>>>} repeaters
+ * @returns {string}
+ */
+function mapEmailHeader(main, repeaters) {
+  const separator = ' - '
+  const { primary, sssiNames, euroSiteNames } = collectAssentSegments(
+    main,
+    repeaters
+  )
+
+  if (!primary && sssiNames.length === 0 && euroSiteNames.length === 0) {
+    return 'S28H Assent'
+  }
+
+  // Build segments: primary, SSSI names, Euro site names
+  const segments = [primary]
+  let usedLength = primary.length
+
+  if (sssiNames.length > 0) {
+    const availableForSssi =
+      EMAIL_HEADER_MAX_LENGTH -
+      usedLength -
+      separator.length -
+      (euroSiteNames.length > 0
+        ? separator.length + euroSiteNames[0].length
+        : 0)
+    const fittedSssi = fitNames(
+      sssiNames,
+      Math.max(availableForSssi, sssiNames[0].length)
+    )
+    if (fittedSssi) {
+      segments.push(fittedSssi)
+      usedLength += separator.length + fittedSssi.length
+    }
+  }
+
+  if (euroSiteNames.length > 0) {
+    const availableForEuro =
+      EMAIL_HEADER_MAX_LENGTH - usedLength - separator.length
+    const fittedEuro = fitNames(euroSiteNames, availableForEuro)
+    if (fittedEuro) {
+      segments.push(fittedEuro)
+    }
+  }
+
+  const result = segments.filter(Boolean).join(separator)
+
+  if (result.length <= EMAIL_HEADER_MAX_LENGTH) {
+    return result
+  }
+
+  return result.substring(0, EMAIL_HEADER_MAX_LENGTH - 3) + '...'
+}
+
+/**
  * Builds euro_site_info array from repeater data.
  * @param {Record<string, Array<Record<string, unknown>>>} repeaters
- * @returns {import('./types.js').EuroSiteInfo[]}
+ * @returns {import('./types.js').EuroSiteInfoId[]}
  */
 function mapEuroSiteInfo(repeaters) {
-  /** @type {import('./types.js').EuroSiteInfo[]} */
+  /** @type {import('./types.js').EuroSiteInfoId[]} */
   const euroSiteInfo = []
 
   // aQYWxD = Repeater: "European site affected"
@@ -356,8 +466,7 @@ function mapEuroSiteInfo(repeaters) {
     // IzQfir = "What is the name of the European site?"
     if (entry.IzQfir) {
       euroSiteInfo.push({
-        european_site_id: /** @type {number} */ (entry.IzQfir),
-        european_site_coordinates: ''
+        european_site_id: parseEuroSiteId(entry.IzQfir)
       })
     }
   }
@@ -390,6 +499,7 @@ export function mapFormSubmission(message) {
 
   return {
     form_type: 'assent',
+    DF_reference_number: message.meta.referenceNumber,
     broad_work_type: 'S28H Assent',
     detailed_work_type: mapDetailedWorkType(main),
     description: mapDescription(main, repeaters),
@@ -401,9 +511,10 @@ export function mapFormSubmission(message) {
     customer_name: `${main.htlAAq ?? ''} ${main.pPocjH ?? ''}`.trim(),
     // skdDtj = "What is your email address?"
     customer_email_address: /** @type {string} */ (main.skdDtj) ?? '',
+    email_header: mapEmailHeader(main, repeaters),
     agreement_reference: mapAgreementReference(main),
     is_contractor_working_for_public_body:
-      customerType === 'Somebody working on behalf of a public body'
+      customerType === 'An organisation working on behalf of a public body'
         ? 'Yes'
         : 'No',
     public_body_type: publicBodyCategory

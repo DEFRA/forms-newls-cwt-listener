@@ -29,6 +29,11 @@ describe('consent-form-mapper', () => {
     expect(result.form_type).toBe('consent')
   })
 
+  it('should set DF_reference_number from meta.referenceNumber', () => {
+    const result = mapFormSubmission(buildMessage({}))
+    expect(result.DF_reference_number).toBe('576-225-943')
+  })
+
   it('should set broad_work_type to "S28E Consent"', () => {
     const result = mapFormSubmission(buildMessage({}))
     expect(result.broad_work_type).toBe('S28E Consent')
@@ -60,10 +65,10 @@ describe('consent-form-mapper', () => {
   })
 
   describe('description', () => {
-    it('should build description from single SSSI with ORNEC activities', () => {
+    it('should include activities and SSSI name for single SSSI path', () => {
       const result = mapFormSubmission(
         buildMessage(
-          { hozdvW: 'Test SSSI' },
+          { hozdvW: '1001001---Test SSSI' },
           {
             iTBHrY: [
               { hqsZMS: 'Grazing', QKdhfh: { easting: 100, northing: 200 } },
@@ -72,30 +77,57 @@ describe('consent-form-mapper', () => {
           }
         )
       )
-      expect(result.description).toBe('Test SSSI - Grazing, Fencing')
+      expect(result.description).toBe('Grazing, Fencing - Test SSSI')
     })
 
-    it('should build description from single SSSI without activities', () => {
-      const result = mapFormSubmission(buildMessage({ hozdvW: 'Test SSSI' }))
+    it('should include SSSI name alone when no activities', () => {
+      const result = mapFormSubmission(
+        buildMessage({ hozdvW: '1001001---Test SSSI' })
+      )
       expect(result.description).toBe('Test SSSI')
     })
 
-    it('should build description from multi SSSI with activities', () => {
+    it('should include unique activities and SSSI names for multi SSSI path', () => {
       const result = mapFormSubmission(
         buildMessage(
           {},
           {
             cwZgSE: [
-              { rWrBOK: 'SSSI A', BscJLV: 'Grazing' },
-              { rWrBOK: 'SSSI A', BscJLV: 'Fencing' },
-              { rWrBOK: 'SSSI B', BscJLV: 'Drainage' }
+              { rWrBOK: '1001001---Test SSSI A', BscJLV: 'Grazing' },
+              { rWrBOK: '1001001---Test SSSI A', BscJLV: 'Fencing' },
+              { rWrBOK: '1001002---Test SSSI B', BscJLV: 'Drainage' }
             ]
           }
         )
       )
       expect(result.description).toBe(
-        'SSSI A - Grazing, Fencing; SSSI B - Drainage'
+        'Grazing, Fencing, Drainage - Test SSSI A, Test SSSI B'
       )
+    })
+
+    it('should fall back to scheme with SSSI names when no activities', () => {
+      const result = mapFormSubmission(
+        buildMessage(
+          {
+            rTreXu: 'A Countryside Stewardship Higher Tier (CSHT) agreement',
+            lmqMaY: true
+          },
+          {
+            gWZwzI: [
+              { gVlMxz: '1001610---SSSI One' },
+              { gVlMxz: '1003842---SSSI Two' }
+            ]
+          }
+        )
+      )
+      expect(result.description).toBe(
+        'A Countryside Stewardship Higher Tier (CSHT) agreement - SSSI One, SSSI Two'
+      )
+    })
+
+    it('should fall back to "S28E Consent" when nothing available', () => {
+      const result = mapFormSubmission(buildMessage({}))
+      expect(result.description).toBe('S28E Consent')
     })
   })
 
@@ -176,31 +208,56 @@ describe('consent-form-mapper', () => {
   })
 
   describe('email_header', () => {
-    it('should use first ORNEC from single SSSI repeater', () => {
+    it('should include all activities and SSSI name for single SSSI path', () => {
       const result = mapFormSubmission(
         buildMessage(
-          {},
+          { hozdvW: '1001001---Test SSSI' },
           {
             iTBHrY: [{ hqsZMS: 'Grazing' }, { hqsZMS: 'Fencing' }]
           }
         )
       )
-      expect(result.email_header).toBe('Grazing')
+      expect(result.email_header).toBe('Grazing, Fencing - Test SSSI')
     })
 
-    it('should use first ORNEC from multi SSSI repeater', () => {
+    it('should include unique activities and SSSI names for multi SSSI path', () => {
       const result = mapFormSubmission(
         buildMessage(
           {},
           {
-            cwZgSE: [{ BscJLV: 'Tree removal', rWrBOK: 'SSSI A' }]
+            cwZgSE: [
+              { BscJLV: 'Tree removal', rWrBOK: '1001001---Test SSSI A' },
+              { BscJLV: 'Drainage', rWrBOK: '1001002---Test SSSI B' }
+            ]
           }
         )
       )
-      expect(result.email_header).toBe('Tree removal')
+      expect(result.email_header).toBe(
+        'Tree removal, Drainage - Test SSSI A, Test SSSI B'
+      )
     })
 
-    it('should fall back to land management scheme when no ORNECs', () => {
+    it('should fall back to scheme with SSSI names when no activities', () => {
+      const result = mapFormSubmission(
+        buildMessage(
+          {
+            rTreXu: 'A Countryside Stewardship Higher Tier (CSHT) agreement',
+            lmqMaY: true
+          },
+          {
+            gWZwzI: [
+              { gVlMxz: '1001610---SSSI One' },
+              { gVlMxz: '1003842---SSSI Two' }
+            ]
+          }
+        )
+      )
+      expect(result.email_header).toBe(
+        'A Countryside Stewardship Higher Tier (CSHT) agreement - SSSI One, SSSI Two'
+      )
+    })
+
+    it('should fall back to scheme alone when no activities and no SSSIs', () => {
       const result = mapFormSubmission(
         buildMessage({
           rTreXu: 'A Countryside Stewardship Higher Tier (CSHT) agreement'
@@ -211,9 +268,21 @@ describe('consent-form-mapper', () => {
       )
     })
 
-    it('should fall back to detailed_work_type when no ORNECs and no scheme', () => {
+    it('should fall back to "S28E Consent" when no activities, scheme, or SSSIs', () => {
       const result = mapFormSubmission(buildMessage({}))
       expect(result.email_header).toBe('S28E Consent')
+    })
+
+    it('should truncate to 255 characters when many SSSIs', () => {
+      const repeaterEntries = Array.from({ length: 30 }, (_, i) => ({
+        BscJLV: 'Grazing',
+        rWrBOK: `${1001000 + i}---A Very Long SSSI Name Number ${i + 1}`
+      }))
+      const result = mapFormSubmission(
+        buildMessage({}, { cwZgSE: repeaterEntries })
+      )
+      expect(result.email_header.length).toBeLessThanOrEqual(255)
+      expect(result.email_header).toContain('Grazing')
     })
   })
 
@@ -221,7 +290,7 @@ describe('consent-form-mapper', () => {
     it('should build single SSSI info with coordinates and ORNECs', () => {
       const result = mapFormSubmission(
         buildMessage(
-          { hozdvW: 'Test SSSI', lmqMaY: false },
+          { hozdvW: '1001001---Test SSSI', lmqMaY: false },
           {
             iTBHrY: [
               {
@@ -238,7 +307,7 @@ describe('consent-form-mapper', () => {
       )
       expect(result.SSSI_info).toEqual([
         {
-          SSSI_id: 'Test SSSI',
+          SSSI_id: 1001001,
           coordinates: '100,200;300,400',
           ornec: 'Grazing, Fencing'
         }
@@ -248,13 +317,13 @@ describe('consent-form-mapper', () => {
     it('should build single SSSI info with scheme coordinates', () => {
       const result = mapFormSubmission(
         buildMessage({
-          hozdvW: 'Test SSSI',
+          hozdvW: '1001001---Test SSSI',
           lmqMaY: false,
           JPohUD: { easting: 500, northing: 600 }
         })
       )
       expect(result.SSSI_info).toEqual([
-        { SSSI_id: 'Test SSSI', coordinates: '500,600', ornec: '' }
+        { SSSI_id: 1001001, coordinates: '500,600', ornec: '' }
       ])
     })
 
@@ -267,20 +336,20 @@ describe('consent-form-mapper', () => {
           },
           {
             gWZwzI: [
-              { gVlMxz: 'Chobham Common SSSI' },
-              { gVlMxz: 'Horsell Common SSSI' }
+              { gVlMxz: '1001610---SSSI One' },
+              { gVlMxz: '1003842---SSSI Two' }
             ]
           }
         )
       )
       expect(result.SSSI_info).toEqual([
         {
-          SSSI_id: 'Chobham Common SSSI',
+          SSSI_id: 1001610,
           coordinates: '490200,139800',
           ornec: ''
         },
         {
-          SSSI_id: 'Horsell Common SSSI',
+          SSSI_id: 1003842,
           coordinates: '490200,139800',
           ornec: ''
         }
@@ -294,17 +363,17 @@ describe('consent-form-mapper', () => {
           {
             cwZgSE: [
               {
-                rWrBOK: 'SSSI A',
+                rWrBOK: '1001001---Test SSSI A',
                 BscJLV: 'Grazing',
                 gjWdrc: { easting: 100, northing: 200 }
               },
               {
-                rWrBOK: 'SSSI A',
+                rWrBOK: '1001001---Test SSSI A',
                 BscJLV: 'Fencing',
                 gjWdrc: { easting: 300, northing: 400 }
               },
               {
-                rWrBOK: 'SSSI B',
+                rWrBOK: '1001002---Test SSSI B',
                 BscJLV: 'Drainage',
                 gjWdrc: { easting: 500, northing: 600 }
               }
@@ -314,11 +383,11 @@ describe('consent-form-mapper', () => {
       )
       expect(result.SSSI_info).toEqual([
         {
-          SSSI_id: 'SSSI A',
+          SSSI_id: 1001001,
           coordinates: '100,200;300,400',
           ornec: 'Grazing, Fencing'
         },
-        { SSSI_id: 'SSSI B', coordinates: '500,600', ornec: 'Drainage' }
+        { SSSI_id: 1001002, coordinates: '500,600', ornec: 'Drainage' }
       ])
     })
   })

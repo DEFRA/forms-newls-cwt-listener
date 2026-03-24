@@ -9,6 +9,7 @@ Source: [src/service/mappers/assent-form-mapper.js](../../src/service/mappers/as
 | Output field                            | Type             | Always present?    |
 | --------------------------------------- | ---------------- | ------------------ |
 | `form_type`                             | `"assent"`       | Yes                |
+| `DF_reference_number`                   | string           | Yes                |
 | `broad_work_type`                       | `"S28H Assent"`  | Yes                |
 | `detailed_work_type`                    | string           | Yes                |
 | `description`                           | string           | Yes                |
@@ -143,15 +144,15 @@ Array of `{ SSSI_id, coordinates }` objects. The path is determined by ASataH ("
 
 | Field         | Source                                                                                                                          | Description                                                               |
 | ------------- | ------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
-| `SSSI_id`     | gVlMxz ("What is the name of the SSSI where you plan to carry out activities?") from main                                       | SSSI name                                                                 |
+| `SSSI_id`     | gVlMxz ("What is the name of the SSSI where you plan to carry out activities?") from main                                       | Parsed as integer from string value                                       |
 | `coordinates` | uqfCOY ("Where do you plan to carry out this activity?") from repeater gzSkgC ("Activities requiring Natural England's assent") | Formatted as `"<easting>,<northing>"`, multiple entries joined with `";"` |
 
 ### Multiple SSSI path - scheme (ASataH = true, repeater hhGvmX)
 
-| Field         | Source                                                                                                                                      | Description         |
-| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------- | ------------------- |
-| `SSSI_id`     | flbYHq ("What is the name of the SSSI where activities are planned?") from repeater hhGvmX ("Sites where you plan to carry out activities") | SSSI name           |
-| `coordinates` | -                                                                                                                                           | Always empty string |
+| Field         | Source                                                                                                                                      | Description                         |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------- |
+| `SSSI_id`     | flbYHq ("What is the name of the SSSI where activities are planned?") from repeater hhGvmX ("Sites where you plan to carry out activities") | Parsed as integer from string value |
+| `coordinates` | -                                                                                                                                           | Always empty string                 |
 
 ### Multiple SSSI path - ORNEC (ASataH = true, repeater QxIzSB)
 
@@ -159,7 +160,7 @@ Only used when hhGvmX repeater has no entries.
 
 | Field         | Source                                                                                                                                                                | Description                                                                             |
 | ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
-| `SSSI_id`     | wRGnMW ("What is the name of the SSSI where you plan to carry out this activity?") from repeater QxIzSB ("Site name and activities requiring Natural England assent") | SSSI name (grouped by unique name)                                                      |
+| `SSSI_id`     | wRGnMW ("What is the name of the SSSI where you plan to carry out this activity?") from repeater QxIzSB ("Site name and activities requiring Natural England assent") | Parsed as integer from string value (grouped by unique value)                           |
 | `coordinates` | KnBNzJ ("Where on the SSSI do you plan to carry out this activity?") from repeater QxIzSB                                                                             | Formatted as `"<easting>,<northing>"`, multiple entries for same SSSI joined with `";"` |
 
 ## euro_site_info

@@ -9,6 +9,7 @@ Source: [src/service/mappers/consent-form-mapper.js](../../src/service/mappers/c
 | Output field             | Type             | Always present?            |
 | ------------------------ | ---------------- | -------------------------- |
 | `form_type`              | `"consent"`      | Yes                        |
+| `DF_reference_number`    | string           | Yes                        |
 | `broad_work_type`        | `"S28E Consent"` | Yes                        |
 | `detailed_work_type`     | string           | Yes                        |
 | `description`            | string           | Yes                        |
@@ -120,13 +121,13 @@ Array of `{ SSSI_id, coordinates, ornec }` objects. The path is determined by lm
 
 ### Single SSSI path (lmqMaY = false or not set)
 
-SSSI name from hozdvW ("What is the name of the SSSI where you plan to carry out activities?") in main.
+SSSI ID from hozdvW ("What is the name of the SSSI where you plan to carry out activities?") in main. All SSSI_id values are parsed as integers from the string form field value. An error is thrown if a non-empty value cannot be parsed.
 
 #### Non-scheme path (repeater iTBHrY present)
 
 | Field         | Source                                                                                                                         | Description                                                               |
 | ------------- | ------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------- |
-| `SSSI_id`     | hozdvW ("What is the name of the SSSI where you plan to carry out activities?")                                                | SSSI name                                                                 |
+| `SSSI_id`     | hozdvW ("What is the name of the SSSI where you plan to carry out activities?")                                                | Parsed as integer from string value                                       |
 | `coordinates` | QKdhfh ("Where do you plan to carry out this activity?") from repeater iTBHrY ("Operations requiring Natural England consent") | Formatted as `"<easting>,<northing>"`, multiple entries joined with `";"` |
 | `ornec`       | hqsZMS ("Which activity do you plan to carry out?") from repeater iTBHrY                                                       | Activity names comma-joined                                               |
 
@@ -134,17 +135,17 @@ SSSI name from hozdvW ("What is the name of the SSSI where you plan to carry out
 
 | Field         | Source                                                                          | Description                           |
 | ------------- | ------------------------------------------------------------------------------- | ------------------------------------- |
-| `SSSI_id`     | hozdvW ("What is the name of the SSSI where you plan to carry out activities?") | SSSI name                             |
+| `SSSI_id`     | hozdvW ("What is the name of the SSSI where you plan to carry out activities?") | Parsed as integer from string value   |
 | `coordinates` | JPohUD ("Where are the activities taking place?") from main                     | Formatted as `"<easting>,<northing>"` |
 | `ornec`       | -                                                                               | Empty string                          |
 
 #### Fallback (no repeater, no JPohUD)
 
-| Field         | Source                                                                          | Description  |
-| ------------- | ------------------------------------------------------------------------------- | ------------ |
-| `SSSI_id`     | hozdvW ("What is the name of the SSSI where you plan to carry out activities?") | SSSI name    |
-| `coordinates` | -                                                                               | Empty string |
-| `ornec`       | -                                                                               | Empty string |
+| Field         | Source                                                                          | Description                         |
+| ------------- | ------------------------------------------------------------------------------- | ----------------------------------- |
+| `SSSI_id`     | hozdvW ("What is the name of the SSSI where you plan to carry out activities?") | Parsed as integer from string value |
+| `coordinates` | -                                                                               | Empty string                        |
+| `ornec`       | -                                                                               | Empty string                        |
 
 ### Multiple SSSI path (lmqMaY = true)
 
@@ -152,17 +153,17 @@ SSSI name from hozdvW ("What is the name of the SSSI where you plan to carry out
 
 | Field         | Source                                                                                                                                                                 | Description                                                                             |
 | ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
-| `SSSI_id`     | rWrBOK ("What is the name of the SSSI where you plan to carry out this activity?") from repeater cwZgSE ("Site name and operations requiring Natural England consent") | SSSI name (grouped by unique name)                                                      |
+| `SSSI_id`     | rWrBOK ("What is the name of the SSSI where you plan to carry out this activity?") from repeater cwZgSE ("Site name and operations requiring Natural England consent") | Parsed as integer from string value (grouped by unique value)                           |
 | `coordinates` | gjWdrc ("Where on the SSSI do you plan to carry out this activity?") from repeater cwZgSE                                                                              | Formatted as `"<easting>,<northing>"`, multiple entries for same SSSI joined with `";"` |
 | `ornec`       | BscJLV ("Which activity do you plan to carry out?") from repeater cwZgSE                                                                                               | Activity names comma-joined per SSSI                                                    |
 
 #### Scheme path (repeater gWZwzI)
 
-| Field         | Source                                                                                                                                      | Description  |
-| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
-| `SSSI_id`     | gVlMxz ("What is the name of the SSSI where activities are planned?") from repeater gWZwzI ("Sites where you plan to carry out activities") | SSSI name    |
-| `coordinates` | -                                                                                                                                           | Empty string |
-| `ornec`       | -                                                                                                                                           | Empty string |
+| Field         | Source                                                                                                                                      | Description                                                                   |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| `SSSI_id`     | gVlMxz ("What is the name of the SSSI where activities are planned?") from repeater gWZwzI ("Sites where you plan to carry out activities") | Parsed as integer from string value                                           |
+| `coordinates` | JPohUD ("Where are the activities taking place?") from main                                                                                 | Formatted as `"<easting>,<northing>"`, shared across all SSSIs on scheme path |
+| `ornec`       | -                                                                                                                                           | Empty string                                                                  |
 
 ---
 
@@ -192,19 +193,19 @@ This section identifies all scenarios where output fields sent to the University
 
 ### Fields with empty sub-properties in SSSI_info entries
 
-| Field in SSSI_info | Condition producing empty value                                                                                                                                                                                    | Realistic scenario?                                                              |
-| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------- |
-| `coordinates`      | Single SSSI without scheme coordinates JPohUD ("Where are the activities taking place?") and without ORNEC repeater entries; or multi SSSI scheme path via gWZwzI ("Sites where you plan to carry out activities") | **Expected** — scheme multi-SSSI path never has coordinates. See Examples 5, 6   |
-| `ornec`            | Single SSSI scheme path (no ORNEC repeater); multi SSSI scheme path via gWZwzI ("Sites where you plan to carry out activities"); single SSSI fallback path                                                         | **Expected** — scheme paths don't collect ORNEC activities. See Examples 2, 5, 6 |
+| Field in SSSI_info | Condition producing empty value                                                                                                                            | Realistic scenario?                                                              |
+| ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| `coordinates`      | Single SSSI without scheme coordinates JPohUD ("Where are the activities taking place?") and without ORNEC repeater entries                                | **Expected** — single SSSI fallback path has no coordinates. See Example 6       |
+| `ornec`            | Single SSSI scheme path (no ORNEC repeater); multi SSSI scheme path via gWZwzI ("Sites where you plan to carry out activities"); single SSSI fallback path | **Expected** — scheme paths don't collect ORNEC activities. See Examples 2, 5, 6 |
 
 ### Key empty value scenarios by form path
 
-| Path                                                                           | `SBI`       | `agreement_reference` | `email_header` | `coordinates` (in SSSI_info)                             | `ornec` (in SSSI_info) | Notes                                                                                |
-| ------------------------------------------------------------------------------ | ----------- | --------------------- | -------------- | -------------------------------------------------------- | ---------------------- | ------------------------------------------------------------------------------------ |
-| Landowner, CS scheme, single SSSI with ORNECs                                  | SBI number  | CS reference          | First ORNEC    | ORNEC coords                                             | Activity names         | All fields populated                                                                 |
-| Land occupier, HLS, single SSSI (scheme coords)                                | SBI number  | HLS reference         | Scheme text    | JPohUD ("Where are the activities taking place?") coords | `""` empty             | **ornec empty** — scheme path has no ORNEC activities                                |
-| Consultant, no scheme, single SSSI with ORNECs                                 | `undefined` | `""` empty            | First ORNEC    | ORNEC coords                                             | Activity names         | **SBI undefined, agreement_reference empty** — consultant without scheme             |
-| Landowner, SFI, multiple SSSIs with ORNECs                                     | SBI number  | SFI reference         | First ORNEC    | Per-SSSI coords                                          | Per-SSSI activities    | All fields populated                                                                 |
-| Other, CSMT, multiple SSSIs (scheme)                                           | SBI number  | CS reference          | Scheme text    | `""` empty                                               | `""` empty             | **coordinates and ornec empty** — scheme multi-SSSI path has no coords or activities |
-| Landowner, other permission via VacBun ("What is the name of the permission?") | SBI number  | VacBun text           | `""` empty     | `""` empty                                               | `""` empty             | **email_header, coordinates, ornec all empty** — no ORNECs, no scheme, no coords     |
-| Somebody else, no scheme, no ORNECs                                            | May be set  | `""` empty            | `""` empty     | `""` empty                                               | `""` empty             | **Most optional fields empty** — no scheme, no ORNECs, no coordinates                |
+| Path                                                                           | `SBI`       | `agreement_reference` | `email_header` | `coordinates` (in SSSI_info)                             | `ornec` (in SSSI_info) | Notes                                                                            |
+| ------------------------------------------------------------------------------ | ----------- | --------------------- | -------------- | -------------------------------------------------------- | ---------------------- | -------------------------------------------------------------------------------- |
+| Landowner, CS scheme, single SSSI with ORNECs                                  | SBI number  | CS reference          | First ORNEC    | ORNEC coords                                             | Activity names         | All fields populated                                                             |
+| Land occupier, HLS, single SSSI (scheme coords)                                | SBI number  | HLS reference         | Scheme text    | JPohUD ("Where are the activities taking place?") coords | `""` empty             | **ornec empty** — scheme path has no ORNEC activities                            |
+| Consultant, no scheme, single SSSI with ORNECs                                 | `undefined` | `""` empty            | First ORNEC    | ORNEC coords                                             | Activity names         | **SBI undefined, agreement_reference empty** — consultant without scheme         |
+| Landowner, SFI, multiple SSSIs with ORNECs                                     | SBI number  | SFI reference         | First ORNEC    | Per-SSSI coords                                          | Per-SSSI activities    | All fields populated                                                             |
+| Other, CSMT, multiple SSSIs (scheme)                                           | SBI number  | CS reference          | Scheme text    | JPohUD ("Where are the activities taking place?") coords | `""` empty             | **ornec empty** — scheme multi-SSSI path has no ORNEC activities                 |
+| Landowner, other permission via VacBun ("What is the name of the permission?") | SBI number  | VacBun text           | `""` empty     | `""` empty                                               | `""` empty             | **email_header, coordinates, ornec all empty** — no ORNECs, no scheme, no coords |
+| Somebody else, no scheme, no ORNECs                                            | May be set  | `""` empty            | `""` empty     | `""` empty                                               | `""` empty             | **Most optional fields empty** — no scheme, no ORNECs, no coordinates            |
