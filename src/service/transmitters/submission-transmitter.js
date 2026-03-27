@@ -22,7 +22,11 @@ export async function send(message) {
   const jsonPayload = JSON.stringify(message)
   const body = `json_form_data=${jsonPayload}`
 
-  logger.debug({ payload: jsonPayload }, 'Sending message to API with payload')
+  logger.debug(
+    { event: { payload: jsonPayload } },
+    'Sending message to API with payload: %s',
+    jsonPayload
+  )
   let response
   try {
     response = await fetch(universityApiUrl, {
