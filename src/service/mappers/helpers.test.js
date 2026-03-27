@@ -127,14 +127,12 @@ describe('helpers', () => {
   })
 
   describe('parseEuroSiteId', () => {
-    it('should extract the Euro Site ID from a combined value', () => {
-      expect(parseEuroSiteId('UK11004---Arun Valley Ramsar')).toBe('UK11004')
+    it('should extract the Euro Site ID as a number from a combined value', () => {
+      expect(parseEuroSiteId('UK11004---Arun Valley Ramsar')).toBe(11004)
     })
 
     it('should handle IDs with different formats', () => {
-      expect(parseEuroSiteId('UK11001---Abberton Reservoir Ramsar')).toBe(
-        'UK11001'
-      )
+      expect(parseEuroSiteId('UK11001---Abberton Reservoir Ramsar')).toBe(11001)
     })
 
     it('should throw an error when separator is missing', () => {
@@ -146,6 +144,18 @@ describe('helpers', () => {
     it('should throw an error for an empty string', () => {
       expect(() => parseEuroSiteId('')).toThrow(
         'european_site_id value "" does not contain the expected "---" separator'
+      )
+    })
+
+    it('should throw an error when ID does not have UK prefix', () => {
+      expect(() => parseEuroSiteId('11004---Some Site')).toThrow(
+        'european_site_id value "11004" does not start with the expected "UK" prefix'
+      )
+    })
+
+    it('should throw an error when remainder after UK prefix is not a number', () => {
+      expect(() => parseEuroSiteId('UKabc---Some Site')).toThrow(
+        'european_site_id value "UKabc" cannot be parsed into a number after removing "UK" prefix'
       )
     })
   })

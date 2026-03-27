@@ -455,7 +455,7 @@ describe('assent-form-mapper', () => {
           }
         )
       )
-      expect(result.euro_site_info).toEqual([{ european_site_id: 'UK11004' }])
+      expect(result.euro_site_info).toEqual([{ european_site_id: 11004 }])
     })
 
     it('should return empty array when no euro sites', () => {

@@ -598,7 +598,7 @@ describe('advice-form-mapper', () => {
       )
       expect(result.euro_site_info).toEqual([
         {
-          european_site_id: 'UK11001',
+          european_site_id: 11001,
           european_site_coordinates: '100000,200000'
         }
       ])

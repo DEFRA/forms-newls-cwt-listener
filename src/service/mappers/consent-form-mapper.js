@@ -421,7 +421,10 @@ export function mapFormSubmission(message) {
     detailed_work_type: mapDetailedWorkType(main),
     description: mapDescription(main, repeaters),
     consulting_body_type: customerType
-      ? (customerTypeMap[customerType] ?? customerType)
+      ? (customerTypeMap[customerType] ??
+        (() => {
+          throw new Error(`Unexpected customer type: '${customerType}'`)
+        })())
       : '',
     // htlAAq = "What is your first name?", pPocjH = "What is your last name?"
     customer_name: `${main.htlAAq ?? ''} ${main.pPocjH ?? ''}`.trim(),
