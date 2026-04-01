@@ -159,7 +159,7 @@ describe('assent-form-mapper', () => {
           { ASataH: false, gVlMxz: '1001001---Test SSSI' },
           {
             gzSkgC: [{ lGsnXi: 'Grazing' }],
-            aQYWxD: [{ IzQfir: 'UK11004---Arun Valley Ramsar' }]
+            aQYWxD: [{ IzQfir: '11004---Arun Valley Ramsar' }]
           }
         )
       )
@@ -398,7 +398,7 @@ describe('assent-form-mapper', () => {
           { ASataH: false, gVlMxz: '1001001---Test SSSI' },
           {
             gzSkgC: [{ lGsnXi: 'Grazing' }],
-            aQYWxD: [{ IzQfir: 'UK11004---Arun Valley Ramsar' }]
+            aQYWxD: [{ IzQfir: '11004---Arun Valley Ramsar' }]
           }
         )
       )
@@ -451,7 +451,7 @@ describe('assent-form-mapper', () => {
         buildMessage(
           {},
           {
-            aQYWxD: [{ IzQfir: 'UK11004---Test Euro Site' }]
+            aQYWxD: [{ IzQfir: '11004---Test Euro Site' }]
           }
         )
       )

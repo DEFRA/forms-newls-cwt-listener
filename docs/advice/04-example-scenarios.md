@@ -26,7 +26,7 @@ Each example shows the form submission data (input) and the expected CWT output 
     "repeaters": {
       "TJuSNf": [
         {
-          "rtuWky": "UK11040---Abberton Reservoir Ramsar",
+          "rtuWky": "11040---Abberton Reservoir Ramsar",
           "xeJYcG": { "easting": 496200, "northing": 218400 }
         }
       ],
@@ -169,7 +169,7 @@ Each example shows the form submission data (input) and the expected CWT output 
     "repeaters": {
       "TJuSNf": [
         {
-          "rtuWky": "UK11001---Arun Valley Ramsar",
+          "rtuWky": "11001---Arun Valley Ramsar",
           "xeJYcG": { "easting": 503200, "northing": 114600 }
         }
       ],
@@ -457,11 +457,11 @@ Each example shows the form submission data (input) and the expected CWT output 
     "repeaters": {
       "TJuSNf": [
         {
-          "rtuWky": "UK11049---Solent Maritime Ramsar",
+          "rtuWky": "11049---Solent Maritime Ramsar",
           "xeJYcG": { "easting": 445000, "northing": 98000 }
         },
         {
-          "rtuWky": "UK11052---Portsmouth Harbour Ramsar",
+          "rtuWky": "11052---Portsmouth Harbour Ramsar",
           "xeJYcG": { "easting": 462000, "northing": 105000 }
         }
       ],

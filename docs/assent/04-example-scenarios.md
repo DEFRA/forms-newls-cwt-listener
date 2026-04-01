@@ -102,7 +102,7 @@ Each example shows the form submission data (input) and the expected CWT output 
           "uqfCOY": { "easting": 564800, "northing": 105200 }
         }
       ],
-      "aQYWxD": [{ "IzQfir": "UK11053---Pevensey Levels Ramsar" }]
+      "aQYWxD": [{ "IzQfir": "11053---Pevensey Levels Ramsar" }]
     }
   }
 }
@@ -372,8 +372,8 @@ Each example shows the form submission data (input) and the expected CWT output 
         }
       ],
       "aQYWxD": [
-        { "IzQfir": "UK11021---Epping Forest SAC" },
-        { "IzQfir": "UK11033---Lee Valley Ramsar" }
+        { "IzQfir": "11021---Epping Forest SAC" },
+        { "IzQfir": "11033---Lee Valley Ramsar" }
       ]
     }
   }

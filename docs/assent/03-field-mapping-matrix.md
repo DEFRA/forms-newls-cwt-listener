@@ -181,9 +181,9 @@ Only used when hhGvmX repeater has no entries.
 
 Array of `{ european_site_id }` objects from repeater aQYWxD ("European site affected"). Unlike the advice form, the assent form does not include `european_site_coordinates`.
 
-| Field              | Source                                            | Description                                                                                                         |
-| ------------------ | ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
-| `european_site_id` | IzQfir ("What is the name of the European site?") | European site identifier, parsed from "UK{id}---{name}" format — the "UK" prefix is stripped and the ID is a number |
+| Field              | Source                                            | Description                                                                       |
+| ------------------ | ------------------------------------------------- | --------------------------------------------------------------------------------- |
+| `european_site_id` | IzQfir ("What is the name of the European site?") | European site identifier, parsed from "{id}---{name}" format — the ID is a number |
 
 Only populated when XydYUD ("Could the planned activities affect a European site?") is true and the repeater has entries.
 
