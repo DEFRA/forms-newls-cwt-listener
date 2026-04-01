@@ -55,7 +55,7 @@ Same precedence as `broad_work_type`, but with finer granularity for general top
 | S28G path      | YOwPAJ ("Advice type")    | `Something else`                       | Falls through to xzEslQ ("Topic of query") |
 | General topics | xzEslQ ("Topic of query") | Pre-consent advice (SSSI landowner)    | `SSSI - Pre Consent advice`                |
 | General topics | xzEslQ ("Topic of query") | Pre-assent advice (public body)        | `SSSI - Pre Assent advice`                 |
-| General topics | xzEslQ ("Topic of query") | Report potentially damaging activity   | `SSSI - Site visits/surveys`               |
+| General topics | xzEslQ ("Topic of query") | Report potentially damaging activity   | `SSSI - Regulation and Enforcement`        |
 | General topics | xzEslQ ("Topic of query") | Submit/request surveys or SSSI info    | `SSSI - Regulation and Enforcement`        |
 | General topics | xzEslQ ("Topic of query") | Question about NNRs                    | `SSSI - Other`                             |
 | General topics | xzEslQ ("Topic of query") | Designating a Local Nature Reserve     | `LNRs`                                     |
@@ -71,17 +71,20 @@ Format: `"[detailed_work_type] - [site names]"` (truncated to 255 characters). W
 
 ## description
 
-Built from path-dependent parts joined with `-`.
+Built from `detailed_work_type` and site names collected from the relevant path.
 
-| Path           | Parts (in order)                                                                                                                                                | Source fields                                                                                                                                                                               |
-| -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| HRA path       | HRA stage (lowercased, prefixed "Advice on "), European site names (comma-separated), question (if present), proposed activities, damaging activity description | emlmbt ("Type of HRA advice"), repeater TJuSNf ("European site")[rtuWky ("EU site name")], QmIGor ("What is your question?"), nJVeix ("Activity details"), YhWlKB ("Description of damage") |
-| S28I SSSI path | SSSI names (comma-separated), question, proposed activities, damaging activity description                                                                      | repeater[Avdzxa ("SSSI site name")], QmIGor ("What is your question?"), nJVeix ("Activity details"), YhWlKB ("Description of damage")                                                       |
-| General topics | Topic text, question, proposed activities, damaging activity description                                                                                        | xzEslQ ("Topic of query"), QmIGor ("What is your question?"), nJVeix ("Activity details"), YhWlKB ("Description of damage")                                                                 |
+| Path                                      | Format                                        | Source fields                                                                                                       |
+| ----------------------------------------- | --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| HRA path (with European site names)       | `{detailed_work_type} - {site names}`         | European site names from repeater TJuSNf [rtuWky ("EU site name")], parsed from "ID---Name" format, comma-separated |
+| S28I SSSI path (with SSSI names)          | `{detailed_work_type} - {site names}`         | SSSI names from repeater entries [Avdzxa ("SSSI site name")], parsed from "ID---Name" format, comma-separated       |
+| Damage reporting path (with damaged SSSI) | `{detailed_work_type} - {site name}`          | MoCXGK ("SSSI name for damage report"), parsed from "ID---Name" format                                              |
+| Drone flying path (with drone SSSI)       | `{detailed_work_type} - {site name}`          | PxvdiH ("SSSI name for drone flying"), parsed from "ID---Name" format                                               |
+| General topics: "Something else" path     | `{detailed_work_type} - {free text question}` | QmIGor ("What is your question?") — only when xzEslQ ("Topic of query") = "Something else" and QmIGor has a value   |
+| General topics: all other topics          | `{detailed_work_type}`                        | No site names collected on general topic paths (except damage and drone paths above)                                |
 
 **Notes:**
 
-- The trailing fields (QmIGor ("What is your question?"), nJVeix ("Activity details"), YhWlKB ("Description of damage")) are only appended if they have a value. Which ones are present depends on the sub-path (e.g. QmIGor is from the general question path, nJVeix from the proposed activities text field, YhWlKB from the damage reporting path).
+- Site names are collected via a precedence chain: HRA European sites > S28I SSSI sites > damage SSSI > drone SSSI > none.
 - Parts are joined with `-` (space-dash-space).
 
 ## consulting_body_type

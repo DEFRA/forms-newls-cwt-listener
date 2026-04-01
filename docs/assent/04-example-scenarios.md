@@ -20,7 +20,7 @@ Each example shows the form submission data (input) and the expected CWT output 
       "rTreXu": "A Countryside Stewardship Higher Tier (CSHT) agreement",
       "WZJDQG": "CS-2024-00123",
       "ASataH": false,
-      "gVlMxz": "North Meadow & Clattinger Farm SSSI",
+      "gVlMxz": "1003015---North Meadow & Clattinger Farm SSSI",
       "XydYUD": false,
       "htlAAq": "Sarah",
       "pPocjH": "Green",
@@ -49,11 +49,12 @@ Each example shows the form submission data (input) and the expected CWT output 
   "form_type": "assent",
   "broad_work_type": "S28H Assent",
   "detailed_work_type": "S28H Assent CS HT",
-  "description": "Grazing, Hay cutting",
+  "description": "Grazing, Hay cutting - North Meadow & Clattinger Farm SSSI",
   "consulting_body_type": "Government Agency",
   "consulting_body": "Environment Agency",
   "customer_name": "Sarah Green",
   "customer_email_address": "sarah.green@environment-agency.gov.uk",
+  "email_header": "Grazing, Hay cutting - North Meadow & Clattinger Farm SSSI",
   "agreement_reference": "CS-2024-00123",
   "is_contractor_working_for_public_body": "No",
   "public_body_type": "Government Agency",
@@ -61,7 +62,7 @@ Each example shows the form submission data (input) and the expected CWT output 
   "is_there_a_european_site": "No",
   "SSSI_info": [
     {
-      "SSSI_id": "North Meadow & Clattinger Farm SSSI",
+      "SSSI_id": 1003015,
       "coordinates": "409500,194200;409600,194300"
     }
   ],
@@ -81,14 +82,14 @@ Each example shows the form submission data (input) and the expected CWT output 
 {
   "data": {
     "main": {
-      "KTObNK": "Somebody working on behalf of a public body",
+      "KTObNK": "An organisation working on behalf of a public body",
       "ueDuNl": "Ecology Consulting Ltd",
       "vUHwan": "Government agency",
       "cfPoiN": "Natural England",
       "rTreXu": "A Sustainable Farming Incentive (SFI) agreement",
       "niVAkO": "SFI-2025-00456",
       "ASataH": false,
-      "gVlMxz": "Pevensey Levels SSSI",
+      "gVlMxz": "1001287---Pevensey Levels SSSI",
       "XydYUD": true,
       "htlAAq": "James",
       "pPocjH": "Carter",
@@ -101,7 +102,7 @@ Each example shows the form submission data (input) and the expected CWT output 
           "uqfCOY": { "easting": 564800, "northing": 105200 }
         }
       ],
-      "aQYWxD": [{ "IzQfir": "Pevensey Levels Ramsar" }]
+      "aQYWxD": [{ "IzQfir": "UK11053---Pevensey Levels Ramsar" }]
     }
   }
 }
@@ -114,11 +115,12 @@ Each example shows the form submission data (input) and the expected CWT output 
   "form_type": "assent",
   "broad_work_type": "S28H Assent",
   "detailed_work_type": "S28H Assent SFI",
-  "description": "Drainage management",
+  "description": "Drainage management - Pevensey Levels SSSI - Pevensey Levels Ramsar",
   "consulting_body_type": "Government Agency",
   "consulting_body": "Ecology Consulting Ltd",
   "customer_name": "James Carter",
   "customer_email_address": "james.carter@ecologyconsulting.co.uk",
+  "email_header": "Drainage management - Pevensey Levels SSSI - Pevensey Levels Ramsar",
   "agreement_reference": "SFI-2025-00456",
   "is_contractor_working_for_public_body": "Yes",
   "public_body_type": "Government Agency",
@@ -126,14 +128,13 @@ Each example shows the form submission data (input) and the expected CWT output 
   "is_there_a_european_site": "Yes",
   "SSSI_info": [
     {
-      "SSSI_id": "Pevensey Levels SSSI",
+      "SSSI_id": 1001287,
       "coordinates": "564800,105200"
     }
   ],
   "euro_site_info": [
     {
-      "european_site_id": "Pevensey Levels Ramsar",
-      "european_site_coordinates": ""
+      "european_site_id": 11053
     }
   ]
 }
@@ -164,8 +165,8 @@ Each example shows the form submission data (input) and the expected CWT output 
     },
     "repeaters": {
       "hhGvmX": [
-        { "flbYHq": "Thursley Common SSSI" },
-        { "flbYHq": "Chobham Common SSSI" }
+        { "flbYHq": "1001567---Thursley Common SSSI" },
+        { "flbYHq": "1000345---Chobham Common SSSI" }
       ]
     }
   }
@@ -179,19 +180,20 @@ Each example shows the form submission data (input) and the expected CWT output 
   "form_type": "assent",
   "broad_work_type": "S28H Assent",
   "detailed_work_type": "S28H Assent HLS extension",
-  "description": "",
+  "description": "A Higher Level Stewardship (HLS) agreement - Thursley Common SSSI, Chobham Common SSSI",
   "consulting_body_type": "Local Planning Authority",
   "consulting_body": "Surrey County Council",
   "customer_name": "Helen Brooks",
   "customer_email_address": "helen.brooks@surrey.gov.uk",
+  "email_header": "A Higher Level Stewardship (HLS) agreement - Thursley Common SSSI, Chobham Common SSSI",
   "agreement_reference": "HLS-AG-78901",
   "is_contractor_working_for_public_body": "No",
   "public_body_type": "Local Planning Authority",
   "public_body": "Surrey County Council",
   "is_there_a_european_site": "No",
   "SSSI_info": [
-    { "SSSI_id": "Thursley Common SSSI", "coordinates": "" },
-    { "SSSI_id": "Chobham Common SSSI", "coordinates": "" }
+    { "SSSI_id": 1001567, "coordinates": "" },
+    { "SSSI_id": 1000345, "coordinates": "" }
   ],
   "euro_site_info": []
 }
@@ -221,17 +223,17 @@ Each example shows the form submission data (input) and the expected CWT output 
     "repeaters": {
       "QxIzSB": [
         {
-          "wRGnMW": "Wicken Fen SSSI",
+          "wRGnMW": "1000789---Wicken Fen SSSI",
           "iNDqRN": "Reed cutting",
           "KnBNzJ": { "easting": 556300, "northing": 270500 }
         },
         {
-          "wRGnMW": "Wicken Fen SSSI",
+          "wRGnMW": "1000789---Wicken Fen SSSI",
           "iNDqRN": "Water level management",
           "KnBNzJ": { "easting": 556400, "northing": 270600 }
         },
         {
-          "wRGnMW": "Hatfield Forest SSSI",
+          "wRGnMW": "1000456---Hatfield Forest SSSI",
           "iNDqRN": "Coppicing",
           "KnBNzJ": { "easting": 554000, "northing": 220000 }
         }
@@ -248,11 +250,12 @@ Each example shows the form submission data (input) and the expected CWT output 
   "form_type": "assent",
   "broad_work_type": "S28H Assent",
   "detailed_work_type": "S28H Assent",
-  "description": "Reed cutting, Water level management, Coppicing",
+  "description": "Reed cutting, Water level management, Coppicing - Wicken Fen SSSI, Hatfield Forest SSSI",
   "consulting_body_type": "Landowner",
   "consulting_body": "National Trust",
   "customer_name": "Mark Thompson",
   "customer_email_address": "mark.thompson@nationaltrust.org.uk",
+  "email_header": "Reed cutting, Water level management, Coppicing - Wicken Fen SSSI, Hatfield Forest SSSI",
   "agreement_reference": "",
   "is_contractor_working_for_public_body": "No",
   "public_body_type": "Landowner",
@@ -260,11 +263,11 @@ Each example shows the form submission data (input) and the expected CWT output 
   "is_there_a_european_site": "No",
   "SSSI_info": [
     {
-      "SSSI_id": "Wicken Fen SSSI",
+      "SSSI_id": 1000789,
       "coordinates": "556300,270500;556400,270600"
     },
     {
-      "SSSI_id": "Hatfield Forest SSSI",
+      "SSSI_id": 1000456,
       "coordinates": "554000,220000"
     }
   ],
@@ -284,14 +287,14 @@ Each example shows the form submission data (input) and the expected CWT output 
 {
   "data": {
     "main": {
-      "KTObNK": "Somebody working on behalf of a public body",
+      "KTObNK": "An organisation working on behalf of a public body",
       "ueDuNl": "Other",
       "Xszriq": "Regional Wildlife Trust",
       "vUHwan": "Landowner",
       "cfPoiN": "Ministry of Defence",
       "rTreXu": "A Minor and Temporary Adjustments (MTA)",
       "ASataH": false,
-      "gVlMxz": "Ashdown Forest SSSI",
+      "gVlMxz": "1000234---Ashdown Forest SSSI",
       "XydYUD": false,
       "htlAAq": "Lucy",
       "pPocjH": "Davies",
@@ -316,11 +319,12 @@ Each example shows the form submission data (input) and the expected CWT output 
   "form_type": "assent",
   "broad_work_type": "S28H Assent",
   "detailed_work_type": "S28H Assent MTA",
-  "description": "Temporary fencing installation",
+  "description": "Temporary fencing installation - Ashdown Forest SSSI",
   "consulting_body_type": "Landowner",
   "consulting_body": "Regional Wildlife Trust",
   "customer_name": "Lucy Davies",
   "customer_email_address": "lucy.davies@wildlife-trust.org.uk",
+  "email_header": "Temporary fencing installation - Ashdown Forest SSSI",
   "agreement_reference": "",
   "is_contractor_working_for_public_body": "Yes",
   "public_body_type": "Landowner",
@@ -328,7 +332,7 @@ Each example shows the form submission data (input) and the expected CWT output 
   "is_there_a_european_site": "No",
   "SSSI_info": [
     {
-      "SSSI_id": "Ashdown Forest SSSI",
+      "SSSI_id": 1000234,
       "coordinates": "543200,132800"
     }
   ],
@@ -354,7 +358,7 @@ Each example shows the form submission data (input) and the expected CWT output 
       "rTreXu": "A Countryside Stewardship Capital Grants agreement",
       "WZJDQG": "CS-CAP-55678",
       "ASataH": false,
-      "gVlMxz": "Epping Forest SSSI",
+      "gVlMxz": "1000456---Epping Forest SSSI",
       "XydYUD": true,
       "htlAAq": "David",
       "pPocjH": "Wilson",
@@ -368,8 +372,8 @@ Each example shows the form submission data (input) and the expected CWT output 
         }
       ],
       "aQYWxD": [
-        { "IzQfir": "Epping Forest SAC" },
-        { "IzQfir": "Lee Valley Ramsar" }
+        { "IzQfir": "UK11021---Epping Forest SAC" },
+        { "IzQfir": "UK11033---Lee Valley Ramsar" }
       ]
     }
   }
@@ -383,11 +387,12 @@ Each example shows the form submission data (input) and the expected CWT output 
   "form_type": "assent",
   "broad_work_type": "S28H Assent",
   "detailed_work_type": "S28H Assent CS Capital Grants",
-  "description": "Woodland restoration",
+  "description": "Woodland restoration - Epping Forest SSSI - Epping Forest SAC, Lee Valley Ramsar",
   "consulting_body_type": "Other",
   "consulting_body": "Woodland Heritage Foundation",
   "customer_name": "David Wilson",
   "customer_email_address": "david.wilson@woodland-heritage.org.uk",
+  "email_header": "Woodland restoration - Epping Forest SSSI - Epping Forest SAC, Lee Valley Ramsar",
   "agreement_reference": "CS-CAP-55678",
   "is_contractor_working_for_public_body": "No",
   "public_body_type": "Other",
@@ -395,16 +400,17 @@ Each example shows the form submission data (input) and the expected CWT output 
   "is_there_a_european_site": "Yes",
   "SSSI_info": [
     {
-      "SSSI_id": "Epping Forest SSSI",
+      "SSSI_id": 1000456,
       "coordinates": "541200,198400"
     }
   ],
   "euro_site_info": [
     {
-      "european_site_id": "Epping Forest SAC",
-      "european_site_coordinates": ""
+      "european_site_id": 11021
     },
-    { "european_site_id": "Lee Valley Ramsar", "european_site_coordinates": "" }
+    {
+      "european_site_id": 11033
+    }
   ]
 }
 ```

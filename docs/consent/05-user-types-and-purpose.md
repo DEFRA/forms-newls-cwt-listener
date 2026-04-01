@@ -69,7 +69,7 @@ The consent form has **4 user categories**, determined by field `KTObNK` ("What 
 
 ---
 
-### 3. Someone with permission to work on behalf of an owner or occupier (Consultant)
+### 3. Someone working on behalf of an owner or occupier of land within a SSSI (Consultant)
 
 | Attribute  | Detail                               |
 | ---------- | ------------------------------------ |
@@ -225,14 +225,14 @@ When neither SBI field has a value, the field is omitted from the output entirel
 
 ## Key distinctions from other forms
 
-| Aspect                     | Consent form (S28E)                                               | Assent form (S28H)                                                               | Advice form                     |
-| -------------------------- | ----------------------------------------------------------------- | -------------------------------------------------------------------------------- | ------------------------------- |
-| Legal mechanism            | Formal consent application from private party                     | Formal notice from public body                                                   | Consultation / guidance request |
-| Who uses it                | Private landowners, occupiers, consultants, others (4 categories) | Public bodies and their contractors (2 categories)                               | Anyone (9 categories)           |
-| Binding outcome?           | Yes — consent required before proceeding                          | Yes — assent required before proceeding                                          | No — advisory only              |
-| SBI collected?             | Yes (when available)                                              | No                                                                               | No                              |
-| European site question?    | No                                                                | Yes                                                                              | Yes (HRA path)                  |
-| Public body fields?        | No                                                                | Yes (`public_body_type`, `public_body`, `is_contractor_working_for_public_body`) | Yes                             |
-| ORNEC in SSSI_info?        | Yes (`ornec` field per entry)                                     | No                                                                               | No                              |
-| `email_header` field?      | Yes (first ORNEC activity or scheme text)                         | No                                                                               | No                              |
-| Permission proof required? | Yes (for consultants and others)                                  | Yes (for contractors)                                                            | No                              |
+| Aspect                     | Consent form (S28E)                                               | Assent form (S28H)                                                               | Advice form                           |
+| -------------------------- | ----------------------------------------------------------------- | -------------------------------------------------------------------------------- | ------------------------------------- |
+| Legal mechanism            | Formal consent application from private party                     | Formal notice from public body                                                   | Consultation / guidance request       |
+| Who uses it                | Private landowners, occupiers, consultants, others (4 categories) | Public bodies and their contractors (2 categories)                               | Anyone (9 categories)                 |
+| Binding outcome?           | Yes — consent required before proceeding                          | Yes — assent required before proceeding                                          | No — advisory only                    |
+| SBI collected?             | Yes (when available)                                              | No                                                                               | No                                    |
+| European site question?    | No                                                                | Yes                                                                              | Yes (HRA path)                        |
+| Public body fields?        | No                                                                | Yes (`public_body_type`, `public_body`, `is_contractor_working_for_public_body`) | Yes                                   |
+| ORNEC in SSSI_info?        | Yes (`ornec` field per entry)                                     | No                                                                               | No                                    |
+| `email_header` field?      | Yes (activities + SSSI names, or scheme + SSSI names)             | Yes (activities/scheme + SSSI/Euro site names)                                   | Yes (detailed_work_type + site names) |
+| Permission proof required? | Yes (for consultants and others)                                  | Yes (for contractors)                                                            | No                                    |

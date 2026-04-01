@@ -121,7 +121,7 @@ A catch-all for public bodies that don't fit the above categories (e.g. NHS trus
 
 ---
 
-### 2. Somebody working on behalf of a public body
+### 2. An organisation working on behalf of a public body
 
 _"For example, a contractor or an organisation."_
 
