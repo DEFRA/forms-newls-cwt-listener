@@ -36,7 +36,6 @@ const schemeToDetailedWorkType = {
  * @type {Record<string, string>}
  */
 const publicBodyCategoryMap = {
-  Consultant: 'Consultant',
   'Government agency': 'Government Agency',
   'Harbour authority': 'Harbour authority',
   Landowner: 'Landowner',

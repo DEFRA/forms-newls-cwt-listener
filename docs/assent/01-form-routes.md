@@ -23,7 +23,6 @@ Shown on **all paths** (no condition). Page question: "Which category best descr
 
 | Category                 | Value                      | Next step                                                          |
 | ------------------------ | -------------------------- | ------------------------------------------------------------------ |
-| Consultant               | `Consultant`               | [Public body selection](#public-body-selection-cfpoin)             |
 | Government agency        | `Government agency`        | [Public body selection](#public-body-selection-cfpoin)             |
 | Harbour authority        | `Harbour authority`        | [Public body selection](#public-body-selection-cfpoin)             |
 | Landowner                | `Landowner`                | [Public body selection](#public-body-selection-cfpoin)             |

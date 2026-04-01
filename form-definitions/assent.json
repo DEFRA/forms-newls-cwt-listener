@@ -1575,20 +1575,32 @@
       "id": "41306a23-c865-4801-882b-8a60593e40b4"
     },
     {
+      "title": "",
+      "path": "/declaration",
+      "components": [
+        {
+          "type": "DeclarationField",
+          "title": "Declaration",
+          "name": "pHZmai",
+          "shortDescription": "Declaration",
+          "content": "It is your responsibility to obtain all necessary permissions required to undertake the operations lawfully. You may face enforcement action from other authorities or parties if you carry out the work without permission.\r\n\r\n\r\nBy ticking 'I understand and agree' you are declaring that:\r\n\r\n* you are notifying Natural England about your proposal to cause, carry out, or permit operations within a Site of Special Scientific Interest (SSSI), and that,\r\n* This notice is in line with Section 28H (1)(a) of the Wildlife and Countryside Act 1981 (as amended and inserted by section 75 and Schedule 9 of the Countryside and Rights of Way Act 2000)\r\n* You have read and understood the [privacy notice](https://www.gov.uk/government/publications/natural-england-privacy-notices/site-of-special-scientific-interest-notification-privacy-notice)",
+          "options": {
+            "required": true
+          },
+          "schema": {},
+          "id": "52b660f8-6407-448f-95ae-441fca5750b0"
+        }
+      ],
+      "next": [],
+      "id": "b3e277ef-f721-4748-b76a-91016457bd1a"
+    },
+    {
       "id": "449a45f6-4541-4a46-91bd-8b8931b07b50",
       "title": "",
       "path": "/summary",
       "controller": "SummaryPageWithConfirmationEmailController",
       "next": [],
-      "components": [
-        {
-          "id": "66872b76-c23e-4503-81a3-7542a4d9898c",
-          "type": "Markdown",
-          "content": "It is your responsibility to obtain all necessary permissions required to undertake the operations lawfully. You may face enforcement action from other authorities or parties if you carry out the work without permission.\r\n\r\n\r\nBy clicking 'Accept and send' you are declaring that:\r\n\r\n* you are notifying Natural England about your proposal to cause, carry out, or permit operations within a Site of Special Scientific Interest (SSSI), and that,\r\n* This notice is in line with Section 28H (1)(a) of the Wildlife and Countryside Act 1981 (as amended and inserted by section 75 and Schedule 9 of the Countryside and Rights of Way Act 2000)\r\n* You have read and understood the [privacy notice](https://www.gov.uk/government/publications/natural-england-privacy-notices/site-of-special-scientific-interest-notification-privacy-notice)",
-          "options": {},
-          "schema": {}
-        }
-      ]
+      "components": []
     }
   ],
   "conditions": [
@@ -25221,15 +25233,6 @@
       "title": "List for question vUHwan",
       "type": "string",
       "items": [
-        {
-          "id": "1f20bbc9-0343-4445-a2be-7896303af3eb",
-          "text": "Consultant",
-          "value": "Consultant",
-          "hint": {
-            "text": "including contractors",
-            "id": "26d6144a-8c0e-4581-a219-9643e4fda482"
-          }
-        },
         {
           "id": "1336418f-0ccf-4429-9c64-e82ca4677cf3",
           "text": "Government agency",

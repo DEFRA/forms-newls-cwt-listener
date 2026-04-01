@@ -81,7 +81,6 @@ Mapped from vUHwan ("Which category best describes the public body you're repres
 
 | vUHwan value               | Output value               |
 | -------------------------- | -------------------------- |
-| `Consultant`               | `Consultant`               |
 | `Government agency`        | `Government Agency`        |
 | `Harbour authority`        | `Harbour authority`        |
 | `Landowner`                | `Landowner`                |
