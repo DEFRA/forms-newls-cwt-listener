@@ -1,3 +1,5 @@
+import Boom from '@hapi/boom'
+
 import { getErrorMessage } from './error-message.js'
 
 describe('getErrorMessage', () => {
@@ -56,6 +58,32 @@ describe('getErrorMessage', () => {
     )
     expect(getErrorMessage(error)).toBe(
       'Error with "quotes" and \'apostrophes\' and symbols: !@#$%'
+    )
+  })
+
+  test('handles boom error with no underlying message', () => {
+    const err = Boom.badRequest('general error message')
+    expect(getErrorMessage(err)).toBe('general error message')
+  })
+
+  test('handles boom error with one message', () => {
+    const err = Boom.badRequest('general error message', {
+      errors: [{ error: 'error type 2', message: 'error message 2' }]
+    })
+    expect(getErrorMessage(err)).toBe(
+      'general error message error type 2: error message 2'
+    )
+  })
+
+  test('handles boom error with multiple messages', () => {
+    const err = Boom.badRequest('general error message', {
+      errors: [
+        { error: 'error type 3', message: 'error message 3' },
+        { error: 'error type 4', message: 'error message 4' }
+      ]
+    })
+    expect(getErrorMessage(err)).toBe(
+      'general error message error type 3: error message 3, error type 4: error message 4'
     )
   })
 })
