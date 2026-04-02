@@ -77,19 +77,22 @@ Collected from repeater aQYWxD [IzQfir]. Parsed from "ID---Name" format and comm
 
 ## consulting_body_type
 
-Mapped from vUHwan ("Which category best describes the public body you're representing?") via `publicBodyCategoryMap`.
+Determined by KTObNK ("What type of customer are you?"):
+
+- When `An organisation working on behalf of a public body` → always `"Consultant"`
+- When `A public body` → mapped from vUHwan ("Which category best describes the public body you're representing?") via `publicBodyCategoryMap`:
 
 | vUHwan value               | Output value               |
 | -------------------------- | -------------------------- |
 | `Government agency`        | `Government Agency`        |
-| `Harbour authority`        | `Harbour authority`        |
+| `Harbour authority`        | `Harbour Authority`        |
 | `Landowner`                | `Landowner`                |
-| `Land occupier`            | `Land occupier`            |
+| `Land occupier`            | `Land Occupier`            |
 | `Local planning authority` | `Local Planning Authority` |
 | `Utility provider`         | `Utility Provider`         |
 | `Other`                    | `Other`                    |
 
-**Note:** The mapping changes capitalisation for Government Agency, Local Planning Authority, and Utility Provider. This field is always populated — the question is shown on both public body and contractor paths (no condition in the form definition).
+**Note:** The mapping changes capitalisation for Government Agency, Local Planning Authority, and Utility Provider. For public bodies, vUHwan is always shown (no condition in the form definition).
 
 ## consulting_body
 
@@ -205,7 +208,7 @@ This section identifies all scenarios where output fields sent to the University
 | `consulting_body`                       | At least one source field (ueDuNl, XAZlxH, cfPoiN, or FyLHmN) is collected as a mandatory field on every path |
 | `customer_name`                         | htlAAq ("What is your first name?") and pPocjH ("What is your last name?") are mandatory fields on all paths  |
 | `customer_email_address`                | skdDtj ("What is your email address?") is a mandatory field on all paths                                      |
-| `consulting_body_type`                  | vUHwan ("Which category best describes the public body?") is shown on all paths (no condition)                |
+| `consulting_body_type`                  | `"Consultant"` for contractors; vUHwan lookup for public bodies — always resolves                             |
 | `public_body_type`                      | Same as `consulting_body_type`                                                                                |
 | `public_body`                           | Resolved from vUHwan-dependent fields (XAZlxH, cfPoiN, or FyLHmN) — at least one is mandatory on every path   |
 | `is_contractor_working_for_public_body` | Always `"Yes"` or `"No"`                                                                                      |
@@ -232,7 +235,7 @@ This section identifies all scenarios where output fields sent to the University
 | ------------------------------------------------- | -------------- | ---------------------- | ------------------ | ------------- | --------------------- | ------------------------------------------------------------------------- |
 | Public body, CS scheme, single SSSI               | Activities     | Body category          | Body category      | Body name     | CS reference          | All fields populated                                                      |
 | Public body, HLS, multiple SSSIs (scheme)         | Scheme + SSSIs | Body category          | Body category      | Body name     | HLS reference         | Description has scheme text and SSSI names (no activities on this path)   |
-| Contractor, SFI, single SSSI                      | Activities     | Body category          | Body category      | Body name     | SFI reference         | Only **description** may vary                                             |
+| Contractor, SFI, single SSSI                      | Activities     | `Consultant`           | Body category      | Body name     | SFI reference         | Only **description** may vary                                             |
 | Public body, MTA, single SSSI                     | Activities     | Body category          | Body category      | Body name     | `""` empty            | **agreement_reference empty** — MTA has no reference field                |
-| Contractor, Other scheme, multiple SSSIs (scheme) | Scheme + SSSIs | Body category          | Body category      | Body name     | `""` empty            | Description has scheme text and SSSI names; **agreement_reference empty** |
+| Contractor, Other scheme, multiple SSSIs (scheme) | Scheme + SSSIs | `Consultant`           | Body category      | Body name     | `""` empty            | Description has scheme text and SSSI names; **agreement_reference empty** |
 | Public body, no scheme, multiple SSSIs (ORNEC)    | Activities     | Body category          | Body category      | Body name     | `""` empty            | Only agreement_reference is empty                                         |

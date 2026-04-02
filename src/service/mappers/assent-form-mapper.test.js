@@ -170,18 +170,34 @@ describe('assent-form-mapper', () => {
   })
 
   describe('consulting_body_type', () => {
-    it('should map "Government agency" to "Government Agency"', () => {
+    it('should map "Government agency" to "Government Agency" for a public body', () => {
       const result = mapFormSubmission(
-        buildMessage({ vUHwan: 'Government agency' })
+        buildMessage({
+          KTObNK: 'A public body',
+          vUHwan: 'Government agency'
+        })
       )
       expect(result.consulting_body_type).toBe('Government Agency')
     })
 
-    it('should map "Local planning authority" to "Local Planning Authority"', () => {
+    it('should map "Local planning authority" to "Local Planning Authority" for a public body', () => {
       const result = mapFormSubmission(
-        buildMessage({ vUHwan: 'Local planning authority' })
+        buildMessage({
+          KTObNK: 'A public body',
+          vUHwan: 'Local planning authority'
+        })
       )
       expect(result.consulting_body_type).toBe('Local Planning Authority')
+    })
+
+    it('should return "Consultant" when working on behalf of a public body', () => {
+      const result = mapFormSubmission(
+        buildMessage({
+          KTObNK: 'An organisation working on behalf of a public body',
+          vUHwan: 'Government agency'
+        })
+      )
+      expect(result.consulting_body_type).toBe('Consultant')
     })
   })
 
