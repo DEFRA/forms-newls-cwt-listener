@@ -41,18 +41,19 @@ flowchart TD
 
     %% ===== consulting_body_type =====
     subgraph OutConsultingBodyType["consulting_body_type"]
-        CBT_Q{"vUHwan<br />Which category best describes<br />the public body you're representing?"}
-        CBT_Q -->|"Consultant"| CBT_CON["'Consultant'"]
-        CBT_Q -->|"Government agency"| CBT_GOV["'Government Agency'"]
-        CBT_Q -->|"Harbour authority"| CBT_HARB["'Harbour authority'"]
-        CBT_Q -->|"Landowner"| CBT_LAND["'Landowner'"]
-        CBT_Q -->|"Land occupier"| CBT_OCC["'Land occupier'"]
-        CBT_Q -->|"Local planning authority"| CBT_LPA["'Local Planning Authority'"]
-        CBT_Q -->|"Utility provider"| CBT_UTIL["'Utility Provider'"]
-        CBT_Q -->|"Other"| CBT_OTH["'Other'"]
-        CBT_Q -->|"Not present"| CBT_EMPTY["'' (empty)"]
+        CBT_CQ{"KTObNK<br />What type of customer are you?"}
+        CBT_CQ -->|"'An organisation working on behalf<br />of a public body'"| CBT_CON["'Consultant'"]
+        CBT_CQ -->|"'A public body'"| CBT_PB_Q{"vUHwan<br />Which category best describes<br />the public body you're representing?"}
+        CBT_PB_Q -->|"Government agency"| CBT_GOV["'Government Agency'"]
+        CBT_PB_Q -->|"Harbour authority"| CBT_HARB["'Harbour authority'"]
+        CBT_PB_Q -->|"Landowner"| CBT_LAND["'Landowner'"]
+        CBT_PB_Q -->|"Land occupier"| CBT_OCC["'Land occupier'"]
+        CBT_PB_Q -->|"Local planning authority"| CBT_LPA["'Local Planning Authority'"]
+        CBT_PB_Q -->|"Utility provider"| CBT_UTIL["'Utility Provider'"]
+        CBT_PB_Q -->|"Other"| CBT_OTH["'Other'"]
+        CBT_PB_Q -->|"Not present"| CBT_EMPTY["'' (empty)"]
     end
-    MAIN --> CBT_Q
+    MAIN --> CBT_CQ
 
     %% ===== consulting_body =====
     subgraph OutConsultingBody["consulting_body"]

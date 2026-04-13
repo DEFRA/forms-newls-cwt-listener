@@ -35,10 +35,11 @@ export function parseSssiId(value) {
 
 /**
  * Parses a European Site ID value from a form submission string.
- * Expects format "Euro_site_id---Euro Site Name" (e.g. "UK11004---Arun Valley Ramsar").
+ * Expects format "Euro_site_id---Euro Site Name" (e.g. "7---Arun Valley Ramsar").
+ * Returns the numeric portion as an integer.
  * @param {unknown} value - The raw value from the form submission
- * @returns {string} The European Site ID (e.g. "UK11004")
- * @throws {Error} If the value is empty or does not contain the expected separator
+ * @returns {number} The European Site ID as a number (e.g. 42)
+ * @throws {Error} If the value does not contain the expected separator or cannot be parsed into a number
  */
 export function parseEuroSiteId(value) {
   const stringValue = String(value)
@@ -48,14 +49,21 @@ export function parseEuroSiteId(value) {
       `european_site_id value "${stringValue}" does not contain the expected "---" separator`
     )
   }
-  return stringValue.substring(0, separatorIndex)
+  const rawId = stringValue.substring(0, separatorIndex)
+  const parsed = parseInt(rawId, 10)
+  if (isNaN(parsed)) {
+    throw new Error(
+      `european_site_id value "${rawId}" cannot be parsed into a number`
+    )
+  }
+  return parsed
 }
 
 /**
  * Extracts the display name from a combined "ID---Name" value.
  * Returns the original string if no "---" separator is found.
  * @param {unknown} value - The raw value from the form submission
- * @returns {string} The display name (e.g. "Arun Valley Ramsar" from "UK11004---Arun Valley Ramsar")
+ * @returns {string} The display name (e.g. "Arun Valley Ramsar" from "11004---Arun Valley Ramsar")
  */
 export function parseName(value) {
   const stringValue = String(value)

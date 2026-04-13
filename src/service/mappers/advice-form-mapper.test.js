@@ -186,11 +186,11 @@ describe('advice-form-mapper', () => {
           {
             TJuSNf: [
               {
-                rtuWky: 'UK11004---Arun Valley Ramsar',
+                rtuWky: '11004---Arun Valley Ramsar',
                 xeJYcG: { easting: 100000, northing: 200000 }
               },
               {
-                rtuWky: 'UK11001---Abberton Reservoir Ramsar',
+                rtuWky: '11001---Abberton Reservoir Ramsar',
                 xeJYcG: { easting: 300000, northing: 400000 }
               }
             ]
@@ -251,7 +251,7 @@ describe('advice-form-mapper', () => {
 
     it('should truncate to 255 characters when many sites', () => {
       const euroSites = Array.from({ length: 30 }, (_, i) => ({
-        rtuWky: `UK${11000 + i}---A Very Long European Site Name Number ${i + 1}`,
+        rtuWky: `${11000 + i}---A Very Long European Site Name Number ${i + 1}`,
         xeJYcG: { easting: 100000, northing: 200000 }
       }))
       const result = mapFormSubmission(
@@ -442,7 +442,7 @@ describe('advice-form-mapper', () => {
           {
             TJuSNf: [
               {
-                rtuWky: 'UK11004---Arun Valley Ramsar',
+                rtuWky: '11004---Arun Valley Ramsar',
                 xeJYcG: { easting: 100000, northing: 200000 }
               }
             ]
@@ -589,7 +589,7 @@ describe('advice-form-mapper', () => {
           {
             TJuSNf: [
               {
-                rtuWky: 'UK11001---Test Euro Site',
+                rtuWky: '11001---Test Euro Site',
                 xeJYcG: { easting: 100000, northing: 200000 }
               }
             ]
@@ -598,7 +598,7 @@ describe('advice-form-mapper', () => {
       )
       expect(result.euro_site_info).toEqual([
         {
-          european_site_id: 'UK11001',
+          european_site_id: 11001,
           european_site_coordinates: '100000,200000'
         }
       ])

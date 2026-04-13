@@ -6,12 +6,12 @@ This document enumerates every routing scenario through the consent form. Each r
 
 The consent form has a simpler identity model than the assent form. The customer type maps directly to `consulting_body_type`.
 
-| #   | Customer type (KTObNK)                                            | Output consulting_body_type |
-| --- | ----------------------------------------------------------------- | --------------------------- |
-| 1   | An owner of land within a SSSI                                    | `Landowner`                 |
-| 2   | An occupier of land within a SSSI                                 | `Land occupier`             |
-| 3   | Someone with permission to work on behalf of an owner or occupier | `Consultant`                |
-| 4   | Somebody else                                                     | `Other`                     |
+| #   | Customer type (KTObNK)                                                  | Output consulting_body_type |
+| --- | ----------------------------------------------------------------------- | --------------------------- |
+| 1   | An owner of land within a SSSI                                          | `Landowner`                 |
+| 2   | An occupier of land within a SSSI                                       | `Land occupier`             |
+| 3   | Someone working on behalf of an owner or occupier of land within a SSSI | `Consultant`                |
+| 4   | Somebody else                                                           | `Other`                     |
 
 ## Decision table: Land management scheme
 
@@ -39,14 +39,14 @@ The scheme determines the `detailed_work_type` and which agreement reference fie
 
 ## Decision table: email_header
 
-The email_header is determined by a fallback chain.
+Uses the same segments as `description` (activities or scheme, plus SSSI names) but truncated to 255 characters. Falls back to `"S28E Consent"`.
 
-| #   | Condition                                                                                        | Source             | Output                    |
-| --- | ------------------------------------------------------------------------------------------------ | ------------------ | ------------------------- |
-| H1  | Single SSSI repeater iTBHrY has entries with hqsZMS ("Which activity do you plan to carry out?") | First hqsZMS value | First ORNEC activity name |
-| H2  | Multi SSSI repeater cwZgSE has entries with BscJLV ("Which activity do you plan to carry out?")  | First BscJLV value | First ORNEC activity name |
-| H3  | rTreXu ("What land management scheme does this notice relate to?") is set                        | rTreXu value       | Full scheme text          |
-| H4  | None of the above                                                                                | -                  | Empty string              |
+| #   | Condition                                    | Output                                              |
+| --- | -------------------------------------------- | --------------------------------------------------- |
+| H1  | Activities present (from iTBHrY or cwZgSE)   | All unique activities comma-joined, plus SSSI names |
+| H2  | No activities, scheme present (rTreXu)       | Full scheme text, plus SSSI names                   |
+| H3  | No activities, no scheme, SSSI names present | SSSI names only                                     |
+| H4  | No activities, no scheme, no SSSI names      | `"S28E Consent"`                                    |
 
 ## Complete submission scenarios
 

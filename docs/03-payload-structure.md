@@ -146,14 +146,23 @@ Each form mapper produces a different output structure. All outputs are sent as 
   form_type: "assent",
   DF_reference_number: "1A5-F72-704",
   broad_work_type: "S28H Assent",
-  detailed_work_type: "CSHT",             // or "CSMT", "HLS", "SFI", "MTA"
-  description: "Description of activities",
+  detailed_work_type: "S28H Assent CS HT", // or "S28H Assent CS MT", "S28H Assent HLS extension", etc.
+  description: "Activities - SSSI names - Euro site names",
+  consulting_body_type: "Government Agency", // or "Landowner", "Local Planning Authority", etc.
+  consulting_body: "Organisation name",
   customer_name: "Full name",
   customer_email_address: "email@example.com",
   email_header: "Email subject text",
   agreement_reference: "AG-12345",
+  is_contractor_working_for_public_body: "Yes",  // or "No"
+  public_body_type: "Government Agency",
+  public_body: "Body name",
+  is_there_a_european_site: "Yes",         // or "No"
   SSSI_info: [
     { SSSI_id: 0, coordinates: "123456,654321" }
+  ],
+  euro_site_info: [
+    { european_site_id: 0 }
   ]
 }
 ```
@@ -165,11 +174,12 @@ Each form mapper produces a different output structure. All outputs are sent as 
   form_type: "consent",
   DF_reference_number: "1A5-F72-704",
   broad_work_type: "S28E Consent",
-  detailed_work_type: "CSHT",
-  description: "SSSI Name - Activity description",
+  detailed_work_type: "S28E Consent CS HT", // or "S28E Consent CS MT", "S28E Consent HLS extension", etc.
+  description: "Activities - SSSI names",
+  consulting_body_type: "Landowner",       // or "Land occupier", "Consultant", "Other"
   customer_name: "Full name",
   customer_email_address: "email@example.com",
-  email_header: "First activity name",
+  email_header: "Activities - SSSI names", // same segments as description, truncated to 255 chars
   SBI: 123456789,                          // Single Business Identifier (optional)
   agreement_reference: "AG-12345",
   SSSI_info: [

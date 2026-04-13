@@ -17,6 +17,7 @@ Source: [src/service/mappers/assent-form-mapper.js](../../src/service/mappers/as
 | `consulting_body`                       | string           | Yes                |
 | `customer_name`                         | string           | Yes                |
 | `customer_email_address`                | string           | Yes                |
+| `email_header`                          | string           | Yes                |
 | `agreement_reference`                   | string           | Yes                |
 | `is_contractor_working_for_public_body` | `"Yes"` / `"No"` | Yes                |
 | `public_body_type`                      | string           | Yes                |
@@ -52,42 +53,58 @@ Determined by field rTreXu ("What land management scheme does this notice relate
 
 ## description
 
-Built from activity entries in repeaters. Single SSSI path takes precedence over multiple SSSI path.
+Built from up to three segments joined with `-` (space-dash-space): the primary segment (activities or scheme), SSSI names, and European site names. Falls back to `"S28H Assent"` when no segments are available.
 
-| Path                  | Repeater                                                             | Activity field                                         | Format                       |
-| --------------------- | -------------------------------------------------------------------- | ------------------------------------------------------ | ---------------------------- |
-| Single SSSI           | gzSkgC ("Activities requiring Natural England's assent")             | lGsnXi ("What activity is planned to be carried out?") | Activity values comma-joined |
-| Multiple SSSI (ORNEC) | QxIzSB ("Site name and activities requiring Natural England assent") | iNDqRN ("What activity is planned to be carried out?") | Activity values comma-joined |
-| (no activities)       | -                                                                    | -                                                      | Empty string                 |
+Format: `"{activities or scheme} - {SSSI names} - {Euro site names}"`
+
+### Primary segment (activities or scheme)
+
+Activities take precedence. Single SSSI path takes precedence over multiple SSSI path.
+
+| Path                  | Repeater                                                             | Activity field                                         | Format                              |
+| --------------------- | -------------------------------------------------------------------- | ------------------------------------------------------ | ----------------------------------- |
+| Single SSSI           | gzSkgC ("Activities requiring Natural England's assent")             | lGsnXi ("What activity is planned to be carried out?") | Unique activity values comma-joined |
+| Multiple SSSI (ORNEC) | QxIzSB ("Site name and activities requiring Natural England assent") | iNDqRN ("What activity is planned to be carried out?") | Unique activity values comma-joined |
+| (no activities)       | -                                                                    | -                                                      | rTreXu scheme text (if present)     |
+
+### SSSI names segment
+
+Collected from: gVlMxz (single SSSI) > hhGvmX repeater [flbYHq] (multiple scheme) > QxIzSB repeater [wRGnMW] (multiple ORNEC, unique). Parsed from "ID---Name" format and comma-joined.
+
+### European site names segment
+
+Collected from repeater aQYWxD [IzQfir]. Parsed from "ID---Name" format and comma-joined.
 
 ## consulting_body_type
 
-Mapped from vUHwan ("Which category best describes the public body you're representing?") via `publicBodyCategoryMap`.
+Determined by KTObNK ("What type of customer are you?"):
+
+- When `An organisation working on behalf of a public body` → always `"Consultant"`
+- When `A public body` → mapped from vUHwan ("Which category best describes the public body you're representing?") via `publicBodyCategoryMap`:
 
 | vUHwan value               | Output value               |
 | -------------------------- | -------------------------- |
-| `Consultant`               | `Consultant`               |
 | `Government agency`        | `Government Agency`        |
-| `Harbour authority`        | `Harbour authority`        |
+| `Harbour authority`        | `Harbour Authority`        |
 | `Landowner`                | `Landowner`                |
-| `Land occupier`            | `Land occupier`            |
+| `Land occupier`            | `Land Occupier`            |
 | `Local planning authority` | `Local Planning Authority` |
 | `Utility provider`         | `Utility Provider`         |
 | `Other`                    | `Other`                    |
 
-**Note:** The mapping changes capitalisation for Government Agency, Local Planning Authority, and Utility Provider. This field is always populated — the question is shown on both public body and contractor paths (no condition in the form definition).
+**Note:** The mapping changes capitalisation for Government Agency, Local Planning Authority, and Utility Provider. For public bodies, vUHwan is always shown (no condition in the form definition).
 
 ## consulting_body
 
 Resolved conditionally from multiple fields based on customer type and public body category.
 
-| Condition                                                                                                                                               | Source field                                                  | Output value                  |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- | ----------------------------- |
-| KTObNK ("What type of customer are you?") = `Somebody working on behalf of a public body`, ueDuNl ("What is the name of your organisation?") != `Other` | ueDuNl ("What is the name of your organisation?")             | Selected organisation name    |
-| KTObNK ("What type of customer are you?") = `Somebody working on behalf of a public body`, ueDuNl ("What is the name of your organisation?") = `Other`  | Xszriq ("Other organisation name")                            | Free text organisation name   |
-| vUHwan ("Which category best describes the public body you're representing?") = `Local planning authority`                                              | XAZlxH ("Which local authority are you representing?")        | Selected local authority name |
-| cfPoiN ("Which public body are you representing?") != `Other`                                                                                           | cfPoiN ("Which public body are you representing?")            | Selected public body name     |
-| cfPoiN ("Which public body are you representing?") = `Other`                                                                                            | FyLHmN ("Which public body are you representing?", free text) | Free text public body name    |
+| Condition                                                                                                                                                      | Source field                                                  | Output value                  |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- | ----------------------------- |
+| KTObNK ("What type of customer are you?") = `An organisation working on behalf of a public body`, ueDuNl ("What is the name of your organisation?") != `Other` | ueDuNl ("What is the name of your organisation?")             | Selected organisation name    |
+| KTObNK ("What type of customer are you?") = `An organisation working on behalf of a public body`, ueDuNl ("What is the name of your organisation?") = `Other`  | Xszriq ("Other organisation name")                            | Free text organisation name   |
+| vUHwan ("Which category best describes the public body you're representing?") = `Local planning authority`                                                     | XAZlxH ("Which local authority are you representing?")        | Selected local authority name |
+| cfPoiN ("Which public body are you representing?") != `Other`                                                                                                  | cfPoiN ("Which public body are you representing?")            | Selected public body name     |
+| cfPoiN ("Which public body are you representing?") = `Other`                                                                                                   | FyLHmN ("Which public body are you representing?", free text) | Free text public body name    |
 
 ## customer_name
 
@@ -110,10 +127,10 @@ Determined by the land management scheme selection (rTreXu).
 
 ## is_contractor_working_for_public_body
 
-| Condition                                                                                 | Output value |
-| ----------------------------------------------------------------------------------------- | ------------ |
-| KTObNK ("What type of customer are you?") = `Somebody working on behalf of a public body` | `Yes`        |
-| KTObNK ("What type of customer are you?") = any other value                               | `No`         |
+| Condition                                                                                        | Output value |
+| ------------------------------------------------------------------------------------------------ | ------------ |
+| KTObNK ("What type of customer are you?") = `An organisation working on behalf of a public body` | `Yes`        |
+| KTObNK ("What type of customer are you?") = any other value                                      | `No`         |
 
 ## public_body_type
 
@@ -165,12 +182,11 @@ Only used when hhGvmX repeater has no entries.
 
 ## euro_site_info
 
-Array of `{ european_site_id, european_site_coordinates }` objects from repeater aQYWxD ("European site affected").
+Array of `{ european_site_id }` objects from repeater aQYWxD ("European site affected"). Unlike the advice form, the assent form does not include `european_site_coordinates`.
 
-| Field                       | Source                                            | Description              |
-| --------------------------- | ------------------------------------------------- | ------------------------ |
-| `european_site_id`          | IzQfir ("What is the name of the European site?") | European site identifier |
-| `european_site_coordinates` | -                                                 | Always empty string      |
+| Field              | Source                                            | Description                                                                       |
+| ------------------ | ------------------------------------------------- | --------------------------------------------------------------------------------- |
+| `european_site_id` | IzQfir ("What is the name of the European site?") | European site identifier, parsed from "{id}---{name}" format — the ID is a number |
 
 Only populated when XydYUD ("Could the planned activities affect a European site?") is true and the repeater has entries.
 
@@ -187,10 +203,12 @@ This section identifies all scenarios where output fields sent to the University
 | `form_type`                             | Hardcoded `"assent"`                                                                                          |
 | `broad_work_type`                       | Hardcoded `"S28H Assent"`                                                                                     |
 | `detailed_work_type`                    | Always resolves (defaults to `"S28H Assent"`)                                                                 |
+| `description`                           | Always resolves — contains activities/scheme, SSSI names, Euro site names; falls back to `"S28H Assent"`      |
+| `email_header`                          | Always resolves — same segments as description (truncated to 255 chars); falls back to `"S28H Assent"`        |
 | `consulting_body`                       | At least one source field (ueDuNl, XAZlxH, cfPoiN, or FyLHmN) is collected as a mandatory field on every path |
 | `customer_name`                         | htlAAq ("What is your first name?") and pPocjH ("What is your last name?") are mandatory fields on all paths  |
 | `customer_email_address`                | skdDtj ("What is your email address?") is a mandatory field on all paths                                      |
-| `consulting_body_type`                  | vUHwan ("Which category best describes the public body?") is shown on all paths (no condition)                |
+| `consulting_body_type`                  | `"Consultant"` for contractors; vUHwan lookup for public bodies — always resolves                             |
 | `public_body_type`                      | Same as `consulting_body_type`                                                                                |
 | `public_body`                           | Resolved from vUHwan-dependent fields (XAZlxH, cfPoiN, or FyLHmN) — at least one is mandatory on every path   |
 | `is_contractor_working_for_public_body` | Always `"Yes"` or `"No"`                                                                                      |
@@ -198,10 +216,11 @@ This section identifies all scenarios where output fields sent to the University
 
 ### Fields that may be empty strings
 
-| Field                 | Condition producing empty value                                                                                                                                                       | Realistic scenario?                                                                                                                                                    |
-| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `description`         | Neither gzSkgC ("Activities requiring Natural England's assent") nor QxIzSB ("Site name and activities requiring Natural England assent") repeaters have entries with activity fields | **Expected** — the scheme multi-SSSI path via hhGvmX ("Sites where you plan to carry out activities") has no activity fields. See Example 3 where `description` = `""` |
-| `agreement_reference` | Scheme is MTA, Other, or not set — no agreement reference field is shown                                                                                                              | **Expected** — MTA and Other schemes don't require references. See Examples 4, 5                                                                                       |
+| Field                 | Condition producing empty value                                          | Realistic scenario?                                                              |
+| --------------------- | ------------------------------------------------------------------------ | -------------------------------------------------------------------------------- |
+| `agreement_reference` | Scheme is MTA, Other, or not set — no agreement reference field is shown | **Expected** — MTA and Other schemes don't require references. See Examples 4, 5 |
+
+**Note:** `description` is always populated — it falls back to `"S28H Assent"` when no activities, scheme text, SSSI names, or European site names are available. On the scheme multi-SSSI path, the description will contain the scheme text and SSSI names even though no activity fields are collected.
 
 ### Fields that may be empty arrays
 
@@ -212,11 +231,11 @@ This section identifies all scenarios where output fields sent to the University
 
 ### Key empty value scenarios by form path
 
-| Path                                              | `description` | `consulting_body_type` | `public_body_type` | `public_body` | `agreement_reference` | Notes                                                                 |
-| ------------------------------------------------- | ------------- | ---------------------- | ------------------ | ------------- | --------------------- | --------------------------------------------------------------------- |
-| Public body, CS scheme, single SSSI               | Activities    | Body category          | Body category      | Body name     | CS reference          | All fields populated                                                  |
-| Public body, HLS, multiple SSSIs (scheme)         | `""` empty    | Body category          | Body category      | Body name     | HLS reference         | **description empty** — scheme multi-SSSI path has no activity fields |
-| Contractor, SFI, single SSSI                      | Activities    | Body category          | Body category      | Body name     | SFI reference         | Only **description** may vary                                         |
-| Public body, MTA, single SSSI                     | Activities    | Body category          | Body category      | Body name     | `""` empty            | **agreement_reference empty** — MTA has no reference field            |
-| Contractor, Other scheme, multiple SSSIs (scheme) | `""` empty    | Body category          | Body category      | Body name     | `""` empty            | **description and agreement_reference empty**                         |
-| Public body, no scheme, multiple SSSIs (ORNEC)    | Activities    | Body category          | Body category      | Body name     | `""` empty            | Only agreement_reference is empty                                     |
+| Path                                              | `description`  | `consulting_body_type` | `public_body_type` | `public_body` | `agreement_reference` | Notes                                                                     |
+| ------------------------------------------------- | -------------- | ---------------------- | ------------------ | ------------- | --------------------- | ------------------------------------------------------------------------- |
+| Public body, CS scheme, single SSSI               | Activities     | Body category          | Body category      | Body name     | CS reference          | All fields populated                                                      |
+| Public body, HLS, multiple SSSIs (scheme)         | Scheme + SSSIs | Body category          | Body category      | Body name     | HLS reference         | Description has scheme text and SSSI names (no activities on this path)   |
+| Contractor, SFI, single SSSI                      | Activities     | `Consultant`           | Body category      | Body name     | SFI reference         | Only **description** may vary                                             |
+| Public body, MTA, single SSSI                     | Activities     | Body category          | Body category      | Body name     | `""` empty            | **agreement_reference empty** — MTA has no reference field                |
+| Contractor, Other scheme, multiple SSSIs (scheme) | Scheme + SSSIs | `Consultant`           | Body category      | Body name     | `""` empty            | Description has scheme text and SSSI names; **agreement_reference empty** |
+| Public body, no scheme, multiple SSSIs (ORNEC)    | Activities     | Body category          | Body category      | Body name     | `""` empty            | Only agreement_reference is empty                                         |

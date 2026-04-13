@@ -20,7 +20,9 @@ export async function send(message) {
   }
 
   const jsonPayload = JSON.stringify(message)
-  const body = `json_form_data=${jsonPayload}`
+  const body = new URLSearchParams({
+    json_form_data: jsonPayload
+  })
 
   logger.debug(
     { event: { payload: jsonPayload } },

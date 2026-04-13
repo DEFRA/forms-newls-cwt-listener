@@ -69,9 +69,7 @@ describe('helpers', () => {
     })
 
     it('should extract the name from a combined "ID---Name" Euro site value', () => {
-      expect(parseName('UK11004---Arun Valley Ramsar')).toBe(
-        'Arun Valley Ramsar'
-      )
+      expect(parseName('11004---Arun Valley Ramsar')).toBe('Arun Valley Ramsar')
     })
 
     it('should return the original string when no separator is present', () => {
@@ -127,14 +125,8 @@ describe('helpers', () => {
   })
 
   describe('parseEuroSiteId', () => {
-    it('should extract the Euro Site ID from a combined value', () => {
-      expect(parseEuroSiteId('UK11004---Arun Valley Ramsar')).toBe('UK11004')
-    })
-
-    it('should handle IDs with different formats', () => {
-      expect(parseEuroSiteId('UK11001---Abberton Reservoir Ramsar')).toBe(
-        'UK11001'
-      )
+    it('should extract the Euro Site ID as a number from a combined value', () => {
+      expect(parseEuroSiteId('11004---Made Up Site')).toBe(11004)
     })
 
     it('should throw an error when separator is missing', () => {
@@ -146,6 +138,12 @@ describe('helpers', () => {
     it('should throw an error for an empty string', () => {
       expect(() => parseEuroSiteId('')).toThrow(
         'european_site_id value "" does not contain the expected "---" separator'
+      )
+    })
+
+    it('should throw an error when the ID portion is not a number', () => {
+      expect(() => parseEuroSiteId('abc---Some Site')).toThrow(
+        'european_site_id value "abc" cannot be parsed into a number'
       )
     })
   })

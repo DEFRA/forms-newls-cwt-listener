@@ -11,9 +11,10 @@ import { test } from "./fixtures";
  *   2. [If Yes] European site name → HRA screening sub-flow
  *   3. Damage to SSSI features (Yes/No – must be Yes to proceed)
  *   4. Multiple SSSIs? → SSSI selection → scheme → dates → advice → customer → contacts
+ *   5. Declaration (checkbox) → Summary
  *
  * Routes covered:
- *   1.  public-body-consultant-csht-single-sssi-no-eu
+ *   1.  public-body-gov-agency-csht-single-sssi-no-eu
  *   2.  public-body-lpa-sfi-single-sssi-yes-eu
  *   3.  public-body-other-mta-multi-sssi-scheme
  *   4.  working-on-behalf-hls-single-sssi
@@ -59,6 +60,14 @@ async function fillAutocomplete(
   await expect(input).toBeVisible();
   await input.fill(searchText);
   await page.getByRole("option", { name: optionName }).click();
+}
+
+/** Accept the declaration page (added before the summary page). */
+async function acceptDeclaration(page: import("@playwright/test").Page) {
+  await page
+    .getByRole("checkbox", { name: "I understand and agree" })
+    .check();
+  await page.getByRole("button", { name: "Continue" }).click();
 }
 
 /**
@@ -160,8 +169,8 @@ async function fillSchemeDates(
 // ─── Tests ────────────────────────────────────────────────────────────────────
 
 test.describe("Assent Form", () => {
-  // ── Route 1: A public body → Consultant → CSHT → Single SSSI → No EU ──
-  test("public-body-consultant-csht-single-sssi-no-eu", async ({ page }) => {
+  // ── Route 1: A public body → Government agency → CSHT → Single SSSI → No EU ──
+  test("public-body-gov-agency-csht-single-sssi-no-eu", async ({ page }) => {
     await startForm(page);
 
     // Effects on European sites – No
@@ -221,8 +230,8 @@ test.describe("Assent Form", () => {
     await page.getByText("A public body", { exact: true }).click();
     await page.getByRole("button", { name: "Continue" }).click();
 
-    // Public body category – Consultant
-    await page.getByRole("radio", { name: "Consultant" }).check();
+    // Public body category – Government agency
+    await page.getByRole("radio", { name: "Government agency" }).check();
     await page.getByRole("button", { name: "Continue" }).click();
 
     // Public body selection – autocomplete
@@ -231,8 +240,11 @@ test.describe("Assent Form", () => {
 
     await fillContactDetails(page, "Alice", "Chambers");
 
+    // Declaration
+    await acceptDeclaration(page);
+
     // Submit
-    await page.getByRole("button", { name: "Accept and submit" }).click();
+    await page.getByRole("button", { name: "Submit" }).click();
   });
 
   // ── Route 2: A public body → LPA → SFI → Single SSSI → Yes EU ──
@@ -390,7 +402,10 @@ test.describe("Assent Form", () => {
 
     await fillContactDetails(page, "Ben", "Hopkins");
 
-    await page.getByRole("button", { name: "Accept and submit" }).click();
+    // Declaration
+    await acceptDeclaration(page);
+
+    await page.getByRole("button", { name: "Submit" }).click();
   });
 
   // ── Route 3: A public body → Other → MTA → Multiple SSSIs (scheme) ──
@@ -474,7 +489,10 @@ test.describe("Assent Form", () => {
 
     await fillContactDetails(page, "Carla", "Evans");
 
-    await page.getByRole("button", { name: "Accept and submit" }).click();
+    // Declaration
+    await acceptDeclaration(page);
+
+    await page.getByRole("button", { name: "Submit" }).click();
   });
 
   // ── Route 4: Somebody working on behalf → HLS → Single SSSI ──
@@ -548,8 +566,8 @@ test.describe("Assent Form", () => {
     await fillAutocomplete(page, "amp", /Amphibian and Reptile/i);
     await page.getByRole("button", { name: "Continue" }).click();
 
-    // Public body category – Consultant
-    await page.getByRole("radio", { name: "Consultant" }).check();
+    // Public body category – Utility provider
+    await page.getByRole("radio", { name: "Utility provider" }).check();
     await page.getByRole("button", { name: "Continue" }).click();
 
     // Public body selection
@@ -566,7 +584,10 @@ test.describe("Assent Form", () => {
 
     await fillContactDetails(page, "Diana", "Park");
 
-    await page.getByRole("button", { name: "Accept and submit" }).click();
+    // Declaration
+    await acceptDeclaration(page);
+
+    await page.getByRole("button", { name: "Submit" }).click();
   });
 
   // ── Route 5: A public body → Landowner → No scheme → Multiple SSSIs (ORNEC) ──
@@ -722,6 +743,9 @@ test.describe("Assent Form", () => {
 
     await fillContactDetails(page, "Edward", "Hayes");
 
-    await page.getByRole("button", { name: "Accept and submit" }).click();
+    // Declaration
+    await acceptDeclaration(page);
+
+    await page.getByRole("button", { name: "Submit" }).click();
   });
 });

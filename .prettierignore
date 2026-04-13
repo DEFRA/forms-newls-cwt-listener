@@ -1,3 +1,6 @@
 package-lock.json
 node_modules
 coverage
+auto-fill/test-results
+form-definitions
+mock-api-receiver/received

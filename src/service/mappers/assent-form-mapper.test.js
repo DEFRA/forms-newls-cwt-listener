@@ -159,7 +159,7 @@ describe('assent-form-mapper', () => {
           { ASataH: false, gVlMxz: '1001001---Test SSSI' },
           {
             gzSkgC: [{ lGsnXi: 'Grazing' }],
-            aQYWxD: [{ IzQfir: 'UK11004---Arun Valley Ramsar' }]
+            aQYWxD: [{ IzQfir: '11004---Arun Valley Ramsar' }]
           }
         )
       )
@@ -170,18 +170,34 @@ describe('assent-form-mapper', () => {
   })
 
   describe('consulting_body_type', () => {
-    it('should map "Government agency" to "Government Agency"', () => {
+    it('should map "Government agency" to "Government Agency" for a public body', () => {
       const result = mapFormSubmission(
-        buildMessage({ vUHwan: 'Government agency' })
+        buildMessage({
+          KTObNK: 'A public body',
+          vUHwan: 'Government agency'
+        })
       )
       expect(result.consulting_body_type).toBe('Government Agency')
     })
 
-    it('should map "Local planning authority" to "Local Planning Authority"', () => {
+    it('should map "Local planning authority" to "Local Planning Authority" for a public body', () => {
       const result = mapFormSubmission(
-        buildMessage({ vUHwan: 'Local planning authority' })
+        buildMessage({
+          KTObNK: 'A public body',
+          vUHwan: 'Local planning authority'
+        })
       )
       expect(result.consulting_body_type).toBe('Local Planning Authority')
+    })
+
+    it('should return "Consultant" when working on behalf of a public body', () => {
+      const result = mapFormSubmission(
+        buildMessage({
+          KTObNK: 'An organisation working on behalf of a public body',
+          vUHwan: 'Government agency'
+        })
+      )
+      expect(result.consulting_body_type).toBe('Consultant')
     })
   })
 
@@ -398,7 +414,7 @@ describe('assent-form-mapper', () => {
           { ASataH: false, gVlMxz: '1001001---Test SSSI' },
           {
             gzSkgC: [{ lGsnXi: 'Grazing' }],
-            aQYWxD: [{ IzQfir: 'UK11004---Arun Valley Ramsar' }]
+            aQYWxD: [{ IzQfir: '11004---Arun Valley Ramsar' }]
           }
         )
       )
@@ -451,11 +467,11 @@ describe('assent-form-mapper', () => {
         buildMessage(
           {},
           {
-            aQYWxD: [{ IzQfir: 'UK11004---Test Euro Site' }]
+            aQYWxD: [{ IzQfir: '11004---Test Euro Site' }]
           }
         )
       )
-      expect(result.euro_site_info).toEqual([{ european_site_id: 'UK11004' }])
+      expect(result.euro_site_info).toEqual([{ european_site_id: 11004 }])
     })
 
     it('should return empty array when no euro sites', () => {

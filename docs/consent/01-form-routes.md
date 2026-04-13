@@ -6,12 +6,12 @@ This document describes the different routes a user can take through the consent
 
 The first decision point is "What type of customer are you?" which determines the user's identity path.
 
-| Customer type                                                     | Value                                                               | Next step                                                |
-| ----------------------------------------------------------------- | ------------------------------------------------------------------- | -------------------------------------------------------- |
-| An owner of land within a SSSI                                    | `An owner of land within a SSSI`                                    | [Land management scheme](#land-management-scheme-rtreXu) |
-| An occupier of land within a SSSI                                 | `An occupier of land within a SSSI`                                 | [Land management scheme](#land-management-scheme-rtreXu) |
-| Someone with permission to work on behalf of an owner or occupier | `Someone with permission to work on behalf of an owner or occupier` | [Land management scheme](#land-management-scheme-rtreXu) |
-| Somebody else                                                     | `Somebody else`                                                     | [Land management scheme](#land-management-scheme-rtreXu) |
+| Customer type                                                           | Value                                                                     | Next step                                                |
+| ----------------------------------------------------------------------- | ------------------------------------------------------------------------- | -------------------------------------------------------- |
+| An owner of land within a SSSI                                          | `An owner of land within a SSSI`                                          | [Land management scheme](#land-management-scheme-rtreXu) |
+| An occupier of land within a SSSI                                       | `An occupier of land within a SSSI`                                       | [Land management scheme](#land-management-scheme-rtreXu) |
+| Someone working on behalf of an owner or occupier of land within a SSSI | `Someone working on behalf of an owner or occupier of land within a SSSI` | [Land management scheme](#land-management-scheme-rtreXu) |
+| Somebody else                                                           | `Somebody else`                                                           | [Land management scheme](#land-management-scheme-rtreXu) |
 
 **Note:** Unlike the assent form, the consent form does not have a public body category selection or organisation lookup. The customer type maps directly to `consulting_body_type`.
 

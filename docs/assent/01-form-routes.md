@@ -6,14 +6,14 @@ This document describes the different routes a user can take through the assent 
 
 The first decision point is "What type of customer are you?" which determines the user's identity path.
 
-| Customer type                               | Value                                         | Next step                                                                 |
-| ------------------------------------------- | --------------------------------------------- | ------------------------------------------------------------------------- |
-| A public body                               | `A public body`                               | [Which category describes the public body?](#public-body-category-vuHwan) |
-| Somebody working on behalf of a public body | `Somebody working on behalf of a public body` | [Organisation name](#organisation-name-uedunl)                            |
+| Customer type                                      | Value                                                | Next step                                                                 |
+| -------------------------------------------------- | ---------------------------------------------------- | ------------------------------------------------------------------------- |
+| A public body                                      | `A public body`                                      | [Which category describes the public body?](#public-body-category-vuHwan) |
+| An organisation working on behalf of a public body | `An organisation working on behalf of a public body` | [Organisation name](#organisation-name-uedunl)                            |
 
 ## Organisation name (ueDuNl)
 
-Shown when customer type is **Somebody working on behalf of a public body**. Question: "What is the name of your organisation?"
+Shown when customer type is **An organisation working on behalf of a public body**. Question: "What is the name of your organisation?"
 
 Autocomplete from a list of organisations. If "Other" is selected, the user is taken to a free text field (Xszriq - "Other organisation name"). Then proceeds to [Public body category](#public-body-category-vuHwan).
 
@@ -23,7 +23,6 @@ Shown on **all paths** (no condition). Page question: "Which category best descr
 
 | Category                 | Value                      | Next step                                                          |
 | ------------------------ | -------------------------- | ------------------------------------------------------------------ |
-| Consultant               | `Consultant`               | [Public body selection](#public-body-selection-cfpoin)             |
 | Government agency        | `Government agency`        | [Public body selection](#public-body-selection-cfpoin)             |
 | Harbour authority        | `Harbour authority`        | [Public body selection](#public-body-selection-cfpoin)             |
 | Landowner                | `Landowner`                | [Public body selection](#public-body-selection-cfpoin)             |

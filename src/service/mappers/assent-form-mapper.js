@@ -36,11 +36,10 @@ const schemeToDetailedWorkType = {
  * @type {Record<string, string>}
  */
 const publicBodyCategoryMap = {
-  Consultant: 'Consultant',
   'Government agency': 'Government Agency',
-  'Harbour authority': 'Harbour authority',
+  'Harbour authority': 'Harbour Authority',
   Landowner: 'Landowner',
-  'Land occupier': 'Land occupier',
+  'Land occupier': 'Land Occupier',
   'Local planning authority': 'Local Planning Authority',
   'Utility provider': 'Utility Provider',
   Other: 'Other'
@@ -503,9 +502,12 @@ export function mapFormSubmission(message) {
     broad_work_type: 'S28H Assent',
     detailed_work_type: mapDetailedWorkType(main),
     description: mapDescription(main, repeaters),
-    consulting_body_type: publicBodyCategory
-      ? (publicBodyCategoryMap[publicBodyCategory] ?? publicBodyCategory)
-      : '',
+    consulting_body_type:
+      customerType === 'An organisation working on behalf of a public body'
+        ? 'Consultant'
+        : publicBodyCategory
+          ? (publicBodyCategoryMap[publicBodyCategory] ?? publicBodyCategory)
+          : '',
     consulting_body: mapConsultingBody(main),
     // htlAAq = "What is your first name?", pPocjH = "What is your last name?"
     customer_name: `${main.htlAAq ?? ''} ${main.pPocjH ?? ''}`.trim(),

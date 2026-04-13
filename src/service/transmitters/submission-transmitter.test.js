@@ -52,7 +52,9 @@ describe('submission-transmitter', () => {
         'Content-Type': 'application/x-www-form-urlencoded',
         'api-key': 'test-api-key'
       },
-      body: `json_form_data=${JSON.stringify(mockMessage)}`
+      body: new URLSearchParams({
+        json_form_data: JSON.stringify(mockMessage)
+      })
     })
   })
 

@@ -26,13 +26,13 @@ Each example shows the form submission data (input) and the expected CWT output 
     "repeaters": {
       "TJuSNf": [
         {
-          "rtuWky": "Abberton Reservoir Ramsar",
+          "rtuWky": "11040---Abberton Reservoir Ramsar",
           "xeJYcG": { "easting": 496200, "northing": 218400 }
         }
       ],
       "sssi_repeater_id": [
         {
-          "Avdzxa": "Abberton Reservoir SSSI",
+          "Avdzxa": "1003015---Abberton Reservoir SSSI",
           "NMCFES": { "easting": 496300, "northing": 218500 }
         }
       ]
@@ -48,25 +48,25 @@ Each example shows the form submission data (input) and the expected CWT output 
   "form_type": "advice",
   "broad_work_type": "Standalone HRA Reg 63",
   "detailed_work_type": "Standalone HRA Reg 63",
-  "description": "Advice on advice on screening stage - Abberton Reservoir Ramsar",
+  "description": "Standalone HRA Reg 63 - Abberton Reservoir Ramsar",
   "consulting_body_type": "Government Agency",
   "consulting_body": "Forestry Commission",
   "customer_name": "Jane Smith",
   "customer_email_address": "jane.smith@forestrycommission.gov.uk",
-  "email_header": "Standalone HRA Reg 63",
+  "email_header": "Standalone HRA Reg 63 - Abberton Reservoir Ramsar",
   "is_contractor_working_for_public_body": "No",
   "public_body_type": "Government Agency",
   "public_body": "Forestry Commission",
   "is_there_a_european_site": "Yes",
   "SSSI_info": [
     {
-      "SSSI_id": "Abberton Reservoir SSSI",
+      "SSSI_id": 1003015,
       "coordinates": "496300,218500"
     }
   ],
   "euro_site_info": [
     {
-      "european_site_id": "Abberton Reservoir Ramsar",
+      "european_site_id": 11040,
       "european_site_coordinates": "496200,218400"
     }
   ]
@@ -99,11 +99,11 @@ Each example shows the form submission data (input) and the expected CWT output 
     "repeaters": {
       "sssi_repeater_id": [
         {
-          "Avdzxa": "Charnwood Lodge SSSI",
+          "Avdzxa": "1002084---Charnwood Lodge SSSI",
           "NMCFES": { "easting": 446100, "northing": 313200 }
         },
         {
-          "Avdzxa": "Beacon Hill SSSI",
+          "Avdzxa": "1002085---Beacon Hill SSSI",
           "NMCFES": { "easting": 451000, "northing": 314800 }
         }
       ]
@@ -119,23 +119,23 @@ Each example shows the form submission data (input) and the expected CWT output 
   "form_type": "advice",
   "broad_work_type": "S28i Advice",
   "detailed_work_type": "S28i Advice",
-  "description": "Charnwood Lodge SSSI, Beacon Hill SSSI - Felling of 5 hectares of conifer plantation adjacent to the SSSI boundary",
+  "description": "S28i Advice - Charnwood Lodge SSSI, Beacon Hill SSSI",
   "consulting_body_type": "Government Agency",
   "consulting_body": "Forestry Commission",
   "customer_name": "John Forester",
   "customer_email_address": "john.forester@forestrycommission.gov.uk",
-  "email_header": "S28i Advice",
+  "email_header": "S28i Advice - Charnwood Lodge SSSI, Beacon Hill SSSI",
   "is_contractor_working_for_public_body": "No",
   "public_body_type": "Government Agency",
   "public_body": "Forestry Commission",
   "is_there_a_european_site": "No",
   "SSSI_info": [
     {
-      "SSSI_id": "Charnwood Lodge SSSI",
+      "SSSI_id": 1002084,
       "coordinates": "446100,313200"
     },
     {
-      "SSSI_id": "Beacon Hill SSSI",
+      "SSSI_id": 1002085,
       "coordinates": "451000,314800"
     }
   ],
@@ -169,13 +169,13 @@ Each example shows the form submission data (input) and the expected CWT output 
     "repeaters": {
       "TJuSNf": [
         {
-          "rtuWky": "Arun Valley Ramsar",
+          "rtuWky": "11001---Arun Valley Ramsar",
           "xeJYcG": { "easting": 503200, "northing": 114600 }
         }
       ],
       "sssi_repeater_id": [
         {
-          "Avdzxa": "Castle Hill SSSI",
+          "Avdzxa": "1000236---Castle Hill SSSI",
           "NMCFES": { "easting": 537000, "northing": 108000 }
         }
       ]
@@ -191,25 +191,25 @@ Each example shows the form submission data (input) and the expected CWT output 
   "form_type": "advice",
   "broad_work_type": "Standalone HRA Reg 63",
   "detailed_work_type": "Standalone HRA Reg 63",
-  "description": "Advice on stat advice on an appropriate assessment - Arun Valley Ramsar - Residential development of 200 units within 400m of the SPA boundary",
+  "description": "Standalone HRA Reg 63 - Arun Valley Ramsar",
   "consulting_body_type": "Local Planning Authority",
   "consulting_body": "Brighton and Hove City Council",
   "customer_name": "Sarah Planner",
   "customer_email_address": "sarah.planner@brighton-hove.gov.uk",
-  "email_header": "Standalone HRA Reg 63",
+  "email_header": "Standalone HRA Reg 63 - Arun Valley Ramsar",
   "is_contractor_working_for_public_body": "No",
   "public_body_type": "Regional body",
   "public_body": "",
   "is_there_a_european_site": "Yes",
   "SSSI_info": [
     {
-      "SSSI_id": "Castle Hill SSSI",
+      "SSSI_id": 1000236,
       "coordinates": "537000,108000"
     }
   ],
   "euro_site_info": [
     {
-      "european_site_id": "Arun Valley Ramsar",
+      "european_site_id": 11001,
       "european_site_coordinates": "503200,114600"
     }
   ]
@@ -242,7 +242,7 @@ Each example shows the form submission data (input) and the expected CWT output 
     "repeaters": {
       "sssi_repeater_id": [
         {
-          "Avdzxa": "River Itchen SSSI, Warwickshire",
+          "Avdzxa": "1001483---River Itchen SSSI",
           "NMCFES": { "easting": 448500, "northing": 121300 }
         }
       ]
@@ -258,19 +258,19 @@ Each example shows the form submission data (input) and the expected CWT output 
   "form_type": "advice",
   "broad_work_type": "S28i Advice",
   "detailed_work_type": "S28i Advice",
-  "description": "River Itchen SSSI - Flood defence works involving bank reinforcement along 500m of river channel",
+  "description": "S28i Advice - River Itchen SSSI",
   "consulting_body_type": "Consultant",
   "consulting_body": "Environment Agency",
   "customer_name": "Mike Consultant",
   "customer_email_address": "mike@ecologyconsulting.co.uk",
-  "email_header": "S28i Advice",
+  "email_header": "S28i Advice - River Itchen SSSI",
   "is_contractor_working_for_public_body": "Yes",
   "public_body_type": "Government Agency",
   "public_body": "Environment Agency",
   "is_there_a_european_site": "No",
   "SSSI_info": [
     {
-      "SSSI_id": "River Itchen SSSI, Warwickshire",
+      "SSSI_id": 1001483,
       "coordinates": "448500,121300"
     }
   ],
@@ -311,7 +311,7 @@ Each example shows the form submission data (input) and the expected CWT output 
   "form_type": "advice",
   "broad_work_type": "Other casework",
   "detailed_work_type": "SSSI - Other",
-  "description": "I have a question about Natural England managed National Nature Reserves (NNRs) - Is it possible to arrange a guided walk at Lindisfarne NNR for an educational group of 30 students?",
+  "description": "SSSI - Other",
   "consulting_body_type": "Member of public",
   "consulting_body": "Tom Walker",
   "customer_name": "Tom Walker",
@@ -341,7 +341,7 @@ Each example shows the form submission data (input) and the expected CWT output 
       "teEzOl": "Member of public",
       "xzEslQ": "I would like to report potentially damaging activity on or near a protected site",
       "lZPtJq": true,
-      "MoCXGK": "Epping Forest SSSI",
+      "MoCXGK": "1000456---Epping Forest SSSI",
       "rSJTFC": { "easting": 541200, "northing": 198400 },
       "mjYtVZ": "2026-02-15",
       "UVaQES": "Ongoing over the past two weeks",
@@ -361,20 +361,20 @@ Each example shows the form submission data (input) and the expected CWT output 
 {
   "form_type": "advice",
   "broad_work_type": "Other casework",
-  "detailed_work_type": "SSSI - Site visits/surveys",
-  "description": "I would like to report potentially damaging activity on or near a protected site - Unauthorised tree felling observed in the northwest section of the forest near the main footpath",
+  "detailed_work_type": "SSSI - Regulation and Enforcement",
+  "description": "SSSI - Regulation and Enforcement - Epping Forest SSSI",
   "consulting_body_type": "Member of public",
   "consulting_body": "Alice Reporter",
   "customer_name": "Alice Reporter",
   "customer_email_address": "alice.reporter@email.com",
-  "email_header": "SSSI - Site visits/surveys",
+  "email_header": "SSSI - Regulation and Enforcement - Epping Forest SSSI",
   "is_contractor_working_for_public_body": "No",
   "public_body_type": "Member of public",
   "public_body": "",
   "is_there_a_european_site": "No",
   "SSSI_info": [
     {
-      "SSSI_id": "Epping Forest SSSI",
+      "SSSI_id": 1000456,
       "coordinates": "541200,198400"
     }
   ],
@@ -415,7 +415,7 @@ Each example shows the form submission data (input) and the expected CWT output 
   "form_type": "advice",
   "broad_work_type": "Other casework",
   "detailed_work_type": "SSSI - Pre Consent advice",
-  "description": "I am a SSSI landowner or land occupier and I would like advice before applying for SSSI consent - I want to install a drainage system on my land that borders the SSSI. Will this require consent and what information do I need to provide?",
+  "description": "SSSI - Pre Consent advice",
   "consulting_body_type": "Landowner",
   "consulting_body": "Robert Farmer",
   "customer_name": "Robert Farmer",
@@ -445,6 +445,7 @@ Each example shows the form submission data (input) and the expected CWT output 
       "teEzOl": "Other",
       "PBmxNM": "Public body or organisation",
       "HiTHQX": "National Trust",
+      "jYwTmN": "National Trust",
       "YOwPAJ": "Standalone HRA advice",
       "emlmbt": "Advice on screening stage",
       "xZiZct": true,
@@ -456,17 +457,17 @@ Each example shows the form submission data (input) and the expected CWT output 
     "repeaters": {
       "TJuSNf": [
         {
-          "rtuWky": "Solent Maritime Ramsar",
+          "rtuWky": "11049---Solent Maritime Ramsar",
           "xeJYcG": { "easting": 445000, "northing": 98000 }
         },
         {
-          "rtuWky": "Portsmouth Harbour Ramsar",
+          "rtuWky": "11052---Portsmouth Harbour Ramsar",
           "xeJYcG": { "easting": 462000, "northing": 105000 }
         }
       ],
       "sssi_repeater_id": [
         {
-          "Avdzxa": "Solent Maritime SSSI",
+          "Avdzxa": "1001434---Solent Maritime SSSI",
           "NMCFES": { "easting": 445100, "northing": 98100 }
         }
       ]
@@ -482,29 +483,29 @@ Each example shows the form submission data (input) and the expected CWT output 
   "form_type": "advice",
   "broad_work_type": "Standalone HRA Reg 63",
   "detailed_work_type": "Standalone HRA Reg 63",
-  "description": "Advice on advice on screening stage - Solent Maritime Ramsar, Portsmouth Harbour Ramsar",
+  "description": "Standalone HRA Reg 63 - Solent Maritime Ramsar, Portsmouth Harbour Ramsar",
   "consulting_body_type": "Other",
   "consulting_body": "National Trust",
   "customer_name": "Emma Ecologist",
   "customer_email_address": "emma@wildlife-consulting.co.uk",
-  "email_header": "Standalone HRA Reg 63",
+  "email_header": "Standalone HRA Reg 63 - Solent Maritime Ramsar, Portsmouth Harbour Ramsar",
   "is_contractor_working_for_public_body": "Yes",
   "public_body_type": "Public body or organisation",
   "public_body": "National Trust",
   "is_there_a_european_site": "Yes",
   "SSSI_info": [
     {
-      "SSSI_id": "Solent Maritime SSSI",
+      "SSSI_id": 1001434,
       "coordinates": "445100,98100"
     }
   ],
   "euro_site_info": [
     {
-      "european_site_id": "Solent Maritime Ramsar",
+      "european_site_id": 11049,
       "european_site_coordinates": "445000,98000"
     },
     {
-      "european_site_id": "Portsmouth Harbour Ramsar",
+      "european_site_id": 11052,
       "european_site_coordinates": "462000,105000"
     }
   ]
@@ -546,7 +547,7 @@ Each example shows the form submission data (input) and the expected CWT output 
   "form_type": "advice",
   "broad_work_type": "Other casework",
   "detailed_work_type": "SSSI - Other",
-  "description": "I have a question about the sale of SSSI land - We are considering purchasing land adjacent to an existing FC holding which includes part of a SSSI. What are the transfer obligations?",
+  "description": "SSSI - Other",
   "consulting_body_type": "Government Agency",
   "consulting_body": "Forestry Commission",
   "customer_name": "David Woods",

@@ -6,7 +6,7 @@
 
 The description was built from path-dependent fields joined with `-`:
 
-- **HRA path:** `"Advice on [HRA stage in lowercase]"` + raw Euro site values (e.g., `"UK11004---Arun Valley Ramsar"`) joined by `, `
+- **HRA path:** `"Advice on [HRA stage in lowercase]"` + raw Euro site values (e.g., `"11004---Arun Valley Ramsar"`) joined by `, `
 - **S28I SSSI path:** Raw SSSI values (e.g., `"1001001---Test SSSI"`) joined by `, `
 - **General topics path:** The topic text from `xzEslQ`
 - Additional free-text fields were appended when present: `QmIGor` ("What is your question?"), `nJVeix` ("Tell us about the proposed activities"), `YhWlKB` ("Give a description of the damaging activity")
@@ -35,7 +35,7 @@ Example: `"A Higher Level Stewardship (HLS) agreement, 2006159---SSSI One, 10016
 
 ## New Behaviour
 
-The description now follows the same structure as the `email_header` field (see [email_headers.md](./email_headers.md)) but **without any length limit**. Site names are parsed from the `"ID---Name"` format to show only the human-readable name (e.g., `"Arun Valley Ramsar"` instead of `"UK11004---Arun Valley Ramsar"`). Segments are joined with `-`.
+The description now follows the same structure as the `email_header` field (see [email_headers.md](./email_headers.md)) but **without any length limit**. Site names are parsed from the `"ID---Name"` format to show only the human-readable name (e.g., `"Arun Valley Ramsar"` instead of `"11004---Arun Valley Ramsar"`). Segments are joined with `-`.
 
 ### Advice Form
 

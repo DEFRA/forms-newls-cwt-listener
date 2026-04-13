@@ -18,7 +18,7 @@ Each example shows the form submission data (input) and the expected CWT output 
       "rTreXu": "A Countryside Stewardship Higher Tier (CSHT) agreement",
       "WZJDQG": "CS-2024-00789",
       "oflKhi": "123456789",
-      "hozdvW": "North Meadow & Clattinger Farm SSSI",
+      "hozdvW": "1003015---North Meadow & Clattinger Farm SSSI",
       "lmqMaY": false,
       "htlAAq": "Robert",
       "pPocjH": "Farmer",
@@ -47,16 +47,16 @@ Each example shows the form submission data (input) and the expected CWT output 
   "form_type": "consent",
   "broad_work_type": "S28E Consent",
   "detailed_work_type": "S28E Consent CS HT",
-  "description": "North Meadow & Clattinger Farm SSSI - Grazing, Hay cutting",
+  "description": "Grazing, Hay cutting - North Meadow & Clattinger Farm SSSI",
   "consulting_body_type": "Landowner",
   "customer_name": "Robert Farmer",
   "customer_email_address": "robert.farmer@email.com",
   "SBI": 123456789,
   "agreement_reference": "CS-2024-00789",
-  "email_header": "Grazing",
+  "email_header": "Grazing, Hay cutting - North Meadow & Clattinger Farm SSSI",
   "SSSI_info": [
     {
-      "SSSI_id": "North Meadow & Clattinger Farm SSSI",
+      "SSSI_id": 1003015,
       "coordinates": "409500,194200;409600,194300",
       "ornec": "Grazing, Hay cutting"
     }
@@ -80,7 +80,7 @@ Each example shows the form submission data (input) and the expected CWT output 
       "rTreXu": "A Higher Level Stewardship (HLS) agreement",
       "OFiizI": "HLS-AG-55678",
       "oflKhi": "987654321",
-      "hozdvW": "Thursley Common SSSI",
+      "hozdvW": "1001567---Thursley Common SSSI",
       "lmqMaY": false,
       "JPohUD": { "easting": 490200, "northing": 139800 },
       "htlAAq": "Margaret",
@@ -99,16 +99,16 @@ Each example shows the form submission data (input) and the expected CWT output 
   "form_type": "consent",
   "broad_work_type": "S28E Consent",
   "detailed_work_type": "S28E Consent HLS extension",
-  "description": "Thursley Common SSSI",
+  "description": "A Higher Level Stewardship (HLS) agreement - Thursley Common SSSI",
   "consulting_body_type": "Land occupier",
   "customer_name": "Margaret Hill",
   "customer_email_address": "margaret.hill@email.com",
   "SBI": 987654321,
   "agreement_reference": "HLS-AG-55678",
-  "email_header": "A Higher Level Stewardship (HLS) agreement",
+  "email_header": "A Higher Level Stewardship (HLS) agreement - Thursley Common SSSI",
   "SSSI_info": [
     {
-      "SSSI_id": "Thursley Common SSSI",
+      "SSSI_id": 1001567,
       "coordinates": "490200,139800",
       "ornec": ""
     }
@@ -128,8 +128,8 @@ Each example shows the form submission data (input) and the expected CWT output 
 {
   "data": {
     "main": {
-      "KTObNK": "Someone with permission to work on behalf of an owner or occupier",
-      "hozdvW": "Epping Forest SSSI",
+      "KTObNK": "Someone working on behalf of an owner or occupier of land within a SSSI",
+      "hozdvW": "1000456---Epping Forest SSSI",
       "lmqMaY": false,
       "htlAAq": "Emma",
       "pPocjH": "Ecology",
@@ -154,15 +154,15 @@ Each example shows the form submission data (input) and the expected CWT output 
   "form_type": "consent",
   "broad_work_type": "S28E Consent",
   "detailed_work_type": "S28E Consent",
-  "description": "Epping Forest SSSI - Tree surgery",
+  "description": "Tree surgery - Epping Forest SSSI",
   "consulting_body_type": "Consultant",
   "customer_name": "Emma Ecology",
   "customer_email_address": "emma@ecologyconsulting.co.uk",
   "agreement_reference": "",
-  "email_header": "Tree surgery",
+  "email_header": "Tree surgery - Epping Forest SSSI",
   "SSSI_info": [
     {
-      "SSSI_id": "Epping Forest SSSI",
+      "SSSI_id": 1000456,
       "coordinates": "541200,198400",
       "ornec": "Tree surgery"
     }
@@ -194,17 +194,17 @@ Each example shows the form submission data (input) and the expected CWT output 
     "repeaters": {
       "cwZgSE": [
         {
-          "rWrBOK": "Wicken Fen SSSI",
+          "rWrBOK": "1000789---Wicken Fen SSSI",
           "BscJLV": "Grazing",
           "gjWdrc": { "easting": 556300, "northing": 270500 }
         },
         {
-          "rWrBOK": "Wicken Fen SSSI",
+          "rWrBOK": "1000789---Wicken Fen SSSI",
           "BscJLV": "Fencing",
           "gjWdrc": { "easting": 556400, "northing": 270600 }
         },
         {
-          "rWrBOK": "Hatfield Forest SSSI",
+          "rWrBOK": "1000456---Hatfield Forest SSSI",
           "BscJLV": "Drainage",
           "gjWdrc": { "easting": 554000, "northing": 220000 }
         }
@@ -221,21 +221,21 @@ Each example shows the form submission data (input) and the expected CWT output 
   "form_type": "consent",
   "broad_work_type": "S28E Consent",
   "detailed_work_type": "S28E Consent SFI",
-  "description": "Wicken Fen SSSI - Grazing, Fencing; Hatfield Forest SSSI - Drainage",
+  "description": "Grazing, Fencing, Drainage - Wicken Fen SSSI, Hatfield Forest SSSI",
   "consulting_body_type": "Landowner",
   "customer_name": "William Meadows",
   "customer_email_address": "william.meadows@email.com",
   "SBI": 111222333,
   "agreement_reference": "SFI-2025-00123",
-  "email_header": "Grazing",
+  "email_header": "Grazing, Fencing, Drainage - Wicken Fen SSSI, Hatfield Forest SSSI",
   "SSSI_info": [
     {
-      "SSSI_id": "Wicken Fen SSSI",
+      "SSSI_id": 1000789,
       "coordinates": "556300,270500;556400,270600",
       "ornec": "Grazing, Fencing"
     },
     {
-      "SSSI_id": "Hatfield Forest SSSI",
+      "SSSI_id": 1000456,
       "coordinates": "554000,220000",
       "ornec": "Drainage"
     }
@@ -267,8 +267,8 @@ Each example shows the form submission data (input) and the expected CWT output 
     },
     "repeaters": {
       "gWZwzI": [
-        { "gVlMxz": "Chobham Common SSSI" },
-        { "gVlMxz": "Horsell Common SSSI" }
+        { "gVlMxz": "1000345---Chobham Common SSSI" },
+        { "gVlMxz": "1000678---Horsell Common SSSI" }
       ]
     }
   }
@@ -282,21 +282,21 @@ Each example shows the form submission data (input) and the expected CWT output 
   "form_type": "consent",
   "broad_work_type": "S28E Consent",
   "detailed_work_type": "S28E Consent CS MT",
-  "description": "Chobham Common SSSI; Horsell Common SSSI",
+  "description": "A Countryside Stewardship Mid Tier (CSMT) agreement extension - Chobham Common SSSI, Horsell Common SSSI",
   "consulting_body_type": "Other",
   "customer_name": "Peter Stone",
   "customer_email_address": "peter.stone@email.com",
   "SBI": 444555666,
   "agreement_reference": "CS-MT-99876",
-  "email_header": "A Countryside Stewardship Mid Tier (CSMT) agreement extension",
+  "email_header": "A Countryside Stewardship Mid Tier (CSMT) agreement extension - Chobham Common SSSI, Horsell Common SSSI",
   "SSSI_info": [
     {
-      "SSSI_id": "Chobham Common SSSI",
+      "SSSI_id": 1000345,
       "coordinates": "497600,161200",
       "ornec": ""
     },
     {
-      "SSSI_id": "Horsell Common SSSI",
+      "SSSI_id": 1000678,
       "coordinates": "497600,161200",
       "ornec": ""
     }
@@ -319,7 +319,7 @@ Each example shows the form submission data (input) and the expected CWT output 
       "KTObNK": "An owner of land within a SSSI",
       "VacBun": "Planning Permission PP/2025/0042",
       "oflKhi": "777888999",
-      "hozdvW": "Castle Hill SSSI",
+      "hozdvW": "1000236---Castle Hill SSSI",
       "lmqMaY": false,
       "htlAAq": "Catherine",
       "pPocjH": "Ward",
@@ -344,16 +344,16 @@ Each example shows the form submission data (input) and the expected CWT output 
   "form_type": "consent",
   "broad_work_type": "S28E Consent",
   "detailed_work_type": "S28E Consent",
-  "description": "Castle Hill SSSI - Tree felling",
+  "description": "Tree felling - Castle Hill SSSI",
   "consulting_body_type": "Landowner",
   "customer_name": "Catherine Ward",
   "customer_email_address": "catherine.ward@email.com",
   "SBI": 777888999,
   "agreement_reference": "Planning Permission PP/2025/0042",
-  "email_header": "Tree felling",
+  "email_header": "Tree felling - Castle Hill SSSI",
   "SSSI_info": [
     {
-      "SSSI_id": "Castle Hill SSSI",
+      "SSSI_id": 1000236,
       "coordinates": "537100,108900",
       "ornec": "Tree felling"
     }
@@ -365,11 +365,11 @@ Each example shows the form submission data (input) and the expected CWT output 
 
 ## Scenario coverage summary
 
-| #   | Identity type | Scheme           | SSSI path               | Key features tested                                                                                    |
-| --- | ------------- | ---------------- | ----------------------- | ------------------------------------------------------------------------------------------------------ |
-| 1   | Landowner     | CSHT             | Single SSSI (ORNEC)     | CS agreement ref, SBI (oflKhi), ORNEC activities with coordinates, email_header from ORNEC             |
-| 2   | Land occupier | HLS              | Single SSSI (scheme)    | HLS ref, scheme coordinates (JPohUD), email_header fallback to scheme, no ORNEC                        |
-| 3   | Consultant    | None             | Single SSSI (ORNEC)     | No scheme, no SBI, ORNEC activity, default detailed_work_type                                          |
-| 4   | Landowner     | SFI              | Multiple SSSIs (ORNEC)  | SFI ref, SBI (VLUhzR fallback), multi SSSI grouped by name, coordinates + ORNECs per SSSI              |
-| 5   | Other         | CSMT             | Multiple SSSIs (scheme) | Scheme repeater with shared JPohUD coordinates, email_header from scheme, description semicolon-joined |
-| 6   | Landowner     | Other permission | Single SSSI (ORNEC)     | VacBun agreement ref, ORNEC activity with coordinates, email_header from ORNEC                         |
+| #   | Identity type | Scheme           | SSSI path               | Key features tested                                                                                        |
+| --- | ------------- | ---------------- | ----------------------- | ---------------------------------------------------------------------------------------------------------- |
+| 1   | Landowner     | CSHT             | Single SSSI (ORNEC)     | CS agreement ref, SBI (oflKhi), ORNEC activities with coordinates, email_header from activities + SSSI     |
+| 2   | Land occupier | HLS              | Single SSSI (scheme)    | HLS ref, scheme coordinates (JPohUD), email_header from scheme + SSSI, no ORNEC                            |
+| 3   | Consultant    | None             | Single SSSI (ORNEC)     | No scheme, no SBI, ORNEC activity, default detailed_work_type                                              |
+| 4   | Landowner     | SFI              | Multiple SSSIs (ORNEC)  | SFI ref, SBI (VLUhzR fallback), multi SSSI grouped by name, coordinates + ORNECs per SSSI                  |
+| 5   | Other         | CSMT             | Multiple SSSIs (scheme) | Scheme repeater with shared JPohUD coordinates, email_header from scheme + SSSIs, description comma-joined |
+| 6   | Landowner     | Other permission | Single SSSI (ORNEC)     | VacBun agreement ref, ORNEC activity with coordinates, email_header from activity + SSSI                   |
