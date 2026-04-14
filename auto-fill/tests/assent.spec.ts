@@ -1,5 +1,6 @@
 import { expect } from "@playwright/test";
 import { test } from "./fixtures";
+import path from "path";
 
 /**
  * Assent Form – auto-fill scripts for all main pathways.
@@ -22,7 +23,7 @@ import { test } from "./fixtures";
  */
 
 const FORM_URL = "http://localhost:3009/form/assent/before-you-start";
-const PDF_PATH = "/Users/aaron/Temp/pdf_for_upload_test.pdf";
+const PDF_PATH = path.join(__dirname, 'files', 'pdf_for_upload_test.pdf')
 
 // ─── Shared helpers ───────────────────────────────────────────────────────────
 
@@ -110,6 +111,8 @@ async function fillContactDetails(
   await page.getByRole("textbox", { name: "Town or city" }).fill("York");
   await page.getByRole("textbox", { name: "Postcode" }).fill("YO1 2ND");
   await page.getByRole("button", { name: "Use this address" }).click();
+  // After manual entry, the form returns to the address summary page – click Continue to proceed
+  await page.getByRole("button", { name: "Continue" }).click();
 }
 
 /**
@@ -350,46 +353,16 @@ test.describe("Assent Form", () => {
       .check();
     await page.getByRole("button", { name: "Continue" }).click();
 
-    // When the planned activities will take place
-    await page
-      .getByRole("group", { name: "When will the planned activities start?" })
-      .getByLabel("Day")
-      .fill("1");
-    await page
-      .getByRole("group", { name: "When will the planned activities start?" })
-      .getByLabel("Month")
-      .fill("6");
-    await page
-      .getByRole("group", { name: "When will the planned activities start?" })
-      .getByLabel("Year")
-      .fill("2027");
-    await page
-      .getByRole("group", {
-        name: "When will the planned activities finish?",
-      })
-      .getByLabel("Day")
-      .fill("30");
-    await page
-      .getByRole("group", {
-        name: "When will the planned activities finish?",
-      })
-      .getByLabel("Month")
-      .fill("6");
-    await page
-      .getByRole("group", {
-        name: "When will the planned activities finish?",
-      })
-      .getByLabel("Year")
-      .fill("2027");
-    await page
-      .getByRole("textbox", {
-        name: "Could anything delay or change when you will carry out your activities?",
-      })
-      .fill("No anticipated delays");
-    await page.getByRole("button", { name: "Continue" }).click();
-
+    // SFI = "I need flexible dates" – no activity dates page is shown.
     // Supporting documents (optional) – skip
     await page.getByRole("button", { name: "Continue" }).click();
+
+    // Scheme dates
+    // "Do you have a land management scheme agreement start and end date?" → Yes
+    await page.getByRole("radio", { name: "Yes" }).check();
+    await page.getByRole("button", { name: "Continue" }).click();
+
+    await fillSchemeDates(page, "1", "1", "2026", "31", "12", "2030");
 
     // Have you received advice? – No
     await page.getByText("No, I have not received advice").click();

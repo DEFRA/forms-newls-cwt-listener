@@ -1,5 +1,6 @@
 import { expect } from "@playwright/test";
 import { test } from "./fixtures";
+import path from 'path'
 
 /**
  * Advice Form – auto-fill scripts for all main pathways.
@@ -22,7 +23,7 @@ import { test } from "./fixtures";
  */
 
 const FORM_URL = "http://localhost:3009/form/advice/before-you-start";
-const PDF_PATH = "/Users/aaron/Temp/pdf_for_upload_test.pdf";
+const PDF_PATH = path.join(__dirname, 'files', 'pdf_for_upload_test.pdf')
 
 // ─── Shared helpers ───────────────────────────────────────────────────────────
 
