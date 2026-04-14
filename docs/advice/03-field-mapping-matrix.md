@@ -56,7 +56,7 @@ Same precedence as `broad_work_type`, but with finer granularity for general top
 | General topics | xzEslQ ("Topic of query") | Pre-consent advice (SSSI landowner)    | `SSSI - Pre Consent advice`                |
 | General topics | xzEslQ ("Topic of query") | Pre-assent advice (public body)        | `SSSI - Pre Assent advice`                 |
 | General topics | xzEslQ ("Topic of query") | Report potentially damaging activity   | `SSSI - Regulation and Enforcement`        |
-| General topics | xzEslQ ("Topic of query") | Submit/request surveys or SSSI info    | `SSSI - Regulation and Enforcement`        |
+| General topics | xzEslQ ("Topic of query") | Submit/request surveys or SSSI info    | `SSSI - Site visits/surveys`               |
 | General topics | xzEslQ ("Topic of query") | Question about NNRs                    | `SSSI - Other`                             |
 | General topics | xzEslQ ("Topic of query") | Designating a Local Nature Reserve     | `LNRs`                                     |
 | General topics | xzEslQ ("Topic of query") | Flying drones on/near a protected site | `SSSI - Other`                             |

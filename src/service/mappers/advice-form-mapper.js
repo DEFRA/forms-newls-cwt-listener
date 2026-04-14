@@ -25,7 +25,7 @@ const generalTopicToDetailedWorkType = {
   'I would like to report potentially damaging activity on or near a protected site':
     'SSSI - Regulation and Enforcement',
   'I would like to submit or request surveys or information about the condition of SSSIs':
-    'SSSI - Regulation and Enforcement',
+    'SSSI - Site visits/surveys',
   'I have a question about Natural England managed National Nature Reserves (NNRs)':
     'SSSI - Other',
   'I have a question about designating a Local Nature Reserve (LNR)': 'LNRs',

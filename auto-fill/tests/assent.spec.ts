@@ -102,17 +102,14 @@ async function fillContactDetails(
     .fill(`${firstName.toLowerCase()}.${lastName.toLowerCase()}@do-not-resolve-for-testing.com`);
   await page.getByRole("button", { name: "Continue" }).click();
 
-  // Address
-  await page.getByRole("textbox", { name: "Address line 1" }).fill("1 Way");
-  await page.getByRole("textbox", { name: "Address line 1" }).press("Tab");
+  // Address – uses postcode lookup. Take the manual-entry path.
   await page
-    .getByRole("textbox", { name: "Address line 2 (optional)" })
-    .press("Tab");
+    .getByRole("button", { name: "enter address manually" })
+    .click();
+  await page.getByRole("textbox", { name: "Address line 1" }).fill("1 Way");
   await page.getByRole("textbox", { name: "Town or city" }).fill("York");
-  await page.getByRole("textbox", { name: "Town or city" }).press("Tab");
-  await page.getByRole("textbox", { name: "County (optional)" }).press("Tab");
   await page.getByRole("textbox", { name: "Postcode" }).fill("YO1 2ND");
-  await page.getByRole("button", { name: "Continue" }).click();
+  await page.getByRole("button", { name: "Use this address" }).click();
 }
 
 /**
@@ -215,6 +212,12 @@ test.describe("Assent Form", () => {
     await uploadFile(page);
     await page.getByRole("button", { name: "Continue" }).click();
 
+    // SBI of where the activities will take place
+    await page
+      .getByRole("textbox", { name: /Single Business Identifier/ })
+      .fill("123456789");
+    await page.getByRole("button", { name: "Continue" }).click();
+
     // Scheme dates
     // "Do you have a land management scheme agreement start and end date?" → Yes
     await page.getByRole("radio", { name: "Yes" }).check();
@@ -309,6 +312,12 @@ test.describe("Assent Form", () => {
     await page
       .getByRole("textbox", { name: "What's your Sustainable Farming" })
       .fill("SFI7890");
+    await page.getByRole("button", { name: "Continue" }).click();
+
+    // SBI of where the activities will take place
+    await page
+      .getByRole("textbox", { name: /Single Business Identifier/ })
+      .fill("123456789");
     await page.getByRole("button", { name: "Continue" }).click();
 
     // Activities requiring Natural England's assent (ORNEC – single SSSI)
@@ -458,6 +467,12 @@ test.describe("Assent Form", () => {
     await uploadFile(page);
     await page.getByRole("button", { name: "Continue" }).click();
 
+    // SBI of where the activities will take place
+    await page
+      .getByRole("textbox", { name: /Single Business Identifier/ })
+      .fill("123456789");
+    await page.getByRole("button", { name: "Continue" }).click();
+
     // Scheme dates
     // "Do you have a land management scheme agreement start and end date?" → Yes
     await page.getByRole("radio", { name: "Yes" }).check();
@@ -539,6 +554,12 @@ test.describe("Assent Form", () => {
 
     // Upload
     await uploadFile(page);
+    await page.getByRole("button", { name: "Continue" }).click();
+
+    // SBI of where the activities will take place
+    await page
+      .getByRole("textbox", { name: /Single Business Identifier/ })
+      .fill("123456789");
     await page.getByRole("button", { name: "Continue" }).click();
 
     // Scheme dates

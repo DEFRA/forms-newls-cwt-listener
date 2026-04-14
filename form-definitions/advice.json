@@ -703,28 +703,6 @@
     },
     {
       "title": "",
-      "path": "/how-would-you-like-to-provide-details-of-the-proposed-activities",
-      "components": [
-        {
-          "type": "RadiosField",
-          "title": "How would you like to provide details of the proposed activities?",
-          "name": "PkpWyY",
-          "shortDescription": "Format type of activity details",
-          "hint": "",
-          "list": "1a4c199a-a76c-4177-8018-0103d188948a",
-          "options": {
-            "required": true
-          },
-          "schema": {},
-          "id": "f2d29c12-5134-43ce-ab22-ed2902a3c270"
-        }
-      ],
-      "next": [],
-      "id": "6848197e-69cc-46c4-aed6-d0a77a114a39",
-      "condition": "63c8d630-17bd-4305-b703-2eeeb2528de1"
-    },
-    {
-      "title": "",
       "path": "/tell-us-about-the-proposed-activities",
       "components": [
         {
@@ -732,7 +710,7 @@
           "title": "Tell us about the proposed activities",
           "name": "nJVeix",
           "shortDescription": "Activity details",
-          "hint": "For example, how you will carry out the proposed activities and your reasons for doing so",
+          "hint": "For example, how you will carry out the proposed activities and your reasons for doing so. \r\nYou can upload further details on the next page.",
           "options": {
             "required": true,
             "classes": ""
@@ -743,7 +721,7 @@
       ],
       "next": [],
       "id": "ad17bddf-0fa8-4e5b-a591-42cca69a5823",
-      "condition": "50be713a-38b7-44fc-841f-0d498e913e2f"
+      "condition": "63c8d630-17bd-4305-b703-2eeeb2528de1"
     },
     {
       "controller": "FileUploadPageController",
@@ -764,7 +742,7 @@
           "shortDescription": "Upload documents",
           "hint": "The maximum file size for each file is 100MB. Click on Choose file to select your document, then select Upload file to add it to your submission.",
           "options": {
-            "required": true
+            "required": false
           },
           "schema": {},
           "id": "63ac3bfb-1759-4e63-a2b6-81c33d6836a2"
@@ -772,7 +750,7 @@
       ],
       "next": [],
       "id": "4a876505-e137-44c5-995f-1af7708471c6",
-      "condition": "bed3b7fe-7408-4f04-8660-bc13c02bc906"
+      "condition": "63c8d630-17bd-4305-b703-2eeeb2528de1"
     },
     {
       "title": "Evidence needed",
@@ -1902,60 +1880,6 @@
         }
       ],
       "id": "637dbe07-f93a-419b-b956-bd8f0fcd4ef8"
-    },
-    {
-      "items": [
-        {
-          "id": "2529cc40-70e2-4fba-88c6-9793796cc629",
-          "componentId": "f2d29c12-5134-43ce-ab22-ed2902a3c270",
-          "operator": "is",
-          "value": {
-            "itemId": "416c2723-bd0b-4cd4-8f11-b179ce1f76c6",
-            "listId": "1a4c199a-a76c-4177-8018-0103d188948a"
-          },
-          "type": "ListItemRef"
-        },
-        {
-          "id": "229c4874-556f-49ce-9dc8-fbdd84b1a51a",
-          "componentId": "f2d29c12-5134-43ce-ab22-ed2902a3c270",
-          "operator": "is",
-          "value": {
-            "itemId": "2c442f81-a6b0-419f-a36b-fe89ab91362e",
-            "listId": "1a4c199a-a76c-4177-8018-0103d188948a"
-          },
-          "type": "ListItemRef"
-        }
-      ],
-      "coordinator": "or",
-      "displayName": "I can provide text details",
-      "id": "50be713a-38b7-44fc-841f-0d498e913e2f"
-    },
-    {
-      "items": [
-        {
-          "id": "63455aff-0a72-4165-81c2-e29aca5f8035",
-          "componentId": "f2d29c12-5134-43ce-ab22-ed2902a3c270",
-          "operator": "is",
-          "value": {
-            "itemId": "b2cd9760-5396-4afe-ac23-731ba4636126",
-            "listId": "1a4c199a-a76c-4177-8018-0103d188948a"
-          },
-          "type": "ListItemRef"
-        },
-        {
-          "id": "f27cab8c-ca3e-45f5-86c8-eb13fb9053c1",
-          "componentId": "f2d29c12-5134-43ce-ab22-ed2902a3c270",
-          "operator": "is",
-          "value": {
-            "itemId": "2c442f81-a6b0-419f-a36b-fe89ab91362e",
-            "listId": "1a4c199a-a76c-4177-8018-0103d188948a"
-          },
-          "type": "ListItemRef"
-        }
-      ],
-      "coordinator": "or",
-      "displayName": "I can upload information",
-      "id": "bed3b7fe-7408-4f04-8660-bc13c02bc906"
     },
     {
       "items": [
@@ -7407,33 +7331,6 @@
         }
       ],
       "id": "6aac240a-5e49-4b7a-924c-933305bd05d4"
-    },
-    {
-      "name": "KbEemI",
-      "title": "List for question PkpWyY",
-      "type": "string",
-      "items": [
-        {
-          "id": "416c2723-bd0b-4cd4-8f11-b179ce1f76c6",
-          "text": "Free text description",
-          "value": "Free Text"
-        },
-        {
-          "id": "b2cd9760-5396-4afe-ac23-731ba4636126",
-          "text": "Document upload",
-          "value": "Upload"
-        },
-        {
-          "id": "2c442f81-a6b0-419f-a36b-fe89ab91362e",
-          "text": "Both of these",
-          "value": "Both",
-          "hint": {
-            "text": "Free text description and Document upload",
-            "id": "10892fad-82ad-48b7-bb44-d19d19dfa5af"
-          }
-        }
-      ],
-      "id": "1a4c199a-a76c-4177-8018-0103d188948a"
     },
     {
       "name": "yeKKun",
@@ -52158,5 +52055,11 @@
   "options": {
     "showReferenceNumber": true,
     "disableUserFeedback": false
+  },
+  "metadata": {
+    "$$__formVersion": {
+      "versionNumber": 1105,
+      "createdAt": "2026-04-13T16:37:49.420Z"
+    }
   }
 }

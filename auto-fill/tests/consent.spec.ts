@@ -315,6 +315,12 @@ test.describe("Consent Form", () => {
     await page.getByText("Other schemes").click();
     await page.getByRole("button", { name: "Continue" }).click();
 
+    // SBI of where the activities will take place
+    await page
+      .getByRole("textbox", { name: /Single Business Identifier/ })
+      .fill("123456789");
+    await page.getByRole("button", { name: "Continue" }).click();
+
     // Other land management scheme details
     await page
       .getByRole("textbox", {
@@ -394,6 +400,12 @@ test.describe("Consent Form", () => {
       .click();
     await page.getByRole("button", { name: "Continue" }).click();
 
+    // SBI of where the activities will take place
+    await page
+      .getByRole("textbox", { name: /Single Business Identifier/ })
+      .fill("123456789");
+    await page.getByRole("button", { name: "Continue" }).click();
+
     // CS agreement reference
     await page
       .getByRole("textbox", { name: "What's your Countryside" })
@@ -452,6 +464,9 @@ test.describe("Consent Form", () => {
     await page.getByRole("button", { name: "Continue" }).click();
 
     // Land owner or occupier details
+    await page
+      .getByRole("radio", { name: "Landowner", exact: true })
+      .check();
     await page.getByRole("textbox", { name: "First name" }).fill("Jane");
     await page.getByRole("textbox", { name: "Last name" }).fill("Doe");
     await page
@@ -485,6 +500,12 @@ test.describe("Consent Form", () => {
 
     // Scheme type – Other schemes (comes BEFORE SSSI repeater for multi-SSSI)
     await page.getByText("Other schemes").click();
+    await page.getByRole("button", { name: "Continue" }).click();
+
+    // SBI of where the activities will take place
+    await page
+      .getByRole("textbox", { name: /Single Business Identifier/ })
+      .fill("123456789");
     await page.getByRole("button", { name: "Continue" }).click();
 
     // Other scheme details
@@ -570,6 +591,9 @@ test.describe("Consent Form", () => {
     await page.getByRole("button", { name: "Continue" }).click();
 
     // Land owner or occupier details
+    await page
+      .getByRole("radio", { name: "Landowner", exact: true })
+      .check();
     await page.getByRole("textbox", { name: "First name" }).fill("Jane");
     await page.getByRole("textbox", { name: "Last name" }).fill("Doe");
     await page
@@ -607,6 +631,12 @@ test.describe("Consent Form", () => {
         name: "A Higher Level Stewardship (HLS) agreement",
       })
       .check();
+    await page.getByRole("button", { name: "Continue" }).click();
+
+    // SBI of where the activities will take place
+    await page
+      .getByRole("textbox", { name: /Single Business Identifier/ })
+      .fill("123456789");
     await page.getByRole("button", { name: "Continue" }).click();
 
     // SSSI repeater – first site (comes after scheme type for multi-SSSI)

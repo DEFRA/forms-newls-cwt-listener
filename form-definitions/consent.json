@@ -11,7 +11,7 @@
         {
           "id": "0b631d6b-15d6-4fab-8a7b-adcededcf644",
           "type": "Markdown",
-          "content": "You should use this form to give notice of a planned activity on a site of special scientific interest (SSSI) that needs Natural England’s consent. \r\n\r\nYour planned activities must be taking place within a SSSI.\r\n\r\nOnly certain individuals can submit a notice. They must be either: \r\n* the land owner\r\n* the land occupier\r\n* someone with the land owner or occupier's permission \r\n\r\nYou can only apply for permission for one land owner or occupier at a time. You can apply for permission for activities across more than one SSSI if the land owner or occupier is the same.\r\n\r\nYou may be asked for proof of permission to submit notice if you are not the owner.\r\n \r\n## Check if the activity is an ORNEC\r\n\r\nYou need to give notice for SSSI consent if your planned activities match at least one of the operations requiring Natural England’s consent for the relevant SSSI site. These are known as operations requiring Natural England's consent (ORNEC).\r\n\r\nYou can check if an activity is an ORNEC for any given SSSI by using the free [designated sites system](https://designatedsites.naturalengland.org.uk/) website.\r\n\r\nSearch for the relevant SSSI, select 'View details'  then 'View ORNECs'.\r\n\r\n## Processing time\r\n\r\nWe will assess your application and contact you as soon as possible if we need more information.  \r\n\r\nWe will provide a decision within 4 months of receiving your application.  \r\n\r\nYou do not need to submit this notice if you have already applied for another Natural England licence, or have submitted a planning application for the same activity. We will use the information you have already provided.",
+          "content": "You should use this form to give notice of a planned activity on a site of special scientific interest (SSSI) that needs Natural England’s consent. \r\n\r\nYour planned activities must be taking place within a SSSI.\r\n\r\nOnly certain individuals can submit a notice. They must be either: \r\n* the land owner\r\n* the land occupier\r\n* someone with the land owner or occupier's permission \r\n\r\nYou can only apply for permission for one land owner or occupier at a time. You can apply for permission for activities across more than one SSSI if the land owner or occupier is the same. \r\nIf you are applying for consent as part of a land management scheme agreement, you will need a Single Business Identifier (SBI) number.\r\n\r\nYou may be asked for proof of permission to submit notice if you are not the owner.\r\n \r\n## Check if the activity is an ORNEC\r\n\r\nYou need to give notice for SSSI consent if your planned activities match at least one of the operations requiring Natural England’s consent for the relevant SSSI site. These are known as operations requiring Natural England's consent (ORNEC).\r\n\r\nYou can check if an activity is an ORNEC for any given SSSI by using the free [designated sites system](https://designatedsites.naturalengland.org.uk/) website.\r\n\r\nSearch for the relevant SSSI, select 'View details'  then 'View ORNECs'.\r\n\r\n## Processing time\r\n\r\nWe will assess your application and contact you as soon as possible if we need more information.  \r\n\r\nWe will provide a decision within 4 months of receiving your application.  \r\n\r\nYou do not need to submit this notice if you have already applied for another Natural England licence, or have submitted a planning application for the same activity. We will use the information you have already provided.",
           "options": {},
           "schema": {}
         }
@@ -182,6 +182,19 @@
           "schema": {}
         },
         {
+          "type": "RadiosField",
+          "title": "Are these the contact details of the landowner or the occupier?",
+          "name": "BKoVeV",
+          "shortDescription": "Details for",
+          "hint": "",
+          "list": "aa383c73-c4ea-4470-ac61-aba0acf32cd8",
+          "options": {
+            "required": true
+          },
+          "schema": {},
+          "id": "daef7681-bda0-4014-9698-b80db08faac2"
+        },
+        {
           "type": "TextField",
           "title": "First name",
           "name": "qmxPye",
@@ -236,7 +249,8 @@
           "shortDescription": "Owner or occupier's Address",
           "hint": "",
           "options": {
-            "required": true
+            "required": true,
+            "usePostcodeLookup": true
           },
           "schema": {},
           "id": "8f143b56-a5e1-4874-930c-3e77cb278438"
@@ -252,18 +266,6 @@
           },
           "schema": {},
           "id": "2b2a9016-5c21-4d61-9468-9924da84636f"
-        },
-        {
-          "type": "TextField",
-          "title": "Single business identifier (SBI)",
-          "name": "oflKhi",
-          "shortDescription": "SBI number",
-          "hint": "",
-          "options": {
-            "required": false
-          },
-          "schema": {},
-          "id": "82a98ff7-f666-43ca-8e30-57a48076a9b3"
         }
       ],
       "next": [],
@@ -469,6 +471,30 @@
       "next": [],
       "id": "f75ecdd5-4540-45d8-8ec6-773501fadc2f",
       "condition": "7e5f573d-354d-4cc5-b4c5-990db6b214a7"
+    },
+    {
+      "title": "",
+      "path": "/what-is-the-single-business-identifier-sbi-number-of-where-the-activities-will-take-place",
+      "components": [
+        {
+          "type": "NumberField",
+          "title": "What is the Single Business Identifier (SBI) number of where the activities will take place?",
+          "name": "rkIHYS",
+          "shortDescription": "SBI number",
+          "hint": "This will be 9 numbers",
+          "options": {
+            "required": true,
+            "classes": "",
+            "prefix": "",
+            "suffix": ""
+          },
+          "schema": {},
+          "id": "7372f214-04fb-45db-9730-0bdb45ac3d9e"
+        }
+      ],
+      "next": [],
+      "id": "ed279f49-b6fa-44cb-996a-7e770afbb4aa",
+      "condition": "4564b9d8-e7b0-4fd3-b690-fb7c605af68d"
     },
     {
       "title": "Where are the activities taking place?",
@@ -1021,79 +1047,6 @@
       "condition": "a490ba1e-9756-44e8-bd5d-246076fb2f50"
     },
     {
-      "title": "When the planned activities will take place",
-      "path": "/when-the-planned-activities-will-take-place",
-      "components": [
-        {
-          "id": "60f956f4-160a-4d77-a0c6-3fa26c80b302",
-          "type": "Markdown",
-          "content": "Natural England has up to 4 months to consider your planned activities and decide whether to grant consent. You should consider this 4 month lead time when planning your activities.\r\n\r\nYou must not start your planned activities until Natural England has granted consent.",
-          "options": {},
-          "schema": {}
-        },
-        {
-          "type": "DatePartsField",
-          "title": "When will the planned activities start?",
-          "name": "ggfKaX",
-          "shortDescription": "Start date",
-          "hint": "This is the earliest date you intend to start any of the planned activities. For example, 1 June 2026 enter 01 6 2026",
-          "options": {
-            "required": true,
-            "classes": "",
-            "maxDaysInPast": 0
-          },
-          "schema": {},
-          "id": "8faf4204-37be-4c54-90e4-fac34d750475"
-        },
-        {
-          "type": "DatePartsField",
-          "title": "When will the planned activities finish?",
-          "name": "cPmTDJ",
-          "shortDescription": "End date",
-          "hint": "This is the latest date you expect to complete all of the planned activities by, factoring in any possible delays",
-          "options": {
-            "required": true,
-            "maxDaysInPast": 0
-          },
-          "schema": {},
-          "id": "e16ae276-4622-4ead-b6a7-791a1c2a9d7c"
-        }
-      ],
-      "next": [],
-      "id": "b89a43c3-c67f-415d-8153-186f023cb4e0",
-      "condition": "09b82926-8e44-4f4a-b31e-a83b15159f39"
-    },
-    {
-      "controller": "FileUploadPageController",
-      "title": "Supporting documents",
-      "path": "/supporting-documents",
-      "components": [
-        {
-          "id": "2967ffa3-3b65-4376-b4e6-56c6a417bce0",
-          "type": "Markdown",
-          "content": "You can, if you wish, upload supporting documents to help Natural England assess how your activities might affect the SSSI. These documents can help the decision-making process, but they are not compulsory. You can upload as many as you think are useful.\r\n\r\nFor example, you could upload:\r\n\r\n* a map of your planned activities\r\n* any other related permission documents\r\n* any scheme document details\r\n* risk assessments, identifying any potential risks linked to your planned activity and how you plan to manage them\r\n* method statements, including any mitigation measures to minimise impacts on the SSSI\r\n* ecological surveys, if relevant to your activities\r\n* any other existing or live consent notices",
-          "options": {},
-          "schema": {}
-        },
-        {
-          "type": "FileUploadField",
-          "title": "Upload your supporting documents",
-          "name": "XVVgwJ",
-          "shortDescription": "Supporting documents",
-          "hint": "The maximum file size for each file is 100MB. Click on 'Choose File' to select your document, then select 'Upload File' to add it to your notice.",
-          "options": {
-            "required": false,
-            "accept": "application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.oasis.opendocument.text,text/plain,image/jpeg,image/png,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,text/csv,application/vnd.oasis.opendocument.spreadsheet"
-          },
-          "schema": {},
-          "id": "fce2927c-f7bd-4aa8-a72f-4867e02aa992"
-        }
-      ],
-      "next": [],
-      "id": "e59accc4-6431-411d-9b79-8a9f4a0afdef",
-      "condition": "09b82926-8e44-4f4a-b31e-a83b15159f39"
-    },
-    {
       "title": "",
       "path": "/do-you-have-a-land-management-scheme-agreement-start-and-end-date",
       "components": [
@@ -1112,7 +1065,7 @@
       ],
       "next": [],
       "id": "06a56632-4876-4f96-93ba-6ee445b9e158",
-      "condition": "fdaaf666-3571-4172-ac65-0baa8d775ba8"
+      "condition": "190b3cd8-9581-4e8e-bf2b-a0b72aae0e64"
     },
     {
       "title": "Land management scheme agreement dates",
@@ -1216,6 +1169,79 @@
       "next": [],
       "id": "c178ed02-cfb1-41ed-859e-9c28822073d3",
       "condition": "683e2f18-0977-4832-a7b4-83ff1abbe233"
+    },
+    {
+      "title": "When the planned activities will take place",
+      "path": "/when-the-planned-activities-will-take-place",
+      "components": [
+        {
+          "id": "60f956f4-160a-4d77-a0c6-3fa26c80b302",
+          "type": "Markdown",
+          "content": "Natural England has up to 4 months to consider your planned activities and decide whether to grant consent. You should consider this 4 month lead time when planning your activities.\r\n\r\nYou must not start your planned activities until Natural England has granted consent.",
+          "options": {},
+          "schema": {}
+        },
+        {
+          "type": "DatePartsField",
+          "title": "When will the planned activities start?",
+          "name": "ggfKaX",
+          "shortDescription": "Start date",
+          "hint": "This is the earliest date you intend to start any of the planned activities. For example, 1 June 2026 enter 01 6 2026",
+          "options": {
+            "required": true,
+            "classes": "",
+            "maxDaysInPast": 0
+          },
+          "schema": {},
+          "id": "8faf4204-37be-4c54-90e4-fac34d750475"
+        },
+        {
+          "type": "DatePartsField",
+          "title": "When will the planned activities finish?",
+          "name": "cPmTDJ",
+          "shortDescription": "End date",
+          "hint": "This is the latest date you expect to complete all of the planned activities by, factoring in any possible delays",
+          "options": {
+            "required": true,
+            "maxDaysInPast": 0
+          },
+          "schema": {},
+          "id": "e16ae276-4622-4ead-b6a7-791a1c2a9d7c"
+        }
+      ],
+      "next": [],
+      "id": "b89a43c3-c67f-415d-8153-186f023cb4e0",
+      "condition": "f4bfc858-7799-4edf-9217-a38e8c600c28"
+    },
+    {
+      "controller": "FileUploadPageController",
+      "title": "Supporting documents",
+      "path": "/supporting-documents",
+      "components": [
+        {
+          "id": "2967ffa3-3b65-4376-b4e6-56c6a417bce0",
+          "type": "Markdown",
+          "content": "You can, if you wish, upload supporting documents to help Natural England assess how your activities might affect the SSSI. These documents can help the decision-making process, but they are not compulsory. You can upload as many as you think are useful.\r\n\r\nFor example, you could upload:\r\n\r\n* a map of your planned activities\r\n* any other related permission documents\r\n* any scheme document details\r\n* risk assessments, identifying any potential risks linked to your planned activity and how you plan to manage them\r\n* method statements, including any mitigation measures to minimise impacts on the SSSI\r\n* ecological surveys, if relevant to your activities\r\n* any other existing or live consent notices",
+          "options": {},
+          "schema": {}
+        },
+        {
+          "type": "FileUploadField",
+          "title": "Upload your supporting documents",
+          "name": "XVVgwJ",
+          "shortDescription": "Supporting documents",
+          "hint": "The maximum file size for each file is 100MB. Click on 'Choose File' to select your document, then select 'Upload File' to add it to your notice.",
+          "options": {
+            "required": false,
+            "accept": "application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.oasis.opendocument.text,text/plain,image/jpeg,image/png,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,text/csv,application/vnd.oasis.opendocument.spreadsheet"
+          },
+          "schema": {},
+          "id": "fce2927c-f7bd-4aa8-a72f-4867e02aa992"
+        }
+      ],
+      "next": [],
+      "id": "e59accc4-6431-411d-9b79-8a9f4a0afdef",
+      "condition": "09b82926-8e44-4f4a-b31e-a83b15159f39"
     },
     {
       "title": "",
@@ -1392,7 +1418,8 @@
           "shortDescription": "Your address",
           "hint": "This is the postal address in relation to this consent notice",
           "options": {
-            "required": true
+            "required": true,
+            "usePostcodeLookup": true
           },
           "schema": {},
           "id": "43fb16e9-0e6b-4089-b00a-2a34ed6bc675"
@@ -1975,6 +2002,152 @@
       ],
       "displayName": "I do not agree",
       "id": "683e2f18-0977-4832-a7b4-83ff1abbe233"
+    },
+    {
+      "items": [
+        {
+          "id": "0cd5f549-09f1-4629-8ae6-4df0e0aa9e2d",
+          "componentId": "5f2af0e1-fe55-45da-a864-8949df843875",
+          "operator": "is",
+          "value": {
+            "itemId": "ad5ad78c-093e-4000-bb6b-e291f2499a2c",
+            "listId": "a7c919c6-9cbc-4454-85ca-a3cf85b03c76"
+          },
+          "type": "ListItemRef"
+        },
+        {
+          "id": "2255c3ff-42be-4458-8a6d-b0bb6594ab92",
+          "componentId": "5f2af0e1-fe55-45da-a864-8949df843875",
+          "operator": "is",
+          "value": {
+            "itemId": "c03869c1-9fb3-44d9-89b6-8a024ce84121",
+            "listId": "a7c919c6-9cbc-4454-85ca-a3cf85b03c76"
+          },
+          "type": "ListItemRef"
+        }
+      ],
+      "coordinator": "or",
+      "displayName": "I need flexible dates",
+      "id": "4ca4db33-048f-4ff6-86ff-9b074720bf76"
+    },
+    {
+      "displayName": "Land management agreement dates",
+      "coordinator": "or",
+      "items": [
+        {
+          "id": "a54b5dff-70e7-430a-ab3b-006957edf2dc",
+          "conditionId": "4ca4db33-048f-4ff6-86ff-9b074720bf76"
+        },
+        {
+          "id": "b90f15a6-0d3b-4e98-b3f1-afed5bc9bca2",
+          "conditionId": "fdaaf666-3571-4172-ac65-0baa8d775ba8"
+        }
+      ],
+      "id": "190b3cd8-9581-4e8e-bf2b-a0b72aae0e64"
+    },
+    {
+      "items": [
+        {
+          "id": "dd69a410-f4b6-455c-8657-00dca3e0e907",
+          "componentId": "4b86d746-c8c5-473d-9482-22592b485ffb",
+          "operator": "is",
+          "value": {
+            "itemId": "be821654-2807-4f23-8b40-03327b240dab",
+            "listId": "50f82240-f0aa-491f-91f3-988c7fdc0654"
+          },
+          "type": "ListItemRef"
+        },
+        {
+          "id": "31a80ab0-7223-4d1e-bb8d-93bad5f107da",
+          "componentId": "4b86d746-c8c5-473d-9482-22592b485ffb",
+          "operator": "is",
+          "value": {
+            "itemId": "962c79c2-d232-4ea6-b551-ac3275f60d5d",
+            "listId": "50f82240-f0aa-491f-91f3-988c7fdc0654"
+          },
+          "type": "ListItemRef"
+        },
+        {
+          "id": "2f027478-c162-484f-b2f7-602bd06726d7",
+          "componentId": "5f2af0e1-fe55-45da-a864-8949df843875",
+          "operator": "is",
+          "value": {
+            "itemId": "6cace240-3c1b-436c-a6cc-0645024ece02",
+            "listId": "a7c919c6-9cbc-4454-85ca-a3cf85b03c76"
+          },
+          "type": "ListItemRef"
+        }
+      ],
+      "coordinator": "or",
+      "displayName": "I can give dates",
+      "id": "f4bfc858-7799-4edf-9217-a38e8c600c28"
+    },
+    {
+      "items": [
+        {
+          "id": "902352f5-1656-4791-83d0-fca8aec59d4c",
+          "componentId": "5f2af0e1-fe55-45da-a864-8949df843875",
+          "operator": "is",
+          "value": {
+            "itemId": "0761a49b-46ab-4b0f-8fd7-a7d058a6fe09",
+            "listId": "a7c919c6-9cbc-4454-85ca-a3cf85b03c76"
+          },
+          "type": "ListItemRef"
+        },
+        {
+          "id": "52d3270b-8feb-43fe-81b9-c76720d4b8c7",
+          "componentId": "5f2af0e1-fe55-45da-a864-8949df843875",
+          "operator": "is",
+          "value": {
+            "itemId": "da073c65-937b-4010-bc0b-615bcc01b647",
+            "listId": "a7c919c6-9cbc-4454-85ca-a3cf85b03c76"
+          },
+          "type": "ListItemRef"
+        },
+        {
+          "id": "2dae5a92-7ddc-4d54-a6ba-b8ccb4da3987",
+          "componentId": "5f2af0e1-fe55-45da-a864-8949df843875",
+          "operator": "is",
+          "value": {
+            "itemId": "ad5ad78c-093e-4000-bb6b-e291f2499a2c",
+            "listId": "a7c919c6-9cbc-4454-85ca-a3cf85b03c76"
+          },
+          "type": "ListItemRef"
+        },
+        {
+          "id": "0648a82d-9506-46db-8d00-3d616d3a8c7b",
+          "componentId": "5f2af0e1-fe55-45da-a864-8949df843875",
+          "operator": "is",
+          "value": {
+            "itemId": "fca8a83b-6035-47d5-8ac1-a7a6f16506d0",
+            "listId": "a7c919c6-9cbc-4454-85ca-a3cf85b03c76"
+          },
+          "type": "ListItemRef"
+        },
+        {
+          "id": "3616a509-c6eb-466c-8584-ffc68646c7ee",
+          "componentId": "5f2af0e1-fe55-45da-a864-8949df843875",
+          "operator": "is",
+          "value": {
+            "itemId": "c03869c1-9fb3-44d9-89b6-8a024ce84121",
+            "listId": "a7c919c6-9cbc-4454-85ca-a3cf85b03c76"
+          },
+          "type": "ListItemRef"
+        },
+        {
+          "id": "4b089a08-dd03-403d-b381-196eb8331da0",
+          "componentId": "5f2af0e1-fe55-45da-a864-8949df843875",
+          "operator": "is",
+          "value": {
+            "itemId": "663f8854-7955-4fca-88e8-4beb94a02d41",
+            "listId": "a7c919c6-9cbc-4454-85ca-a3cf85b03c76"
+          },
+          "type": "ListItemRef"
+        }
+      ],
+      "displayName": "I need to give an SBI",
+      "id": "4564b9d8-e7b0-4fd3-b690-fb7c605af68d",
+      "coordinator": "or"
     }
   ],
   "sections": [],
@@ -105870,10 +106043,42 @@
         }
       ],
       "id": "91b056c7-4cab-4bc4-8beb-ac3750fd22e6"
+    },
+    {
+      "name": "KaLGsT",
+      "title": "List for question BKoVeV",
+      "type": "string",
+      "items": [
+        {
+          "id": "5cb6ffa8-ca3f-4d7e-a103-b0ccfe4f582f",
+          "text": "Landowner",
+          "value": "Landowner",
+          "hint": {
+            "text": "They own the SSSI land where the activities may take place",
+            "id": "4903b187-48f2-46ed-8a66-efdcfbeee199"
+          }
+        },
+        {
+          "id": "5d8b126e-7d89-46a3-bf54-8d014c5601a6",
+          "text": "Land occupier",
+          "value": "Land occupier",
+          "hint": {
+            "text": "They occupy the SSSI land where the activities may take place, for example, a grazier or tenant",
+            "id": "2b73b93e-c079-4a60-b0ef-a6679e7d81b6"
+          }
+        }
+      ],
+      "id": "aa383c73-c4ea-4470-ac61-aba0acf32cd8"
     }
   ],
   "options": {
     "showReferenceNumber": true,
     "disableUserFeedback": false
+  },
+  "metadata": {
+    "$$__formVersion": {
+      "versionNumber": 919,
+      "createdAt": "2026-04-14T12:51:13.183Z"
+    }
   }
 }

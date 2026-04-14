@@ -534,6 +534,30 @@
       "condition": "80183450-672b-4f47-809f-eb0167ba37e0"
     },
     {
+      "title": "",
+      "path": "/what-is-the-single-business-identifier-sbi-number-of-where-the-activities-will-take-place",
+      "components": [
+        {
+          "type": "NumberField",
+          "title": "What is the Single Business Identifier (SBI) number of where the activities will take place?",
+          "name": "ylXSKE",
+          "shortDescription": "SBI number",
+          "hint": "This will be 9 numbers",
+          "options": {
+            "required": true,
+            "classes": "",
+            "prefix": "",
+            "suffix": ""
+          },
+          "schema": {},
+          "id": "34f5b73a-ac65-4498-94a3-9ad38cc6aa7f"
+        }
+      ],
+      "next": [],
+      "id": "f310d2a7-b61e-43a3-9097-d7ebc4ef1e61",
+      "condition": "e6a011ae-b559-4ae7-9225-4899317a6256"
+    },
+    {
       "title": "Other land management scheme details",
       "path": "/other-land-management-scheme-details",
       "components": [
@@ -1021,7 +1045,7 @@
       ],
       "next": [],
       "id": "b89a43c3-c67f-415d-8153-186f023cb4e0",
-      "condition": "09b82926-8e44-4f4a-b31e-a83b15159f39"
+      "condition": "969d94cb-9b93-423a-b515-82ad29af279b"
     },
     {
       "controller": "FileUploadPageController",
@@ -1071,7 +1095,7 @@
       ],
       "next": [],
       "id": "642be7e0-ecc9-4624-a674-a17b8c3a0058",
-      "condition": "223bc854-9da7-4a6d-962d-3555856f1558"
+      "condition": "d9fa3fac-ae83-427b-896e-5430266c617c"
     },
     {
       "title": "Land management scheme agreement dates",
@@ -1565,7 +1589,8 @@
           "shortDescription": "Your address",
           "hint": "",
           "options": {
-            "required": true
+            "required": true,
+            "usePostcodeLookup": true
           },
           "schema": {},
           "id": "43fb16e9-0e6b-4089-b00a-2a34ed6bc675"
@@ -2285,6 +2310,152 @@
       ],
       "displayName": "Organisation is other",
       "id": "e7afcec0-9b89-4f0d-a928-31656a788777"
+    },
+    {
+      "items": [
+        {
+          "id": "39a0769c-e86a-468c-97a9-207c243f1454",
+          "componentId": "5f2af0e1-fe55-45da-a864-8949df843875",
+          "operator": "is",
+          "value": {
+            "itemId": "0761a49b-46ab-4b0f-8fd7-a7d058a6fe09",
+            "listId": "a7c919c6-9cbc-4454-85ca-a3cf85b03c76"
+          },
+          "type": "ListItemRef"
+        },
+        {
+          "id": "35ce5292-8da8-42d1-a848-484298bd323b",
+          "componentId": "5f2af0e1-fe55-45da-a864-8949df843875",
+          "operator": "is",
+          "value": {
+            "itemId": "da073c65-937b-4010-bc0b-615bcc01b647",
+            "listId": "a7c919c6-9cbc-4454-85ca-a3cf85b03c76"
+          },
+          "type": "ListItemRef"
+        },
+        {
+          "id": "b9a3ae7a-5f9c-4e82-9b3b-113390e49430",
+          "componentId": "5f2af0e1-fe55-45da-a864-8949df843875",
+          "operator": "is",
+          "value": {
+            "itemId": "ad5ad78c-093e-4000-bb6b-e291f2499a2c",
+            "listId": "a7c919c6-9cbc-4454-85ca-a3cf85b03c76"
+          },
+          "type": "ListItemRef"
+        },
+        {
+          "id": "faf27a1e-a51f-4f33-a8f4-b3680011861b",
+          "componentId": "5f2af0e1-fe55-45da-a864-8949df843875",
+          "operator": "is",
+          "value": {
+            "itemId": "fca8a83b-6035-47d5-8ac1-a7a6f16506d0",
+            "listId": "a7c919c6-9cbc-4454-85ca-a3cf85b03c76"
+          },
+          "type": "ListItemRef"
+        },
+        {
+          "id": "bf0243df-0e52-4cdd-b558-61107f19a628",
+          "componentId": "5f2af0e1-fe55-45da-a864-8949df843875",
+          "operator": "is",
+          "value": {
+            "itemId": "c03869c1-9fb3-44d9-89b6-8a024ce84121",
+            "listId": "a7c919c6-9cbc-4454-85ca-a3cf85b03c76"
+          },
+          "type": "ListItemRef"
+        },
+        {
+          "id": "22fd4671-f251-4cf6-b9d8-d3b7a7ed8987",
+          "componentId": "5f2af0e1-fe55-45da-a864-8949df843875",
+          "operator": "is",
+          "value": {
+            "itemId": "663f8854-7955-4fca-88e8-4beb94a02d41",
+            "listId": "a7c919c6-9cbc-4454-85ca-a3cf85b03c76"
+          },
+          "type": "ListItemRef"
+        }
+      ],
+      "coordinator": "or",
+      "displayName": "I need to give an SBI",
+      "id": "e6a011ae-b559-4ae7-9225-4899317a6256"
+    },
+    {
+      "items": [
+        {
+          "id": "5d02b020-31d9-4c1f-87f6-04a619e137aa",
+          "componentId": "5f2af0e1-fe55-45da-a864-8949df843875",
+          "operator": "is",
+          "value": {
+            "itemId": "c03869c1-9fb3-44d9-89b6-8a024ce84121",
+            "listId": "a7c919c6-9cbc-4454-85ca-a3cf85b03c76"
+          },
+          "type": "ListItemRef"
+        },
+        {
+          "id": "10d184ce-94f9-4838-a770-6f4cf0a893b5",
+          "componentId": "5f2af0e1-fe55-45da-a864-8949df843875",
+          "operator": "is",
+          "value": {
+            "itemId": "ad5ad78c-093e-4000-bb6b-e291f2499a2c",
+            "listId": "a7c919c6-9cbc-4454-85ca-a3cf85b03c76"
+          },
+          "type": "ListItemRef"
+        }
+      ],
+      "coordinator": "or",
+      "displayName": "I need flexible dates",
+      "id": "dd9ea556-fdaf-4866-be01-6fe0823ea255"
+    },
+    {
+      "displayName": "Land management agreement dates",
+      "coordinator": "or",
+      "items": [
+        {
+          "id": "e6ef6a82-e8f6-45a2-87f4-2874ee476f4d",
+          "conditionId": "dd9ea556-fdaf-4866-be01-6fe0823ea255"
+        },
+        {
+          "id": "cd551254-8a15-49e0-bef9-da6af584ec2a",
+          "conditionId": "223bc854-9da7-4a6d-962d-3555856f1558"
+        }
+      ],
+      "id": "d9fa3fac-ae83-427b-896e-5430266c617c"
+    },
+    {
+      "items": [
+        {
+          "id": "15b475c3-55a5-4c74-8942-293e5b8b086a",
+          "componentId": "4b86d746-c8c5-473d-9482-22592b485ffb",
+          "operator": "is",
+          "value": {
+            "itemId": "be821654-2807-4f23-8b40-03327b240dab",
+            "listId": "50f82240-f0aa-491f-91f3-988c7fdc0654"
+          },
+          "type": "ListItemRef"
+        },
+        {
+          "id": "5e94cd63-3f77-498f-bd05-66db66b327ac",
+          "componentId": "4b86d746-c8c5-473d-9482-22592b485ffb",
+          "operator": "is",
+          "value": {
+            "itemId": "962c79c2-d232-4ea6-b551-ac3275f60d5d",
+            "listId": "50f82240-f0aa-491f-91f3-988c7fdc0654"
+          },
+          "type": "ListItemRef"
+        },
+        {
+          "id": "fd6377c9-8df7-402b-be5e-cd0798783f43",
+          "componentId": "5f2af0e1-fe55-45da-a864-8949df843875",
+          "operator": "is",
+          "value": {
+            "itemId": "6cace240-3c1b-436c-a6cc-0645024ece02",
+            "listId": "a7c919c6-9cbc-4454-85ca-a3cf85b03c76"
+          },
+          "type": "ListItemRef"
+        }
+      ],
+      "coordinator": "or",
+      "displayName": "I can give dates",
+      "id": "969d94cb-9b93-423a-b515-82ad29af279b"
     }
   ],
   "sections": [],
@@ -23082,27 +23253,45 @@
       "type": "string",
       "items": [
         {
+          "id": "002dbec7-4440-4d71-ad27-66b77c34e1f6",
+          "text": "No, I have not received advice",
+          "value": "No, I have not received advice"
+        },
+        {
           "id": "d30a0dbe-2628-40fd-8254-9c10fd94653d",
           "text": "Yes, I have received paid advice",
           "value": "Paid advice",
           "hint": {
             "text": "For example, Discretionary Advice Service (DAS)",
-            "id": "f62f78b4-8084-48a5-b93f-3443bd263fcf"
+            "id": "7f29a5bb-b38e-4bea-974b-fbac8486f687"
           }
         },
         {
           "id": "8dbbd027-6965-4a1f-a3d6-13c07cf97379",
-          "text": "Yes, I have received free advice",
+          "text": "Yes, I have received non-statutory advice",
           "value": "Free advice",
           "hint": {
             "text": "For example, Pre-Assent advice",
-            "id": "0813cb62-85da-4c35-8f63-5f50b538ce45"
+            "id": "089143ec-d06d-4154-ba43-5756af68689c"
           }
         },
         {
-          "id": "002dbec7-4440-4d71-ad27-66b77c34e1f6",
-          "text": "No, I have not received advice",
-          "value": "No, I have not received advice"
+          "text": "Yes, I have received statutory Habitats Regulation Assessment (HRA) advice",
+          "value": "Yes, I have received statutory Habitats Regulation Assessment (HRA) advice",
+          "hint": {
+            "text": "For example, Standalone HRA advice",
+            "id": "c3871e28-7c5c-494a-8d3b-191169eb112a"
+          },
+          "id": "127992cb-2f66-4e12-bfdd-b3032c94cab3"
+        },
+        {
+          "text": "Yes, I have received statutory SSSI advice",
+          "value": "Yes, I have received statutory sssi advice",
+          "hint": {
+            "text": "For example, Section 28i advice",
+            "id": "da8372ba-5121-4cb1-b1b1-ce05713daba2"
+          },
+          "id": "054877e8-726e-434b-a00e-e2e0a2d8ad8c"
         }
       ],
       "id": "6d958da2-d659-4ef8-991f-36cf6e486b37"
@@ -92479,5 +92668,11 @@
   "options": {
     "showReferenceNumber": true,
     "disableUserFeedback": false
+  },
+  "metadata": {
+    "$$__formVersion": {
+      "versionNumber": 746,
+      "createdAt": "2026-04-13T16:57:14.110Z"
+    }
   }
 }

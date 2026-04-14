@@ -138,10 +138,6 @@ test.describe("Advice Form", () => {
     await page.getByRole("radio", { name: "No" }).check();
     await page.getByRole("button", { name: "Continue" }).click();
 
-    // Proposed activities – free text description
-    await page.getByText("Free text description", { exact: true }).click();
-    await page.getByRole("button", { name: "Continue" }).click();
-
     // Proposed activities text
     await page
       .getByRole("textbox", { name: "Tell us about the proposed" })
@@ -149,6 +145,9 @@ test.describe("Advice Form", () => {
     await page
       .getByRole("textbox", { name: "Tell us about the proposed" })
       .fill("HRA screening stage activities description for Arun Valley SPA.");
+    await page.getByRole("button", { name: "Continue" }).click();
+
+    // Supporting documents (optional) – skip
     await page.getByRole("button", { name: "Continue" }).click();
 
     await fillContactDetails(
@@ -205,13 +204,12 @@ test.describe("Advice Form", () => {
     // "You have added 1 answer" – Continue
     await page.getByRole("button", { name: "Continue" }).click();
 
-    // Proposed activities – free text
-    await page.getByText("Free text description", { exact: true }).click();
-    await page.getByRole("button", { name: "Continue" }).click();
-
     await page
       .getByRole("textbox", { name: "Tell us about the proposed" })
       .fill("S28I woodland management activities on Arun Banks SSSI.");
+    await page.getByRole("button", { name: "Continue" }).click();
+
+    // Supporting documents (optional) – skip
     await page.getByRole("button", { name: "Continue" }).click();
 
     await fillContactDetails(
@@ -325,13 +323,12 @@ test.describe("Advice Form", () => {
     // Add another? – No
     await page.getByRole("button", { name: "Continue" }).click();
 
-    // Proposed activities – free text
-    await page.getByText("Free text description", { exact: true }).click();
-    await page.getByRole("button", { name: "Continue" }).click();
-
     await page
       .getByRole("textbox", { name: "Tell us about the proposed" })
       .fill("Appropriate Assessment activities near Arun Valley SPA.");
+    await page.getByRole("button", { name: "Continue" }).click();
+
+    // Supporting documents (optional) – skip
     await page.getByRole("button", { name: "Continue" }).click();
 
     await fillContactDetails(
@@ -376,13 +373,12 @@ test.describe("Advice Form", () => {
     // Add another? – No
     await page.getByRole("button", { name: "Continue" }).click();
 
-    // Proposed activities – free text
-    await page.getByText("Free text description", { exact: true }).click();
-    await page.getByRole("button", { name: "Continue" }).click();
-
     await page
       .getByRole("textbox", { name: "Tell us about the proposed" })
       .fill("Nature-positive SSSI management activities near Arun Banks.");
+    await page.getByRole("button", { name: "Continue" }).click();
+
+    // Supporting documents (optional) – skip
     await page.getByRole("button", { name: "Continue" }).click();
 
     await fillContactDetails(
@@ -505,13 +501,12 @@ test.describe("Advice Form", () => {
     // Dates of proposed activities (optional) – skip
     await page.getByRole("button", { name: "Continue" }).click();
 
-    // Proposed activities – free text
-    await page.getByText("Free text description", { exact: true }).click();
-    await page.getByRole("button", { name: "Continue" }).click();
-
     await page
       .getByRole("textbox", { name: "Tell us about the proposed" })
       .fill("Harbour dredging works near Arun Valley SPA.");
+    await page.getByRole("button", { name: "Continue" }).click();
+
+    // Supporting documents (optional) – skip
     await page.getByRole("button", { name: "Continue" }).click();
 
     await fillContactDetails(
