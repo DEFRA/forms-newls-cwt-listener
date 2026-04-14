@@ -31,39 +31,39 @@ Source: [src/service/mappers/advice-form-mapper.js](../../src/service/mappers/ad
 
 Determined by field precedence: NVRbCy ("Advice type", FC path) > YOwPAJ ("Advice type", S28G path) > xzEslQ ("Topic of query", general topics).
 
-| Path           | Source field              | Field value             | Output value            |
-| -------------- | ------------------------- | ----------------------- | ----------------------- |
-| FC path        | NVRbCy ("Advice type")    | `HRA advice`            | `Standalone HRA Reg 63` |
-| FC path        | NVRbCy ("Advice type")    | `S28I SSSI advice`      | `S28i Advice`           |
-| FC path        | NVRbCy ("Advice type")    | `Something else`        | `Other casework`        |
-| S28G path      | YOwPAJ ("Advice type")    | `Standalone HRA advice` | `Standalone HRA Reg 63` |
-| S28G path      | YOwPAJ ("Advice type")    | `S28i SSSI advice`      | `S28i Advice`           |
-| S28G path      | YOwPAJ ("Advice type")    | `Something else`        | `Other casework`        |
-| General topics | xzEslQ ("Topic of query") | (any value)             | `Other casework`        |
+| Path           | Source field              | Field value                                                           | Output value            |
+| -------------- | ------------------------- | --------------------------------------------------------------------- | ----------------------- |
+| FC path        | NVRbCy ("Advice type")    | `Habitats Regulations Assessment (HRA) advice`                        | `Standalone HRA Reg 63` |
+| FC path        | NVRbCy ("Advice type")    | `Section 28i SSSI advice (statutory consultation, not including HRA)` | `S28i Advice`           |
+| FC path        | NVRbCy ("Advice type")    | `Something else`                                                      | `Other casework`        |
+| S28G path      | YOwPAJ ("Advice type")    | `Habitats Regulations Assessment (HRA) advice`                        | `Standalone HRA Reg 63` |
+| S28G path      | YOwPAJ ("Advice type")    | `Section 28i SSSI advice (statutory consultation, not including HRA)` | `S28i Advice`           |
+| S28G path      | YOwPAJ ("Advice type")    | `Something else`                                                      | `Other casework`        |
+| General topics | xzEslQ ("Topic of query") | (any value)                                                           | `Other casework`        |
 
 ## detailed_work_type
 
 Same precedence as `broad_work_type`, but with finer granularity for general topics.
 
-| Path           | Source field              | Field value                            | Output value                               |
-| -------------- | ------------------------- | -------------------------------------- | ------------------------------------------ |
-| FC path        | NVRbCy ("Advice type")    | `HRA advice`                           | `Standalone HRA Reg 63`                    |
-| FC path        | NVRbCy ("Advice type")    | `S28I SSSI advice`                     | `S28i Advice`                              |
-| FC path        | NVRbCy ("Advice type")    | `Something else`                       | Falls through to xzEslQ ("Topic of query") |
-| S28G path      | YOwPAJ ("Advice type")    | `Standalone HRA advice`                | `Standalone HRA Reg 63`                    |
-| S28G path      | YOwPAJ ("Advice type")    | `S28i SSSI advice`                     | `S28i Advice`                              |
-| S28G path      | YOwPAJ ("Advice type")    | `Something else`                       | Falls through to xzEslQ ("Topic of query") |
-| General topics | xzEslQ ("Topic of query") | Pre-consent advice (SSSI landowner)    | `SSSI - Pre Consent advice`                |
-| General topics | xzEslQ ("Topic of query") | Pre-assent advice (public body)        | `SSSI - Pre Assent advice`                 |
-| General topics | xzEslQ ("Topic of query") | Report potentially damaging activity   | `SSSI - Regulation and Enforcement`        |
-| General topics | xzEslQ ("Topic of query") | Submit/request surveys or SSSI info    | `SSSI - Site visits/surveys`               |
-| General topics | xzEslQ ("Topic of query") | Question about NNRs                    | `SSSI - Other`                             |
-| General topics | xzEslQ ("Topic of query") | Designating a Local Nature Reserve     | `LNRs`                                     |
-| General topics | xzEslQ ("Topic of query") | Flying drones on/near a protected site | `SSSI - Other`                             |
-| General topics | xzEslQ ("Topic of query") | Designating or de-designating SSSIs    | `SSSI - Other`                             |
-| General topics | xzEslQ ("Topic of query") | Sale of SSSI land                      | `SSSI - Other`                             |
-| General topics | xzEslQ ("Topic of query") | Something else                         | `SSSI - Other`                             |
-| (none set)     | -                         | -                                      | `SSSI - Other`                             |
+| Path           | Source field              | Field value                                                           | Output value                               |
+| -------------- | ------------------------- | --------------------------------------------------------------------- | ------------------------------------------ |
+| FC path        | NVRbCy ("Advice type")    | `Habitats Regulations Assessment (HRA) advice`                        | `Standalone HRA Reg 63`                    |
+| FC path        | NVRbCy ("Advice type")    | `Section 28i SSSI advice (statutory consultation, not including HRA)` | `S28i Advice`                              |
+| FC path        | NVRbCy ("Advice type")    | `Something else`                                                      | Falls through to xzEslQ ("Topic of query") |
+| S28G path      | YOwPAJ ("Advice type")    | `Habitats Regulations Assessment (HRA) advice`                        | `Standalone HRA Reg 63`                    |
+| S28G path      | YOwPAJ ("Advice type")    | `Section 28i SSSI advice (statutory consultation, not including HRA)` | `S28i Advice`                              |
+| S28G path      | YOwPAJ ("Advice type")    | `Something else`                                                      | Falls through to xzEslQ ("Topic of query") |
+| General topics | xzEslQ ("Topic of query") | Pre-consent advice (SSSI landowner)                                   | `SSSI - Pre Consent advice`                |
+| General topics | xzEslQ ("Topic of query") | Pre-assent advice (public body)                                       | `SSSI - Pre Assent advice`                 |
+| General topics | xzEslQ ("Topic of query") | Report potentially damaging activity                                  | `SSSI - Regulation and Enforcement`        |
+| General topics | xzEslQ ("Topic of query") | Submit/request surveys or SSSI info                                   | `SSSI - Site visits/surveys`               |
+| General topics | xzEslQ ("Topic of query") | Question about NNRs                                                   | `SSSI - Other`                             |
+| General topics | xzEslQ ("Topic of query") | Designating a Local Nature Reserve                                    | `LNRs`                                     |
+| General topics | xzEslQ ("Topic of query") | Flying drones on/near a protected site                                | `SSSI - Other`                             |
+| General topics | xzEslQ ("Topic of query") | Designating or de-designating SSSIs                                   | `SSSI - Other`                             |
+| General topics | xzEslQ ("Topic of query") | Sale of SSSI land                                                     | `SSSI - Other`                             |
+| General topics | xzEslQ ("Topic of query") | Something else                                                        | `SSSI - Other`                             |
+| (none set)     | -                         | -                                                                     | `SSSI - Other`                             |
 
 ## email_header
 
@@ -91,17 +91,17 @@ Built from `detailed_work_type` and site names collected from the relevant path.
 
 Direct mapping from the applicant category (teEzOl ("Representation category")).
 
-| Category value      | Output value               |
-| ------------------- | -------------------------- |
-| `Consultant`        | `Consultant`               |
-| `Government Agency` | `Government Agency`        |
-| `Harbour authority` | `Harbour Authority`        |
-| `Landowner`         | `Landowner`                |
-| `Land occupier`     | `Land occupier`            |
-| `Member of public`  | `Member of public`         |
-| `Other`             | `Other`                    |
-| `Regional body`     | `Local Planning Authority` |
-| `Utility provider`  | `Utility Provider`         |
+| Category value             | Output value               |
+| -------------------------- | -------------------------- |
+| `Consultant`               | `Consultant`               |
+| `Government Agency`        | `Government Agency`        |
+| `Harbour authority`        | `Harbour Authority`        |
+| `Landowner`                | `Landowner`                |
+| `Land occupier`            | `Land occupier`            |
+| `Member of public`         | `Member of public`         |
+| `Other`                    | `Other`                    |
+| `Local Planning Authority` | `Local Planning Authority` |
+| `Utility provider`         | `Utility Provider`         |
 
 **Note:** The mapping changes case for Harbour Authority and Utility Provider.
 
@@ -114,7 +114,7 @@ Resolved from multiple conditional fields. The "effective type" is either PBmxNM
 | Government Agency / Government agency                              | PvUZyQ ("Government agency") = Forestry Commission     | PvUZyQ ("Government agency")       | `Forestry Commission`         |
 | Government Agency / Government agency                              | PvUZyQ ("Government agency") = Environment Agency      | PvUZyQ ("Government agency")       | `Environment Agency`          |
 | Government Agency / Government agency                              | PvUZyQ ("Government agency") = Other government agency | hOsLRu ("Which government agency") | Free text value               |
-| Local Planning Authority / Regional body                           | -                                                      | YouDQP ("Local authority")         | Selected local authority name |
+| Local Planning Authority                                           | -                                                      | YouDQP ("Local authority")         | Selected local authority name |
 | Harbour authority / Utility provider / Public body or organisation | HiTHQX ("Public body") != Other                        | HiTHQX ("Public body")             | Selected public body name     |
 | Harbour authority / Utility provider / Public body or organisation | HiTHQX ("Public body") = Other                         | OYxtmu ("Public body name")        | Free text value               |
 | Landowner                                                          | -                                                      | hUpejP ("Name")                    | Customer name                 |

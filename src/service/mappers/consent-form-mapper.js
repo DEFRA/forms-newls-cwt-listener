@@ -38,7 +38,7 @@ const schemeToDetailedWorkType = {
 const customerTypeMap = {
   'An owner of land within a SSSI': 'Landowner',
   'An occupier of land within a SSSI': 'Land occupier',
-  'Someone working on behalf of an owner or occupier of land within a SSSI':
+  'Someone with permission to work on behalf of an owner or occupier of land within a SSSI':
     'Consultant',
   'Somebody else': 'Other'
 }

@@ -39,18 +39,22 @@ describe('advice-form-mapper', () => {
   })
 
   describe('broad_work_type', () => {
-    it('should map NVRbCy "HRA advice" to "Standalone HRA Reg 63"', () => {
+    it('should map NVRbCy HRA advice to "Standalone HRA Reg 63"', () => {
       const result = mapFormSubmission(
-        buildMessage({ teEzOl: 'Government Agency', NVRbCy: 'HRA advice' })
+        buildMessage({
+          teEzOl: 'Government Agency',
+          NVRbCy: 'Habitats Regulations Assessment (HRA) advice'
+        })
       )
       expect(result.broad_work_type).toBe('Standalone HRA Reg 63')
     })
 
-    it('should map NVRbCy "S28I SSSI advice" to "S28i Advice"', () => {
+    it('should map NVRbCy S28i SSSI advice to "S28i Advice"', () => {
       const result = mapFormSubmission(
         buildMessage({
           teEzOl: 'Government Agency',
-          NVRbCy: 'S28I SSSI advice'
+          NVRbCy:
+            'Section 28i SSSI advice (statutory consultation, not including HRA)'
         })
       )
       expect(result.broad_work_type).toBe('S28i Advice')
@@ -66,21 +70,22 @@ describe('advice-form-mapper', () => {
       expect(result.broad_work_type).toBe('Other casework')
     })
 
-    it('should map YOwPAJ "Standalone HRA advice" to "Standalone HRA Reg 63"', () => {
+    it('should map YOwPAJ HRA advice to "Standalone HRA Reg 63"', () => {
       const result = mapFormSubmission(
         buildMessage({
           teEzOl: 'Harbour authority',
-          YOwPAJ: 'Standalone HRA advice'
+          YOwPAJ: 'Habitats Regulations Assessment (HRA) advice'
         })
       )
       expect(result.broad_work_type).toBe('Standalone HRA Reg 63')
     })
 
-    it('should map YOwPAJ "S28i SSSI advice" to "S28i Advice"', () => {
+    it('should map YOwPAJ S28i SSSI advice to "S28i Advice"', () => {
       const result = mapFormSubmission(
         buildMessage({
           teEzOl: 'Harbour authority',
-          YOwPAJ: 'S28i SSSI advice'
+          YOwPAJ:
+            'Section 28i SSSI advice (statutory consultation, not including HRA)'
         })
       )
       expect(result.broad_work_type).toBe('S28i Advice')
@@ -98,9 +103,12 @@ describe('advice-form-mapper', () => {
   })
 
   describe('detailed_work_type', () => {
-    it('should map NVRbCy "HRA advice" to "Standalone HRA Reg 63"', () => {
+    it('should map NVRbCy HRA advice to "Standalone HRA Reg 63"', () => {
       const result = mapFormSubmission(
-        buildMessage({ teEzOl: 'Government Agency', NVRbCy: 'HRA advice' })
+        buildMessage({
+          teEzOl: 'Government Agency',
+          NVRbCy: 'Habitats Regulations Assessment (HRA) advice'
+        })
       )
       expect(result.detailed_work_type).toBe('Standalone HRA Reg 63')
     })
@@ -181,7 +189,7 @@ describe('advice-form-mapper', () => {
           {
             teEzOl: 'Government Agency',
             PvUZyQ: 'Forestry Commission',
-            NVRbCy: 'HRA advice'
+            NVRbCy: 'Habitats Regulations Assessment (HRA) advice'
           },
           {
             TJuSNf: [
@@ -208,7 +216,8 @@ describe('advice-form-mapper', () => {
           {
             teEzOl: 'Government Agency',
             PvUZyQ: 'Environment Agency',
-            YOwPAJ: 'S28i SSSI advice'
+            YOwPAJ:
+              'Section 28i SSSI advice (statutory consultation, not including HRA)'
           },
           {
             someRepeater: [
@@ -259,7 +268,7 @@ describe('advice-form-mapper', () => {
           {
             teEzOl: 'Government Agency',
             PvUZyQ: 'Forestry Commission',
-            NVRbCy: 'HRA advice'
+            NVRbCy: 'Habitats Regulations Assessment (HRA) advice'
           },
           { TJuSNf: euroSites }
         )
@@ -270,10 +279,10 @@ describe('advice-form-mapper', () => {
   })
 
   describe('consulting_body_type', () => {
-    it('should map "Regional body" to "Local Planning Authority"', () => {
+    it('should map "Local Planning Authority" to "Local Planning Authority"', () => {
       const result = mapFormSubmission(
         buildMessage({
-          teEzOl: 'Regional body',
+          teEzOl: 'Local Planning Authority',
           YOwPAJ: 'Something else',
           xzEslQ: 'Something else'
         })
@@ -299,7 +308,7 @@ describe('advice-form-mapper', () => {
         buildMessage({
           teEzOl: 'Government Agency',
           PvUZyQ: 'Forestry Commission',
-          NVRbCy: 'HRA advice'
+          NVRbCy: 'Habitats Regulations Assessment (HRA) advice'
         })
       )
       expect(result.consulting_body).toBe('Forestry Commission')
@@ -311,16 +320,16 @@ describe('advice-form-mapper', () => {
           teEzOl: 'Government Agency',
           PvUZyQ: 'Other government agency',
           hOsLRu: 'Custom Agency',
-          NVRbCy: 'HRA advice'
+          NVRbCy: 'Habitats Regulations Assessment (HRA) advice'
         })
       )
       expect(result.consulting_body).toBe('Custom Agency')
     })
 
-    it('should return local authority name for Regional body', () => {
+    it('should return local authority name for Local Planning Authority', () => {
       const result = mapFormSubmission(
         buildMessage({
-          teEzOl: 'Regional body',
+          teEzOl: 'Local Planning Authority',
           YouDQP: 'Surrey County Council',
           YOwPAJ: 'Something else',
           xzEslQ: 'Something else'
@@ -436,7 +445,7 @@ describe('advice-form-mapper', () => {
           {
             teEzOl: 'Government Agency',
             PvUZyQ: 'Forestry Commission',
-            NVRbCy: 'HRA advice',
+            NVRbCy: 'Habitats Regulations Assessment (HRA) advice',
             emlmbt: 'Screening stage'
           },
           {
@@ -460,7 +469,8 @@ describe('advice-form-mapper', () => {
           {
             teEzOl: 'Government Agency',
             PvUZyQ: 'Environment Agency',
-            YOwPAJ: 'S28i SSSI advice'
+            YOwPAJ:
+              'Section 28i SSSI advice (statutory consultation, not including HRA)'
           },
           {
             someRepeater: [
@@ -532,7 +542,8 @@ describe('advice-form-mapper', () => {
           {
             teEzOl: 'Government Agency',
             PvUZyQ: 'Environment Agency',
-            YOwPAJ: 'S28i SSSI advice'
+            YOwPAJ:
+              'Section 28i SSSI advice (statutory consultation, not including HRA)'
           },
           {
             someRepeater: [
@@ -584,7 +595,7 @@ describe('advice-form-mapper', () => {
           {
             teEzOl: 'Government Agency',
             PvUZyQ: 'Forestry Commission',
-            NVRbCy: 'HRA advice'
+            NVRbCy: 'Habitats Regulations Assessment (HRA) advice'
           },
           {
             TJuSNf: [

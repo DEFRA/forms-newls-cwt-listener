@@ -6,17 +6,17 @@ This document describes the different routes a user can take through the advice 
 
 The first decision point is "Which category best describes who is making this application?" which determines the user's identity path.
 
-| Category                 | Value               | Next step                                                                                    |
-| ------------------------ | ------------------- | -------------------------------------------------------------------------------------------- |
-| Consultant               | `Consultant`        | [Who are you working on behalf of?](#working-on-behalf-of-pbmxnm)                            |
-| Government Agency        | `Government Agency` | [Which government agency?](#government-agency-path)                                          |
-| Harbour authority        | `Harbour authority` | [Which public body?](#public-body-path)                                                      |
-| Landowner                | `Landowner`         | [Topic selection](#topic-selection-xzeslq) or [Advice type (S28G)](#advice-type-s28g-yowpaj) |
-| Land occupier            | `Land occupier`     | [Topic selection](#topic-selection-xzeslq) or [Advice type (S28G)](#advice-type-s28g-yowpaj) |
-| Member of public         | `Member of public`  | [Topic selection](#topic-selection-xzeslq)                                                   |
-| Other                    | `Other`             | [Who are you working on behalf of?](#working-on-behalf-of-pbmxnm)                            |
-| Local Planning Authority | `Regional body`     | [Which local authority?](#local-authority-path)                                              |
-| Utility provider         | `Utility provider`  | [Which public body?](#public-body-path)                                                      |
+| Category                 | Value                      | Next step                                                                                    |
+| ------------------------ | -------------------------- | -------------------------------------------------------------------------------------------- |
+| Consultant               | `Consultant`               | [Who are you working on behalf of?](#working-on-behalf-of-pbmxnm)                            |
+| Government Agency        | `Government Agency`        | [Which government agency?](#government-agency-path)                                          |
+| Harbour authority        | `Harbour authority`        | [Which public body?](#public-body-path)                                                      |
+| Landowner                | `Landowner`                | [Topic selection](#topic-selection-xzeslq) or [Advice type (S28G)](#advice-type-s28g-yowpaj) |
+| Land occupier            | `Land occupier`            | [Topic selection](#topic-selection-xzeslq) or [Advice type (S28G)](#advice-type-s28g-yowpaj) |
+| Member of public         | `Member of public`         | [Topic selection](#topic-selection-xzeslq)                                                   |
+| Other                    | `Other`                    | [Who are you working on behalf of?](#working-on-behalf-of-pbmxnm)                            |
+| Local Planning Authority | `Local Planning Authority` | [Which local authority?](#local-authority-path)                                              |
+| Utility provider         | `Utility provider`         | [Which public body?](#public-body-path)                                                      |
 
 ## Working on behalf of (PBmxNM)
 
@@ -61,11 +61,11 @@ Autocomplete from 157 public bodies. If "Other" is selected, the user is taken t
 
 Only shown when the government agency is **Forestry Commission**. Page: `/what-type-of-advice-are-you-requesting`
 
-| Advice type      | Value              | Next step                                  |
-| ---------------- | ------------------ | ------------------------------------------ |
-| HRA advice       | `HRA advice`       | [HRA path](#hra-path)                      |
-| S28I SSSI advice | `S28I SSSI advice` | [S28I SSSI path](#s28i-sssi-path)          |
-| Something else   | `Something else`   | [Topic selection](#topic-selection-xzeslq) |
+| Advice type      | Value                                                                 | Next step                                  |
+| ---------------- | --------------------------------------------------------------------- | ------------------------------------------ |
+| HRA advice       | `Habitats Regulations Assessment (HRA) advice`                        | [HRA path](#hra-path)                      |
+| S28I SSSI advice | `Section 28i SSSI advice (statutory consultation, not including HRA)` | [S28I SSSI path](#s28i-sssi-path)          |
+| Something else   | `Something else`                                                      | [Topic selection](#topic-selection-xzeslq) |
 
 ### Operations associated with woodland management (S28I only)
 
@@ -75,11 +75,11 @@ When S28I is selected on the FC path, the user sees `/operations-associated-with
 
 Shown for S28G bodies (LPA, public body, EA, other gov agency, or consultants/others working on their behalf). Page: `/tell-us-which-type-of-advice-you-are-requesting`
 
-| Advice type      | Value                   | Next step                                  |
-| ---------------- | ----------------------- | ------------------------------------------ |
-| HRA advice       | `Standalone HRA advice` | [HRA path](#hra-path)                      |
-| S28i SSSI advice | `S28i SSSI advice`      | [S28I SSSI path](#s28i-sssi-path)          |
-| Something else   | `Something else`        | [Topic selection](#topic-selection-xzeslq) |
+| Advice type      | Value                                                                 | Next step                                  |
+| ---------------- | --------------------------------------------------------------------- | ------------------------------------------ |
+| HRA advice       | `Habitats Regulations Assessment (HRA) advice`                        | [HRA path](#hra-path)                      |
+| S28i SSSI advice | `Section 28i SSSI advice (statutory consultation, not including HRA)` | [S28I SSSI path](#s28i-sssi-path)          |
+| Something else   | `Something else`                                                      | [Topic selection](#topic-selection-xzeslq) |
 
 ## Topic selection (xzEslQ)
 

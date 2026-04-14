@@ -6,10 +6,10 @@ This document describes the different routes a user can take through the assent 
 
 The first decision point is "What type of customer are you?" which determines the user's identity path.
 
-| Customer type                                      | Value                                                | Next step                                                                 |
-| -------------------------------------------------- | ---------------------------------------------------- | ------------------------------------------------------------------------- |
-| A public body                                      | `A public body`                                      | [Which category describes the public body?](#public-body-category-vuHwan) |
-| An organisation working on behalf of a public body | `An organisation working on behalf of a public body` | [Organisation name](#organisation-name-uedunl)                            |
+| Customer type                                      | Value                                         | Next step                                                                 |
+| -------------------------------------------------- | --------------------------------------------- | ------------------------------------------------------------------------- |
+| A public body                                      | `A public body`                               | [Which category describes the public body?](#public-body-category-vuHwan) |
+| An organisation working on behalf of a public body | `Somebody working on behalf of a public body` | [Organisation name](#organisation-name-uedunl)                            |
 
 ## Organisation name (ueDuNl)
 

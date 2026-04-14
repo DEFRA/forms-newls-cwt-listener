@@ -2545,7 +2545,7 @@
         {
           "id": "3ac48a62-f8e8-42a5-bca4-756648d2d804",
           "text": "Somebody working on behalf of a public body",
-          "value": "An organisation working on behalf of a public body",
+          "value": "Somebody working on behalf of a public body",
           "hint": {
             "text": "For example, a contractor or an organisation",
             "id": "19b84626-7517-483d-8d62-012f9fc0e644"
@@ -23293,7 +23293,7 @@
         {
           "id": "d30a0dbe-2628-40fd-8254-9c10fd94653d",
           "text": "Yes, I have received paid advice",
-          "value": "Paid advice",
+          "value": "Yes, I have received paid advice",
           "hint": {
             "text": "For example, Discretionary Advice Service (DAS)",
             "id": "7f29a5bb-b38e-4bea-974b-fbac8486f687"
@@ -23302,7 +23302,7 @@
         {
           "id": "8dbbd027-6965-4a1f-a3d6-13c07cf97379",
           "text": "Yes, I have received non-statutory advice",
-          "value": "Free advice",
+          "value": "Yes, I have received non-statutory advice",
           "hint": {
             "text": "For example, Pre-Assent advice",
             "id": "089143ec-d06d-4154-ba43-5756af68689c"
@@ -23319,7 +23319,7 @@
         },
         {
           "text": "Yes, I have received statutory SSSI advice",
-          "value": "Yes, I have received statutory sssi advice",
+          "value": "Yes, I have received statutory SSSI advice",
           "hint": {
             "text": "For example, Section 28i advice",
             "id": "da8372ba-5121-4cb1-b1b1-ce05713daba2"
@@ -25440,12 +25440,12 @@
         {
           "id": "e3d30428-47f1-4993-9610-a084a1a76a53",
           "text": "The screening concludes that the planned activities are likely to have significant effects on at least one European site — either alone or in combination with other plans or projects",
-          "value": "The assessment concludes that the planned activities are likely to have significant effects on at least one European site — either alone or in combination with other plans or projects"
+          "value": "The screening concludes that the planned activities are likely to have significant effects on at least one European site — either alone or in combination with other plans or projects"
         },
         {
           "id": "8313a847-9a24-416b-9284-12d57174d535",
           "text": "The screening concludes that the planned activities are not likely to have significant effects on a European site",
-          "value": "The assessment concludes that the planned activities are not likely to have significant effects on a European site"
+          "value": "The screening concludes that the planned activities are not likely to have significant effects on a European site"
         }
       ],
       "id": "7f7122fa-3633-485f-ab14-aac550fbd95d"

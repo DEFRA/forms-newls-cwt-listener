@@ -1,5 +1,19 @@
 # Form Changes
 
+## 2026-04-14 - Tue (later edit: list item value/text alignment)
+
+Across advice, assent and consent forms, a number of list item `value` fields were aligned with their displayed `text` (for example "HRA advice" → "Habitats Regulations Assessment (HRA) advice"). This affects mapper logic wherever the submitted value was previously looked up or compared against the short form. Updated mappers and docs accordingly:
+
+- Advice NVRbCy: "HRA advice" → "Habitats Regulations Assessment (HRA) advice"; "S28I SSSI advice" → "Section 28i SSSI advice (statutory consultation, not including HRA)"
+- Advice YOwPAJ: "Standalone HRA advice" → "Habitats Regulations Assessment (HRA) advice"; "S28i SSSI advice" → "Section 28i SSSI advice (statutory consultation, not including HRA)"
+- Advice xzEslQ: "I have a question about Local Nature Reserves (LNRs)" → "I have a question about designating a Local Nature Reserve (LNR)"; smart apostrophe in pre-assent topic aligned to match text ("I would like advice")
+- Advice teEzOl: "Regional body" → "Local Planning Authority"
+- Assent KTObNK: "An organisation working on behalf of a public body" → "Somebody working on behalf of a public body"
+- Consent KTObNK: "Someone working on behalf of an owner or occupier of land within a SSSI" → "Someone with permission to work on behalf of an owner or occupier of land within a SSSI"
+- Assent advice received: "Paid advice" → "Yes, I have received paid advice"; "Free advice" → "Yes, I have received non-statutory advice"; "Yes, I have received statutory sssi advice" → "Yes, I have received statutory SSSI advice"
+- Consent advice received: "Paid advice" → "Yes, I have received paid advice"; "Free advice" → "Yes, I have received free advice"
+- Assent HRA screening outcome: "The assessment concludes that…" → "The screening concludes that…"
+
 ## 2026-04-14 - Tue
 
 ### Consent

@@ -71,13 +71,13 @@ Collected from: hozdvW (single SSSI) > cwZgSE repeater [rWrBOK] (multiple ORNEC,
 
 Mapped from KTObNK ("What type of customer are you?") via `customerTypeMap`.
 
-| KTObNK value                                                              | Output value    |
-| ------------------------------------------------------------------------- | --------------- |
-| `An owner of land within a SSSI`                                          | `Landowner`     |
-| `An occupier of land within a SSSI`                                       | `Land occupier` |
-| `Someone working on behalf of an owner or occupier of land within a SSSI` | `Consultant`    |
-| `Somebody else`                                                           | `Other`         |
-| (not set)                                                                 | Empty string    |
+| KTObNK value                                                                              | Output value    |
+| ----------------------------------------------------------------------------------------- | --------------- |
+| `An owner of land within a SSSI`                                                          | `Landowner`     |
+| `An occupier of land within a SSSI`                                                       | `Land occupier` |
+| `Someone with permission to work on behalf of an owner or occupier of land within a SSSI` | `Consultant`    |
+| `Somebody else`                                                                           | `Other`         |
+| (not set)                                                                                 | Empty string    |
 
 **Note:** The consent form does not have `consulting_body` or `is_contractor_working_for_public_body` fields in its output, unlike the advice and assent forms.
 

@@ -5085,7 +5085,7 @@
         {
           "id": "487837c2-7c0d-43b6-8593-d5dac2db40cb",
           "text": "Habitats Regulations Assessment (HRA) advice",
-          "value": "HRA advice",
+          "value": "Habitats Regulations Assessment (HRA) advice",
           "hint": {
             "text": "Including Section 28i SSSI advice (statutory consultation)",
             "id": "f6b25db2-99f0-4b8e-b0fb-6fc2ffe9c5a8"
@@ -5094,7 +5094,7 @@
         {
           "id": "0357cd6b-e406-4a7b-9b58-5ef35e777f83",
           "text": "Section 28i SSSI advice (statutory consultation, not including HRA)",
-          "value": "S28I SSSI advice",
+          "value": "Section 28i SSSI advice (statutory consultation, not including HRA)",
           "hint": {
             "text": "Including SSSI advice on felling licences or forestry operations",
             "id": "f13d6543-02e4-4452-a01e-17db95f3bfc5"
@@ -5139,7 +5139,7 @@
         {
           "id": "aa8e8b8c-3eb1-4876-8f56-c39837f31bc9",
           "text": "Habitats Regulations Assessment (HRA) advice",
-          "value": "Standalone HRA advice",
+          "value": "Habitats Regulations Assessment (HRA) advice",
           "hint": {
             "text": "Including Section 28i SSSI advice (statutory consultation)",
             "id": "4f3c74aa-b442-48c5-82e2-aae832082541"
@@ -5148,7 +5148,7 @@
         {
           "id": "42a495c4-166e-4a93-b946-445b32689b72",
           "text": "Section 28i SSSI advice (statutory consultation, not including HRA)",
-          "value": "S28i SSSI advice"
+          "value": "Section 28i SSSI advice (statutory consultation, not including HRA)"
         },
         {
           "id": "8a585759-914f-44bb-8879-8ccdbd1b111e",
@@ -7287,7 +7287,7 @@
         {
           "id": "f742a841-0b2b-454e-8c29-b65b3665f318",
           "text": "I represent a public body and I would like advice before applying for SSSI assent",
-          "value": "I represent a public body and I’d like advice before applying for SSSI assent"
+          "value": "I represent a public body and I would like advice before applying for SSSI assent"
         },
         {
           "id": "35e4893b-154c-4ecf-8e4f-d354f3aad4f5",
@@ -7307,7 +7307,7 @@
         {
           "id": "3c7276dc-cf00-4bf8-bd0d-58a16e4ea912",
           "text": "I have a question about designating a Local Nature Reserve (LNR)",
-          "value": "I have a question about Local Nature Reserves (LNRs)"
+          "value": "I have a question about designating a Local Nature Reserve (LNR)"
         },
         {
           "id": "148e9be4-d312-4443-b82f-06443163620e",
@@ -7349,7 +7349,7 @@
         {
           "id": "104ed1b0-3bcd-40c7-85b7-ebcef375f3e1",
           "text": "Statutory advice on an Appropriate Assessment",
-          "value": "Stat advice on an Appropriate Assessment",
+          "value": "Statutory advice on an Appropriate Assessment",
           "hint": {
             "text": "Also known as HRA stage 2",
             "id": "c3c12322-c590-408d-a6d8-2ef8880c8a80"
@@ -7405,7 +7405,7 @@
         {
           "id": "ec2cf1dc-076f-411b-a0d0-6bca58318617",
           "text": "Local Planning Authority",
-          "value": "Regional body",
+          "value": "Local Planning Authority",
           "hint": {
             "text": "Including National Park Authorities",
             "id": "c161d685-c72c-497a-989d-464135bc6e8b"

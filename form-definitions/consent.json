@@ -2209,7 +2209,7 @@
         {
           "id": "3ac48a62-f8e8-42a5-bca4-756648d2d804",
           "text": "Someone with permission to work on behalf of an owner or occupier of land within a SSSI",
-          "value": "Someone working on behalf of an owner or occupier of land within a SSSI",
+          "value": "Someone with permission to work on behalf of an owner or occupier of land within a SSSI",
           "hint": {
             "text": "For example, a land agent",
             "id": "fda574c3-32e9-4d13-997a-28e4e55abed3"
@@ -23223,12 +23223,12 @@
         {
           "id": "d30a0dbe-2628-40fd-8254-9c10fd94653d",
           "text": "Yes, I have received paid advice",
-          "value": "Paid advice"
+          "value": "Yes, I have received paid advice"
         },
         {
           "id": "8dbbd027-6965-4a1f-a3d6-13c07cf97379",
           "text": "Yes, I have received free advice",
-          "value": "Free advice"
+          "value": "Yes, I have received free advice"
         },
         {
           "id": "002dbec7-4440-4d71-ad27-66b77c34e1f6",

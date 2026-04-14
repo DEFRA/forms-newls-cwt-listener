@@ -36,6 +36,10 @@ const generalTopicToDetailedWorkType = {
   'Something else': 'SSSI - Other'
 }
 
+const HRA_ADVICE = 'Habitats Regulations Assessment (HRA) advice'
+const S28I_SSSI_ADVICE =
+  'Section 28i SSSI advice (statutory consultation, not including HRA)'
+
 /**
  * Mapping from the consulting body type form value to the CWT output value.
  * @type {Record<string, string>}
@@ -48,7 +52,7 @@ const consultingBodyTypeMap = {
   'Land occupier': 'Land occupier',
   'Member of public': 'Member of public',
   Other: 'Other',
-  'Regional body': 'Local Planning Authority',
+  'Local Planning Authority': 'Local Planning Authority',
   'Utility provider': 'Utility Provider'
 }
 
@@ -66,10 +70,10 @@ function mapBroadWorkType(main) {
   const adviceTypeRequested = /** @type {string | undefined} */ (main.YOwPAJ)
 
   if (typeOfAdvice) {
-    if (typeOfAdvice === 'HRA advice') {
+    if (typeOfAdvice === HRA_ADVICE) {
       return 'Standalone HRA Reg 63'
     }
-    if (typeOfAdvice === 'S28I SSSI advice') {
+    if (typeOfAdvice === S28I_SSSI_ADVICE) {
       return 'S28i Advice'
     }
     if (typeOfAdvice === 'Something else') {
@@ -78,10 +82,10 @@ function mapBroadWorkType(main) {
   }
 
   if (adviceTypeRequested) {
-    if (adviceTypeRequested === 'Standalone HRA advice') {
+    if (adviceTypeRequested === HRA_ADVICE) {
       return 'Standalone HRA Reg 63'
     }
-    if (adviceTypeRequested === 'S28i SSSI advice') {
+    if (adviceTypeRequested === S28I_SSSI_ADVICE) {
       return 'S28i Advice'
     }
     if (adviceTypeRequested === 'Something else') {
@@ -108,19 +112,19 @@ function mapDetailedWorkType(main) {
   const generalTopic = /** @type {string | undefined} */ (main.xzEslQ)
 
   if (typeOfAdvice && typeOfAdvice !== 'Something else') {
-    if (typeOfAdvice === 'HRA advice') {
+    if (typeOfAdvice === HRA_ADVICE) {
       return 'Standalone HRA Reg 63'
     }
-    if (typeOfAdvice === 'S28I SSSI advice') {
+    if (typeOfAdvice === S28I_SSSI_ADVICE) {
       return 'S28i Advice'
     }
   }
 
   if (adviceTypeRequested && adviceTypeRequested !== 'Something else') {
-    if (adviceTypeRequested === 'Standalone HRA advice') {
+    if (adviceTypeRequested === HRA_ADVICE) {
       return 'Standalone HRA Reg 63'
     }
-    if (adviceTypeRequested === 'S28i SSSI advice') {
+    if (adviceTypeRequested === S28I_SSSI_ADVICE) {
       return 'S28i Advice'
     }
   }
@@ -138,7 +142,7 @@ function mapDetailedWorkType(main) {
  * Used by both mapDescription and mapEmailHeader.
  *
  * - HRA path: European site names (from TJuSNf repeater, parsed from "ID---Name").
- * - S28I SSSI path: SSSI names (from Avdzxa entries, parsed from "ID---Name").
+ * - Section 28i SSSI path: SSSI names (from Avdzxa entries, parsed from "ID---Name").
  * - Damage reporting path: damaged SSSI name (from MoCXGK, parsed from "ID---Name").
  * - Drone flying path: drone SSSI name (from PxvdiH, parsed from "ID---Name").
  * - General topics path: no site names.
@@ -154,11 +158,10 @@ function collectSiteNames(main, repeaters) {
   const adviceTypeRequested = /** @type {string | undefined} */ (main.YOwPAJ)
 
   const isHraPath =
-    typeOfAdvice === 'HRA advice' ||
-    adviceTypeRequested === 'Standalone HRA advice'
+    typeOfAdvice === HRA_ADVICE || adviceTypeRequested === HRA_ADVICE
   const isSssiAdvicePath =
-    typeOfAdvice === 'S28I SSSI advice' ||
-    adviceTypeRequested === 'S28i SSSI advice'
+    typeOfAdvice === S28I_SSSI_ADVICE ||
+    adviceTypeRequested === S28I_SSSI_ADVICE
 
   if (isHraPath) {
     const euroSites = repeaters.TJuSNf ?? []
@@ -268,10 +271,7 @@ function mapConsultingBody(main) {
     }
   }
 
-  if (
-    effectiveType === 'Local Planning Authority' ||
-    effectiveType === 'Regional body'
-  ) {
+  if (effectiveType === 'Local Planning Authority') {
     return localAuthority ?? ''
   }
 

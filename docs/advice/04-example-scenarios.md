@@ -16,7 +16,7 @@ Each example shows the form submission data (input) and the expected CWT output 
     "main": {
       "teEzOl": "Government Agency",
       "PvUZyQ": "Forestry Commission",
-      "NVRbCy": "HRA advice",
+      "NVRbCy": "Habitats Regulations Assessment (HRA) advice",
       "emlmbt": "Advice on screening stage",
       "xZiZct": true,
       "hUpejP": "Jane Smith",
@@ -87,7 +87,7 @@ Each example shows the form submission data (input) and the expected CWT output 
     "main": {
       "teEzOl": "Government Agency",
       "PvUZyQ": "Forestry Commission",
-      "NVRbCy": "S28I SSSI advice",
+      "NVRbCy": "Section 28i SSSI advice (statutory consultation, not including HRA)",
       "tCRMKI": true,
       "xZiZct": true,
       "PkpWyY": "Free Text",
@@ -155,10 +155,10 @@ Each example shows the form submission data (input) and the expected CWT output 
 {
   "data": {
     "main": {
-      "teEzOl": "Regional body",
+      "teEzOl": "Local Planning Authority",
       "YouDQP": "Brighton and Hove City Council",
-      "YOwPAJ": "Standalone HRA advice",
-      "emlmbt": "Stat advice on an Appropriate Assessment",
+      "YOwPAJ": "Habitats Regulations Assessment (HRA) advice",
+      "emlmbt": "Statutory advice on an Appropriate Assessment",
       "xZiZct": true,
       "PkpWyY": "Free Text",
       "nJVeix": "Residential development of 200 units within 400m of the SPA boundary",
@@ -198,7 +198,7 @@ Each example shows the form submission data (input) and the expected CWT output 
   "customer_email_address": "sarah.planner@brighton-hove.gov.uk",
   "email_header": "Standalone HRA Reg 63 - Arun Valley Ramsar",
   "is_contractor_working_for_public_body": "No",
-  "public_body_type": "Regional body",
+  "public_body_type": "Local Planning Authority",
   "public_body": "",
   "is_there_a_european_site": "Yes",
   "SSSI_info": [
@@ -231,7 +231,7 @@ Each example shows the form submission data (input) and the expected CWT output 
       "teEzOl": "Consultant",
       "PBmxNM": "Government agency",
       "PvUZyQ": "Environment Agency",
-      "YOwPAJ": "S28i SSSI advice",
+      "YOwPAJ": "Section 28i SSSI advice (statutory consultation, not including HRA)",
       "xZiZct": true,
       "PkpWyY": "Both",
       "nJVeix": "Flood defence works involving bank reinforcement along 500m of river channel",
@@ -446,7 +446,7 @@ Each example shows the form submission data (input) and the expected CWT output 
       "PBmxNM": "Public body or organisation",
       "HiTHQX": "National Trust",
       "jYwTmN": "National Trust",
-      "YOwPAJ": "Standalone HRA advice",
+      "YOwPAJ": "Habitats Regulations Assessment (HRA) advice",
       "emlmbt": "Advice on screening stage",
       "xZiZct": true,
       "PkpWyY": "Upload",

@@ -82,7 +82,7 @@ Each example shows the form submission data (input) and the expected CWT output 
 {
   "data": {
     "main": {
-      "KTObNK": "An organisation working on behalf of a public body",
+      "KTObNK": "Somebody working on behalf of a public body",
       "ueDuNl": "Ecology Consulting Ltd",
       "vUHwan": "Government agency",
       "cfPoiN": "Natural England",
@@ -287,7 +287,7 @@ Each example shows the form submission data (input) and the expected CWT output 
 {
   "data": {
     "main": {
-      "KTObNK": "An organisation working on behalf of a public body",
+      "KTObNK": "Somebody working on behalf of a public body",
       "ueDuNl": "Other",
       "Xszriq": "Regional Wildlife Trust",
       "vUHwan": "Landowner",

@@ -80,7 +80,7 @@ Collected from repeater aQYWxD [IzQfir]. Parsed from "ID---Name" format and comm
 
 Determined by KTObNK ("What type of customer are you?"):
 
-- When `An organisation working on behalf of a public body` → always `"Consultant"`
+- When `Somebody working on behalf of a public body` → always `"Consultant"`
 - When `A public body` → mapped from vUHwan ("Which category best describes the public body you're representing?") via `publicBodyCategoryMap`:
 
 | vUHwan value               | Output value               |
@@ -99,13 +99,13 @@ Determined by KTObNK ("What type of customer are you?"):
 
 Resolved conditionally from multiple fields based on customer type and public body category.
 
-| Condition                                                                                                                                                      | Source field                                                  | Output value                  |
-| -------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- | ----------------------------- |
-| KTObNK ("What type of customer are you?") = `An organisation working on behalf of a public body`, ueDuNl ("What is the name of your organisation?") != `Other` | ueDuNl ("What is the name of your organisation?")             | Selected organisation name    |
-| KTObNK ("What type of customer are you?") = `An organisation working on behalf of a public body`, ueDuNl ("What is the name of your organisation?") = `Other`  | Xszriq ("Other organisation name")                            | Free text organisation name   |
-| vUHwan ("Which category best describes the public body you're representing?") = `Local planning authority`                                                     | XAZlxH ("Which local authority are you representing?")        | Selected local authority name |
-| cfPoiN ("Which public body are you representing?") != `Other`                                                                                                  | cfPoiN ("Which public body are you representing?")            | Selected public body name     |
-| cfPoiN ("Which public body are you representing?") = `Other`                                                                                                   | FyLHmN ("Which public body are you representing?", free text) | Free text public body name    |
+| Condition                                                                                                                                               | Source field                                                  | Output value                  |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- | ----------------------------- |
+| KTObNK ("What type of customer are you?") = `Somebody working on behalf of a public body`, ueDuNl ("What is the name of your organisation?") != `Other` | ueDuNl ("What is the name of your organisation?")             | Selected organisation name    |
+| KTObNK ("What type of customer are you?") = `Somebody working on behalf of a public body`, ueDuNl ("What is the name of your organisation?") = `Other`  | Xszriq ("Other organisation name")                            | Free text organisation name   |
+| vUHwan ("Which category best describes the public body you're representing?") = `Local planning authority`                                              | XAZlxH ("Which local authority are you representing?")        | Selected local authority name |
+| cfPoiN ("Which public body are you representing?") != `Other`                                                                                           | cfPoiN ("Which public body are you representing?")            | Selected public body name     |
+| cfPoiN ("Which public body are you representing?") = `Other`                                                                                            | FyLHmN ("Which public body are you representing?", free text) | Free text public body name    |
 
 ## customer_name
 
@@ -137,10 +137,10 @@ Determined by the land management scheme selection (rTreXu).
 
 ## is_contractor_working_for_public_body
 
-| Condition                                                                                        | Output value |
-| ------------------------------------------------------------------------------------------------ | ------------ |
-| KTObNK ("What type of customer are you?") = `An organisation working on behalf of a public body` | `Yes`        |
-| KTObNK ("What type of customer are you?") = any other value                                      | `No`         |
+| Condition                                                                                 | Output value |
+| ----------------------------------------------------------------------------------------- | ------------ |
+| KTObNK ("What type of customer are you?") = `Somebody working on behalf of a public body` | `Yes`        |
+| KTObNK ("What type of customer are you?") = any other value                               | `No`         |
 
 ## public_body_type
 

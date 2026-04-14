@@ -143,7 +143,7 @@ describe('consent-form-mapper', () => {
       const result = mapFormSubmission(
         buildMessage({
           KTObNK:
-            'Someone working on behalf of an owner or occupier of land within a SSSI'
+            'Someone with permission to work on behalf of an owner or occupier of land within a SSSI'
         })
       )
       expect(result.consulting_body_type).toBe('Consultant')

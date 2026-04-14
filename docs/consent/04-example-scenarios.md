@@ -128,7 +128,7 @@ Each example shows the form submission data (input) and the expected CWT output 
 {
   "data": {
     "main": {
-      "KTObNK": "Someone working on behalf of an owner or occupier of land within a SSSI",
+      "KTObNK": "Someone with permission to work on behalf of an owner or occupier of land within a SSSI",
       "hozdvW": "1000456---Epping Forest SSSI",
       "lmqMaY": false,
       "htlAAq": "Emma",
