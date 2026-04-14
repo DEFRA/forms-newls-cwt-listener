@@ -16,7 +16,7 @@
     "format:check": "prettier --check \"**/*.{cjs,js,json,md}\"",
     "git:pre-commit-hook": "npm run format:check && npm run lint && npm run type-check && npm test",
     "type-check": "tsc --noEmit -p jsconfig.json",
-    "lint": "eslint --cache --cache-strategy content \"**/*.{cjs,js}\" && npm run type-check",
+    "lint": "eslint --cache --cache-strategy content --ignore-pattern \"auto-fill/**\" \"**/*.{cjs,js}\" && npm run type-check",
     "lint:fix": "npm run lint -- --fix",
     "postinstall": "npm run setup:husky",
     "server:debug": "nodemon --inspect-brk=0.0.0.0 --ext js,json --watch src --legacy-watch ./src",

@@ -51,10 +51,10 @@ Question: "What's your Sustainable Farming Incentive agreement number?" Free tex
 
 Two possible SBI fields depending on the path:
 
-- oflKhi: "Single business identifier (SBI)" - primary SBI field
-- VLUhzR: "Single business identifier (SBI)" - alternate SBI field on the address details page
+- rkIHYS: "What is the Single Business Identifier (SBI) number of where the activities will take place?" - mandatory SBI page shown when a land management scheme is selected (page 15, primary)
+- VLUhzR: "Single business identifier (SBI)" - optional SBI field on the landowner/occupier address details page (page 39, fallback)
 
-The first available is used, converted to a number.
+rkIHYS takes priority; VLUhzR is used if rkIHYS is not present. Converted to a number.
 
 ---
 

@@ -210,7 +210,7 @@ Customer type (KTObNK)
 
 ## SBI (Single Business Identifier)
 
-The SBI is a unique number identifying a farming business registered with the Rural Payments Agency. The consent form collects it from two possible fields (`oflKhi` primary, `VLUhzR` fallback) and converts it to a number.
+The SBI is a unique number identifying a farming business registered with the Rural Payments Agency. The consent form collects it from two possible fields (`rkIHYS` mandatory SBI page primary, `VLUhzR` address details fallback) and converts it to a number.
 
 | User type     | SBI typically present? | Why                                                                         |
 | ------------- | ---------------------- | --------------------------------------------------------------------------- |

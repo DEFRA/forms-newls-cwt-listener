@@ -38,11 +38,12 @@ Handles S28H assent applications for works under agri-environment agreements (e.
 - **Detailed work type** is determined by the selected agreement scheme (CSHT, CSMT, HLS, SFI, MTA)
 - **Agreement reference** is extracted from scheme-dependent fields
 - **Description** is pulled from activity repeater sections
+- **SBI** (Single Business Identifier) is optionally included as a number when a land management scheme is selected
 - **SSSI info** handles both single and multiple SSSI paths, extracting coordinates from the appropriate repeater sections
 
 ### Output fields
 
-`form_type`, `DF_reference_number`, `broad_work_type`, `detailed_work_type`, `description`, `consulting_body_type`, `consulting_body`, `customer_name`, `customer_email_address`, `email_header`, `agreement_reference`, `is_contractor_working_for_public_body`, `public_body_type`, `public_body`, `is_there_a_european_site`, `SSSI_info`, `euro_site_info`
+`form_type`, `DF_reference_number`, `broad_work_type`, `detailed_work_type`, `description`, `consulting_body_type`, `consulting_body`, `customer_name`, `customer_email_address`, `email_header`, `SBI`, `agreement_reference`, `is_contractor_working_for_public_body`, `public_body_type`, `public_body`, `is_there_a_european_site`, `SSSI_info`, `euro_site_info`
 
 ## Consent form mapper
 

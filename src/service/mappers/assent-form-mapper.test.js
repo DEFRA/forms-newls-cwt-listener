@@ -311,14 +311,21 @@ describe('assent-form-mapper', () => {
   })
 
   describe('is_there_a_european_site', () => {
-    it('should be "Yes" when XydYUD is true', () => {
-      const result = mapFormSubmission(buildMessage({ XydYUD: true }))
+    it('should be "Yes" when euro_site_info has entries', () => {
+      const result = mapFormSubmission(
+        buildMessage({}, { aQYWxD: [{ IzQfir: '11004---Arun Valley Ramsar' }] })
+      )
       expect(result.is_there_a_european_site).toBe('Yes')
     })
 
-    it('should be "No" when XydYUD is false', () => {
-      const result = mapFormSubmission(buildMessage({ XydYUD: false }))
-      expect(result.is_there_a_european_site).toBe('No')
+    it('should be empty when euro_site_info has no entries', () => {
+      const result = mapFormSubmission(buildMessage({}))
+      expect(result.is_there_a_european_site).toBe('')
+    })
+
+    it('should be empty when XydYUD is true but no euro site entries', () => {
+      const result = mapFormSubmission(buildMessage({ XydYUD: true }))
+      expect(result.is_there_a_european_site).toBe('')
     })
   })
 

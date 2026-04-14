@@ -153,11 +153,12 @@ Each form mapper produces a different output structure. All outputs are sent as 
   customer_name: "Full name",
   customer_email_address: "email@example.com",
   email_header: "Email subject text",
+  SBI: 123456789,                          // Single Business Identifier (optional, when scheme selected)
   agreement_reference: "AG-12345",
   is_contractor_working_for_public_body: "Yes",  // or "No"
   public_body_type: "Government Agency",
   public_body: "Body name",
-  is_there_a_european_site: "Yes",         // or "No"
+  is_there_a_european_site: "Yes",         // or "" (empty) when not applicable
   SSSI_info: [
     { SSSI_id: 0, coordinates: "123456,654321" }
   ],

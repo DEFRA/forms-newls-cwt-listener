@@ -21,6 +21,11 @@
   - Renamed "Yes, I have received free advice" to "Yes, I have received non-statutory advice"
   - Added: "Yes, I have received statutory Habitats Regulation Assessment (HRA) advice"
   - Added: "Yes, I have received statutory SSSI advice"
+- Intro page: added note "If you have a HRA, be prepared to upload this as part of your notice."
+- Changed Appropriate Assessment question from "Have you completed an Appropriate Assessment?" to "Are you seeking advice now from Natural England on your Appropriate Assessment?"; updated hint to "If you have not already sought advice from Natural England, click Yes"
+- New page "Habitats Regulation Assessment completed" (shown when AA advice is not needed): info note that HRA can be uploaded later, and new Yes/No question "Are you submitting a HRA with your notice?"
+- Updated condition logic: "I have not completed an AA" renamed to "I have not completed an AA and not consulting"; now requires both the AA question and the HRA submission question to be false (AND coordinator)
+- "Get European site advice" page: updated link formatting for HRA guidance and advice form links
 
 ### Advice
 

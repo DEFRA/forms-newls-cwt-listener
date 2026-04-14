@@ -91,13 +91,13 @@ Always from field skdDtj ("What's your email address?").
 
 ## SBI
 
-Single Business Identifier, converted to a number. Uses oflKhi ("Single business identifier (SBI)") as primary, falling back to VLUhzR ("Single business identifier (SBI)", address details page).
+Single Business Identifier, converted to a number. Uses rkIHYS ("What is the Single Business Identifier (SBI) number of where the activities will take place?", mandatory SBI page, page 15) as primary, falling back to VLUhzR ("Single business identifier (SBI)", landowner/occupier address details page, page 39).
 
-| Condition                                           | Source field | Output value     |
-| --------------------------------------------------- | ------------ | ---------------- |
-| oflKhi ("Single business identifier (SBI)") present | oflKhi       | `Number(oflKhi)` |
-| VLUhzR ("Single business identifier (SBI)") present | VLUhzR       | `Number(VLUhzR)` |
-| Neither present                                     | -            | `undefined`      |
+| Condition                                                                                                       | Source field | Output value     |
+| --------------------------------------------------------------------------------------------------------------- | ------------ | ---------------- |
+| rkIHYS ("What is the Single Business Identifier (SBI) number of where the activities will take place?") present | rkIHYS       | `Number(rkIHYS)` |
+| VLUhzR ("Single business identifier (SBI)", address details page) present                                       | VLUhzR       | `Number(VLUhzR)` |
+| Neither present                                                                                                 | -            | `undefined`      |
 
 ## agreement_reference
 
@@ -198,7 +198,7 @@ This section identifies all scenarios where output fields sent to the University
 
 | Field                 | Condition producing empty/undefined value                                                                                                                                                                                                                                                  | Realistic scenario?                                                                                       |
 | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------- |
-| `SBI`                 | Neither oflKhi ("Single business identifier (SBI)") nor VLUhzR ("Single business identifier (SBI)", address details page) present — field is `undefined` (omitted from output)                                                                                                             | **Expected** — some customer types (e.g. Consultant, Somebody else) may not have SBI shown. See Example 3 |
+| `SBI`                 | Neither rkIHYS ("What is the Single Business Identifier (SBI) number of where the activities will take place?") nor VLUhzR ("Single business identifier (SBI)", address details page) present — field is `undefined` (omitted from output)                                                 | **Expected** — some customer types (e.g. Consultant, Somebody else) may not have SBI shown. See Example 3 |
 | `agreement_reference` | No scheme selected AND no VacBun ("What is the name of the permission?") permission name                                                                                                                                                                                                   | **Expected** — users without a scheme or other permission get empty reference. See Example 3              |
 | `email_header`        | No ORNEC activities — iTBHrY ("Operations requiring Natural England consent") / cwZgSE ("Site name and operations requiring Natural England consent") empty — AND no land management scheme rTreXu ("What land management scheme does this notice relate to?") not set — AND no SSSI names | Falls back to `"S28E Consent"` rather than empty string. See Example 6                                    |
 

@@ -408,9 +408,9 @@ export function mapFormSubmission(message) {
 
   // KTObNK = "What type of customer are you?"
   const customerType = /** @type {string | undefined} */ (main.KTObNK)
-  // oflKhi = "Single business identifier (SBI)"
-  const sbiNumber = /** @type {string | undefined} */ (main.oflKhi)
-  // VLUhzR = "Single business identifier (SBI)" (page: "Address details")
+  // rkIHYS = "What is the Single Business Identifier (SBI) number of where the activities will take place?" (page 15, mandatory SBI page, priority)
+  const sbiNumber = /** @type {string | undefined} */ (main.rkIHYS)
+  // VLUhzR = "Single business identifier (SBI)" (page 39, landowner/occupier address details page, fallback)
   const sbiNumberAddress = /** @type {string | undefined} */ (main.VLUhzR)
   const sbi = sbiNumber ?? sbiNumberAddress
 

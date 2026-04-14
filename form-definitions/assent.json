@@ -11,7 +11,7 @@
         {
           "id": "0b631d6b-15d6-4fab-8a7b-adcededcf644",
           "type": "Markdown",
-          "content": "You should use this form to submit a notice of proposal (assent) to Natural England to undertake activities on or near protected sites, that you have already screened as part of your Section 28G duties. You cannot use this form to report emergency works or works that have already started. \r\n\r\nCheck your activities are likely to cause damage before completing this form. If your activities are deemed to likely cause damage to the notified features of a European site, you must complete a habitats regulations assessment (HRA) first, and seek Natural England advice, if applicable. \r\n\r\nPersons who have been contracted by public bodies, known as S28G authorities, may complete this form on their behalf where they have been officially appointed to act. You may need to provide proof of this permission. \r\n\r\n\r\n\r\n## To help assess the impacts of your activities\r\nUse the [designated sites view system](https://designatedsites.naturalengland.org.uk/) to find out which habitats and species are of special scientific interest, and which activities are likely to damage them. \r\n\r\nSearch for the relevant SSSI, select 'View details' then 'View ORNECs'.",
+          "content": "You should use this form to submit a notice of proposal (assent) to Natural England to undertake activities on or near protected sites, that you have already screened as part of your Section 28G duties. You cannot use this form to report emergency works or works that have already started. \r\n\r\nCheck your activities are likely to cause damage before completing this form. If your activities are deemed to likely cause damage to the notified features of a European site, you must complete a habitats regulations assessment (HRA) first, and seek Natural England advice, if applicable. If you have a HRA, be prepared to upload this as part of your notice. \r\n\r\nPersons who have been contracted by public bodies, known as S28G authorities, may complete this form on their behalf where they have been officially appointed to act. You may need to provide proof of this permission. \r\n\r\n\r\n\r\n## To help assess the impacts of your activities\r\nUse the [designated sites view system](https://designatedsites.naturalengland.org.uk/) to find out which habitats and species are of special scientific interest, and which activities are likely to damage them. \r\n\r\nSearch for the relevant SSSI, select 'View details' then 'View ORNECs'.",
           "options": {},
           "schema": {}
         }
@@ -204,10 +204,10 @@
         },
         {
           "type": "YesNoField",
-          "title": "Have you completed an Appropriate Assessment?",
+          "title": "Are you seeking advice now from Natural England on your Appropriate Assessment?",
           "name": "XjeUkQ",
-          "shortDescription": "Completed an Appropriate Assessment",
-          "hint": "",
+          "shortDescription": "Advice needed for Appropriate Assessment",
+          "hint": "If you have not already sought advice from Natural England, click Yes",
           "options": {
             "required": true
           },
@@ -220,13 +220,41 @@
       "condition": "ec3517ab-c39d-44c1-8ac3-d631ea3f40fc"
     },
     {
+      "title": "Habitats Regulation Assessment completed",
+      "path": "/habitats-regulation-assessment-completed",
+      "components": [
+        {
+          "id": "55c2f621-16e7-4036-abcf-a9c5db8c4074",
+          "type": "Markdown",
+          "content": "Based on your answers so far, you should have a HRA. You can upload your HRA documentation later in the form.",
+          "options": {},
+          "schema": {}
+        },
+        {
+          "type": "YesNoField",
+          "title": "Are you submitting a HRA with your notice?",
+          "name": "ttdvGm",
+          "shortDescription": "HRA submission",
+          "hint": "",
+          "options": {
+            "required": true
+          },
+          "schema": {},
+          "id": "375b5648-0acc-40a0-b137-6036af6fff81"
+        }
+      ],
+      "next": [],
+      "id": "2cf4607a-2e6a-444d-8d0b-2f9fcbd30370",
+      "condition": "c8473dde-1a2c-4ec9-99ed-bc1c05409e15"
+    },
+    {
       "title": "Get European site advice",
       "path": "/get-european-site-advice",
       "components": [
         {
           "id": "87c03eb4-18f8-4272-94ca-5524e84e1adb",
           "type": "Markdown",
-          "content": "You should consult Natural England on your proposed plans to avoid or mitigate significant effects on the European site to complete an Appropriate Assessment. You should consider the advice to help you decide whether all significant effects have been ruled out. The mitigations might also prevent potential damage to the special scientific interest of any SSSI also present.\r\n\r\nFor guidance on completing HRA assessments, [click here](https://www.gov.uk/guidance/habitats-regulations-assessments-protecting-a-european-site).\r\n\r\nFor advice relating to Habitats Regulation Assessment, [use this form - Add link]().",
+          "content": "You should consult Natural England on your proposed plans to avoid or mitigate significant effects on the European site to complete an Appropriate Assessment. You should consider the advice to help you decide whether all significant effects have been ruled out. The mitigations might also prevent potential damage to the special scientific interest of any SSSI also present.\r\n\r\n[Read the guidance for completing HRA assessments](https://www.gov.uk/guidance/habitats-regulations-assessments-protecting-a-european-site).\r\n\r\n[Use this form for advice relating to Habitats Regulation Assessment](Add link).",
           "options": {},
           "schema": {}
         }
@@ -1956,22 +1984,6 @@
     {
       "items": [
         {
-          "id": "b4d4e87d-2ddf-44e8-80fb-b9e043a09649",
-          "componentId": "5ebd3978-a763-407b-ad4e-87b4efa62745",
-          "operator": "is",
-          "value": {
-            "itemId": "e3d30428-47f1-4993-9610-a084a1a76a53",
-            "listId": "7f7122fa-3633-485f-ab14-aac550fbd95d"
-          },
-          "type": "ListItemRef"
-        }
-      ],
-      "displayName": "Adverse effect",
-      "id": "e50e0092-143d-4da0-a908-39df938943c4"
-    },
-    {
-      "items": [
-        {
           "id": "e298d6c3-7d73-4c80-ad1d-700c4855f00f",
           "componentId": "cae17afb-ab7e-45ef-9740-c1258da42962",
           "operator": "is",
@@ -2117,10 +2129,18 @@
           "operator": "is",
           "value": false,
           "type": "BooleanValue"
+        },
+        {
+          "id": "2f77e18f-414a-4b08-9465-ccc041578bdd",
+          "componentId": "375b5648-0acc-40a0-b137-6036af6fff81",
+          "operator": "is",
+          "value": false,
+          "type": "BooleanValue"
         }
       ],
-      "displayName": "I have not completed an AA",
-      "id": "464846f4-6743-4b3e-8bab-35e1a73699ba"
+      "displayName": "I have not completed an AA and not consulting",
+      "id": "464846f4-6743-4b3e-8bab-35e1a73699ba",
+      "coordinator": "and"
     },
     {
       "items": [
@@ -2456,6 +2476,19 @@
       "coordinator": "or",
       "displayName": "I can give dates",
       "id": "969d94cb-9b93-423a-b515-82ad29af279b"
+    },
+    {
+      "items": [
+        {
+          "id": "dbf7fdd2-1763-4386-bc12-03f777d973cc",
+          "componentId": "71f0cb2b-9795-47e3-9b9c-3565f995adff",
+          "operator": "is",
+          "value": false,
+          "type": "BooleanValue"
+        }
+      ],
+      "displayName": "I do not need AA advice",
+      "id": "c8473dde-1a2c-4ec9-99ed-bc1c05409e15"
     }
   ],
   "sections": [],
@@ -92671,8 +92704,8 @@
   },
   "metadata": {
     "$$__formVersion": {
-      "versionNumber": 746,
-      "createdAt": "2026-04-13T16:57:14.110Z"
+      "versionNumber": 769,
+      "createdAt": "2026-04-14T15:10:40.272Z"
     }
   }
 }

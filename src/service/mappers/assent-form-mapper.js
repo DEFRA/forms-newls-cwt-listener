@@ -493,8 +493,10 @@ export function mapFormSubmission(message) {
   const customerType = /** @type {string | undefined} */ (main.KTObNK)
   // vUHwan = "Which category best describes the public body you're representing?"
   const publicBodyCategory = /** @type {string | undefined} */ (main.vUHwan)
-  // XydYUD = "Could the planned activities affect a European site?"
-  const couldAffectEuroSite = /** @type {boolean | undefined} */ (main.XydYUD)
+  // ylXSKE = "What is the Single Business Identifier (SBI) number of where the activities will take place?"
+  const sbi = /** @type {string | undefined} */ (main.ylXSKE)
+
+  const euroSiteInfo = mapEuroSiteInfo(repeaters)
 
   return {
     form_type: 'assent',
@@ -514,6 +516,7 @@ export function mapFormSubmission(message) {
     // skdDtj = "What is your email address?"
     customer_email_address: /** @type {string} */ (main.skdDtj) ?? '',
     email_header: mapEmailHeader(main, repeaters),
+    SBI: sbi ? Number(sbi) : undefined,
     agreement_reference: mapAgreementReference(main),
     is_contractor_working_for_public_body:
       customerType === 'An organisation working on behalf of a public body'
@@ -523,8 +526,8 @@ export function mapFormSubmission(message) {
       ? (publicBodyCategoryMap[publicBodyCategory] ?? publicBodyCategory)
       : '',
     public_body: mapPublicBody(main),
-    is_there_a_european_site: couldAffectEuroSite ? 'Yes' : 'No',
+    is_there_a_european_site: euroSiteInfo.length > 0 ? 'Yes' : '',
     SSSI_info: mapSssiInfo(main, repeaters),
-    euro_site_info: mapEuroSiteInfo(repeaters)
+    euro_site_info: euroSiteInfo
   }
 }
