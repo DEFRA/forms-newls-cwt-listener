@@ -232,7 +232,7 @@ describe('advice-form-mapper', () => {
       expect(result.email_header).toBe('S28i Advice - Test SSSI')
     })
 
-    it('should include SSSI name for damage reporting path', () => {
+    it('should include SSSI name for damage reporting path (no activity)', () => {
       const result = mapFormSubmission(
         buildMessage({
           teEzOl: 'Landowner',
@@ -246,7 +246,22 @@ describe('advice-form-mapper', () => {
       )
     })
 
-    it('should include SSSI name for drone flying path', () => {
+    it('should include activity and SSSI name for damage reporting path', () => {
+      const result = mapFormSubmission(
+        buildMessage({
+          teEzOl: 'Landowner',
+          xzEslQ:
+            'I would like to report potentially damaging activity on or near a protected site',
+          MoCXGK: '2005001---Damage Reporting SSSI',
+          YhWlKB: 'Motor vehicles damaging the land'
+        })
+      )
+      expect(result.email_header).toBe(
+        'SSSI - Regulation and Enforcement - Motor vehicles damaging the land - Damage Reporting SSSI'
+      )
+    })
+
+    it('should include SSSI name for drone flying path (no activity)', () => {
       const result = mapFormSubmission(
         buildMessage({
           teEzOl: 'Member of public',
@@ -256,6 +271,52 @@ describe('advice-form-mapper', () => {
         })
       )
       expect(result.email_header).toBe('SSSI - Other - Aqualate Mere SSSI')
+    })
+
+    it('should include activity and SSSI name for drone flying path', () => {
+      const result = mapFormSubmission(
+        buildMessage({
+          teEzOl: 'Member of public',
+          xzEslQ:
+            'I have a question about flying drones on or near a protected site',
+          PxvdiH: '1004018---Aqualate Mere SSSI',
+          mtiMfk: 'Photography and wildlife observation'
+        })
+      )
+      expect(result.email_header).toBe(
+        'SSSI - Other - Photography and wildlife observation - Aqualate Mere SSSI'
+      )
+    })
+
+    it('should truncate activity and still include site name when activity is too long', () => {
+      const longActivity = 'A'.repeat(300)
+      const result = mapFormSubmission(
+        buildMessage({
+          teEzOl: 'Member of public',
+          xzEslQ:
+            'I have a question about flying drones on or near a protected site',
+          PxvdiH: '1004018---Aqualate Mere SSSI',
+          mtiMfk: longActivity
+        })
+      )
+      expect(result.email_header.length).toBeLessThanOrEqual(255)
+      expect(result.email_header).toContain('SSSI - Other')
+      expect(result.email_header).toContain('Aqualate Mere SSSI')
+    })
+
+    it('should truncate activity with "..." when activity is too long and no site names', () => {
+      const longActivity = 'A'.repeat(300)
+      const result = mapFormSubmission(
+        buildMessage({
+          teEzOl: 'Member of public',
+          xzEslQ:
+            'I have a question about flying drones on or near a protected site',
+          mtiMfk: longActivity
+        })
+      )
+      expect(result.email_header.length).toBeLessThanOrEqual(255)
+      expect(result.email_header).toContain('SSSI - Other')
+      expect(result.email_header).toMatch(/\.\.\.$/u)
     })
 
     it('should truncate to 255 characters when many sites', () => {
@@ -485,7 +546,7 @@ describe('advice-form-mapper', () => {
       expect(result.description).toBe('S28i Advice - Test SSSI')
     })
 
-    it('should include SSSI name for damage reporting path', () => {
+    it('should include SSSI name for damage reporting path (no activity)', () => {
       const result = mapFormSubmission(
         buildMessage({
           teEzOl: 'Landowner',
@@ -499,7 +560,22 @@ describe('advice-form-mapper', () => {
       )
     })
 
-    it('should include SSSI name for drone flying path', () => {
+    it('should include activity and SSSI name for damage reporting path', () => {
+      const result = mapFormSubmission(
+        buildMessage({
+          teEzOl: 'Landowner',
+          xzEslQ:
+            'I would like to report potentially damaging activity on or near a protected site',
+          MoCXGK: '2005001---Damage Reporting SSSI',
+          YhWlKB: 'Motor vehicles damaging the land'
+        })
+      )
+      expect(result.description).toBe(
+        'SSSI - Regulation and Enforcement - Motor vehicles damaging the land - Damage Reporting SSSI'
+      )
+    })
+
+    it('should include SSSI name for drone flying path (no activity)', () => {
       const result = mapFormSubmission(
         buildMessage({
           teEzOl: 'Member of public',
@@ -509,6 +585,60 @@ describe('advice-form-mapper', () => {
         })
       )
       expect(result.description).toBe('SSSI - Other - Aqualate Mere SSSI')
+    })
+
+    it('should include activity and SSSI name for drone flying path', () => {
+      const result = mapFormSubmission(
+        buildMessage({
+          teEzOl: 'Member of public',
+          xzEslQ:
+            'I have a question about flying drones on or near a protected site',
+          PxvdiH: '1004018---Aqualate Mere SSSI',
+          mtiMfk: 'Photography and wildlife observation'
+        })
+      )
+      expect(result.description).toBe(
+        'SSSI - Other - Photography and wildlife observation - Aqualate Mere SSSI'
+      )
+    })
+
+    it('should include activity and SSSI names for S28I path', () => {
+      const result = mapFormSubmission(
+        buildMessage(
+          {
+            teEzOl: 'Government Agency',
+            PvUZyQ: 'Environment Agency',
+            YOwPAJ:
+              'Section 28i SSSI advice (statutory consultation, not including HRA)',
+            nJVeix: 'Clearing vegetation along riverbanks'
+          },
+          {
+            someRepeater: [
+              {
+                Avdzxa: '1001001---Test SSSI',
+                NMCFES: { easting: 400000, northing: 300000 }
+              }
+            ]
+          }
+        )
+      )
+      expect(result.description).toBe(
+        'S28i Advice - Clearing vegetation along riverbanks - Test SSSI'
+      )
+    })
+
+    it('should include activity alone when no site names are present', () => {
+      const result = mapFormSubmission(
+        buildMessage({
+          teEzOl: 'Member of public',
+          xzEslQ:
+            'I have a question about flying drones on or near a protected site',
+          mtiMfk: 'Surveying the site from above'
+        })
+      )
+      expect(result.description).toBe(
+        'SSSI - Other - Surveying the site from above'
+      )
     })
 
     it('should return detailed_work_type alone for general topics without free text', () => {

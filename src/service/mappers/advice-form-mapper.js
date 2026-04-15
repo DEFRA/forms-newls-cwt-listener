@@ -138,6 +138,41 @@ function mapDetailedWorkType(main) {
 }
 
 /**
+ * Collects the activity free-text from the relevant path-specific field.
+ * Used by both mapDescription and mapEmailHeader.
+ *
+ * - Drone flying path: mtiMfk — "Tell us more about the proposed drone flying activity".
+ * - S28i SSSI / general path: nJVeix — "Tell us about the proposed activities".
+ * - Damage reporting path: YhWlKB — "Give a description of the damaging activity".
+ *
+ * Only one of these fields will be present in any given submission.
+ *
+ * @param {Record<string, unknown>} main
+ * @returns {string | undefined}
+ */
+function collectActivity(main) {
+  // mtiMfk = "Tell us more about the proposed drone flying activity"
+  const droneActivity = /** @type {string | undefined} */ (main.mtiMfk)
+  if (droneActivity) {
+    return droneActivity
+  }
+
+  // nJVeix = "Tell us about the proposed activities"
+  const proposedActivities = /** @type {string | undefined} */ (main.nJVeix)
+  if (proposedActivities) {
+    return proposedActivities
+  }
+
+  // YhWlKB = "Give a description of the damaging activity"
+  const damagingActivity = /** @type {string | undefined} */ (main.YhWlKB)
+  if (damagingActivity) {
+    return damagingActivity
+  }
+
+  return undefined
+}
+
+/**
  * Collects site names relevant to the advice form path.
  * Used by both mapDescription and mapEmailHeader.
  *
@@ -193,10 +228,11 @@ function collectSiteNames(main, repeaters) {
 }
 
 /**
- * Builds the description from the detailed work type and relevant site names.
+ * Builds the description from the detailed work type, activities, and relevant site names.
  * Uses the same segments as mapEmailHeader but without a length limit.
  *
- * Format: "[detailed_work_type] - [site names]"
+ * Format: "[detailed_work_type] - [activities] - [site names]"
+ * Activities and site names are each omitted when not present.
  *
  * @param {Record<string, unknown>} main
  * @param {Record<string, Array<Record<string, unknown>>>} repeaters
@@ -205,17 +241,26 @@ function collectSiteNames(main, repeaters) {
  */
 function mapDescription(main, repeaters, detailedWorkType) {
   const siteNames = collectSiteNames(main, repeaters)
+  const activity = collectActivity(main)
   // QmIGor = "What is your question?" (free text shown when xzEslQ = "Something else")
   const generalTopic = /** @type {string | undefined} */ (main.xzEslQ)
   const freeTextQuestion = /** @type {string | undefined} */ (main.QmIGor)
 
-  if (siteNames.length === 0) {
+  if (siteNames.length === 0 && !activity) {
     if (generalTopic === 'Something else' && freeTextQuestion) {
       return detailedWorkType + ' - ' + freeTextQuestion
     }
     return detailedWorkType
   }
-  return detailedWorkType + ' - ' + siteNames.join(', ')
+
+  const segments = [detailedWorkType]
+  if (activity) {
+    segments.push(activity)
+  }
+  if (siteNames.length > 0) {
+    segments.push(siteNames.join(', '))
+  }
+  return segments.join(' - ')
 }
 
 /**
@@ -418,8 +463,12 @@ function mapSssiInfo(main, repeaters) {
 }
 
 /**
- * Builds the email_header from the detailed work type and relevant site names.
+ * Builds the email_header from the detailed work type, activities, and relevant site names.
  * Uses the same segments as mapDescription but truncated to 255 characters.
+ *
+ * Format: "[detailed_work_type] - [activities] - [site names]"
+ * Activities and site names are each omitted when not present.
+ * When the activity is too long to leave room for site names, it is truncated with "...".
  *
  * @param {Record<string, unknown>} main
  * @param {Record<string, Array<Record<string, unknown>>>} repeaters
@@ -429,11 +478,12 @@ function mapSssiInfo(main, repeaters) {
 function mapEmailHeader(main, repeaters, detailedWorkType) {
   const separator = ' - '
   const siteNames = collectSiteNames(main, repeaters)
+  const activity = collectActivity(main)
   // QmIGor = "What is your question?" (free text shown when xzEslQ = "Something else")
   const generalTopic = /** @type {string | undefined} */ (main.xzEslQ)
   const freeTextQuestion = /** @type {string | undefined} */ (main.QmIGor)
 
-  if (siteNames.length === 0) {
+  if (siteNames.length === 0 && !activity) {
     if (generalTopic === 'Something else' && freeTextQuestion) {
       const full = detailedWorkType + separator + freeTextQuestion
       return full.length <= EMAIL_HEADER_MAX_LENGTH
@@ -445,13 +495,57 @@ function mapEmailHeader(main, repeaters, detailedWorkType) {
       : detailedWorkType.substring(0, EMAIL_HEADER_MAX_LENGTH - 3) + '...'
   }
 
-  const prefixWithSeparator = detailedWorkType + separator
-  const availableForNames = EMAIL_HEADER_MAX_LENGTH - prefixWithSeparator.length
-  const fittedNames = fitNames(siteNames, availableForNames)
+  const typePrefix = detailedWorkType + separator
 
-  return fittedNames
-    ? prefixWithSeparator + fittedNames
-    : detailedWorkType.substring(0, EMAIL_HEADER_MAX_LENGTH)
+  if (!activity) {
+    // No activity — existing site-names-only behaviour
+    const availableForNames = EMAIL_HEADER_MAX_LENGTH - typePrefix.length
+    const fittedNames = fitNames(siteNames, availableForNames)
+    return fittedNames
+      ? typePrefix + fittedNames
+      : detailedWorkType.substring(0, EMAIL_HEADER_MAX_LENGTH)
+  }
+
+  if (siteNames.length === 0) {
+    // Activity present, no site names
+    const full = typePrefix + activity
+    return full.length <= EMAIL_HEADER_MAX_LENGTH
+      ? full
+      : full.substring(0, EMAIL_HEADER_MAX_LENGTH - 3) + '...'
+  }
+
+  // Both activity and site names present
+  const activityPrefix = typePrefix + activity + separator
+  const availableForNames = EMAIL_HEADER_MAX_LENGTH - activityPrefix.length
+
+  if (availableForNames > 0) {
+    const fittedNames = fitNames(siteNames, availableForNames)
+    if (fittedNames) {
+      return activityPrefix + fittedNames
+    }
+  }
+
+  // Activity is too long — truncate it to leave room for the first site name
+  const minNamesSegment = separator + siteNames[0]
+  const maxActivityLen =
+    EMAIL_HEADER_MAX_LENGTH - typePrefix.length - minNamesSegment.length
+  if (maxActivityLen > 3) {
+    const truncatedActivity = activity.substring(0, maxActivityLen - 3) + '...'
+    const truncatedPrefix = typePrefix + truncatedActivity + separator
+    const remainingForNames = EMAIL_HEADER_MAX_LENGTH - truncatedPrefix.length
+    if (remainingForNames > 0) {
+      const fittedNames = fitNames(siteNames, remainingForNames)
+      if (fittedNames) {
+        return truncatedPrefix + fittedNames
+      }
+    }
+  }
+
+  // Last resort: type + activity, truncated if needed
+  const full = typePrefix + activity
+  return full.length <= EMAIL_HEADER_MAX_LENGTH
+    ? full
+    : full.substring(0, EMAIL_HEADER_MAX_LENGTH - 3) + '...'
 }
 
 /**
