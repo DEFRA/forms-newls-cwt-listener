@@ -39,65 +39,73 @@ The description now follows the same structure as the `email_header` field (see 
 
 ### Advice Form
 
-**Format:** `[detailed_work_type] - [site names]`
+**Format:** `[detailed_work_type] - [activities] - [site names]`
 
-| Segment              | Source                                                                                                                    |
-| -------------------- | ------------------------------------------------------------------------------------------------------------------------- |
-| `detailed_work_type` | Always present (e.g., "Standalone HRA Reg 63", "S28i Advice", "SSSI - Other")                                             |
-| Site names           | HRA path: Euro site names from `TJuSNf.rtuWky`; S28I path: SSSI names from `Avdzxa`; Damage path: SSSI name from `MoCXGK` |
+Activities and site names are each omitted when not present.
+
+| Segment              | Source                                                                                                                                                                               |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `detailed_work_type` | Always present (e.g., "Standalone HRA Reg 63", "S28i Advice", "SSSI - Other")                                                                                                        |
+| Activities           | Path-specific free text — `mtiMfk` (drone path), `nJVeix` (HRA / S28i path), or `YhWlKB` (damage path). Only one is present per submission; omitted when absent.                     |
+| Site names           | HRA path: Euro site names from `TJuSNf.rtuWky`; S28I path: SSSI names from `Avdzxa`; Damage path: SSSI name from `MoCXGK`; Drone path: SSSI name from `PxvdiH`. Omitted when absent. |
+
+When neither activities nor site names are present and `xzEslQ = "Something else"`, the free-text question from `QmIGor` is appended instead.
 
 **Examples:**
 
-- `Standalone HRA Reg 63 - Arun Valley Ramsar`
-- `S28i Advice - Test SSSI`
-- `SSSI - Site visits/surveys - Damage Reporting SSSI`
-- `SSSI - Other` (general topics, no sites)
+- `Standalone HRA Reg 63 - Residential development of 200 units - Arun Valley Ramsar`
+- `S28i Advice - Felling of 5 hectares of conifer plantation - Test SSSI`
+- `SSSI - Regulation and Enforcement - Unauthorised tree felling - Damage Reporting SSSI`
+- `SSSI - Other - Photography and wildlife observation - Aqualate Mere SSSI`
+- `SSSI - Other` (general topics, no activity or sites)
 
 ### Consent Form
 
-**Format:** `[activities or scheme] - [SSSI names]`
+**Format:** `[activities and/or scheme] - [SSSI names]`
 
-| Segment              | Source                                                                                    |
-| -------------------- | ----------------------------------------------------------------------------------------- |
-| Activities (primary) | All unique activities from `iTBHrY.hqsZMS` (single SSSI) or `cwZgSE.BscJLV` (multi SSSI)  |
-| Scheme (fallback)    | `rTreXu` when no activities are present                                                   |
-| SSSI names           | Parsed from `hozdvW` (single), `cwZgSE.rWrBOK` (multi), or `gWZwzI.gVlMxz` (scheme multi) |
-| Fallback             | `"S28E Consent"` when nothing else is available                                           |
+| Segment    | Source                                                                                    |
+| ---------- | ----------------------------------------------------------------------------------------- |
+| Activities | All unique activities from `iTBHrY.hqsZMS` (single SSSI) or `cwZgSE.BscJLV` (multi SSSI)  |
+| Scheme     | `rTreXu` — included alongside activities when both are present (appended after them)      |
+| SSSI names | Parsed from `hozdvW` (single), `cwZgSE.rWrBOK` (multi), or `gWZwzI.gVlMxz` (scheme multi) |
+| Fallback   | `"S28E Consent"` when nothing else is available                                           |
 
 **Examples:**
 
 - `Grazing, Fencing - Test SSSI`
 - `Grazing, Fencing, Drainage - Test SSSI A, Test SSSI B`
-- `A Countryside Stewardship Higher Tier (CSHT) agreement - SSSI One, SSSI Two`
+- `Grazing, A Countryside Stewardship Higher Tier (CSHT) agreement - SSSI One, SSSI Two` (activities + scheme)
+- `A Countryside Stewardship Higher Tier (CSHT) agreement - SSSI One, SSSI Two` (scheme only)
 - `Test SSSI` (SSSI name only, no activities or scheme)
 - `S28E Consent`
 
 ### Assent Form
 
-**Format:** `[activities or scheme] - [SSSI names] - [Euro site names]`
+**Format:** `[activities and/or scheme] - [SSSI names] - [Euro site names]`
 
-| Segment              | Source                                                                                          |
-| -------------------- | ----------------------------------------------------------------------------------------------- |
-| Activities (primary) | All unique activities from `gzSkgC.lGsnXi` (single SSSI) or `QxIzSB.iNDqRN` (multi SSSI)        |
-| Scheme (fallback)    | `rTreXu` when no activities are present                                                         |
-| SSSI names           | Parsed from `gVlMxz` (single), `hhGvmX.flbYHq` (scheme multi), or `QxIzSB.wRGnMW` (ORNEC multi) |
-| Euro site names      | Parsed from `aQYWxD.IzQfir`                                                                     |
-| Fallback             | `"S28H Assent"` when nothing else is available                                                  |
+| Segment         | Source                                                                                          |
+| --------------- | ----------------------------------------------------------------------------------------------- |
+| Activities      | All unique activities from `gzSkgC.lGsnXi` (single SSSI) or `QxIzSB.iNDqRN` (multi SSSI)        |
+| Scheme          | `rTreXu` — included alongside activities when both are present (appended after them)            |
+| SSSI names      | Parsed from `gVlMxz` (single), `hhGvmX.flbYHq` (scheme multi), or `QxIzSB.wRGnMW` (ORNEC multi) |
+| Euro site names | Parsed from `aQYWxD.IzQfir`                                                                     |
+| Fallback        | `"S28H Assent"` when nothing else is available                                                  |
 
 **Examples:**
 
 - `Grazing, Fencing - Test SSSI`
 - `Tree removal, Drainage - Test SSSI A, Test SSSI B`
 - `Grazing - Test SSSI - Arun Valley Ramsar`
-- `A Higher Level Stewardship (HLS) agreement - SSSI One, SSSI Two`
+- `Grazing, A Higher Level Stewardship (HLS) agreement - SSSI One, SSSI Two` (activities + scheme)
+- `A Higher Level Stewardship (HLS) agreement - SSSI One, SSSI Two` (scheme only)
 - `S28H Assent`
 
 ## Key Changes Summary
 
-| Aspect                    | Previous                                                                           | New                                                                           |
-| ------------------------- | ---------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
-| Site names                | Raw `"ID---Name"` values                                                           | Parsed display names only                                                     |
-| Structure                 | Varied per form (grouped, topic text, HRA stage, etc.)                             | Consistent across all forms: `[primary] - [SSSI names] - [Euro site names]`   |
-| Activities in description | Consent: first activity or per-SSSI grouping; Assent: all activities; Advice: none | All forms: all unique activities as the primary segment                       |
-| Empty fallback            | Advice/Consent: empty or partial; Assent: empty string                             | Form-specific fallback: `"SSSI - Other"` / `"S28E Consent"` / `"S28H Assent"` |
-| Max length                | No limit                                                                           | No limit (same as before)                                                     |
+| Aspect                    | Previous                                                                           | New                                                                                                                                                  |
+| ------------------------- | ---------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Site names                | Raw `"ID---Name"` values                                                           | Parsed display names only                                                                                                                            |
+| Structure                 | Varied per form (grouped, topic text, HRA stage, etc.)                             | Consistent across all forms: `[primary] - [SSSI names] - [Euro site names]`                                                                          |
+| Activities in description | Consent: first activity or per-SSSI grouping; Assent: all activities; Advice: none | All forms include activities. Advice: path-specific free-text field as middle segment. Consent/Assent: all unique activities as the primary segment. |
+| Empty fallback            | Advice/Consent: empty or partial; Assent: empty string                             | Form-specific fallback: `"SSSI - Other"` / `"S28E Consent"` / `"S28H Assent"`                                                                        |
+| Max length                | No limit                                                                           | No limit (same as before)                                                                                                                            |

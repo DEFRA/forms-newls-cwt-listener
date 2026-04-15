@@ -67,23 +67,25 @@ Same precedence as `broad_work_type`, but with finer granularity for general top
 
 ## email_header
 
-Format: `"[detailed_work_type] - [site names]"` (truncated to 255 characters). When no site names are collected and the topic is "Something else", the free text question is appended instead. When no site names or free text, equals `detailed_work_type` alone.
+Format: `"[detailed_work_type] - [activities] - [site names]"` (truncated to 255 characters). Activities and site names are each omitted when not present. When neither is present and the topic is "Something else", the free-text question is appended instead. When the activity is too long to leave room for the site name(s), it is truncated with `"..."`.
 
 ## description
 
-Built from `detailed_work_type` and site names collected from the relevant path.
+Built from `detailed_work_type`, activities, and site names collected from the relevant path.
 
-| Path                                      | Format                                        | Source fields                                                                                                       |
-| ----------------------------------------- | --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
-| HRA path (with European site names)       | `{detailed_work_type} - {site names}`         | European site names from repeater TJuSNf [rtuWky ("EU site name")], parsed from "ID---Name" format, comma-separated |
-| S28I SSSI path (with SSSI names)          | `{detailed_work_type} - {site names}`         | SSSI names from repeater entries [Avdzxa ("SSSI site name")], parsed from "ID---Name" format, comma-separated       |
-| Damage reporting path (with damaged SSSI) | `{detailed_work_type} - {site name}`          | MoCXGK ("SSSI name for damage report"), parsed from "ID---Name" format                                              |
-| Drone flying path (with drone SSSI)       | `{detailed_work_type} - {site name}`          | PxvdiH ("SSSI name for drone flying"), parsed from "ID---Name" format                                               |
-| General topics: "Something else" path     | `{detailed_work_type} - {free text question}` | QmIGor ("What is your question?") — only when xzEslQ ("Topic of query") = "Something else" and QmIGor has a value   |
-| General topics: all other topics          | `{detailed_work_type}`                        | No site names collected on general topic paths (except damage and drone paths above)                                |
+| Path                                  | Format                                               | Activity source                                                  | Site name source                                                                                                    |
+| ------------------------------------- | ---------------------------------------------------- | ---------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| HRA path                              | `{detailed_work_type} - {activities} - {site names}` | nJVeix ("Tell us about the proposed activities")                 | European site names from repeater TJuSNf [rtuWky ("EU site name")], parsed from "ID---Name" format, comma-separated |
+| S28I SSSI path                        | `{detailed_work_type} - {activities} - {site names}` | nJVeix ("Tell us about the proposed activities")                 | SSSI names from repeater entries [Avdzxa ("SSSI site name")], parsed from "ID---Name" format, comma-separated       |
+| Damage reporting path                 | `{detailed_work_type} - {activities} - {site name}`  | YhWlKB ("Give a description of the damaging activity")           | MoCXGK ("SSSI name for damage report"), parsed from "ID---Name" format                                              |
+| Drone flying path                     | `{detailed_work_type} - {activities} - {site name}`  | mtiMfk ("Tell us more about the proposed drone flying activity") | PxvdiH ("SSSI name for drone flying"), parsed from "ID---Name" format                                               |
+| General topics: "Something else" path | `{detailed_work_type} - {free text question}`        | (no activity fields on this path)                                | QmIGor ("What is your question?") — only when xzEslQ = "Something else" and QmIGor has a value                      |
+| General topics: all other topics      | `{detailed_work_type}`                               | (no activity fields on this path)                                | No site names collected                                                                                             |
 
 **Notes:**
 
+- Activity fields are path-specific; only one will be present in any given submission.
+- Activities segment is omitted when the relevant field is absent.
 - Site names are collected via a precedence chain: HRA European sites > S28I SSSI sites > damage SSSI > drone SSSI > none.
 - Parts are joined with `-` (space-dash-space).
 

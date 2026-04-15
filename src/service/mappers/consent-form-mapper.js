@@ -66,7 +66,7 @@ function mapDetailedWorkType(main) {
 }
 
 /**
- * Collects the primary segment (activities or scheme) and SSSI names
+ * Collects the primary segment (activities and/or scheme) and SSSI names
  * for building the email header and description.
  * @param {Record<string, unknown>} main
  * @param {Record<string, Array<Record<string, unknown>>>} repeaters
@@ -128,17 +128,14 @@ function collectConsentSegments(main, repeaters) {
       .filter(Boolean)
   }
 
-  // Build primary segment: activities or scheme
-  let primary = ''
-  if (activities.length > 0) {
-    primary = activities.join(', ')
-  } else {
-    // rTreXu = "What land management scheme does this notice relate to?"
-    const landManagementScheme = /** @type {string | undefined} */ (main.rTreXu)
-    if (landManagementScheme) {
-      primary = landManagementScheme
-    }
+  // Build primary segment: activities and/or scheme (both included when present)
+  // rTreXu = "What land management scheme does this notice relate to?"
+  const landManagementScheme = /** @type {string | undefined} */ (main.rTreXu)
+  const primaryParts = [...activities]
+  if (landManagementScheme) {
+    primaryParts.push(landManagementScheme)
   }
+  const primary = primaryParts.join(', ')
 
   return { primary, sssiNames }
 }
@@ -147,7 +144,7 @@ function collectConsentSegments(main, repeaters) {
  * Builds the description from activities, SSSI names, and scheme info.
  * Uses the same segments as mapEmailHeader but without a length limit.
  *
- * Format: "[activities or scheme] - [SSSI names]"
+ * Format: "[activities and/or scheme] - [SSSI names]"
  * Fallback: "S28E Consent"
  *
  * @param {Record<string, unknown>} main

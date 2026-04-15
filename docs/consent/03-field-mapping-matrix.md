@@ -48,20 +48,20 @@ Determined by field rTreXu ("What land management scheme does this notice relate
 
 ## description
 
-Built from up to two segments joined with `-` (space-dash-space): the primary segment (activities or scheme) and SSSI names. Falls back to `"S28E Consent"` when no segments are available.
+Built from up to two segments joined with `-` (space-dash-space): the primary segment (activities and/or scheme) and SSSI names. Falls back to `"S28E Consent"` when no segments are available.
 
-Format: `"{activities or scheme} - {SSSI names}"`
+Format: `"{activities and/or scheme} - {SSSI names}"`
 
-### Primary segment (activities or scheme)
+### Primary segment (activities and/or scheme)
 
-Activities take precedence. Single SSSI path takes precedence over multiple SSSI path.
+Activities and scheme are independent: both are included when both are present, joined with `, ` (activities first, then the scheme text). Single SSSI path takes precedence over multiple SSSI path when collecting activities.
 
-| Path                        | Source                                                                                                     | Format                              |
-| --------------------------- | ---------------------------------------------------------------------------------------------------------- | ----------------------------------- |
-| Single SSSI with ORNECs     | Repeater iTBHrY ("Operations requiring Natural England consent"), hqsZMS ("Which activity?")               | Unique activity values comma-joined |
-| Multiple SSSIs with ORNECs  | Repeater cwZgSE ("Site name and operations requiring Natural England consent"), BscJLV ("Which activity?") | Unique activity values comma-joined |
-| (no activities, scheme set) | rTreXu ("What land management scheme does this notice relate to?")                                         | Full scheme text                    |
-| (no activities, no scheme)  | -                                                                                                          | Empty                               |
+| Source                       | Prerequisites                                                                                    | Contribution                        |
+| ---------------------------- | ------------------------------------------------------------------------------------------------ | ----------------------------------- |
+| Single SSSI ORNEC activities | Repeater iTBHrY ("Operations requiring Natural England consent"), hqsZMS ("Which activity?")     | Unique activity values comma-joined |
+| Multi SSSI ORNEC activities  | Otherwise repeater cwZgSE ("Site name and operations requiring Natural England consent"), BscJLV | Unique activity values comma-joined |
+| Scheme                       | rTreXu ("What land management scheme does this notice relate to?") selected                      | Full scheme text                    |
+| Fallback                     | No activities and no scheme                                                                      | Empty                               |
 
 ### SSSI names segment
 
@@ -113,16 +113,17 @@ Determined by the land management scheme selection (rTreXu), with a fallback to 
 
 ## email_header
 
-Uses the same segments as `description` (activities or scheme, plus SSSI names) but truncated to 255 characters. Falls back to `"S28E Consent"` when no segments are available.
+Uses the same segments as `description` (activities and/or scheme, plus SSSI names) but truncated to 255 characters. Falls back to `"S28E Consent"` when no segments are available.
 
-Format: `"{activities or scheme} - {SSSI names}"` (truncated to 255 characters using the `fitNames` helper, which progressively drops names and appends "(+N more)" when truncation is needed).
+Format: `"{activities and/or scheme} - {SSSI names}"` (truncated to 255 characters using the `fitNames` helper, which progressively drops names and appends "(+N more)" when truncation is needed).
 
-| Condition                                    | Output value                                        |
-| -------------------------------------------- | --------------------------------------------------- |
-| Activities present (from iTBHrY or cwZgSE)   | All unique activities comma-joined, plus SSSI names |
-| No activities, scheme present (rTreXu)       | Full scheme text, plus SSSI names                   |
-| No activities, no scheme, SSSI names present | SSSI names only                                     |
-| No activities, no scheme, no SSSI names      | `"S28E Consent"`                                    |
+| Condition                                             | Output value                                               |
+| ----------------------------------------------------- | ---------------------------------------------------------- |
+| Activities present and scheme present                 | Activities comma-joined, then scheme text, plus SSSI names |
+| Activities present (from iTBHrY or cwZgSE), no scheme | All unique activities comma-joined, plus SSSI names        |
+| No activities, scheme present (rTreXu)                | Full scheme text, plus SSSI names                          |
+| No activities, no scheme, SSSI names present          | SSSI names only                                            |
+| No activities, no scheme, no SSSI names               | `"S28E Consent"`                                           |
 
 ## SSSI_info
 

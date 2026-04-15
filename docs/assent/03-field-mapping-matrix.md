@@ -54,19 +54,19 @@ Determined by field rTreXu ("What land management scheme does this notice relate
 
 ## description
 
-Built from up to three segments joined with `-` (space-dash-space): the primary segment (activities or scheme), SSSI names, and European site names. Falls back to `"S28H Assent"` when no segments are available.
+Built from up to three segments joined with `-` (space-dash-space): the primary segment (activities and/or scheme), SSSI names, and European site names. Falls back to `"S28H Assent"` when no segments are available.
 
-Format: `"{activities or scheme} - {SSSI names} - {Euro site names}"`
+Format: `"{activities and/or scheme} - {SSSI names} - {Euro site names}"`
 
-### Primary segment (activities or scheme)
+### Primary segment (activities and/or scheme)
 
-Activities take precedence. Single SSSI path takes precedence over multiple SSSI path.
+Activities and scheme are independent: both are included when both are present, joined with `, ` (activities first, then the scheme text). Single SSSI path takes precedence over multiple SSSI path when collecting activities.
 
-| Path                  | Repeater                                                             | Activity field                                         | Format                              |
+| Source                | Repeater                                                             | Activity field                                         | Contribution                        |
 | --------------------- | -------------------------------------------------------------------- | ------------------------------------------------------ | ----------------------------------- |
 | Single SSSI           | gzSkgC ("Activities requiring Natural England's assent")             | lGsnXi ("What activity is planned to be carried out?") | Unique activity values comma-joined |
 | Multiple SSSI (ORNEC) | QxIzSB ("Site name and activities requiring Natural England assent") | iNDqRN ("What activity is planned to be carried out?") | Unique activity values comma-joined |
-| (no activities)       | -                                                                    | -                                                      | rTreXu scheme text (if present)     |
+| Scheme                | rTreXu ("What land management scheme does this notice relate to?")   | -                                                      | Full scheme text                    |
 
 ### SSSI names segment
 
