@@ -128,7 +128,7 @@ Each example shows the form submission data (input) and the expected CWT output 
   "is_contractor_working_for_public_body": "No",
   "public_body_type": "Government Agency",
   "public_body": "Forestry Commission",
-  "is_there_a_european_site": "No",
+  "is_there_a_european_site": "",
   "SSSI_info": [
     {
       "SSSI_id": 1002084,
@@ -267,7 +267,7 @@ Each example shows the form submission data (input) and the expected CWT output 
   "is_contractor_working_for_public_body": "Yes",
   "public_body_type": "Government Agency",
   "public_body": "Environment Agency",
-  "is_there_a_european_site": "No",
+  "is_there_a_european_site": "",
   "SSSI_info": [
     {
       "SSSI_id": 1001483,
@@ -320,7 +320,7 @@ Each example shows the form submission data (input) and the expected CWT output 
   "is_contractor_working_for_public_body": "No",
   "public_body_type": "Member of public",
   "public_body": "",
-  "is_there_a_european_site": "No",
+  "is_there_a_european_site": "",
   "SSSI_info": [],
   "euro_site_info": []
 }
@@ -371,7 +371,7 @@ Each example shows the form submission data (input) and the expected CWT output 
   "is_contractor_working_for_public_body": "No",
   "public_body_type": "Member of public",
   "public_body": "",
-  "is_there_a_european_site": "No",
+  "is_there_a_european_site": "",
   "SSSI_info": [
     {
       "SSSI_id": 1000456,
@@ -424,7 +424,7 @@ Each example shows the form submission data (input) and the expected CWT output 
   "is_contractor_working_for_public_body": "No",
   "public_body_type": "Landowner",
   "public_body": "",
-  "is_there_a_european_site": "No",
+  "is_there_a_european_site": "",
   "SSSI_info": [],
   "euro_site_info": []
 }
@@ -556,7 +556,7 @@ Each example shows the form submission data (input) and the expected CWT output 
   "is_contractor_working_for_public_body": "No",
   "public_body_type": "Government Agency",
   "public_body": "Forestry Commission",
-  "is_there_a_european_site": "No",
+  "is_there_a_european_site": "",
   "SSSI_info": [],
   "euro_site_info": []
 }

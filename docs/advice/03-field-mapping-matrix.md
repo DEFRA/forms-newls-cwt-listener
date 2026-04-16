@@ -21,7 +21,7 @@ Source: [src/service/mappers/advice-form-mapper.js](../../src/service/mappers/ad
 | `is_contractor_working_for_public_body` | `"Yes"` / `"No"` | Yes                   |
 | `public_body_type`                      | string           | When contractor = Yes |
 | `public_body`                           | string           | When contractor = Yes |
-| `is_there_a_european_site`              | `"Yes"` / `"No"` | Yes                   |
+| `is_there_a_european_site`              | `"Yes"` / `""`   | Yes                   |
 | `SSSI_info`                             | array            | Yes (may be empty)    |
 | `euro_site_info`                        | array            | Yes (may be empty)    |
 
@@ -169,7 +169,7 @@ Always from field **YOPYRe** ("Email address").
 | Condition                        | Output value |
 | -------------------------------- | ------------ |
 | euro_site_info array has entries | `Yes`        |
-| euro_site_info array is empty    | `No`         |
+| euro_site_info array is empty    | `""` (empty) |
 
 ## SSSI_info
 
@@ -216,13 +216,13 @@ This section identifies all scenarios where output fields sent to the University
 | `email_header`                          | Always contains at least `detailed_work_type`, so always populated                                                                                |
 | `is_contractor_working_for_public_body` | Always `"Yes"` or `"No"`                                                                                                                          |
 | `public_body_type`                      | teEzOl ("Representation category") is always set (first mandatory question), so the empty-string fallback is unreachable                          |
-| `is_there_a_european_site`              | Always `"Yes"` or `"No"`                                                                                                                          |
 
 ### Fields that may be empty strings
 
-| Field         | Condition producing empty value                                                                                                                                                                                 | Realistic scenario?                                                          |
-| ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
-| `public_body` | Non-Government-Agency direct users (Landowner, Member of public, Land occupier, LPA) — PBmxNM ("Who are you working on behalf of?") is empty and PvUZyQ ("Which government agency do you work for?") is not set | **Expected and common** — see Examples 3, 5, 6, 7 where `public_body` = `""` |
+| Field                      | Condition producing empty value                                                                                                                                                                                 | Realistic scenario?                                                          |
+| -------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| `public_body`              | Non-Government-Agency direct users (Landowner, Member of public, Land occupier, LPA) — PBmxNM ("Who are you working on behalf of?") is empty and PvUZyQ ("Which government agency do you work for?") is not set | **Expected and common** — see Examples 3, 5, 6, 7 where `public_body` = `""` |
+| `is_there_a_european_site` | `euro_site_info` array is empty (no European sites listed)                                                                                                                                                      | **Expected** — many submissions don't affect European sites                  |
 
 ### Fields that may be empty arrays
 

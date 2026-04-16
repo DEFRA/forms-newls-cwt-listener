@@ -746,12 +746,12 @@ describe('advice-form-mapper', () => {
       expect(result.is_there_a_european_site).toBe('Yes')
     })
 
-    it('should return empty array and "No" when no euro sites', () => {
+    it('should return empty array and empty string when no euro sites', () => {
       const result = mapFormSubmission(
         buildMessage({ teEzOl: 'Landowner', xzEslQ: 'Something else' })
       )
       expect(result.euro_site_info).toEqual([])
-      expect(result.is_there_a_european_site).toBe('No')
+      expect(result.is_there_a_european_site).toBe('')
     })
   })
 })

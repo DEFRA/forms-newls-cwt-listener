@@ -620,7 +620,7 @@ export function mapFormSubmission(message) {
     is_contractor_working_for_public_body: workingOnBehalfOf ? 'Yes' : 'No',
     public_body_type: mapPublicBodyType(workingOnBehalfOf, applicantCategory),
     public_body: mapPublicBody(main),
-    is_there_a_european_site: euroSiteInfo.length > 0 ? 'Yes' : 'No',
+    is_there_a_european_site: euroSiteInfo.length > 0 ? 'Yes' : '',
     SSSI_info: mapSssiInfo(main, repeaters),
     euro_site_info: euroSiteInfo
   }
