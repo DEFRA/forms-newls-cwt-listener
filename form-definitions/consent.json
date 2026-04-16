@@ -48,7 +48,7 @@
         {
           "id": "e3495e87-3037-4f64-aec1-5b2ad7f9fe43",
           "type": "Markdown",
-          "content": "### Notice for SSSI assent\r\nTo submit a notice of proposal to carry out an operation affecting an SSSI, use the [form available on GOV.UK](https://www.gov.uk/government/publications/give-notice-and-get-assent-for-a-planned-activity-on-or-near-an-sssi).\r\n\r\n\r\n### To submit a notice for SSSI consent for forestry operations\r\n\r\nTo submit a supplementary notice of forestry operations within a site of special scientific importance, you need to use the [form available on GOV.UK](https://www.gov.uk/government/publications/supplementary-notice-of-operations-within-an-sssi).",
+          "content": "This form only provides a submission route to consent proposals for activities on protected sites.\r\n\r\n### For notice of SSSI assent\r\n[Use this form to submit a notice of proposal to carry out an operation affecting an SSSI](https://submit-form-to-defra.service.gov.uk/form/give-notice-and-get-assent-for-a-planned-activity-on-or-near-a-sssi).\r\n\r\n\r\n### To submit a notice for SSSI consent for forestry operations\r\n\r\n[Use the form available on GOV.UK to submit a supplementary notice of forestry operations within a site of special scientific importance](https://www.gov.uk/government/publications/supplementary-notice-of-operations-within-an-sssi).",
           "options": {},
           "schema": {}
         }
@@ -145,7 +145,7 @@
         {
           "id": "dd80a5f8-7552-41e8-82f8-eb2cce9b1251",
           "type": "Markdown",
-          "content": "As you are not the landowner or land occupier, you must provide proof that you have the necessary permission to submit a notice of proposal to carry out activities on their land.\r\n\r\nYou must use the authority to act template provided by [Natural England]().",
+          "content": "As you are not the landowner or land occupier, you must provide proof that you have the necessary permission to submit a notice of proposal to carry out activities on their land.",
           "options": {},
           "schema": {}
         },
@@ -154,10 +154,9 @@
           "title": "Upload your proof of permission",
           "name": "apLLka",
           "shortDescription": "Proof of permission",
-          "hint": "Upload the authority to act template as either as a Word document or PDF. The maximum file size for each file is 100MB. Click on 'choose file' to select your document, then select 'upload file' to add it to your submission",
+          "hint": "The maximum file size for each file is 100MB.",
           "options": {
-            "required": true,
-            "accept": "application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.oasis.opendocument.text,text/plain,image/jpeg,image/png"
+            "required": true
           },
           "schema": {
             "min": 1,
@@ -544,8 +543,7 @@
           "shortDescription": "Land management agreement files",
           "hint": "Upload a copy of your land management scheme agreement documents as either a Word document or a PDF. The maximum file size for each file is 100MB.",
           "options": {
-            "required": true,
-            "accept": "application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.oasis.opendocument.text,text/plain"
+            "required": true
           },
           "schema": {},
           "id": "6fc2423a-5279-483a-b66c-083c59e417b7"
@@ -574,8 +572,7 @@
           "shortDescription": "MTA agreement form",
           "hint": "Upload a copy of your approved Minor and Temporary Adjustment (MTA) form as either a Word document or a PDF. The maximum file size for each file is 100MB.",
           "options": {
-            "required": true,
-            "accept": "application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.oasis.opendocument.text,text/plain"
+            "required": true
           },
           "schema": {},
           "id": "d9f9e51e-dd34-469c-ba5a-d20c55bf6980"
@@ -658,7 +655,7 @@
         {
           "id": "cc0a0806-a023-4f36-ab2a-470d02f05d44",
           "type": "Markdown",
-          "content": "For each operation requiring Natural England consent (ORNEC), tell us where and how you plan to carry out the activity.\r\n\r\n### You can add another planned activity for this site after you select 'Continue'.\r\n\r\n\r\n## Check if the activity is an ORNEC\r\n\r\nYou can check if an activity is an ORNEC for any given SSSI by using the free [designated sites system](https://designatedsites.naturalengland.org.uk/) website.\r\n\r\nSearch for the relevant SSSI, select 'View details' and then 'View ORNECs'.\r\n\r\n\r\n## Describe how you plan to carry out the activity\r\n\r\nFor each activity you should include information about:\r\n\r\n- how you will carry it out, for example, cutting, digging, running an event, blocking up or repairing\r\n- details of any equipment or materials you intend to use, including the type and how, when and where you will use them\r\n- how you will remove any waste materials, such as cut branches or debris, from the site\r\nthe number of people who will undertake the planned activity\r\n- details of all planned construction, maintenance, operation, or removal works, including how, where and when you will undertake them\r\n- any protection measures you intend to introduce to help protect the SSSI during the operations\r\n- whether the work will be a one-off, phased, or ongoing over many years\r\n- any specific timings for the activity",
+          "content": "For each operation requiring Natural England consent (ORNEC), tell us where and how you plan to carry out the activity.\r\n\r\n## You can add another planned activity and site after you select 'Continue'.\r\n\r\n\r\n### Check if the activity is an ORNEC\r\n\r\nYou can check if an activity is an ORNEC for any given SSSI by using the free [designated sites system](https://designatedsites.naturalengland.org.uk/) website.\r\n\r\nSearch for the relevant SSSI, select 'View details' and then 'View ORNECs'.\r\n\r\n### Find your easting and northing location\r\n\r\nYou must provide the easting and northing coordinates for where the activity will take place, or the central point of these activities for larger-scale works. \r\n\r\n### Describe how you plan to carry out the activity\r\n\r\nFor each activity you should include information about:\r\n\r\n- how you will carry it out, for example, cutting, digging, running an event, blocking up or repairing\r\n- details of any equipment or materials you intend to use, including the type and how, when and where you will use them\r\n- how you will remove any waste materials, such as cut branches or debris, from the site\r\nthe number of people who will undertake the planned activity\r\n- details of all planned construction, maintenance, operation, or removal works, including how, where and when you will undertake them\r\n- any protection measures you intend to introduce to help protect the SSSI during the operations\r\n- whether the work will be a one-off, phased, or ongoing over many years\r\n- any specific timings for the activity",
           "options": {},
           "schema": {}
         },
@@ -838,7 +835,7 @@
         {
           "id": "f3047846-66c8-4d6c-973a-dc67d3a53da1",
           "type": "Markdown",
-          "content": "For each operation requiring Natural England consent (ORNEC), tell us where and how you plan to carry out the activity.\r\n\r\n## You can add another planned activity and site after you select 'Continue'.\r\n\r\n### Check if the activity is an ORNEC\r\n\r\nYou can check if an activity is an ORNEC for any given SSSI by using the free [designated sites system](https://designatedsites.naturalengland.org.uk/) website.\r\n\r\nSearch for the relevant SSSI, select 'View details' and then 'View ORNECs'.\r\n\r\n### Find your easting and northing location\r\n\r\nYou must provide the easting and northing coordinates for where the activity will take place, or the central point of these activities for larger-scale works. You can use [MAGIC Map](https://magic.defra.gov.uk/home.htm) to find these. Follow these instructions:\r\n\r\n1. Select 'Get Started'.\r\n2. Search for a postcode or place.\r\n3. Using the map, locate the land or building. Use the +/- icons to zoom in and out.\r\n4. In the top toolbar, select the fourth icon along ('Where am I?') - it looks like a target.\r\n5. Click on the land or building.\r\n6. A pop-up box will appear showing the land details for this location. Easting and Northing appear at the top of the list. Easting can be up to 6 digits (0-700000) and Northing up to 7 digits (0-1300000), for example, 248741 and 63688.\r\n\r\n### Describe how you plan to carry out the activity\r\n\r\nFor each activity you should include information about:\r\n\r\n- how you will carry it out, for example, cutting, digging, running an event, blocking up or repairing\r\n- details of any equipment or materials you intend to use, including the type and how, when and where you will use them\r\n- how you will remove any waste materials, such as cut branches or debris, from the site\r\nthe number of people who will undertake the planned activity\r\n- details of all planned construction, maintenance, operation, or removal works, including how, where and when you will undertake them\r\n- any protection measures you intend to introduce to help protect the SSSI during the operations\r\n- whether the work will be a one-off, phased, or ongoing over many years\r\n- any specific timings for the activity",
+          "content": "For each operation requiring Natural England consent (ORNEC), tell us where and how you plan to carry out the activity.\r\n\r\n## You can add another planned activity and site after you select 'Continue'.\r\n\r\n### Check if the activity is an ORNEC\r\n\r\nYou can check if an activity is an ORNEC for any given SSSI by using the free [designated sites system](https://designatedsites.naturalengland.org.uk/) website.\r\n\r\nSearch for the relevant SSSI, select 'View details' and then 'View ORNECs'.\r\n\r\n### Find your easting and northing location\r\n\r\nYou must provide the easting and northing coordinates for where the activity will take place, or the central point of these activities for larger-scale works. \r\n\r\n### Describe how you plan to carry out the activity\r\n\r\nFor each activity you should include information about:\r\n\r\n- how you will carry it out, for example, cutting, digging, running an event, blocking up or repairing\r\n- details of any equipment or materials you intend to use, including the type and how, when and where you will use them\r\n- how you will remove any waste materials, such as cut branches or debris, from the site\r\nthe number of people who will undertake the planned activity\r\n- details of all planned construction, maintenance, operation, or removal works, including how, where and when you will undertake them\r\n- any protection measures you intend to introduce to help protect the SSSI during the operations\r\n- whether the work will be a one-off, phased, or ongoing over many years\r\n- any specific timings for the activity",
           "options": {},
           "schema": {}
         },
@@ -1076,7 +1073,7 @@
           "title": "When does the land management scheme agreement start?",
           "name": "YdFHnD",
           "shortDescription": "Scheme start date",
-          "hint": "For example, for 1st January 2026 enter 01 1 2026",
+          "hint": "For example, for 1 January 2026 enter 01 1 2026",
           "options": {
             "required": true,
             "classes": ""
@@ -1145,7 +1142,7 @@
           "title": "When do you want your consent to start?",
           "name": "GbJLXV",
           "shortDescription": "Requested start date",
-          "hint": "For example, for 1st January 2026 enter 01 1 2026",
+          "hint": "For example, for 1 January 2026 enter 01 1 2026",
           "options": {
             "required": true,
             "classes": ""
@@ -1230,10 +1227,9 @@
           "title": "Upload your supporting documents",
           "name": "XVVgwJ",
           "shortDescription": "Supporting documents",
-          "hint": "The maximum file size for each file is 100MB. Click on 'Choose File' to select your document, then select 'Upload File' to add it to your notice.",
+          "hint": "The maximum file size for each file is 100MB.",
           "options": {
-            "required": false,
-            "accept": "application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.oasis.opendocument.text,text/plain,image/jpeg,image/png,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,text/csv,application/vnd.oasis.opendocument.spreadsheet"
+            "required": false
           },
           "schema": {},
           "id": "fce2927c-f7bd-4aa8-a72f-4867e02aa992"
@@ -106077,8 +106073,8 @@
   },
   "metadata": {
     "$$__formVersion": {
-      "versionNumber": 919,
-      "createdAt": "2026-04-14T12:51:13.183Z"
+      "versionNumber": 35,
+      "createdAt": "2026-04-16T15:24:06.127Z"
     }
   }
 }

@@ -276,7 +276,7 @@
           "title": "Upload Supplementary Notice of Operations documents",
           "name": "VCkumf",
           "shortDescription": "Related SNO documents",
-          "hint": "You can upload any documents related to the SNO you are seeking advice for. \r\n\r\nThe maximum size for each file is 100MB. Select Choose File to select your document, then select Upload File to add it to your submission.",
+          "hint": "You can upload any documents related to the SNO you are seeking advice for. The maximum size for each file is 100MB.",
           "options": {
             "required": true
           },
@@ -362,7 +362,7 @@
         {
           "id": "76eeddff-0139-46f0-862f-85c40b3d7962",
           "type": "Markdown",
-          "content": "If you want to fly a drone over a SSSI, your activity may require consent. The landowner or occupier may need to apply to Natural England for consent for the activities you wish to carry out. Natural England cannot provide landowner information, as this would breach the Data Protection Act. \r\n\r\nPublic bodies (Section 28G authorities) and the landowner or occupier of a Site of Special Scientific Interest (SSSI) have responsibilities which help protect these sites. \r\n\r\nMembers of the public would be breaking the law if they:\r\n\r\n* intentionally or recklessly damage the SSSI\r\n* destroy any of the features of special interest\r\n* disturb wildlife for which the site was notified\r\n* carry out listed operations without consent\r\n\r\nNatural England can only give consent for an activity on a SSSI to the landowner or occupier. So, if you wish to access or carry out any activities on a SSSI, you must contact the landowner or occupier, or the public body managing the site. \r\n\r\nFor further information on [public body SSSI responsibilities](https://www.gov.uk/guidance/sites-of-special-scientific-interest-public-body-responsibilities) \r\n\r\nFor further information on [landowner and occupier SSSI responsibilities](https://www.gov.uk/guidance/protected-areas-sites-of-special-scientific-interest )\r\n\r\nLandowner or occupier details may be available from [HM Land Registry](https://www.gov.uk/search-property-information-land-registry)\r\n\r\n\r\n### For more information on drone flying: \r\n\r\n* the [Drone and Model Aircraft Code](https://register-drones.caa.co.uk/individual) includes a brief reference to SSSIs\r\n* [government advice about drones](https://www.gov.uk/government/news/drones-are-you-flying-yours-safely-and-legally) and the guidance and laws surrounding their use\r\n* [Civil Aviation Authority information](https://www.gov.uk/guidance/protected-areas-sites-of-special-scientific-interest) about drone use (may be useful for third parties wishing to discuss consent with owner or occupiers)\r\n* guidance on whether you will need to [apply for a licence for disturbing or removing wildlife or damaging habitats](https://www.gov.uk/guidance/wildlife-licences)\r\n* there might also be local restrictions on drone flying. For example, the use of drones on any common land in [Dartmoor National Park is an offence under the National Park Byelaws](https://www.dartmoor.gov.uk/enjoy-dartmoor/outdoor-activities/drones-and-model-aircraft)\r\n* the [National Trust](https://www.nationaltrust.org.uk/who-we-are/about-us/flying-drones-at-our-places) have a policy of not granting permission for private flying from their land and properties",
+          "content": "If you want to fly a drone over a SSSI, your activity may require consent. The landowner or occupier may need to apply to Natural England for consent for the activities you wish to carry out. Natural England cannot provide landowner information, as this would breach the Data Protection Act. \r\n\r\nPublic bodies (Section 28G authorities) and the landowner or occupier of a Site of Special Scientific Interest (SSSI) have responsibilities which help protect these sites. \r\n\r\nMembers of the public would be breaking the law if they:\r\n\r\n* intentionally or recklessly damage the SSSI\r\n* destroy any of the features of special interest\r\n* disturb wildlife for which the site was notified\r\n* carry out listed operations without consent\r\n\r\nNatural England can only give consent for an activity on a SSSI to the landowner or occupier. So, if you wish to access or carry out any activities on a SSSI, you must contact the landowner or occupier, or the public body managing the site. \r\n\r\nFor further information on [public body SSSI responsibilities](https://www.gov.uk/guidance/sites-of-special-scientific-interest-public-body-responsibilities-and-getting-assent-for-works) \r\n\r\nFor further information on [landowner and occupier SSSI responsibilities](https://www.gov.uk/guidance/sites-of-special-scientific-interest-managing-your-land-and-getting-consent-for-activities)\r\n\r\nLandowner or occupier details may be available from [HM Land Registry](https://www.gov.uk/search-property-information-land-registry)\r\n\r\n\r\n### For more information on drone flying: \r\n\r\n* the [Drone and Model Aircraft Code](https://www.caa.co.uk/drones/getting-started-with-drones-and-model-aircraft/drone-code/) includes a brief reference to SSSIs\r\n* [government advice about drones](https://www.gov.uk/government/news/drones-are-you-flying-yours-safely-and-legally) and the guidance and laws surrounding their use\r\n* [Civil Aviation Authority information](https://www.caa.co.uk/drones/) about drone use (may be useful for third parties wishing to discuss consent with owner or occupiers)\r\n* guidance on whether you will need to [apply for a licence for disturbing or removing wildlife or damaging habitats](https://www.gov.uk/guidance/wildlife-licences)\r\n* there might also be local restrictions on drone flying. For example, the use of drones on any common land in [Dartmoor National Park is an offence under the National Park Byelaws](https://www.dartmoor.gov.uk/enjoy-dartmoor/outdoor-activities/drones-and-model-aircraft)\r\n* the [National Trust](https://www.nationaltrust.org.uk/who-we-are/about-us/flying-drones-at-our-places) have a policy of not granting permission for private flying from their land and properties",
           "options": {},
           "schema": {}
         }
@@ -431,10 +431,11 @@
           "title": "When do you plan to fly the drone?",
           "name": "gZHgiP",
           "shortDescription": "Drone flight timing",
-          "hint": "",
+          "hint": "For example, for 1 January 2026, enter 01 1 2026",
           "options": {
             "required": true,
-            "classes": ""
+            "classes": "",
+            "maxDaysInPast": 0
           },
           "schema": {},
           "id": "bc357f0e-de0c-4389-b472-ff65038ae546"
@@ -494,7 +495,7 @@
           "type": "AutocompleteField",
           "title": "What is the name of the European site?",
           "name": "rtuWky",
-          "shortDescription": "EU site name",
+          "shortDescription": "European site name",
           "hint": "",
           "list": "7b21f823-0d31-4824-bbc5-911d74ecc37c",
           "options": {
@@ -596,7 +597,7 @@
         {
           "id": "2871df75-7b38-45f0-b4db-b06d2f476d60",
           "type": "Markdown",
-          "content": "We recommend your authority seeks its own ecological advice to help it decide whether it must give notice to Natural England. \r\n\r\nTo check whether operations are likely to adversely affect a SSSI prior to giving notice to Natural England, the following tools may help you to carry out the screening of proposed operations:\r\n\r\nThe location and boundaries of protected sites on the [MAGIC map application](https://magic.defra.gov.uk/).\r\nFurther information about SSSIs including the notified features of special interest on [Natural England’s Designated Sites View](https://designatedsites.naturalengland.org.uk/).\r\n\r\nRead more about [public body responsibilities and how to obtain (where necessary) approval for works on or near SSSIs and your responsibilities regarding European sites](https://www.gov.uk/guidance/sites-of-special-scientific-interest-public-body-responsibilities).\r\n\r\n## For Information Only submissions\r\nForestry Commission and Environment Agency staff intending to submit For Information Only (FIO) submissions should email the relevant documents to protectedsites@naturalengland.org.uk.",
+          "content": "We recommend your authority seeks its own ecological advice to help it decide whether it must give notice to Natural England. \r\n\r\nTo check whether operations are likely to adversely affect a SSSI prior to giving notice to Natural England, the following tools may help you to carry out the screening of proposed operations:\r\n\r\nThe location and boundaries of protected sites on the [MAGIC map application](https://magic.defra.gov.uk/).\r\nFurther information about SSSIs including the notified features of special interest on [Natural England’s Designated Sites View](https://designatedsites.naturalengland.org.uk/).\r\n\r\nRead more about [public body responsibilities and how to obtain (where necessary) approval for works on or near SSSIs and your responsibilities regarding European sites](https://www.gov.uk/guidance/sites-of-special-scientific-interest-public-body-responsibilities-and-getting-assent-for-works).\r\n\r\n## For Information Only submissions\r\nForestry Commission and Environment Agency staff intending to submit For Information Only (FIO) submissions should email the relevant documents to protectedsites@naturalengland.org.uk.",
           "options": {},
           "schema": {}
         }
@@ -675,7 +676,7 @@
           "title": "Start date",
           "name": "uhRYmA",
           "shortDescription": "Activity start date",
-          "hint": "",
+          "hint": "For example, for 1 January 2026 enter 01 1 2026",
           "options": {
             "required": false,
             "classes": ""
@@ -740,7 +741,7 @@
           "title": "Upload supporting documents",
           "name": "mSdBUD",
           "shortDescription": "Upload documents",
-          "hint": "The maximum file size for each file is 100MB. Click on Choose file to select your document, then select Upload file to add it to your submission.",
+          "hint": "The maximum file size for each file is 100MB.",
           "options": {
             "required": false
           },
@@ -917,7 +918,7 @@
           "title": "Upload any supporting evidence",
           "name": "WWqUaZ",
           "shortDescription": "Supporting evidence",
-          "hint": "The maximum file size for each file is 100MB. Click on Choose file to select your document, then select Upload file to add it to your submission.",
+          "hint": "The maximum file size for each file is 100MB.",
           "options": {
             "required": false
           },
@@ -954,7 +955,7 @@
         {
           "id": "2bea0da5-53c8-4c1c-b017-4eeb02163ac0",
           "type": "Markdown",
-          "content": "Sites of Special Scientific Interest (SSSIs) are designated only by Natural England when land has wildlife, geological or landform features considered to be of special scientific interest. Natural England assesses the site and notifies (designates) it as an SSSI if it meets the required criteria. \r\n\r\nIf you are enquiring about creating or designating a new SSSI, this is not something that landowners, developers, or members of the public can request or apply for directly. The designation process is carried out solely by Natural England, who will contact affected landowners if their land is selected for notification. \r\n\r\nYou can [read more about how SSSI designation works](https://www.gov.uk/guidance/protected-areas-sites-of-special-scientific-interest#new-sssi-notifications), including how Natural England selects and notifies new sites.\r\n\r\nIf your question relates to something else, you can click the Back link at the top of the page and choose a different option.",
+          "content": "Sites of Special Scientific Interest (SSSIs) are designated only by Natural England when land has wildlife, geological or landform features considered to be of special scientific interest. Natural England assesses the site and notifies (designates) it as an SSSI if it meets the required criteria. \r\n\r\nIf you are enquiring about creating or designating a new SSSI, this is not something that landowners, developers, or members of the public can request or apply for directly. The designation process is carried out solely by Natural England, who will contact affected landowners if their land is selected for notification. \r\n\r\nYou can [read more about how SSSI designation works](https://www.gov.uk/guidance/sites-of-special-scientific-interest-new-sites-and-changes-to-sites), including how Natural England selects and notifies new sites.\r\n\r\nIf your question relates to something else, you can click the Back link at the top of the page and choose a different option.",
           "options": {},
           "schema": {}
         }
@@ -970,7 +971,7 @@
         {
           "id": "5c0260e0-5208-4dd7-80df-98397db5b5fa",
           "type": "Markdown",
-          "content": "## Public bodies and Section 28G authorities\r\nIf you’re a public body (or working on behalf of one) you must consider the potential impact of activities and works that you plan to carry out as a public body, or those that are proposed by others that you may consent to, on the interest features of any nearby Site of Special Scientific Interest (SSSI). \r\n\r\nThis is part of your general duty as a Section 28G authority, where you must take reasonable steps to conserve and enhance the special features of sites of special scientific interest (SSSIs) when carrying out your statutory duties and giving others permission for works. \r\n\r\nIf you decide that works you are to carry out in line with your statutory duties are likely to damage the condition or special features of a SSSI, you must ask for assent from Natural England before carrying out these works. \r\n\r\nFor further information on public body SSSI responsibilities and the processes to follow regarding when to request Assent, [see the Gov.uk website](https://www.gov.uk/guidance/sites-of-special-scientific-interest-public-body-responsibilities)\r\n\r\n\r\n# Find out about Protected Sites\r\n\r\nProtected Sites include sites of national and European-level importance, such as:\r\n\r\n* [Sites of Special Scientific Interest (SSSI)](https://jncc.gov.uk/our-work/guidelines-for-selection-of-sssis/ )\r\n* [Special Areas of Conservation (SAC)](https://jncc.gov.uk/our-work/special-areas-of-conservation-overview/ )\r\n* [Special Protection Areas (SPA)](https://jncc.gov.uk/our-work/special-protection-areas-overview/ )\r\n* [RAMSAR sites](https://jncc.gov.uk/our-work/ramsar-convention/ )\r\n* [Marine Protection Zones](https://jncc.gov.uk/our-work/marine-conservation-zones/)\r\n* [Nature Conservation Marine Protected Areas](https://jncc.gov.uk/our-work/nature-conservation-mpas/)\r\n\r\nProtected sites are designated for their wildlife or geological importance. These sites often overlap, so one area might have multiple designations. You can find out more about these designations and the laws protecting them by selecting the links above. \r\n\r\nIf you want to know more about a specific protected site, you can use the [MAGIC mapping system](https://magic.defra.gov.uk/home.htm) to find out their:\r\n\r\n* location\r\n* boundaries\r\n* link to its page in Designated Sites View (by selecting the Identify tool and selecting the protected site on the map) \r\n\r\nYou can search for detailed information on a specific protected site within Natural England’s remit through the [Designated Sites View website](https://designatedsites.naturalengland.org.uk/).",
+          "content": "## Public bodies and Section 28G authorities\r\nIf you’re a public body (or working on behalf of one) you must consider the potential impact of activities and works that you plan to carry out as a public body, or those that are proposed by others that you may consent to, on the interest features of any nearby Site of Special Scientific Interest (SSSI). \r\n\r\nThis is part of your general duty as a Section 28G authority, where you must take reasonable steps to conserve and enhance the special features of sites of special scientific interest (SSSIs) when carrying out your statutory duties and giving others permission for works. \r\n\r\nIf you decide that works you are to carry out in line with your statutory duties are likely to damage the condition or special features of a SSSI, you must ask for assent from Natural England before carrying out these works. \r\n\r\n[Read this page for further information on public body SSSI responsibilities and the processes to follow regarding when to request Assent](https://www.gov.uk/guidance/sites-of-special-scientific-interest-public-body-responsibilities-and-getting-assent-for-works).\r\n\r\n\r\n# Find out about Protected Sites\r\n\r\nProtected Sites include sites of national and European-level importance, such as:\r\n\r\n* [Sites of Special Scientific Interest (SSSI)](https://jncc.gov.uk/our-work/guidelines-for-selection-of-sssis/ )\r\n* [Special Areas of Conservation (SAC)](https://jncc.gov.uk/our-work/special-areas-of-conservation-overview/ )\r\n* [Special Protection Areas (SPA)](https://jncc.gov.uk/our-work/special-protection-areas-overview/ )\r\n* [RAMSAR sites](https://jncc.gov.uk/our-work/ramsar-convention/ )\r\n* [Marine Protection Zones](https://jncc.gov.uk/our-work/marine-conservation-zones/)\r\n* [Nature Conservation Marine Protected Areas](https://jncc.gov.uk/our-work/nature-conservation-mpas/)\r\n\r\nProtected sites are designated for their wildlife or geological importance. These sites often overlap, so one area might have multiple designations. You can find out more about these designations and the laws protecting them by selecting the links above. \r\n\r\nIf you want to know more about a specific protected site, you can use the [MAGIC mapping system](https://magic.defra.gov.uk/home.htm) to find out their:\r\n\r\n* location\r\n* boundaries\r\n* link to its page in Designated Sites View (by selecting the Identify tool and selecting the protected site on the map) \r\n\r\nYou can search for detailed information on a specific protected site within Natural England’s remit through the [Designated Sites View website](https://designatedsites.naturalengland.org.uk/).",
           "options": {},
           "schema": {}
         }
@@ -1026,12 +1027,11 @@
       "path": "/your-responsibilities-towards-european-sites",
       "components": [
         {
+          "id": "e09d4cd7-be0e-4d57-bc5e-45640d5fbd0e",
           "type": "Markdown",
-          "content": "Competent Authorities have a duty to protect, conserve and restore European sites. ‘European sites’ refer to protected sites of European-level importance. If a plan or project might impact on the features of a European site, competent authorities must complete a habitats regulations assessment (HRA). \r\n\r\nCompetent Authorities are public bodies, statutory undertakers, statutory nature conservation bodies, Ministers, departments of government and anyone holding public office. \r\n\r\nPlease see the [Gov.uk website for information on when this duty applies](https://www.gov.uk/guidance/duty-to-protect-conserve-and-restore-european-sites), when a habitats regulations assessment is needed, and your general duties toward the conservation and restoration of a European site \r\n\r\nWe hope that the above helps answer your query. If not, you can continue in this form and ask a specific question, or you can search for information on nature conservation-related subjects. You can also subscribe to the Natural England blog for important announcements and insight into Natural England’s work.",
+          "content": "Competent Authorities have a duty to protect, conserve and restore European sites. ‘European sites’ refer to protected sites of European-level importance. If a plan or project might impact on the features of a European site, competent authorities must complete a habitats regulations assessment (HRA). \r\n\r\nCompetent Authorities are public bodies, statutory undertakers, statutory nature conservation bodies, Ministers, departments of government and anyone holding public office. \r\n\r\n[Read this page for information on when this duty applies, when a habitats regulations assessment is needed, and your general duties toward the conservation and restoration of a European site](https://www.gov.uk/guidance/duty-to-protect-conserve-and-restore-european-sites).\r\n\r\nWe hope that the above helps answer your query. If not, you can continue in this form and ask a specific question, or you can search for information on nature conservation-related subjects. You can also subscribe to the Natural England blog for important announcements and insight into Natural England’s work.",
           "options": {},
-          "schema": {},
-          "name": "StzISZ",
-          "id": "e09d4cd7-be0e-4d57-bc5e-45640d5fbd0e"
+          "schema": {}
         }
       ],
       "next": [],
@@ -1136,7 +1136,7 @@
           "title": "Upload supporting documents",
           "name": "QSLwmP",
           "shortDescription": "Uploaded documents",
-          "hint": "The maximum file size for each file is 100MB. Click on Choose file to select your document, then select Upload file to add it to your submission.",
+          "hint": "The maximum file size for each file is 100MB.",
           "options": {
             "required": true
           },
@@ -52058,8 +52058,8 @@
   },
   "metadata": {
     "$$__formVersion": {
-      "versionNumber": 1105,
-      "createdAt": "2026-04-13T16:37:49.420Z"
+      "versionNumber": 46,
+      "createdAt": "2026-04-16T15:23:37.920Z"
     }
   }
 }

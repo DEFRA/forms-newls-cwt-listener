@@ -11,7 +11,7 @@
         {
           "id": "0b631d6b-15d6-4fab-8a7b-adcededcf644",
           "type": "Markdown",
-          "content": "You should use this form to submit a notice of proposal (assent) to Natural England to undertake activities on or near protected sites, that you have already screened as part of your Section 28G duties. You cannot use this form to report emergency works or works that have already started. \r\n\r\nCheck your activities are likely to cause damage before completing this form. If your activities are deemed to likely cause damage to the notified features of a European site, you must complete a habitats regulations assessment (HRA) first, and seek Natural England advice, if applicable. If you have a HRA, be prepared to upload this as part of your notice. \r\n\r\nPersons who have been contracted by public bodies, known as S28G authorities, may complete this form on their behalf where they have been officially appointed to act. You may need to provide proof of this permission. \r\n\r\n\r\n\r\n## To help assess the impacts of your activities\r\nUse the [designated sites view system](https://designatedsites.naturalengland.org.uk/) to find out which habitats and species are of special scientific interest, and which activities are likely to damage them. \r\n\r\nSearch for the relevant SSSI, select 'View details' then 'View ORNECs'.",
+          "content": "You should use this form to submit a notice of proposal (assent) to Natural England to undertake activities on or near protected sites, that you have already screened as part of your Section 28G duties. You cannot use this form to report emergency works or works that have already started. \r\n\r\nCheck your activities are likely to cause damage before completing this form. If your activities are deemed to likely cause damage to the notified features of a European site, you must complete a habitats regulations assessment (HRA) first, and seek Natural England advice, if applicable. If you have a HRA, be prepared to upload this as part of your notice. \r\n\r\nPersons who have been contracted by public bodies, known as S28G authorities, may complete this form on their behalf where they have been officially appointed to act. You may need to provide proof of this permission. \r\nIf you are applying for assent as part of a land management scheme agreement, you will need a Single Business Identifier (SBI) number.\r\n\r\n\r\n## To help assess the impacts of your activities\r\nUse the [designated sites view system](https://designatedsites.naturalengland.org.uk/) to find out which habitats and species are of special scientific interest, and which activities are likely to damage them. \r\n\r\nSearch for the relevant SSSI, select 'View details' then 'View ORNECs'.",
           "options": {},
           "schema": {}
         }
@@ -48,7 +48,7 @@
         {
           "id": "e3495e87-3037-4f64-aec1-5b2ad7f9fe43",
           "type": "Markdown",
-          "content": "This form only provides a submission route to assent proposals for activities from public bodies on protected sites.\r\n\r\n### For supplementary forestry operations consent\r\nTo submit a supplementary notice of forestry operations within a site of special scientific importance, you need to [use the form available on GOV.UK](https://www.gov.uk/government/publications/supplementary-notice-of-operations-within-an-sssi) and follow the instructions for submission.\r\n\r\n\r\n### For notice of consent \r\nTo submit a notice of proposal to cause, carry out or permit an operation requiring Natural England's consent on an SSSI, [use this form](ADD LIVE LINK TO CONSENT FORM).",
+          "content": "This form only provides a submission route to assent proposals for activities from public bodies on protected sites.\r\n\r\n### For supplementary forestry operations consent\r\n[Use the form available on GOV.UK to submit a supplementary notice of forestry operations within a site of special scientific importance](https://www.gov.uk/government/publications/supplementary-notice-of-operations-within-an-sssi) and follow the instructions for submission.\r\n\r\n\r\n### For notice of consent \r\n[Use this form to submit a notice of proposal to cause, carry out or permit an operation requiring Natural England's consent on an SSSI](https://submit-form-to-defra.service.gov.uk/form/give-notice-and-get-consent-for-a-planned-activity-on-a-sssi).",
           "options": {},
           "schema": {}
         }
@@ -160,7 +160,7 @@
         {
           "id": "804ca72b-7c24-4c63-9c19-d2405bfa27aa",
           "type": "Markdown",
-          "content": "As a competent authority you have a duty to help protect, conserve and restore European sites. You must carry out a habitats regulations assessment to decide if the planned activities are likely to affect a European protected site.\r\n\r\nYou must follow the [guidance about how to carry out a habitats regulations assessment](https://www.gov.uk/guidance/habitats-regulations-assessments-protecting-a-european-site). You should use Natural England’s [European sites conservation advice](https://www.gov.uk/guidance/conservation-objectives-for-land-based-protected-sites-in-england-how-to-use-the-site-advice) and [marine protected areas conservation advice](https://www.gov.uk/government/collections/conservation-advice-packages-for-marine-protected-areas).\r\n\r\n\r\nSee further information on [carrying out Habitats Regulations Assessments before applying for SSSI assent](https://www.gov.uk/guidance/sites-of-special-scientific-interest-public-body-responsibilities#sites-of-international-importance) from Natural England.",
+          "content": "As a competent authority you have a duty to help protect, conserve and restore European sites. You must carry out a habitats regulations assessment to decide if the planned activities are likely to affect a European protected site.\r\n\r\nYou must follow the [guidance about how to carry out a habitats regulations assessment](https://www.gov.uk/guidance/habitats-regulations-assessments-protecting-a-european-site). You should use Natural England’s [European sites conservation advice](https://www.gov.uk/guidance/conservation-objectives-for-land-based-protected-sites-in-england-how-to-use-the-site-advice) and [marine protected areas conservation advice](https://www.gov.uk/government/collections/conservation-advice-packages-for-marine-protected-areas).\r\n\r\n\r\nSee further information on [carrying out Habitats Regulations Assessments before applying for SSSI assent](https://www.gov.uk/guidance/sites-of-special-scientific-interest-public-body-responsibilities-and-getting-assent-for-works#sites-of-international-importance) from Natural England.",
           "options": {},
           "schema": {}
         }
@@ -198,7 +198,7 @@
         {
           "id": "8b77d343-ee1e-4e76-8a13-d8070c331800",
           "type": "Markdown",
-          "content": "Based on the information you have provided, you have concluded that the planned activities are likely to have significant effects on at least one protected European site. \r\n\r\nBefore submitting this form, you should consider seeking European Site advice from Natural England (using the ADD link) to help you understand whether an Appropriate Assessment is required and how potential impacts could be avoided or reduced.\r\n\r\nAn Appropriate Assessment is part of the Habitats Regulations Assessment (HRA) process. \r\nNatural England’s advice can help you:\r\n* confirm whether likely significant effects have been fully ruled out\r\n* identify suitable avoidance or mitigation measures.\r\n\r\nAny mitigation identified may also help prevent damage to the special scientific interest of any SSSI present.",
+          "content": "Based on the information you have provided, you have concluded that the planned activities are likely to have significant effects on at least one protected European site. \r\n\r\nBefore submitting this form, [you should consider seeking European Site advice from Natural England](https://www.gov.uk/guidance/sites-of-special-scientific-interest-get-assent-advice) to help you understand whether an Appropriate Assessment is required and how potential impacts could be avoided or reduced.\r\n\r\nAn Appropriate Assessment is part of the Habitats Regulations Assessment (HRA) process. \r\nNatural England’s advice can help you:\r\n* confirm whether likely significant effects have been fully ruled out\r\n* identify suitable avoidance or mitigation measures.\r\n\r\nAny mitigation identified may also help prevent damage to the special scientific interest of any SSSI present.",
           "options": {},
           "schema": {}
         },
@@ -254,7 +254,7 @@
         {
           "id": "87c03eb4-18f8-4272-94ca-5524e84e1adb",
           "type": "Markdown",
-          "content": "You should consult Natural England on your proposed plans to avoid or mitigate significant effects on the European site to complete an Appropriate Assessment. You should consider the advice to help you decide whether all significant effects have been ruled out. The mitigations might also prevent potential damage to the special scientific interest of any SSSI also present.\r\n\r\n[Read the guidance for completing HRA assessments](https://www.gov.uk/guidance/habitats-regulations-assessments-protecting-a-european-site).\r\n\r\n[Use this form for advice relating to Habitats Regulation Assessment](Add link).",
+          "content": "You should consult Natural England on your proposed plans to avoid or mitigate significant effects on the European site to complete an Appropriate Assessment. You should consider the advice to help you decide whether all significant effects have been ruled out. The mitigations might also prevent potential damage to the special scientific interest of any SSSI also present.\r\n\r\n[Read the guidance for completing HRA assessments](https://www.gov.uk/guidance/habitats-regulations-assessments-protecting-a-european-site).\r\n\r\n[Use this form for advice relating to Habitats Regulation Assessment](https://submit-form-to-defra.service.gov.uk/form/ask-natural-england-a-question-or-get-advice-related-to-protected-sites).",
           "options": {},
           "schema": {}
         }
@@ -271,7 +271,7 @@
         {
           "id": "93195aa1-0ddb-4b15-93da-baa39a411b2e",
           "type": "Markdown",
-          "content": "It is your responsibility to consider the potential damage on the special habitats, species or geology of SSSI land from activities planned to be carried out. This includes planned activities on land outside the boundaries of an SSSI that are likely to damage the special interest features. \r\n\r\nFind out more about [your responsibility towards SSSIs](https://www.gov.uk/guidance/sites-of-special-scientific-interest-public-body-responsibilities).",
+          "content": "It is your responsibility to consider the potential damage on the special habitats, species or geology of SSSI land from activities planned to be carried out. This includes planned activities on land outside the boundaries of an SSSI that are likely to damage the special interest features. \r\n\r\n[Find out more about your responsibility towards SSSIs](https://www.gov.uk/guidance/sites-of-special-scientific-interest-public-body-responsibilities-and-getting-assent-for-works).",
           "options": {},
           "schema": {}
         },
@@ -299,7 +299,7 @@
         {
           "id": "04e2f165-83a8-4acb-8af5-b8358e5d9b74",
           "type": "Markdown",
-          "content": "You do not need to request Natural England’s assent for activities that you’ve decided are unlikely to damage the European site or its features or the features of special scientific interest of an SSSI.\r\n\r\nYou should keep a record of proposed activities that you do not seek assent for, and your reasons for this. \r\n\r\nFind out more about [your responsibility towards SSSIs and when to apply for SSSI assent](https://www.gov.uk/guidance/sites-of-special-scientific-interest-public-body-responsibilities) from Natural England.",
+          "content": "You do not need to request Natural England’s assent for activities that you’ve decided are unlikely to damage the European site or its features or the features of special scientific interest of an SSSI.\r\n\r\nYou should keep a record of proposed activities that you do not seek assent for, and your reasons for this. \r\n\r\nFind out more about [your responsibility towards SSSIs and when to apply for SSSI assent](https://www.gov.uk/guidance/sites-of-special-scientific-interest-public-body-responsibilities-and-getting-assent-for-works) from Natural England.",
           "options": {},
           "schema": {}
         }
@@ -518,7 +518,7 @@
           "title": "Upload your agreement and map",
           "name": "PvVdan",
           "shortDescription": "Land management agreement files",
-          "hint": "Upload a copy of your land management scheme agreement documents as either as a Word document or PDF. The maximum file size for each file is 100MB. Click on 'choose file' to select your document, then select 'upload file' to add it to your submission.",
+          "hint": "Upload a copy of your land management scheme agreement documents as either as a Word document or PDF. The maximum file size for each file is 100MB.",
           "options": {
             "required": true,
             "accept": "application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.oasis.opendocument.text,text/plain,image/jpeg,image/png,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,text/csv,application/vnd.oasis.opendocument.spreadsheet"
@@ -548,7 +548,7 @@
           "title": "Upload your approved Minor and Temporary Adjustments form",
           "name": "LAliuV",
           "shortDescription": "MTA agreement form",
-          "hint": "Upload a copy of your approved Minor and Temporary Adjustment (MTA) form either as a Word document or a PDF. The maximum file size for each file is 100MB. The maximum file size for each file is 100MB",
+          "hint": "Upload a copy of your approved Minor and Temporary Adjustment (MTA) form either as a Word document or a PDF. The maximum file size for each file is 100MB.",
           "options": {
             "required": true,
             "accept": "application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.oasis.opendocument.text,text/plain,image/jpeg,image/png,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,text/csv,application/vnd.oasis.opendocument.spreadsheet"
@@ -658,7 +658,7 @@
         {
           "id": "25010f97-752b-4663-96d0-ddf0cddf442d",
           "type": "Markdown",
-          "content": "For each activity requiring Natural England assent, tell us where and how you plan to carry out the activity.\r\n\r\nYou can add another activity after you select 'Continue'.\r\n\r\n### Find your easting and northing location\r\n\r\nYou must provide the easting and northing coordinates for where the activity will take place, or the central point for larger scale works. You can use MAGIC Maps to find these.\r\n\r\n\r\n### Describe how you plan to carry out the activity\r\n\r\nFor each activity you should include information about:\r\n\r\n- how you will carry it out, for example, cutting, digging, running an event, blocking up or repairing\r\n- details of any equipment or materials you intend to use, including the type and how, when and where you will use them\r\n- how you will remove any waste materials, such as cut branches or debris, from the site\r\nthe number of people who will undertake the planned activity\r\n- details of all planned construction, maintenance, operation, or removal works, including how, where and when you will undertake them\r\n- any protection measures you intend to introduce to help protect the SSSI during the activities\r\n- whether the work will be a one-off, phased, or ongoing over many years\r\n- any specific timings for the activity",
+          "content": "For each activity requiring Natural England assent, tell us where and how you plan to carry out the activity.\r\n\r\nYou can add another activity after you select 'Continue'.\r\n\r\n### Find your easting and northing location\r\n\r\nYou must provide the easting and northing coordinates for where the activity will take place, or the central point for larger scale works. \r\n\r\n\r\n### Describe how you plan to carry out the activity\r\n\r\nFor each activity you should include information about:\r\n\r\n- how you will carry it out, for example, cutting, digging, running an event, blocking up or repairing\r\n- details of any equipment or materials you intend to use, including the type and how, when and where you will use them\r\n- how you will remove any waste materials, such as cut branches or debris, from the site\r\nthe number of people who will undertake the planned activity\r\n- details of all planned construction, maintenance, operation, or removal works, including how, where and when you will undertake them\r\n- any protection measures you intend to introduce to help protect the SSSI during the activities\r\n- whether the work will be a one-off, phased, or ongoing over many years\r\n- any specific timings for the activity",
           "options": {},
           "schema": {}
         },
@@ -825,7 +825,7 @@
         {
           "id": "2be4eeb2-fb44-47e6-9335-d1ac10d40590",
           "type": "Markdown",
-          "content": "For each activity requiring Natural England assent, tell us where and how you plan to carry out the activity.\r\n\r\nYou can add another activity and site after you select 'Continue'.\r\n\r\n### Find your easting and northing location\r\n\r\nYou must provide the easting and northing coordinates for where the activity will take place, or the central point for larger scale works. You can use MAGIC Maps to find these.\r\n\r\n1. Open the free [MAGIC Maps](https://magic.defra.gov.uk/MagicMap.html) website\r\n2. Search the map or enter the location in the search bar  for your planned activity location\r\n3. Click the target icon along the search bar at the top of the map\r\n4. Select the location on the map\r\n5. Highlight the easting and northing coordinates from the pop-up box, right click and select copy\r\n6. Paste the copied coordinates into the answer box\r\n\r\n### Describe how you plan to carry out the activity\r\n\r\nFor each activity you should include information about:\r\n\r\n- how you will carry it out, for example, cutting, digging, running an event, blocking up or repairing\r\n- details of any equipment or materials you intend to use, including the type and how, when and where you will use them\r\n- how you will remove any waste materials, such as cut branches or debris, from the site\r\nthe number of people who will undertake the planned activity\r\n- details of all planned construction, maintenance, operation, or removal works, including how, where and when you will undertake them\r\n- any protection measures you intend to introduce to help protect the SSSI during the activities\r\n- whether the work will be a one-off, phased, or ongoing over many years\r\n- any specific timings for the activity",
+          "content": "For each activity requiring Natural England assent, tell us where and how you plan to carry out the activity.\r\n\r\nYou can add another activity and site after you select 'Continue'.\r\n\r\n### Find your easting and northing location\r\n\r\nYou must provide the easting and northing coordinates for where the activity will take place, or the central point for larger scale works. \r\n\r\n### Describe how you plan to carry out the activity\r\n\r\nFor each activity you should include information about:\r\n\r\n- how you will carry it out, for example, cutting, digging, running an event, blocking up or repairing\r\n- details of any equipment or materials you intend to use, including the type and how, when and where you will use them\r\n- how you will remove any waste materials, such as cut branches or debris, from the site\r\nthe number of people who will undertake the planned activity\r\n- details of all planned construction, maintenance, operation, or removal works, including how, where and when you will undertake them\r\n- any protection measures you intend to introduce to help protect the SSSI during the activities\r\n- whether the work will be a one-off, phased, or ongoing over many years\r\n- any specific timings for the activity",
           "options": {},
           "schema": {}
         },
@@ -1092,7 +1092,7 @@
           "title": "Upload your supporting documents",
           "name": "XVVgwJ",
           "shortDescription": "Supporting documents",
-          "hint": "The maximum file size for each file is 100MB. Click on 'choose file' to select your document, then select 'upload file' to add it to your submission.",
+          "hint": "The maximum file size for each file is 100MB.",
           "options": {
             "required": false
           },
@@ -1134,9 +1134,10 @@
           "title": "When does the land management agreement start?",
           "name": "pUSjXF",
           "shortDescription": "Scheme start date",
-          "hint": "For example, for 1st January 2026 enter 01 01 2026",
+          "hint": "For example, for 1 January 2026 enter 01 01 2026",
           "options": {
-            "required": true
+            "required": true,
+            "classes": ""
           },
           "schema": {},
           "id": "7ee5dd9d-d729-4fba-a3ac-547df6fc51e0"
@@ -1202,9 +1203,10 @@
           "title": "When do you want your assent to start?",
           "name": "dwOlbc",
           "shortDescription": "Start date",
-          "hint": "For example, for 1st January 2026 enter 01 01 2026",
+          "hint": "For example, for 1 January 2026 enter 01 1 2026",
           "options": {
-            "required": true
+            "required": true,
+            "classes": ""
           },
           "schema": {},
           "id": "cfbc6466-2ee9-4caa-9cb9-b856b3afac63"
@@ -92693,6 +92695,16 @@
           "id": "b1e402c4-6c6b-422b-934b-9f5fdabcfcb4",
           "text": "Yorkshire Dales National Park Authority",
           "value": "Yorkshire Dales National Park Authority"
+        },
+        {
+          "text": "Balfour Beatty",
+          "value": "Balfour Beatty",
+          "id": "111782de-e961-481e-a343-2cf58e34ce60"
+        },
+        {
+          "text": "Amey",
+          "value": "Amey",
+          "id": "62677df5-a01c-40e2-acfa-eb1ff6cf8402"
         }
       ],
       "id": "1e609233-1394-4257-995b-5d744692fb56"
@@ -92704,8 +92716,8 @@
   },
   "metadata": {
     "$$__formVersion": {
-      "versionNumber": 769,
-      "createdAt": "2026-04-14T15:10:40.272Z"
+      "versionNumber": 46,
+      "createdAt": "2026-04-16T15:23:53.122Z"
     }
   }
 }
