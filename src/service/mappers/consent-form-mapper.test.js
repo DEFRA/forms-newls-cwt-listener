@@ -143,7 +143,7 @@ describe('consent-form-mapper', () => {
       const result = mapFormSubmission(
         buildMessage({
           KTObNK:
-            'Someone working on behalf of an owner or occupier of land within a SSSI'
+            'Someone with permission to work on behalf of an owner or occupier of land within a SSSI'
         })
       )
       expect(result.consulting_body_type).toBe('Consultant')
@@ -172,14 +172,21 @@ describe('consent-form-mapper', () => {
   })
 
   describe('SBI', () => {
-    it('should use oflKhi (owner/occupier SBI) when present', () => {
-      const result = mapFormSubmission(buildMessage({ oflKhi: '123456789' }))
+    it('should use rkIHYS (mandatory SBI page) when present', () => {
+      const result = mapFormSubmission(buildMessage({ rkIHYS: '123456789' }))
       expect(result.SBI).toBe(123456789)
     })
 
-    it('should fall back to VLUhzR (applicant SBI)', () => {
+    it('should fall back to VLUhzR (address details page SBI)', () => {
       const result = mapFormSubmission(buildMessage({ VLUhzR: '987654321' }))
       expect(result.SBI).toBe(987654321)
+    })
+
+    it('should prioritise rkIHYS over VLUhzR when both present', () => {
+      const result = mapFormSubmission(
+        buildMessage({ rkIHYS: '123456789', VLUhzR: '987654321' })
+      )
+      expect(result.SBI).toBe(123456789)
     })
 
     it('should be undefined when no SBI provided', () => {

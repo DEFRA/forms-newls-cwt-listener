@@ -11,7 +11,7 @@
         {
           "id": "0b631d6b-15d6-4fab-8a7b-adcededcf644",
           "type": "Markdown",
-          "content": "You should use this form to submit a notice of proposal (assent) to Natural England to undertake activities on or near protected sites, that you have already screened as part of your Section 28G duties. You cannot use this form to report emergency works or works that have already started. \r\n\r\nCheck your activities are likely to cause damage before completing this form. If your activities are deemed to likely cause damage to the notified features of a European site, you must complete a habitats regulations assessment (HRA) first, and seek Natural England advice, if applicable. \r\n\r\nPersons who have been contracted by public bodies, known as S28G authorities, may complete this form on their behalf where they have been officially appointed to act. You may need to provide proof of this permission. \r\n\r\n\r\n\r\n## To help assess the impacts of your activities\r\nUse the [designated sites view system](https://designatedsites.naturalengland.org.uk/) to find out which habitats and species are of special scientific interest, and which activities are likely to damage them. \r\n\r\nSearch for the relevant SSSI, select 'View details' then 'View ORNECs'.",
+          "content": "You should use this form to submit a notice of proposal (assent) to Natural England to undertake activities on or near protected sites, that you have already screened as part of your Section 28G duties. You cannot use this form to report emergency works or works that have already started. \r\n\r\nCheck your activities are likely to cause damage before completing this form. If your activities are deemed to likely cause damage to the notified features of a European site, you must complete a habitats regulations assessment (HRA) first, and seek Natural England advice, if applicable. If you have a HRA, be prepared to upload this as part of your notice. \r\n\r\nPersons who have been contracted by public bodies, known as S28G authorities, may complete this form on their behalf where they have been officially appointed to act. You may need to provide proof of this permission. \r\nIf you are applying for assent as part of a land management scheme agreement, you will need a Single Business Identifier (SBI) number.\r\n\r\n\r\n## To help assess the impacts of your activities\r\nUse the [designated sites view system](https://designatedsites.naturalengland.org.uk/) to find out which habitats and species are of special scientific interest, and which activities are likely to damage them. \r\n\r\nSearch for the relevant SSSI, select 'View details' then 'View ORNECs'.",
           "options": {},
           "schema": {}
         }
@@ -48,7 +48,7 @@
         {
           "id": "e3495e87-3037-4f64-aec1-5b2ad7f9fe43",
           "type": "Markdown",
-          "content": "This form only provides a submission route to assent proposals for activities from public bodies on protected sites.\r\n\r\n### For supplementary forestry operations consent\r\nTo submit a supplementary notice of forestry operations within a site of special scientific importance, you need to [use the form available on GOV.UK](https://www.gov.uk/government/publications/supplementary-notice-of-operations-within-an-sssi) and follow the instructions for submission.\r\n\r\n\r\n### For notice of consent \r\nTo submit a notice of proposal to cause, carry out or permit an operation requiring Natural England's consent on an SSSI, [use this form](ADD LIVE LINK TO CONSENT FORM).",
+          "content": "This form only provides a submission route to assent proposals for activities from public bodies on protected sites.\r\n\r\n### For supplementary forestry operations consent\r\n[Use the form available on GOV.UK to submit a supplementary notice of forestry operations within a site of special scientific importance](https://www.gov.uk/government/publications/supplementary-notice-of-operations-within-an-sssi) and follow the instructions for submission.\r\n\r\n\r\n### For notice of consent \r\n[Use this form to submit a notice of proposal to cause, carry out or permit an operation requiring Natural England's consent on an SSSI](https://submit-form-to-defra.service.gov.uk/form/give-notice-and-get-consent-for-a-planned-activity-on-a-sssi).",
           "options": {},
           "schema": {}
         }
@@ -160,7 +160,7 @@
         {
           "id": "804ca72b-7c24-4c63-9c19-d2405bfa27aa",
           "type": "Markdown",
-          "content": "As a competent authority you have a duty to help protect, conserve and restore European sites. You must carry out a habitats regulations assessment to decide if the planned activities are likely to affect a European protected site.\r\n\r\nYou must follow the [guidance about how to carry out a habitats regulations assessment](https://www.gov.uk/guidance/habitats-regulations-assessments-protecting-a-european-site). You should use Natural England’s [European sites conservation advice](https://www.gov.uk/guidance/conservation-objectives-for-land-based-protected-sites-in-england-how-to-use-the-site-advice) and [marine protected areas conservation advice](https://www.gov.uk/government/collections/conservation-advice-packages-for-marine-protected-areas).\r\n\r\n\r\nSee further information on [carrying out Habitats Regulations Assessments before applying for SSSI assent](https://www.gov.uk/guidance/sites-of-special-scientific-interest-public-body-responsibilities#sites-of-international-importance) from Natural England.",
+          "content": "As a competent authority you have a duty to help protect, conserve and restore European sites. You must carry out a habitats regulations assessment to decide if the planned activities are likely to affect a European protected site.\r\n\r\nYou must follow the [guidance about how to carry out a habitats regulations assessment](https://www.gov.uk/guidance/habitats-regulations-assessments-protecting-a-european-site). You should use Natural England’s [European sites conservation advice](https://www.gov.uk/guidance/conservation-objectives-for-land-based-protected-sites-in-england-how-to-use-the-site-advice) and [marine protected areas conservation advice](https://www.gov.uk/government/collections/conservation-advice-packages-for-marine-protected-areas).\r\n\r\n\r\nSee further information on [carrying out Habitats Regulations Assessments before applying for SSSI assent](https://www.gov.uk/guidance/sites-of-special-scientific-interest-public-body-responsibilities-and-getting-assent-for-works#sites-of-international-importance) from Natural England.",
           "options": {},
           "schema": {}
         }
@@ -198,16 +198,16 @@
         {
           "id": "8b77d343-ee1e-4e76-8a13-d8070c331800",
           "type": "Markdown",
-          "content": "Based on the information you have provided, you have concluded that the planned activities are likely to have significant effects on at least one protected European site. \r\n\r\nBefore submitting this form, you should consider seeking European Site advice from Natural England (using the ADD link) to help you understand whether an Appropriate Assessment is required and how potential impacts could be avoided or reduced.\r\n\r\nAn Appropriate Assessment is part of the Habitats Regulations Assessment (HRA) process. \r\nNatural England’s advice can help you:\r\n* confirm whether likely significant effects have been fully ruled out\r\n* identify suitable avoidance or mitigation measures.\r\n\r\nAny mitigation identified may also help prevent damage to the special scientific interest of any SSSI present.",
+          "content": "Based on the information you have provided, you have concluded that the planned activities are likely to have significant effects on at least one protected European site. \r\n\r\nBefore submitting this form, [you should consider seeking European Site advice from Natural England](https://www.gov.uk/guidance/sites-of-special-scientific-interest-get-assent-advice) to help you understand whether an Appropriate Assessment is required and how potential impacts could be avoided or reduced.\r\n\r\nAn Appropriate Assessment is part of the Habitats Regulations Assessment (HRA) process. \r\nNatural England’s advice can help you:\r\n* confirm whether likely significant effects have been fully ruled out\r\n* identify suitable avoidance or mitigation measures.\r\n\r\nAny mitigation identified may also help prevent damage to the special scientific interest of any SSSI present.",
           "options": {},
           "schema": {}
         },
         {
           "type": "YesNoField",
-          "title": "Have you completed an Appropriate Assessment?",
+          "title": "Are you seeking advice now from Natural England on your Appropriate Assessment?",
           "name": "XjeUkQ",
-          "shortDescription": "Completed an Appropriate Assessment",
-          "hint": "",
+          "shortDescription": "Advice needed for Appropriate Assessment",
+          "hint": "If you have not already sought advice from Natural England, click Yes",
           "options": {
             "required": true
           },
@@ -220,13 +220,41 @@
       "condition": "ec3517ab-c39d-44c1-8ac3-d631ea3f40fc"
     },
     {
+      "title": "Habitats Regulation Assessment completed",
+      "path": "/habitats-regulation-assessment-completed",
+      "components": [
+        {
+          "id": "55c2f621-16e7-4036-abcf-a9c5db8c4074",
+          "type": "Markdown",
+          "content": "Based on your answers so far, you should have a HRA. You can upload your HRA documentation later in the form.",
+          "options": {},
+          "schema": {}
+        },
+        {
+          "type": "YesNoField",
+          "title": "Are you submitting a HRA with your notice?",
+          "name": "ttdvGm",
+          "shortDescription": "HRA submission",
+          "hint": "",
+          "options": {
+            "required": true
+          },
+          "schema": {},
+          "id": "375b5648-0acc-40a0-b137-6036af6fff81"
+        }
+      ],
+      "next": [],
+      "id": "2cf4607a-2e6a-444d-8d0b-2f9fcbd30370",
+      "condition": "c8473dde-1a2c-4ec9-99ed-bc1c05409e15"
+    },
+    {
       "title": "Get European site advice",
       "path": "/get-european-site-advice",
       "components": [
         {
           "id": "87c03eb4-18f8-4272-94ca-5524e84e1adb",
           "type": "Markdown",
-          "content": "You should consult Natural England on your proposed plans to avoid or mitigate significant effects on the European site to complete an Appropriate Assessment. You should consider the advice to help you decide whether all significant effects have been ruled out. The mitigations might also prevent potential damage to the special scientific interest of any SSSI also present.\r\n\r\nFor guidance on completing HRA assessments, [click here](https://www.gov.uk/guidance/habitats-regulations-assessments-protecting-a-european-site).\r\n\r\nFor advice relating to Habitats Regulation Assessment, [use this form - Add link]().",
+          "content": "You should consult Natural England on your proposed plans to avoid or mitigate significant effects on the European site to complete an Appropriate Assessment. You should consider the advice to help you decide whether all significant effects have been ruled out. The mitigations might also prevent potential damage to the special scientific interest of any SSSI also present.\r\n\r\n[Read the guidance for completing HRA assessments](https://www.gov.uk/guidance/habitats-regulations-assessments-protecting-a-european-site).\r\n\r\n[Use this form for advice relating to Habitats Regulation Assessment](https://submit-form-to-defra.service.gov.uk/form/ask-natural-england-a-question-or-get-advice-related-to-protected-sites).",
           "options": {},
           "schema": {}
         }
@@ -243,7 +271,7 @@
         {
           "id": "93195aa1-0ddb-4b15-93da-baa39a411b2e",
           "type": "Markdown",
-          "content": "It is your responsibility to consider the potential damage on the special habitats, species or geology of SSSI land from activities planned to be carried out. This includes planned activities on land outside the boundaries of an SSSI that are likely to damage the special interest features. \r\n\r\nFind out more about [your responsibility towards SSSIs](https://www.gov.uk/guidance/sites-of-special-scientific-interest-public-body-responsibilities).",
+          "content": "It is your responsibility to consider the potential damage on the special habitats, species or geology of SSSI land from activities planned to be carried out. This includes planned activities on land outside the boundaries of an SSSI that are likely to damage the special interest features. \r\n\r\n[Find out more about your responsibility towards SSSIs](https://www.gov.uk/guidance/sites-of-special-scientific-interest-public-body-responsibilities-and-getting-assent-for-works).",
           "options": {},
           "schema": {}
         },
@@ -271,7 +299,7 @@
         {
           "id": "04e2f165-83a8-4acb-8af5-b8358e5d9b74",
           "type": "Markdown",
-          "content": "You do not need to request Natural England’s assent for activities that you’ve decided are unlikely to damage the European site or its features or the features of special scientific interest of an SSSI.\r\n\r\nYou should keep a record of proposed activities that you do not seek assent for, and your reasons for this. \r\n\r\nFind out more about [your responsibility towards SSSIs and when to apply for SSSI assent](https://www.gov.uk/guidance/sites-of-special-scientific-interest-public-body-responsibilities) from Natural England.",
+          "content": "You do not need to request Natural England’s assent for activities that you’ve decided are unlikely to damage the European site or its features or the features of special scientific interest of an SSSI.\r\n\r\nYou should keep a record of proposed activities that you do not seek assent for, and your reasons for this. \r\n\r\nFind out more about [your responsibility towards SSSIs and when to apply for SSSI assent](https://www.gov.uk/guidance/sites-of-special-scientific-interest-public-body-responsibilities-and-getting-assent-for-works) from Natural England.",
           "options": {},
           "schema": {}
         }
@@ -490,7 +518,7 @@
           "title": "Upload your agreement and map",
           "name": "PvVdan",
           "shortDescription": "Land management agreement files",
-          "hint": "Upload a copy of your land management scheme agreement documents as either as a Word document or PDF. The maximum file size for each file is 100MB. Click on 'choose file' to select your document, then select 'upload file' to add it to your submission.",
+          "hint": "Upload a copy of your land management scheme agreement documents as either as a Word document or PDF. The maximum file size for each file is 100MB.",
           "options": {
             "required": true,
             "accept": "application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.oasis.opendocument.text,text/plain,image/jpeg,image/png,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,text/csv,application/vnd.oasis.opendocument.spreadsheet"
@@ -520,7 +548,7 @@
           "title": "Upload your approved Minor and Temporary Adjustments form",
           "name": "LAliuV",
           "shortDescription": "MTA agreement form",
-          "hint": "Upload a copy of your approved Minor and Temporary Adjustment (MTA) form either as a Word document or a PDF. The maximum file size for each file is 100MB. The maximum file size for each file is 100MB",
+          "hint": "Upload a copy of your approved Minor and Temporary Adjustment (MTA) form either as a Word document or a PDF. The maximum file size for each file is 100MB.",
           "options": {
             "required": true,
             "accept": "application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.oasis.opendocument.text,text/plain,image/jpeg,image/png,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,text/csv,application/vnd.oasis.opendocument.spreadsheet"
@@ -532,6 +560,30 @@
       "next": [],
       "id": "312b5f16-c772-4da3-bd1a-87f3c8130da3",
       "condition": "80183450-672b-4f47-809f-eb0167ba37e0"
+    },
+    {
+      "title": "",
+      "path": "/what-is-the-single-business-identifier-sbi-number-of-where-the-activities-will-take-place",
+      "components": [
+        {
+          "type": "NumberField",
+          "title": "What is the Single Business Identifier (SBI) number of where the activities will take place?",
+          "name": "ylXSKE",
+          "shortDescription": "SBI number",
+          "hint": "This will be 9 numbers",
+          "options": {
+            "required": true,
+            "classes": "",
+            "prefix": "",
+            "suffix": ""
+          },
+          "schema": {},
+          "id": "34f5b73a-ac65-4498-94a3-9ad38cc6aa7f"
+        }
+      ],
+      "next": [],
+      "id": "f310d2a7-b61e-43a3-9097-d7ebc4ef1e61",
+      "condition": "e6a011ae-b559-4ae7-9225-4899317a6256"
     },
     {
       "title": "Other land management scheme details",
@@ -606,7 +658,7 @@
         {
           "id": "25010f97-752b-4663-96d0-ddf0cddf442d",
           "type": "Markdown",
-          "content": "For each activity requiring Natural England assent, tell us where and how you plan to carry out the activity.\r\n\r\nYou can add another activity after you select 'Continue'.\r\n\r\n### Find your easting and northing location\r\n\r\nYou must provide the easting and northing coordinates for where the activity will take place, or the central point for larger scale works. You can use MAGIC Maps to find these.\r\n\r\n\r\n### Describe how you plan to carry out the activity\r\n\r\nFor each activity you should include information about:\r\n\r\n- how you will carry it out, for example, cutting, digging, running an event, blocking up or repairing\r\n- details of any equipment or materials you intend to use, including the type and how, when and where you will use them\r\n- how you will remove any waste materials, such as cut branches or debris, from the site\r\nthe number of people who will undertake the planned activity\r\n- details of all planned construction, maintenance, operation, or removal works, including how, where and when you will undertake them\r\n- any protection measures you intend to introduce to help protect the SSSI during the activities\r\n- whether the work will be a one-off, phased, or ongoing over many years\r\n- any specific timings for the activity",
+          "content": "For each activity requiring Natural England assent, tell us where and how you plan to carry out the activity.\r\n\r\nYou can add another activity after you select 'Continue'.\r\n\r\n### Find your easting and northing location\r\n\r\nYou must provide the easting and northing coordinates for where the activity will take place, or the central point for larger scale works. \r\n\r\n\r\n### Describe how you plan to carry out the activity\r\n\r\nFor each activity you should include information about:\r\n\r\n- how you will carry it out, for example, cutting, digging, running an event, blocking up or repairing\r\n- details of any equipment or materials you intend to use, including the type and how, when and where you will use them\r\n- how you will remove any waste materials, such as cut branches or debris, from the site\r\nthe number of people who will undertake the planned activity\r\n- details of all planned construction, maintenance, operation, or removal works, including how, where and when you will undertake them\r\n- any protection measures you intend to introduce to help protect the SSSI during the activities\r\n- whether the work will be a one-off, phased, or ongoing over many years\r\n- any specific timings for the activity",
           "options": {},
           "schema": {}
         },
@@ -773,7 +825,7 @@
         {
           "id": "2be4eeb2-fb44-47e6-9335-d1ac10d40590",
           "type": "Markdown",
-          "content": "For each activity requiring Natural England assent, tell us where and how you plan to carry out the activity.\r\n\r\nYou can add another activity and site after you select 'Continue'.\r\n\r\n### Find your easting and northing location\r\n\r\nYou must provide the easting and northing coordinates for where the activity will take place, or the central point for larger scale works. You can use MAGIC Maps to find these.\r\n\r\n1. Open the free [MAGIC Maps](https://magic.defra.gov.uk/MagicMap.html) website\r\n2. Search the map or enter the location in the search bar  for your planned activity location\r\n3. Click the target icon along the search bar at the top of the map\r\n4. Select the location on the map\r\n5. Highlight the easting and northing coordinates from the pop-up box, right click and select copy\r\n6. Paste the copied coordinates into the answer box\r\n\r\n### Describe how you plan to carry out the activity\r\n\r\nFor each activity you should include information about:\r\n\r\n- how you will carry it out, for example, cutting, digging, running an event, blocking up or repairing\r\n- details of any equipment or materials you intend to use, including the type and how, when and where you will use them\r\n- how you will remove any waste materials, such as cut branches or debris, from the site\r\nthe number of people who will undertake the planned activity\r\n- details of all planned construction, maintenance, operation, or removal works, including how, where and when you will undertake them\r\n- any protection measures you intend to introduce to help protect the SSSI during the activities\r\n- whether the work will be a one-off, phased, or ongoing over many years\r\n- any specific timings for the activity",
+          "content": "For each activity requiring Natural England assent, tell us where and how you plan to carry out the activity.\r\n\r\nYou can add another activity and site after you select 'Continue'.\r\n\r\n### Find your easting and northing location\r\n\r\nYou must provide the easting and northing coordinates for where the activity will take place, or the central point for larger scale works. \r\n\r\n### Describe how you plan to carry out the activity\r\n\r\nFor each activity you should include information about:\r\n\r\n- how you will carry it out, for example, cutting, digging, running an event, blocking up or repairing\r\n- details of any equipment or materials you intend to use, including the type and how, when and where you will use them\r\n- how you will remove any waste materials, such as cut branches or debris, from the site\r\nthe number of people who will undertake the planned activity\r\n- details of all planned construction, maintenance, operation, or removal works, including how, where and when you will undertake them\r\n- any protection measures you intend to introduce to help protect the SSSI during the activities\r\n- whether the work will be a one-off, phased, or ongoing over many years\r\n- any specific timings for the activity",
           "options": {},
           "schema": {}
         },
@@ -1021,7 +1073,7 @@
       ],
       "next": [],
       "id": "b89a43c3-c67f-415d-8153-186f023cb4e0",
-      "condition": "09b82926-8e44-4f4a-b31e-a83b15159f39"
+      "condition": "969d94cb-9b93-423a-b515-82ad29af279b"
     },
     {
       "controller": "FileUploadPageController",
@@ -1040,7 +1092,7 @@
           "title": "Upload your supporting documents",
           "name": "XVVgwJ",
           "shortDescription": "Supporting documents",
-          "hint": "The maximum file size for each file is 100MB. Click on 'choose file' to select your document, then select 'upload file' to add it to your submission.",
+          "hint": "The maximum file size for each file is 100MB.",
           "options": {
             "required": false
           },
@@ -1071,7 +1123,7 @@
       ],
       "next": [],
       "id": "642be7e0-ecc9-4624-a674-a17b8c3a0058",
-      "condition": "223bc854-9da7-4a6d-962d-3555856f1558"
+      "condition": "d9fa3fac-ae83-427b-896e-5430266c617c"
     },
     {
       "title": "Land management scheme agreement dates",
@@ -1082,9 +1134,10 @@
           "title": "When does the land management agreement start?",
           "name": "pUSjXF",
           "shortDescription": "Scheme start date",
-          "hint": "For example, for 1st January 2026 enter 01 01 2026",
+          "hint": "For example, for 1 January 2026 enter 01 01 2026",
           "options": {
-            "required": true
+            "required": true,
+            "classes": ""
           },
           "schema": {},
           "id": "7ee5dd9d-d729-4fba-a3ac-547df6fc51e0"
@@ -1150,9 +1203,10 @@
           "title": "When do you want your assent to start?",
           "name": "dwOlbc",
           "shortDescription": "Start date",
-          "hint": "For example, for 1st January 2026 enter 01 01 2026",
+          "hint": "For example, for 1 January 2026 enter 01 1 2026",
           "options": {
-            "required": true
+            "required": true,
+            "classes": ""
           },
           "schema": {},
           "id": "cfbc6466-2ee9-4caa-9cb9-b856b3afac63"
@@ -1565,7 +1619,8 @@
           "shortDescription": "Your address",
           "hint": "",
           "options": {
-            "required": true
+            "required": true,
+            "usePostcodeLookup": true
           },
           "schema": {},
           "id": "43fb16e9-0e6b-4089-b00a-2a34ed6bc675"
@@ -1931,22 +1986,6 @@
     {
       "items": [
         {
-          "id": "b4d4e87d-2ddf-44e8-80fb-b9e043a09649",
-          "componentId": "5ebd3978-a763-407b-ad4e-87b4efa62745",
-          "operator": "is",
-          "value": {
-            "itemId": "e3d30428-47f1-4993-9610-a084a1a76a53",
-            "listId": "7f7122fa-3633-485f-ab14-aac550fbd95d"
-          },
-          "type": "ListItemRef"
-        }
-      ],
-      "displayName": "Adverse effect",
-      "id": "e50e0092-143d-4da0-a908-39df938943c4"
-    },
-    {
-      "items": [
-        {
           "id": "e298d6c3-7d73-4c80-ad1d-700c4855f00f",
           "componentId": "cae17afb-ab7e-45ef-9740-c1258da42962",
           "operator": "is",
@@ -2092,10 +2131,18 @@
           "operator": "is",
           "value": false,
           "type": "BooleanValue"
+        },
+        {
+          "id": "2f77e18f-414a-4b08-9465-ccc041578bdd",
+          "componentId": "375b5648-0acc-40a0-b137-6036af6fff81",
+          "operator": "is",
+          "value": false,
+          "type": "BooleanValue"
         }
       ],
-      "displayName": "I have not completed an AA",
-      "id": "464846f4-6743-4b3e-8bab-35e1a73699ba"
+      "displayName": "I have not completed an AA and not consulting",
+      "id": "464846f4-6743-4b3e-8bab-35e1a73699ba",
+      "coordinator": "and"
     },
     {
       "items": [
@@ -2285,6 +2332,165 @@
       ],
       "displayName": "Organisation is other",
       "id": "e7afcec0-9b89-4f0d-a928-31656a788777"
+    },
+    {
+      "items": [
+        {
+          "id": "39a0769c-e86a-468c-97a9-207c243f1454",
+          "componentId": "5f2af0e1-fe55-45da-a864-8949df843875",
+          "operator": "is",
+          "value": {
+            "itemId": "0761a49b-46ab-4b0f-8fd7-a7d058a6fe09",
+            "listId": "a7c919c6-9cbc-4454-85ca-a3cf85b03c76"
+          },
+          "type": "ListItemRef"
+        },
+        {
+          "id": "35ce5292-8da8-42d1-a848-484298bd323b",
+          "componentId": "5f2af0e1-fe55-45da-a864-8949df843875",
+          "operator": "is",
+          "value": {
+            "itemId": "da073c65-937b-4010-bc0b-615bcc01b647",
+            "listId": "a7c919c6-9cbc-4454-85ca-a3cf85b03c76"
+          },
+          "type": "ListItemRef"
+        },
+        {
+          "id": "b9a3ae7a-5f9c-4e82-9b3b-113390e49430",
+          "componentId": "5f2af0e1-fe55-45da-a864-8949df843875",
+          "operator": "is",
+          "value": {
+            "itemId": "ad5ad78c-093e-4000-bb6b-e291f2499a2c",
+            "listId": "a7c919c6-9cbc-4454-85ca-a3cf85b03c76"
+          },
+          "type": "ListItemRef"
+        },
+        {
+          "id": "faf27a1e-a51f-4f33-a8f4-b3680011861b",
+          "componentId": "5f2af0e1-fe55-45da-a864-8949df843875",
+          "operator": "is",
+          "value": {
+            "itemId": "fca8a83b-6035-47d5-8ac1-a7a6f16506d0",
+            "listId": "a7c919c6-9cbc-4454-85ca-a3cf85b03c76"
+          },
+          "type": "ListItemRef"
+        },
+        {
+          "id": "bf0243df-0e52-4cdd-b558-61107f19a628",
+          "componentId": "5f2af0e1-fe55-45da-a864-8949df843875",
+          "operator": "is",
+          "value": {
+            "itemId": "c03869c1-9fb3-44d9-89b6-8a024ce84121",
+            "listId": "a7c919c6-9cbc-4454-85ca-a3cf85b03c76"
+          },
+          "type": "ListItemRef"
+        },
+        {
+          "id": "22fd4671-f251-4cf6-b9d8-d3b7a7ed8987",
+          "componentId": "5f2af0e1-fe55-45da-a864-8949df843875",
+          "operator": "is",
+          "value": {
+            "itemId": "663f8854-7955-4fca-88e8-4beb94a02d41",
+            "listId": "a7c919c6-9cbc-4454-85ca-a3cf85b03c76"
+          },
+          "type": "ListItemRef"
+        }
+      ],
+      "coordinator": "or",
+      "displayName": "I need to give an SBI",
+      "id": "e6a011ae-b559-4ae7-9225-4899317a6256"
+    },
+    {
+      "items": [
+        {
+          "id": "5d02b020-31d9-4c1f-87f6-04a619e137aa",
+          "componentId": "5f2af0e1-fe55-45da-a864-8949df843875",
+          "operator": "is",
+          "value": {
+            "itemId": "c03869c1-9fb3-44d9-89b6-8a024ce84121",
+            "listId": "a7c919c6-9cbc-4454-85ca-a3cf85b03c76"
+          },
+          "type": "ListItemRef"
+        },
+        {
+          "id": "10d184ce-94f9-4838-a770-6f4cf0a893b5",
+          "componentId": "5f2af0e1-fe55-45da-a864-8949df843875",
+          "operator": "is",
+          "value": {
+            "itemId": "ad5ad78c-093e-4000-bb6b-e291f2499a2c",
+            "listId": "a7c919c6-9cbc-4454-85ca-a3cf85b03c76"
+          },
+          "type": "ListItemRef"
+        }
+      ],
+      "coordinator": "or",
+      "displayName": "I need flexible dates",
+      "id": "dd9ea556-fdaf-4866-be01-6fe0823ea255"
+    },
+    {
+      "displayName": "Land management agreement dates",
+      "coordinator": "or",
+      "items": [
+        {
+          "id": "e6ef6a82-e8f6-45a2-87f4-2874ee476f4d",
+          "conditionId": "dd9ea556-fdaf-4866-be01-6fe0823ea255"
+        },
+        {
+          "id": "cd551254-8a15-49e0-bef9-da6af584ec2a",
+          "conditionId": "223bc854-9da7-4a6d-962d-3555856f1558"
+        }
+      ],
+      "id": "d9fa3fac-ae83-427b-896e-5430266c617c"
+    },
+    {
+      "items": [
+        {
+          "id": "15b475c3-55a5-4c74-8942-293e5b8b086a",
+          "componentId": "4b86d746-c8c5-473d-9482-22592b485ffb",
+          "operator": "is",
+          "value": {
+            "itemId": "be821654-2807-4f23-8b40-03327b240dab",
+            "listId": "50f82240-f0aa-491f-91f3-988c7fdc0654"
+          },
+          "type": "ListItemRef"
+        },
+        {
+          "id": "5e94cd63-3f77-498f-bd05-66db66b327ac",
+          "componentId": "4b86d746-c8c5-473d-9482-22592b485ffb",
+          "operator": "is",
+          "value": {
+            "itemId": "962c79c2-d232-4ea6-b551-ac3275f60d5d",
+            "listId": "50f82240-f0aa-491f-91f3-988c7fdc0654"
+          },
+          "type": "ListItemRef"
+        },
+        {
+          "id": "fd6377c9-8df7-402b-be5e-cd0798783f43",
+          "componentId": "5f2af0e1-fe55-45da-a864-8949df843875",
+          "operator": "is",
+          "value": {
+            "itemId": "6cace240-3c1b-436c-a6cc-0645024ece02",
+            "listId": "a7c919c6-9cbc-4454-85ca-a3cf85b03c76"
+          },
+          "type": "ListItemRef"
+        }
+      ],
+      "coordinator": "or",
+      "displayName": "I can give dates",
+      "id": "969d94cb-9b93-423a-b515-82ad29af279b"
+    },
+    {
+      "items": [
+        {
+          "id": "dbf7fdd2-1763-4386-bc12-03f777d973cc",
+          "componentId": "71f0cb2b-9795-47e3-9b9c-3565f995adff",
+          "operator": "is",
+          "value": false,
+          "type": "BooleanValue"
+        }
+      ],
+      "displayName": "I do not need AA advice",
+      "id": "c8473dde-1a2c-4ec9-99ed-bc1c05409e15"
     }
   ],
   "sections": [],
@@ -2341,7 +2547,7 @@
         {
           "id": "3ac48a62-f8e8-42a5-bca4-756648d2d804",
           "text": "Somebody working on behalf of a public body",
-          "value": "An organisation working on behalf of a public body",
+          "value": "Somebody working on behalf of a public body",
           "hint": {
             "text": "For example, a contractor or an organisation",
             "id": "19b84626-7517-483d-8d62-012f9fc0e644"
@@ -23082,27 +23288,45 @@
       "type": "string",
       "items": [
         {
+          "id": "002dbec7-4440-4d71-ad27-66b77c34e1f6",
+          "text": "No, I have not received advice",
+          "value": "No, I have not received advice"
+        },
+        {
           "id": "d30a0dbe-2628-40fd-8254-9c10fd94653d",
           "text": "Yes, I have received paid advice",
-          "value": "Paid advice",
+          "value": "Yes, I have received paid advice",
           "hint": {
             "text": "For example, Discretionary Advice Service (DAS)",
-            "id": "f62f78b4-8084-48a5-b93f-3443bd263fcf"
+            "id": "7f29a5bb-b38e-4bea-974b-fbac8486f687"
           }
         },
         {
           "id": "8dbbd027-6965-4a1f-a3d6-13c07cf97379",
-          "text": "Yes, I have received free advice",
-          "value": "Free advice",
+          "text": "Yes, I have received non-statutory advice",
+          "value": "Yes, I have received non-statutory advice",
           "hint": {
             "text": "For example, Pre-Assent advice",
-            "id": "0813cb62-85da-4c35-8f63-5f50b538ce45"
+            "id": "089143ec-d06d-4154-ba43-5756af68689c"
           }
         },
         {
-          "id": "002dbec7-4440-4d71-ad27-66b77c34e1f6",
-          "text": "No, I have not received advice",
-          "value": "No, I have not received advice"
+          "text": "Yes, I have received statutory Habitats Regulation Assessment (HRA) advice",
+          "value": "Yes, I have received statutory Habitats Regulation Assessment (HRA) advice",
+          "hint": {
+            "text": "For example, Standalone HRA advice",
+            "id": "c3871e28-7c5c-494a-8d3b-191169eb112a"
+          },
+          "id": "127992cb-2f66-4e12-bfdd-b3032c94cab3"
+        },
+        {
+          "text": "Yes, I have received statutory SSSI advice",
+          "value": "Yes, I have received statutory SSSI advice",
+          "hint": {
+            "text": "For example, Section 28i advice",
+            "id": "da8372ba-5121-4cb1-b1b1-ce05713daba2"
+          },
+          "id": "054877e8-726e-434b-a00e-e2e0a2d8ad8c"
         }
       ],
       "id": "6d958da2-d659-4ef8-991f-36cf6e486b37"
@@ -25218,12 +25442,12 @@
         {
           "id": "e3d30428-47f1-4993-9610-a084a1a76a53",
           "text": "The screening concludes that the planned activities are likely to have significant effects on at least one European site — either alone or in combination with other plans or projects",
-          "value": "The assessment concludes that the planned activities are likely to have significant effects on at least one European site — either alone or in combination with other plans or projects"
+          "value": "The screening concludes that the planned activities are likely to have significant effects on at least one European site — either alone or in combination with other plans or projects"
         },
         {
           "id": "8313a847-9a24-416b-9284-12d57174d535",
           "text": "The screening concludes that the planned activities are not likely to have significant effects on a European site",
-          "value": "The assessment concludes that the planned activities are not likely to have significant effects on a European site"
+          "value": "The screening concludes that the planned activities are not likely to have significant effects on a European site"
         }
       ],
       "id": "7f7122fa-3633-485f-ab14-aac550fbd95d"
@@ -92471,6 +92695,16 @@
           "id": "b1e402c4-6c6b-422b-934b-9f5fdabcfcb4",
           "text": "Yorkshire Dales National Park Authority",
           "value": "Yorkshire Dales National Park Authority"
+        },
+        {
+          "text": "Balfour Beatty",
+          "value": "Balfour Beatty",
+          "id": "111782de-e961-481e-a343-2cf58e34ce60"
+        },
+        {
+          "text": "Amey",
+          "value": "Amey",
+          "id": "62677df5-a01c-40e2-acfa-eb1ff6cf8402"
         }
       ],
       "id": "1e609233-1394-4257-995b-5d744692fb56"
@@ -92479,5 +92713,11 @@
   "options": {
     "showReferenceNumber": true,
     "disableUserFeedback": false
+  },
+  "metadata": {
+    "$$__formVersion": {
+      "versionNumber": 46,
+      "createdAt": "2026-04-16T15:23:53.122Z"
+    }
   }
 }

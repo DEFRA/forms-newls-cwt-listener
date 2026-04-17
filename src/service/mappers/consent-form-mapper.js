@@ -38,7 +38,7 @@ const schemeToDetailedWorkType = {
 const customerTypeMap = {
   'An owner of land within a SSSI': 'Landowner',
   'An occupier of land within a SSSI': 'Land occupier',
-  'Someone working on behalf of an owner or occupier of land within a SSSI':
+  'Someone with permission to work on behalf of an owner or occupier of land within a SSSI':
     'Consultant',
   'Somebody else': 'Other'
 }
@@ -66,7 +66,7 @@ function mapDetailedWorkType(main) {
 }
 
 /**
- * Collects the primary segment (activities or scheme) and SSSI names
+ * Collects the primary segment (activities and/or scheme) and SSSI names
  * for building the email header and description.
  * @param {Record<string, unknown>} main
  * @param {Record<string, Array<Record<string, unknown>>>} repeaters
@@ -128,17 +128,14 @@ function collectConsentSegments(main, repeaters) {
       .filter(Boolean)
   }
 
-  // Build primary segment: activities or scheme
-  let primary = ''
-  if (activities.length > 0) {
-    primary = activities.join(', ')
-  } else {
-    // rTreXu = "What land management scheme does this notice relate to?"
-    const landManagementScheme = /** @type {string | undefined} */ (main.rTreXu)
-    if (landManagementScheme) {
-      primary = landManagementScheme
-    }
+  // Build primary segment: activities and/or scheme (both included when present)
+  // rTreXu = "What land management scheme does this notice relate to?"
+  const landManagementScheme = /** @type {string | undefined} */ (main.rTreXu)
+  const primaryParts = [...activities]
+  if (landManagementScheme) {
+    primaryParts.push(landManagementScheme)
   }
+  const primary = primaryParts.join(', ')
 
   return { primary, sssiNames }
 }
@@ -147,7 +144,7 @@ function collectConsentSegments(main, repeaters) {
  * Builds the description from activities, SSSI names, and scheme info.
  * Uses the same segments as mapEmailHeader but without a length limit.
  *
- * Format: "[activities or scheme] - [SSSI names]"
+ * Format: "[activities and/or scheme] - [SSSI names]"
  * Fallback: "S28E Consent"
  *
  * @param {Record<string, unknown>} main
@@ -408,9 +405,9 @@ export function mapFormSubmission(message) {
 
   // KTObNK = "What type of customer are you?"
   const customerType = /** @type {string | undefined} */ (main.KTObNK)
-  // oflKhi = "Single business identifier (SBI)"
-  const sbiNumber = /** @type {string | undefined} */ (main.oflKhi)
-  // VLUhzR = "Single business identifier (SBI)" (page: "Address details")
+  // rkIHYS = "What is the Single Business Identifier (SBI) number of where the activities will take place?" (page 15, mandatory SBI page, priority)
+  const sbiNumber = /** @type {string | undefined} */ (main.rkIHYS)
+  // VLUhzR = "Single business identifier (SBI)" (page 39, landowner/occupier address details page, fallback)
   const sbiNumberAddress = /** @type {string | undefined} */ (main.VLUhzR)
   const sbi = sbiNumber ?? sbiNumberAddress
 

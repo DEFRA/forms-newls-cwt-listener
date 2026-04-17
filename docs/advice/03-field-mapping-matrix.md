@@ -21,7 +21,7 @@ Source: [src/service/mappers/advice-form-mapper.js](../../src/service/mappers/ad
 | `is_contractor_working_for_public_body` | `"Yes"` / `"No"` | Yes                   |
 | `public_body_type`                      | string           | When contractor = Yes |
 | `public_body`                           | string           | When contractor = Yes |
-| `is_there_a_european_site`              | `"Yes"` / `"No"` | Yes                   |
+| `is_there_a_european_site`              | `"Yes"` / `""`   | Yes                   |
 | `SSSI_info`                             | array            | Yes (may be empty)    |
 | `euro_site_info`                        | array            | Yes (may be empty)    |
 
@@ -31,59 +31,61 @@ Source: [src/service/mappers/advice-form-mapper.js](../../src/service/mappers/ad
 
 Determined by field precedence: NVRbCy ("Advice type", FC path) > YOwPAJ ("Advice type", S28G path) > xzEslQ ("Topic of query", general topics).
 
-| Path           | Source field              | Field value             | Output value            |
-| -------------- | ------------------------- | ----------------------- | ----------------------- |
-| FC path        | NVRbCy ("Advice type")    | `HRA advice`            | `Standalone HRA Reg 63` |
-| FC path        | NVRbCy ("Advice type")    | `S28I SSSI advice`      | `S28i Advice`           |
-| FC path        | NVRbCy ("Advice type")    | `Something else`        | `Other casework`        |
-| S28G path      | YOwPAJ ("Advice type")    | `Standalone HRA advice` | `Standalone HRA Reg 63` |
-| S28G path      | YOwPAJ ("Advice type")    | `S28i SSSI advice`      | `S28i Advice`           |
-| S28G path      | YOwPAJ ("Advice type")    | `Something else`        | `Other casework`        |
-| General topics | xzEslQ ("Topic of query") | (any value)             | `Other casework`        |
+| Path           | Source field              | Field value                                                           | Output value            |
+| -------------- | ------------------------- | --------------------------------------------------------------------- | ----------------------- |
+| FC path        | NVRbCy ("Advice type")    | `Habitats Regulations Assessment (HRA) advice`                        | `Standalone HRA Reg 63` |
+| FC path        | NVRbCy ("Advice type")    | `Section 28i SSSI advice (statutory consultation, not including HRA)` | `S28i Advice`           |
+| FC path        | NVRbCy ("Advice type")    | `Something else`                                                      | `Other casework`        |
+| S28G path      | YOwPAJ ("Advice type")    | `Habitats Regulations Assessment (HRA) advice`                        | `Standalone HRA Reg 63` |
+| S28G path      | YOwPAJ ("Advice type")    | `Section 28i SSSI advice (statutory consultation, not including HRA)` | `S28i Advice`           |
+| S28G path      | YOwPAJ ("Advice type")    | `Something else`                                                      | `Other casework`        |
+| General topics | xzEslQ ("Topic of query") | (any value)                                                           | `Other casework`        |
 
 ## detailed_work_type
 
 Same precedence as `broad_work_type`, but with finer granularity for general topics.
 
-| Path           | Source field              | Field value                            | Output value                               |
-| -------------- | ------------------------- | -------------------------------------- | ------------------------------------------ |
-| FC path        | NVRbCy ("Advice type")    | `HRA advice`                           | `Standalone HRA Reg 63`                    |
-| FC path        | NVRbCy ("Advice type")    | `S28I SSSI advice`                     | `S28i Advice`                              |
-| FC path        | NVRbCy ("Advice type")    | `Something else`                       | Falls through to xzEslQ ("Topic of query") |
-| S28G path      | YOwPAJ ("Advice type")    | `Standalone HRA advice`                | `Standalone HRA Reg 63`                    |
-| S28G path      | YOwPAJ ("Advice type")    | `S28i SSSI advice`                     | `S28i Advice`                              |
-| S28G path      | YOwPAJ ("Advice type")    | `Something else`                       | Falls through to xzEslQ ("Topic of query") |
-| General topics | xzEslQ ("Topic of query") | Pre-consent advice (SSSI landowner)    | `SSSI - Pre Consent advice`                |
-| General topics | xzEslQ ("Topic of query") | Pre-assent advice (public body)        | `SSSI - Pre Assent advice`                 |
-| General topics | xzEslQ ("Topic of query") | Report potentially damaging activity   | `SSSI - Regulation and Enforcement`        |
-| General topics | xzEslQ ("Topic of query") | Submit/request surveys or SSSI info    | `SSSI - Regulation and Enforcement`        |
-| General topics | xzEslQ ("Topic of query") | Question about NNRs                    | `SSSI - Other`                             |
-| General topics | xzEslQ ("Topic of query") | Designating a Local Nature Reserve     | `LNRs`                                     |
-| General topics | xzEslQ ("Topic of query") | Flying drones on/near a protected site | `SSSI - Other`                             |
-| General topics | xzEslQ ("Topic of query") | Designating or de-designating SSSIs    | `SSSI - Other`                             |
-| General topics | xzEslQ ("Topic of query") | Sale of SSSI land                      | `SSSI - Other`                             |
-| General topics | xzEslQ ("Topic of query") | Something else                         | `SSSI - Other`                             |
-| (none set)     | -                         | -                                      | `SSSI - Other`                             |
+| Path           | Source field              | Field value                                                           | Output value                               |
+| -------------- | ------------------------- | --------------------------------------------------------------------- | ------------------------------------------ |
+| FC path        | NVRbCy ("Advice type")    | `Habitats Regulations Assessment (HRA) advice`                        | `Standalone HRA Reg 63`                    |
+| FC path        | NVRbCy ("Advice type")    | `Section 28i SSSI advice (statutory consultation, not including HRA)` | `S28i Advice`                              |
+| FC path        | NVRbCy ("Advice type")    | `Something else`                                                      | Falls through to xzEslQ ("Topic of query") |
+| S28G path      | YOwPAJ ("Advice type")    | `Habitats Regulations Assessment (HRA) advice`                        | `Standalone HRA Reg 63`                    |
+| S28G path      | YOwPAJ ("Advice type")    | `Section 28i SSSI advice (statutory consultation, not including HRA)` | `S28i Advice`                              |
+| S28G path      | YOwPAJ ("Advice type")    | `Something else`                                                      | Falls through to xzEslQ ("Topic of query") |
+| General topics | xzEslQ ("Topic of query") | Pre-consent advice (SSSI landowner)                                   | `SSSI - Pre Consent advice`                |
+| General topics | xzEslQ ("Topic of query") | Pre-assent advice (public body)                                       | `SSSI - Pre Assent advice`                 |
+| General topics | xzEslQ ("Topic of query") | Report potentially damaging activity                                  | `SSSI - Regulation and Enforcement`        |
+| General topics | xzEslQ ("Topic of query") | Submit/request surveys or SSSI info                                   | `SSSI - Site visits/surveys`               |
+| General topics | xzEslQ ("Topic of query") | Question about NNRs                                                   | `SSSI - Other`                             |
+| General topics | xzEslQ ("Topic of query") | Designating a Local Nature Reserve                                    | `LNRs`                                     |
+| General topics | xzEslQ ("Topic of query") | Flying drones on/near a protected site                                | `SSSI - Other`                             |
+| General topics | xzEslQ ("Topic of query") | Designating or de-designating SSSIs                                   | `SSSI - Other`                             |
+| General topics | xzEslQ ("Topic of query") | Sale of SSSI land                                                     | `SSSI - Other`                             |
+| General topics | xzEslQ ("Topic of query") | Something else                                                        | `SSSI - Other`                             |
+| (none set)     | -                         | -                                                                     | `SSSI - Other`                             |
 
 ## email_header
 
-Format: `"[detailed_work_type] - [site names]"` (truncated to 255 characters). When no site names are collected and the topic is "Something else", the free text question is appended instead. When no site names or free text, equals `detailed_work_type` alone.
+Format: `"[detailed_work_type] - [activities] - [site names]"` (truncated to 255 characters). Activities and site names are each omitted when not present. When neither is present and the topic is "Something else", the free-text question is appended instead. When the activity is too long to leave room for the site name(s), it is truncated with `"..."`.
 
 ## description
 
-Built from `detailed_work_type` and site names collected from the relevant path.
+Built from `detailed_work_type`, activities, and site names collected from the relevant path.
 
-| Path                                      | Format                                        | Source fields                                                                                                       |
-| ----------------------------------------- | --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
-| HRA path (with European site names)       | `{detailed_work_type} - {site names}`         | European site names from repeater TJuSNf [rtuWky ("EU site name")], parsed from "ID---Name" format, comma-separated |
-| S28I SSSI path (with SSSI names)          | `{detailed_work_type} - {site names}`         | SSSI names from repeater entries [Avdzxa ("SSSI site name")], parsed from "ID---Name" format, comma-separated       |
-| Damage reporting path (with damaged SSSI) | `{detailed_work_type} - {site name}`          | MoCXGK ("SSSI name for damage report"), parsed from "ID---Name" format                                              |
-| Drone flying path (with drone SSSI)       | `{detailed_work_type} - {site name}`          | PxvdiH ("SSSI name for drone flying"), parsed from "ID---Name" format                                               |
-| General topics: "Something else" path     | `{detailed_work_type} - {free text question}` | QmIGor ("What is your question?") — only when xzEslQ ("Topic of query") = "Something else" and QmIGor has a value   |
-| General topics: all other topics          | `{detailed_work_type}`                        | No site names collected on general topic paths (except damage and drone paths above)                                |
+| Path                                  | Format                                               | Activity source                                                  | Site name source                                                                                                    |
+| ------------------------------------- | ---------------------------------------------------- | ---------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| HRA path                              | `{detailed_work_type} - {activities} - {site names}` | nJVeix ("Tell us about the proposed activities")                 | European site names from repeater TJuSNf [rtuWky ("EU site name")], parsed from "ID---Name" format, comma-separated |
+| S28I SSSI path                        | `{detailed_work_type} - {activities} - {site names}` | nJVeix ("Tell us about the proposed activities")                 | SSSI names from repeater entries [Avdzxa ("SSSI site name")], parsed from "ID---Name" format, comma-separated       |
+| Damage reporting path                 | `{detailed_work_type} - {activities} - {site name}`  | YhWlKB ("Give a description of the damaging activity")           | MoCXGK ("SSSI name for damage report"), parsed from "ID---Name" format                                              |
+| Drone flying path                     | `{detailed_work_type} - {activities} - {site name}`  | mtiMfk ("Tell us more about the proposed drone flying activity") | PxvdiH ("SSSI name for drone flying"), parsed from "ID---Name" format                                               |
+| General topics: "Something else" path | `{detailed_work_type} - {free text question}`        | (no activity fields on this path)                                | QmIGor ("What is your question?") — only when xzEslQ = "Something else" and QmIGor has a value                      |
+| General topics: all other topics      | `{detailed_work_type}`                               | (no activity fields on this path)                                | No site names collected                                                                                             |
 
 **Notes:**
 
+- Activity fields are path-specific; only one will be present in any given submission.
+- Activities segment is omitted when the relevant field is absent.
 - Site names are collected via a precedence chain: HRA European sites > S28I SSSI sites > damage SSSI > drone SSSI > none.
 - Parts are joined with `-` (space-dash-space).
 
@@ -91,17 +93,17 @@ Built from `detailed_work_type` and site names collected from the relevant path.
 
 Direct mapping from the applicant category (teEzOl ("Representation category")).
 
-| Category value      | Output value               |
-| ------------------- | -------------------------- |
-| `Consultant`        | `Consultant`               |
-| `Government Agency` | `Government Agency`        |
-| `Harbour authority` | `Harbour Authority`        |
-| `Landowner`         | `Landowner`                |
-| `Land occupier`     | `Land occupier`            |
-| `Member of public`  | `Member of public`         |
-| `Other`             | `Other`                    |
-| `Regional body`     | `Local Planning Authority` |
-| `Utility provider`  | `Utility Provider`         |
+| Category value             | Output value               |
+| -------------------------- | -------------------------- |
+| `Consultant`               | `Consultant`               |
+| `Government Agency`        | `Government Agency`        |
+| `Harbour authority`        | `Harbour Authority`        |
+| `Landowner`                | `Landowner`                |
+| `Land occupier`            | `Land occupier`            |
+| `Member of public`         | `Member of public`         |
+| `Other`                    | `Other`                    |
+| `Local Planning Authority` | `Local Planning Authority` |
+| `Utility provider`         | `Utility Provider`         |
 
 **Note:** The mapping changes case for Harbour Authority and Utility Provider.
 
@@ -114,7 +116,7 @@ Resolved from multiple conditional fields. The "effective type" is either PBmxNM
 | Government Agency / Government agency                              | PvUZyQ ("Government agency") = Forestry Commission     | PvUZyQ ("Government agency")       | `Forestry Commission`         |
 | Government Agency / Government agency                              | PvUZyQ ("Government agency") = Environment Agency      | PvUZyQ ("Government agency")       | `Environment Agency`          |
 | Government Agency / Government agency                              | PvUZyQ ("Government agency") = Other government agency | hOsLRu ("Which government agency") | Free text value               |
-| Local Planning Authority / Regional body                           | -                                                      | YouDQP ("Local authority")         | Selected local authority name |
+| Local Planning Authority                                           | -                                                      | YouDQP ("Local authority")         | Selected local authority name |
 | Harbour authority / Utility provider / Public body or organisation | HiTHQX ("Public body") != Other                        | HiTHQX ("Public body")             | Selected public body name     |
 | Harbour authority / Utility provider / Public body or organisation | HiTHQX ("Public body") = Other                         | OYxtmu ("Public body name")        | Free text value               |
 | Landowner                                                          | -                                                      | hUpejP ("Name")                    | Customer name                 |
@@ -167,7 +169,7 @@ Always from field **YOPYRe** ("Email address").
 | Condition                        | Output value |
 | -------------------------------- | ------------ |
 | euro_site_info array has entries | `Yes`        |
-| euro_site_info array is empty    | `No`         |
+| euro_site_info array is empty    | `""` (empty) |
 
 ## SSSI_info
 
@@ -214,13 +216,13 @@ This section identifies all scenarios where output fields sent to the University
 | `email_header`                          | Always contains at least `detailed_work_type`, so always populated                                                                                |
 | `is_contractor_working_for_public_body` | Always `"Yes"` or `"No"`                                                                                                                          |
 | `public_body_type`                      | teEzOl ("Representation category") is always set (first mandatory question), so the empty-string fallback is unreachable                          |
-| `is_there_a_european_site`              | Always `"Yes"` or `"No"`                                                                                                                          |
 
 ### Fields that may be empty strings
 
-| Field         | Condition producing empty value                                                                                                                                                                                 | Realistic scenario?                                                          |
-| ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
-| `public_body` | Non-Government-Agency direct users (Landowner, Member of public, Land occupier, LPA) — PBmxNM ("Who are you working on behalf of?") is empty and PvUZyQ ("Which government agency do you work for?") is not set | **Expected and common** — see Examples 3, 5, 6, 7 where `public_body` = `""` |
+| Field                      | Condition producing empty value                                                                                                                                                                                 | Realistic scenario?                                                          |
+| -------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| `public_body`              | Non-Government-Agency direct users (Landowner, Member of public, Land occupier, LPA) — PBmxNM ("Who are you working on behalf of?") is empty and PvUZyQ ("Which government agency do you work for?") is not set | **Expected and common** — see Examples 3, 5, 6, 7 where `public_body` = `""` |
+| `is_there_a_european_site` | `euro_site_info` array is empty (no European sites listed)                                                                                                                                                      | **Expected** — many submissions don't affect European sites                  |
 
 ### Fields that may be empty arrays
 

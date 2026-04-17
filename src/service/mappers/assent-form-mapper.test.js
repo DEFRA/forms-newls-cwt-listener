@@ -193,7 +193,7 @@ describe('assent-form-mapper', () => {
     it('should return "Consultant" when working on behalf of a public body', () => {
       const result = mapFormSubmission(
         buildMessage({
-          KTObNK: 'An organisation working on behalf of a public body',
+          KTObNK: 'Somebody working on behalf of a public body',
           vUHwan: 'Government agency'
         })
       )
@@ -205,7 +205,7 @@ describe('assent-form-mapper', () => {
     it('should use organisation name for working on behalf', () => {
       const result = mapFormSubmission(
         buildMessage({
-          KTObNK: 'An organisation working on behalf of a public body',
+          KTObNK: 'Somebody working on behalf of a public body',
           ueDuNl: 'Acme Corp'
         })
       )
@@ -215,7 +215,7 @@ describe('assent-form-mapper', () => {
     it('should use "Other" text for working on behalf with Other org', () => {
       const result = mapFormSubmission(
         buildMessage({
-          KTObNK: 'An organisation working on behalf of a public body',
+          KTObNK: 'Somebody working on behalf of a public body',
           ueDuNl: 'Other',
           Xszriq: 'Custom Org'
         })
@@ -296,7 +296,7 @@ describe('assent-form-mapper', () => {
     it('should be "Yes" when working on behalf', () => {
       const result = mapFormSubmission(
         buildMessage({
-          KTObNK: 'An organisation working on behalf of a public body'
+          KTObNK: 'Somebody working on behalf of a public body'
         })
       )
       expect(result.is_contractor_working_for_public_body).toBe('Yes')
@@ -311,14 +311,21 @@ describe('assent-form-mapper', () => {
   })
 
   describe('is_there_a_european_site', () => {
-    it('should be "Yes" when XydYUD is true', () => {
-      const result = mapFormSubmission(buildMessage({ XydYUD: true }))
+    it('should be "Yes" when euro_site_info has entries', () => {
+      const result = mapFormSubmission(
+        buildMessage({}, { aQYWxD: [{ IzQfir: '11004---Arun Valley Ramsar' }] })
+      )
       expect(result.is_there_a_european_site).toBe('Yes')
     })
 
-    it('should be "No" when XydYUD is false', () => {
-      const result = mapFormSubmission(buildMessage({ XydYUD: false }))
-      expect(result.is_there_a_european_site).toBe('No')
+    it('should be empty when euro_site_info has no entries', () => {
+      const result = mapFormSubmission(buildMessage({}))
+      expect(result.is_there_a_european_site).toBe('')
+    })
+
+    it('should be empty when XydYUD is true but no euro site entries', () => {
+      const result = mapFormSubmission(buildMessage({ XydYUD: true }))
+      expect(result.is_there_a_european_site).toBe('')
     })
   })
 

@@ -75,9 +75,9 @@ flowchart TD
 
     %% ===== SBI =====
     subgraph OutSBI["SBI (Single Business Identifier)"]
-        SBI_Q{"oflKhi present?<br />(SBI field)"}
-        SBI_Q -->|Yes| SBI_1["Number(oflKhi)"]
-        SBI_Q -->|No| SBI_Q2{"VLUhzR present?<br />(alternate SBI field)"}
+        SBI_Q{"rkIHYS present?<br />(mandatory SBI page,<br />page 15)"}
+        SBI_Q -->|Yes| SBI_1["Number(rkIHYS)"]
+        SBI_Q -->|No| SBI_Q2{"VLUhzR present?<br />(address details page,<br />page 39)"}
         SBI_Q2 -->|Yes| SBI_2["Number(VLUhzR)"]
         SBI_Q2 -->|No| SBI_UNDEF["undefined"]
     end

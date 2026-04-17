@@ -59,7 +59,7 @@ Each example shows the form submission data (input) and the expected CWT output 
   "is_contractor_working_for_public_body": "No",
   "public_body_type": "Government Agency",
   "public_body": "Environment Agency",
-  "is_there_a_european_site": "No",
+  "is_there_a_european_site": "",
   "SSSI_info": [
     {
       "SSSI_id": 1003015,
@@ -82,7 +82,7 @@ Each example shows the form submission data (input) and the expected CWT output 
 {
   "data": {
     "main": {
-      "KTObNK": "An organisation working on behalf of a public body",
+      "KTObNK": "Somebody working on behalf of a public body",
       "ueDuNl": "Ecology Consulting Ltd",
       "vUHwan": "Government agency",
       "cfPoiN": "Natural England",
@@ -190,7 +190,7 @@ Each example shows the form submission data (input) and the expected CWT output 
   "is_contractor_working_for_public_body": "No",
   "public_body_type": "Local Planning Authority",
   "public_body": "Surrey County Council",
-  "is_there_a_european_site": "No",
+  "is_there_a_european_site": "",
   "SSSI_info": [
     { "SSSI_id": 1001567, "coordinates": "" },
     { "SSSI_id": 1000345, "coordinates": "" }
@@ -260,7 +260,7 @@ Each example shows the form submission data (input) and the expected CWT output 
   "is_contractor_working_for_public_body": "No",
   "public_body_type": "Landowner",
   "public_body": "National Trust",
-  "is_there_a_european_site": "No",
+  "is_there_a_european_site": "",
   "SSSI_info": [
     {
       "SSSI_id": 1000789,
@@ -287,7 +287,7 @@ Each example shows the form submission data (input) and the expected CWT output 
 {
   "data": {
     "main": {
-      "KTObNK": "An organisation working on behalf of a public body",
+      "KTObNK": "Somebody working on behalf of a public body",
       "ueDuNl": "Other",
       "Xszriq": "Regional Wildlife Trust",
       "vUHwan": "Landowner",
@@ -329,7 +329,7 @@ Each example shows the form submission data (input) and the expected CWT output 
   "is_contractor_working_for_public_body": "Yes",
   "public_body_type": "Landowner",
   "public_body": "Ministry of Defence",
-  "is_there_a_european_site": "No",
+  "is_there_a_european_site": "",
   "SSSI_info": [
     {
       "SSSI_id": 1000234,

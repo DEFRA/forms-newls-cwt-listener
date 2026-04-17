@@ -48,20 +48,20 @@ Determined by field rTreXu ("What land management scheme does this notice relate
 
 ## description
 
-Built from up to two segments joined with `-` (space-dash-space): the primary segment (activities or scheme) and SSSI names. Falls back to `"S28E Consent"` when no segments are available.
+Built from up to two segments joined with `-` (space-dash-space): the primary segment (activities and/or scheme) and SSSI names. Falls back to `"S28E Consent"` when no segments are available.
 
-Format: `"{activities or scheme} - {SSSI names}"`
+Format: `"{activities and/or scheme} - {SSSI names}"`
 
-### Primary segment (activities or scheme)
+### Primary segment (activities and/or scheme)
 
-Activities take precedence. Single SSSI path takes precedence over multiple SSSI path.
+Activities and scheme are independent: both are included when both are present, joined with `, ` (activities first, then the scheme text). Single SSSI path takes precedence over multiple SSSI path when collecting activities.
 
-| Path                        | Source                                                                                                     | Format                              |
-| --------------------------- | ---------------------------------------------------------------------------------------------------------- | ----------------------------------- |
-| Single SSSI with ORNECs     | Repeater iTBHrY ("Operations requiring Natural England consent"), hqsZMS ("Which activity?")               | Unique activity values comma-joined |
-| Multiple SSSIs with ORNECs  | Repeater cwZgSE ("Site name and operations requiring Natural England consent"), BscJLV ("Which activity?") | Unique activity values comma-joined |
-| (no activities, scheme set) | rTreXu ("What land management scheme does this notice relate to?")                                         | Full scheme text                    |
-| (no activities, no scheme)  | -                                                                                                          | Empty                               |
+| Source                       | Prerequisites                                                                                    | Contribution                        |
+| ---------------------------- | ------------------------------------------------------------------------------------------------ | ----------------------------------- |
+| Single SSSI ORNEC activities | Repeater iTBHrY ("Operations requiring Natural England consent"), hqsZMS ("Which activity?")     | Unique activity values comma-joined |
+| Multi SSSI ORNEC activities  | Otherwise repeater cwZgSE ("Site name and operations requiring Natural England consent"), BscJLV | Unique activity values comma-joined |
+| Scheme                       | rTreXu ("What land management scheme does this notice relate to?") selected                      | Full scheme text                    |
+| Fallback                     | No activities and no scheme                                                                      | Empty                               |
 
 ### SSSI names segment
 
@@ -71,13 +71,13 @@ Collected from: hozdvW (single SSSI) > cwZgSE repeater [rWrBOK] (multiple ORNEC,
 
 Mapped from KTObNK ("What type of customer are you?") via `customerTypeMap`.
 
-| KTObNK value                                                              | Output value    |
-| ------------------------------------------------------------------------- | --------------- |
-| `An owner of land within a SSSI`                                          | `Landowner`     |
-| `An occupier of land within a SSSI`                                       | `Land occupier` |
-| `Someone working on behalf of an owner or occupier of land within a SSSI` | `Consultant`    |
-| `Somebody else`                                                           | `Other`         |
-| (not set)                                                                 | Empty string    |
+| KTObNK value                                                                              | Output value    |
+| ----------------------------------------------------------------------------------------- | --------------- |
+| `An owner of land within a SSSI`                                                          | `Landowner`     |
+| `An occupier of land within a SSSI`                                                       | `Land occupier` |
+| `Someone with permission to work on behalf of an owner or occupier of land within a SSSI` | `Consultant`    |
+| `Somebody else`                                                                           | `Other`         |
+| (not set)                                                                                 | Empty string    |
 
 **Note:** The consent form does not have `consulting_body` or `is_contractor_working_for_public_body` fields in its output, unlike the advice and assent forms.
 
@@ -91,13 +91,13 @@ Always from field skdDtj ("What's your email address?").
 
 ## SBI
 
-Single Business Identifier, converted to a number. Uses oflKhi ("Single business identifier (SBI)") as primary, falling back to VLUhzR ("Single business identifier (SBI)", address details page).
+Single Business Identifier, converted to a number. Uses rkIHYS ("What is the Single Business Identifier (SBI) number of where the activities will take place?", mandatory SBI page, page 15) as primary, falling back to VLUhzR ("Single business identifier (SBI)", landowner/occupier address details page, page 39).
 
-| Condition                                           | Source field | Output value     |
-| --------------------------------------------------- | ------------ | ---------------- |
-| oflKhi ("Single business identifier (SBI)") present | oflKhi       | `Number(oflKhi)` |
-| VLUhzR ("Single business identifier (SBI)") present | VLUhzR       | `Number(VLUhzR)` |
-| Neither present                                     | -            | `undefined`      |
+| Condition                                                                                                       | Source field | Output value     |
+| --------------------------------------------------------------------------------------------------------------- | ------------ | ---------------- |
+| rkIHYS ("What is the Single Business Identifier (SBI) number of where the activities will take place?") present | rkIHYS       | `Number(rkIHYS)` |
+| VLUhzR ("Single business identifier (SBI)", address details page) present                                       | VLUhzR       | `Number(VLUhzR)` |
+| Neither present                                                                                                 | -            | `undefined`      |
 
 ## agreement_reference
 
@@ -113,16 +113,17 @@ Determined by the land management scheme selection (rTreXu), with a fallback to 
 
 ## email_header
 
-Uses the same segments as `description` (activities or scheme, plus SSSI names) but truncated to 255 characters. Falls back to `"S28E Consent"` when no segments are available.
+Uses the same segments as `description` (activities and/or scheme, plus SSSI names) but truncated to 255 characters. Falls back to `"S28E Consent"` when no segments are available.
 
-Format: `"{activities or scheme} - {SSSI names}"` (truncated to 255 characters using the `fitNames` helper, which progressively drops names and appends "(+N more)" when truncation is needed).
+Format: `"{activities and/or scheme} - {SSSI names}"` (truncated to 255 characters using the `fitNames` helper, which progressively drops names and appends "(+N more)" when truncation is needed).
 
-| Condition                                    | Output value                                        |
-| -------------------------------------------- | --------------------------------------------------- |
-| Activities present (from iTBHrY or cwZgSE)   | All unique activities comma-joined, plus SSSI names |
-| No activities, scheme present (rTreXu)       | Full scheme text, plus SSSI names                   |
-| No activities, no scheme, SSSI names present | SSSI names only                                     |
-| No activities, no scheme, no SSSI names      | `"S28E Consent"`                                    |
+| Condition                                             | Output value                                               |
+| ----------------------------------------------------- | ---------------------------------------------------------- |
+| Activities present and scheme present                 | Activities comma-joined, then scheme text, plus SSSI names |
+| Activities present (from iTBHrY or cwZgSE), no scheme | All unique activities comma-joined, plus SSSI names        |
+| No activities, scheme present (rTreXu)                | Full scheme text, plus SSSI names                          |
+| No activities, no scheme, SSSI names present          | SSSI names only                                            |
+| No activities, no scheme, no SSSI names               | `"S28E Consent"`                                           |
 
 ## SSSI_info
 
@@ -198,7 +199,7 @@ This section identifies all scenarios where output fields sent to the University
 
 | Field                 | Condition producing empty/undefined value                                                                                                                                                                                                                                                  | Realistic scenario?                                                                                       |
 | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------- |
-| `SBI`                 | Neither oflKhi ("Single business identifier (SBI)") nor VLUhzR ("Single business identifier (SBI)", address details page) present — field is `undefined` (omitted from output)                                                                                                             | **Expected** — some customer types (e.g. Consultant, Somebody else) may not have SBI shown. See Example 3 |
+| `SBI`                 | Neither rkIHYS ("What is the Single Business Identifier (SBI) number of where the activities will take place?") nor VLUhzR ("Single business identifier (SBI)", address details page) present — field is `undefined` (omitted from output)                                                 | **Expected** — some customer types (e.g. Consultant, Somebody else) may not have SBI shown. See Example 3 |
 | `agreement_reference` | No scheme selected AND no VacBun ("What is the name of the permission?") permission name                                                                                                                                                                                                   | **Expected** — users without a scheme or other permission get empty reference. See Example 3              |
 | `email_header`        | No ORNEC activities — iTBHrY ("Operations requiring Natural England consent") / cwZgSE ("Site name and operations requiring Natural England consent") empty — AND no land management scheme rTreXu ("What land management scheme does this notice relate to?") not set — AND no SSSI names | Falls back to `"S28E Consent"` rather than empty string. See Example 6                                    |
 

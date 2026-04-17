@@ -6,25 +6,26 @@ Source: [src/service/mappers/assent-form-mapper.js](../../src/service/mappers/as
 
 ## Output field reference
 
-| Output field                            | Type             | Always present?    |
-| --------------------------------------- | ---------------- | ------------------ |
-| `form_type`                             | `"assent"`       | Yes                |
-| `DF_reference_number`                   | string           | Yes                |
-| `broad_work_type`                       | `"S28H Assent"`  | Yes                |
-| `detailed_work_type`                    | string           | Yes                |
-| `description`                           | string           | Yes                |
-| `consulting_body_type`                  | string           | Yes                |
-| `consulting_body`                       | string           | Yes                |
-| `customer_name`                         | string           | Yes                |
-| `customer_email_address`                | string           | Yes                |
-| `email_header`                          | string           | Yes                |
-| `agreement_reference`                   | string           | Yes                |
-| `is_contractor_working_for_public_body` | `"Yes"` / `"No"` | Yes                |
-| `public_body_type`                      | string           | Yes                |
-| `public_body`                           | string           | Yes                |
-| `is_there_a_european_site`              | `"Yes"` / `"No"` | Yes                |
-| `SSSI_info`                             | array            | Yes (may be empty) |
-| `euro_site_info`                        | array            | Yes (may be empty) |
+| Output field                            | Type             | Always present?      |
+| --------------------------------------- | ---------------- | -------------------- |
+| `form_type`                             | `"assent"`       | Yes                  |
+| `DF_reference_number`                   | string           | Yes                  |
+| `broad_work_type`                       | `"S28H Assent"`  | Yes                  |
+| `detailed_work_type`                    | string           | Yes                  |
+| `description`                           | string           | Yes                  |
+| `consulting_body_type`                  | string           | Yes                  |
+| `consulting_body`                       | string           | Yes                  |
+| `customer_name`                         | string           | Yes                  |
+| `customer_email_address`                | string           | Yes                  |
+| `email_header`                          | string           | Yes                  |
+| `SBI`                                   | number           | When scheme selected |
+| `agreement_reference`                   | string           | Yes                  |
+| `is_contractor_working_for_public_body` | `"Yes"` / `"No"` | Yes                  |
+| `public_body_type`                      | string           | Yes                  |
+| `public_body`                           | string           | Yes                  |
+| `is_there_a_european_site`              | `"Yes"` / `""`   | Yes                  |
+| `SSSI_info`                             | array            | Yes (may be empty)   |
+| `euro_site_info`                        | array            | Yes (may be empty)   |
 
 ---
 
@@ -53,19 +54,19 @@ Determined by field rTreXu ("What land management scheme does this notice relate
 
 ## description
 
-Built from up to three segments joined with `-` (space-dash-space): the primary segment (activities or scheme), SSSI names, and European site names. Falls back to `"S28H Assent"` when no segments are available.
+Built from up to three segments joined with `-` (space-dash-space): the primary segment (activities and/or scheme), SSSI names, and European site names. Falls back to `"S28H Assent"` when no segments are available.
 
-Format: `"{activities or scheme} - {SSSI names} - {Euro site names}"`
+Format: `"{activities and/or scheme} - {SSSI names} - {Euro site names}"`
 
-### Primary segment (activities or scheme)
+### Primary segment (activities and/or scheme)
 
-Activities take precedence. Single SSSI path takes precedence over multiple SSSI path.
+Activities and scheme are independent: both are included when both are present, joined with `, ` (activities first, then the scheme text). Single SSSI path takes precedence over multiple SSSI path when collecting activities.
 
-| Path                  | Repeater                                                             | Activity field                                         | Format                              |
+| Source                | Repeater                                                             | Activity field                                         | Contribution                        |
 | --------------------- | -------------------------------------------------------------------- | ------------------------------------------------------ | ----------------------------------- |
 | Single SSSI           | gzSkgC ("Activities requiring Natural England's assent")             | lGsnXi ("What activity is planned to be carried out?") | Unique activity values comma-joined |
 | Multiple SSSI (ORNEC) | QxIzSB ("Site name and activities requiring Natural England assent") | iNDqRN ("What activity is planned to be carried out?") | Unique activity values comma-joined |
-| (no activities)       | -                                                                    | -                                                      | rTreXu scheme text (if present)     |
+| Scheme                | rTreXu ("What land management scheme does this notice relate to?")   | -                                                      | Full scheme text                    |
 
 ### SSSI names segment
 
@@ -79,7 +80,7 @@ Collected from repeater aQYWxD [IzQfir]. Parsed from "ID---Name" format and comm
 
 Determined by KTObNK ("What type of customer are you?"):
 
-- When `An organisation working on behalf of a public body` → always `"Consultant"`
+- When `Somebody working on behalf of a public body` → always `"Consultant"`
 - When `A public body` → mapped from vUHwan ("Which category best describes the public body you're representing?") via `publicBodyCategoryMap`:
 
 | vUHwan value               | Output value               |
@@ -98,13 +99,13 @@ Determined by KTObNK ("What type of customer are you?"):
 
 Resolved conditionally from multiple fields based on customer type and public body category.
 
-| Condition                                                                                                                                                      | Source field                                                  | Output value                  |
-| -------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- | ----------------------------- |
-| KTObNK ("What type of customer are you?") = `An organisation working on behalf of a public body`, ueDuNl ("What is the name of your organisation?") != `Other` | ueDuNl ("What is the name of your organisation?")             | Selected organisation name    |
-| KTObNK ("What type of customer are you?") = `An organisation working on behalf of a public body`, ueDuNl ("What is the name of your organisation?") = `Other`  | Xszriq ("Other organisation name")                            | Free text organisation name   |
-| vUHwan ("Which category best describes the public body you're representing?") = `Local planning authority`                                                     | XAZlxH ("Which local authority are you representing?")        | Selected local authority name |
-| cfPoiN ("Which public body are you representing?") != `Other`                                                                                                  | cfPoiN ("Which public body are you representing?")            | Selected public body name     |
-| cfPoiN ("Which public body are you representing?") = `Other`                                                                                                   | FyLHmN ("Which public body are you representing?", free text) | Free text public body name    |
+| Condition                                                                                                                                               | Source field                                                  | Output value                  |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- | ----------------------------- |
+| KTObNK ("What type of customer are you?") = `Somebody working on behalf of a public body`, ueDuNl ("What is the name of your organisation?") != `Other` | ueDuNl ("What is the name of your organisation?")             | Selected organisation name    |
+| KTObNK ("What type of customer are you?") = `Somebody working on behalf of a public body`, ueDuNl ("What is the name of your organisation?") = `Other`  | Xszriq ("Other organisation name")                            | Free text organisation name   |
+| vUHwan ("Which category best describes the public body you're representing?") = `Local planning authority`                                              | XAZlxH ("Which local authority are you representing?")        | Selected local authority name |
+| cfPoiN ("Which public body are you representing?") != `Other`                                                                                           | cfPoiN ("Which public body are you representing?")            | Selected public body name     |
+| cfPoiN ("Which public body are you representing?") = `Other`                                                                                            | FyLHmN ("Which public body are you representing?", free text) | Free text public body name    |
 
 ## customer_name
 
@@ -113,6 +114,15 @@ Concatenation of htlAAq ("What is your first name?") and pPocjH ("What is your l
 ## customer_email_address
 
 Always from field skdDtj ("What is your email address?").
+
+## SBI
+
+Single Business Identifier, converted to a number. Sourced from ylXSKE ("What is the Single Business Identifier (SBI) number of where the activities will take place?"), which is mandatory on the new SBI page shown when a land management scheme is selected.
+
+| Condition      | Source field | Output value                      |
+| -------------- | ------------ | --------------------------------- |
+| ylXSKE present | ylXSKE       | `Number(ylXSKE)`                  |
+| ylXSKE not set | -            | `undefined` (omitted from output) |
 
 ## agreement_reference
 
@@ -127,10 +137,10 @@ Determined by the land management scheme selection (rTreXu).
 
 ## is_contractor_working_for_public_body
 
-| Condition                                                                                        | Output value |
-| ------------------------------------------------------------------------------------------------ | ------------ |
-| KTObNK ("What type of customer are you?") = `An organisation working on behalf of a public body` | `Yes`        |
-| KTObNK ("What type of customer are you?") = any other value                                      | `No`         |
+| Condition                                                                                 | Output value |
+| ----------------------------------------------------------------------------------------- | ------------ |
+| KTObNK ("What type of customer are you?") = `Somebody working on behalf of a public body` | `Yes`        |
+| KTObNK ("What type of customer are you?") = any other value                               | `No`         |
 
 ## public_body_type
 
@@ -148,10 +158,10 @@ Resolved from vUHwan-dependent fields.
 
 ## is_there_a_european_site
 
-| Condition                                                                            | Output value |
-| ------------------------------------------------------------------------------------ | ------------ |
-| XydYUD ("Could the planned activities affect a European site?") = `true`             | `Yes`        |
-| XydYUD ("Could the planned activities affect a European site?") = `false` or not set | `No`         |
+| Condition                                      | Output value |
+| ---------------------------------------------- | ------------ |
+| `euro_site_info` array has one or more entries | `Yes`        |
+| `euro_site_info` array is empty                | `""` (empty) |
 
 ## SSSI_info
 
@@ -188,7 +198,7 @@ Array of `{ european_site_id }` objects from repeater aQYWxD ("European site aff
 | ------------------ | ------------------------------------------------- | --------------------------------------------------------------------------------- |
 | `european_site_id` | IzQfir ("What is the name of the European site?") | European site identifier, parsed from "{id}---{name}" format — the ID is a number |
 
-Only populated when XydYUD ("Could the planned activities affect a European site?") is true and the repeater has entries.
+Populated from any entries in the aQYWxD repeater. The XydYUD ("Could the planned activities affect a European site?") question gates whether the repeater is collected on the form, but the mapping itself depends only on the repeater entries.
 
 ---
 
@@ -212,13 +222,13 @@ This section identifies all scenarios where output fields sent to the University
 | `public_body_type`                      | Same as `consulting_body_type`                                                                                |
 | `public_body`                           | Resolved from vUHwan-dependent fields (XAZlxH, cfPoiN, or FyLHmN) — at least one is mandatory on every path   |
 | `is_contractor_working_for_public_body` | Always `"Yes"` or `"No"`                                                                                      |
-| `is_there_a_european_site`              | Always `"Yes"` or `"No"`                                                                                      |
 
 ### Fields that may be empty strings
 
-| Field                 | Condition producing empty value                                          | Realistic scenario?                                                              |
-| --------------------- | ------------------------------------------------------------------------ | -------------------------------------------------------------------------------- |
-| `agreement_reference` | Scheme is MTA, Other, or not set — no agreement reference field is shown | **Expected** — MTA and Other schemes don't require references. See Examples 4, 5 |
+| Field                      | Condition producing empty value                                          | Realistic scenario?                                                              |
+| -------------------------- | ------------------------------------------------------------------------ | -------------------------------------------------------------------------------- |
+| `agreement_reference`      | Scheme is MTA, Other, or not set — no agreement reference field is shown | **Expected** — MTA and Other schemes don't require references. See Examples 4, 5 |
+| `is_there_a_european_site` | `euro_site_info` array is empty (no European sites listed)               | **Expected** — many submissions don't affect European sites                      |
 
 **Note:** `description` is always populated — it falls back to `"S28H Assent"` when no activities, scheme text, SSSI names, or European site names are available. On the scheme multi-SSSI path, the description will contain the scheme text and SSSI names even though no activity fields are collected.
 
@@ -227,7 +237,7 @@ This section identifies all scenarios where output fields sent to the University
 | Field            | Condition producing empty array                                                                                                                               | Realistic scenario?                                                                  |
 | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
 | `SSSI_info`      | Single SSSI path with gVlMxz ("What is the name of the SSSI where you plan to carry out activities?") not set, or multiple SSSI path with no repeater entries | Unlikely — SSSI selection is a required step on all paths                            |
-| `euro_site_info` | XydYUD ("Could the planned activities affect a European site?") = false or not set, or no European site entries in repeater aQYWxD ("European site affected") | **Expected** — many submissions don't affect European sites. See Examples 1, 3, 4, 5 |
+| `euro_site_info` | No European site entries in repeater aQYWxD ("European site affected")                                                                                        | **Expected** — many submissions don't affect European sites. See Examples 1, 3, 4, 5 |
 
 ### Key empty value scenarios by form path
 

@@ -17,12 +17,12 @@ flowchart TD
     %% ===== broad_work_type =====
     subgraph OutBroadWorkType["broad_work_type"]
         BWQ1{"NVRbCy<br />What type of advice<br />are you requesting?<br />(FC path)"}
-        BWQ1 -->|"'HRA advice'"| BW_HRA["'Standalone HRA Reg 63'"]
-        BWQ1 -->|"'S28I SSSI advice'"| BW_S28I["'S28i Advice'"]
+        BWQ1 -->|"'Habitats Regulations Assessment (HRA) advice'"| BW_HRA["'Standalone HRA Reg 63'"]
+        BWQ1 -->|"'Section 28i SSSI advice (statutory consultation, not including HRA)'"| BW_S28I["'S28i Advice'"]
         BWQ1 -->|"'Something else'"| BW_OTHER["'Other casework'"]
         BWQ1 -->|Not set| BWQ2{"YOwPAJ<br />Tell us which type of advice<br />you are requesting<br />(S28G path)"}
-        BWQ2 -->|"'Standalone HRA advice'"| BW_HRA2["'Standalone HRA Reg 63'"]
-        BWQ2 -->|"'S28i SSSI advice'"| BW_S28I2["'S28i Advice'"]
+        BWQ2 -->|"'Habitats Regulations Assessment (HRA) advice'"| BW_HRA2["'Standalone HRA Reg 63'"]
+        BWQ2 -->|"'Section 28i SSSI advice (statutory consultation, not including HRA)'"| BW_S28I2["'S28i Advice'"]
         BWQ2 -->|"'Something else'"| BW_OTHER2["'Other casework'"]
         BWQ2 -->|Not set| BW_DEFAULT["'Other casework'<br />(default)"]
     end
@@ -31,11 +31,11 @@ flowchart TD
     %% ===== detailed_work_type =====
     subgraph OutDetailedWorkType["detailed_work_type"]
         DWQ1{"NVRbCy<br />(not 'Something else')"}
-        DWQ1 -->|"'HRA advice'"| DW_HRA["'Standalone HRA Reg 63'"]
-        DWQ1 -->|"'S28I SSSI advice'"| DW_S28I["'S28i Advice'"]
+        DWQ1 -->|"'Habitats Regulations Assessment (HRA) advice'"| DW_HRA["'Standalone HRA Reg 63'"]
+        DWQ1 -->|"'Section 28i SSSI advice (statutory consultation, not including HRA)'"| DW_S28I["'S28i Advice'"]
         DWQ1 -->|Not set or 'Something else'| DWQ2{"YOwPAJ<br />(not 'Something else')"}
-        DWQ2 -->|"'Standalone HRA advice'"| DW_HRA2["'Standalone HRA Reg 63'"]
-        DWQ2 -->|"'S28i SSSI advice'"| DW_S28I2["'S28i Advice'"]
+        DWQ2 -->|"'Habitats Regulations Assessment (HRA) advice'"| DW_HRA2["'Standalone HRA Reg 63'"]
+        DWQ2 -->|"'Section 28i SSSI advice (statutory consultation, not including HRA)'"| DW_S28I2["'S28i Advice'"]
         DWQ2 -->|Not set or 'Something else'| DWQ3{"xzEslQ<br />Which topic fits the nature<br />of your question the best?"}
         DWQ3 -->|"Pre Consent advice"| DW_CONSENT["'SSSI - Pre Consent advice'"]
         DWQ3 -->|"Pre Assent advice"| DW_ASSENT["'SSSI - Pre Assent advice'"]
@@ -51,8 +51,8 @@ flowchart TD
     subgraph OutDescription["description<br />(parts joined with ' - ')"]
         DESC_PATH{"Which path is active?"}
 
-        DESC_PATH -->|"HRA path<br />(NVRbCy='HRA advice' or<br />YOwPAJ='Standalone HRA advice')"| DESC_HRA
-        DESC_PATH -->|"SSSI advice path<br />(NVRbCy='S28I SSSI advice' or<br />YOwPAJ='S28i SSSI advice')"| DESC_SSSI
+        DESC_PATH -->|"HRA path<br />(NVRbCy or YOwPAJ =<br />'Habitats Regulations Assessment (HRA) advice')"| DESC_HRA
+        DESC_PATH -->|"SSSI advice path<br />(NVRbCy or YOwPAJ =<br />'Section 28i SSSI advice (statutory consultation, not including HRA)')"| DESC_SSSI
         DESC_PATH -->|"General topics path<br />(neither HRA nor SSSI)"| DESC_GENERAL
 
         subgraph DESC_HRA["HRA Description Path"]
@@ -91,7 +91,7 @@ flowchart TD
     %% ===== consulting_body_type =====
     subgraph OutConsultingBodyType["consulting_body_type"]
         CBT["teEzOl<br />Which category best describes<br />who is making this application?"]
-        CBT_MAP["Consultant → 'Consultant'<br />Government Agency → 'Government Agency'<br />Harbour authority → 'Harbour Authority'<br />Landowner → 'Landowner'<br />Land occupier → 'Land occupier'<br />Member of public → 'Member of public'<br />Other → 'Other'<br />Regional body → 'Local Planning Authority'<br />Utility provider → 'Utility Provider'"]
+        CBT_MAP["Consultant → 'Consultant'<br />Government Agency → 'Government Agency'<br />Harbour authority → 'Harbour Authority'<br />Landowner → 'Landowner'<br />Land occupier → 'Land occupier'<br />Member of public → 'Member of public'<br />Other → 'Other'<br />Local Planning Authority → 'Local Planning Authority'<br />Utility provider → 'Utility Provider'"]
     end
     MAIN --> CBT --> CBT_MAP
 
@@ -104,7 +104,7 @@ flowchart TD
         CB_GOV -->|"'Environment Agency'"| CB_EA["'Environment Agency'"]
         CB_GOV -->|"'Other government agency'"| CB_OTHER_GOV["hOsLRu<br />Tell us which government<br />agency you work for"]
 
-        CB_TYPE -->|"'Local Planning Authority'<br />or 'Regional body'"| CB_LPA["YouDQP<br />Which local authority<br />do you work for?"]
+        CB_TYPE -->|"'Local Planning Authority'"| CB_LPA["YouDQP<br />Which local authority<br />do you work for?"]
 
         CB_TYPE -->|"'Harbour authority'<br />'Utility provider'<br />'Public body or organisation'"| CB_PUB{"HiTHQX<br />Which public body<br />do you work for?"}
         CB_PUB -->|"'Other'"| CB_PUB_OTHER["OYxtmu<br />Which public body are<br />you representing?"]
@@ -191,7 +191,7 @@ flowchart TD
     subgraph OutEuroFlag["is_there_a_european_site"]
         EUROFLAG{"euro_site_info<br />has entries?"}
         EUROFLAG -->|Yes| EURO_Y["'Yes'"]
-        EUROFLAG -->|No| EURO_N["'No'"]
+        EUROFLAG -->|No| EURO_N["'' (empty)"]
     end
 
     %% ===== Output Summary =====

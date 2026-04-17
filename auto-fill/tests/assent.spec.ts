@@ -1,5 +1,6 @@
 import { expect } from "@playwright/test";
 import { test } from "./fixtures";
+import path from "path";
 
 /**
  * Assent Form – auto-fill scripts for all main pathways.
@@ -22,7 +23,7 @@ import { test } from "./fixtures";
  */
 
 const FORM_URL = "http://localhost:3009/form/assent/before-you-start";
-const PDF_PATH = "/Users/aaron/Temp/pdf_for_upload_test.pdf";
+const PDF_PATH = path.join(__dirname, 'files', 'pdf_for_upload_test.pdf')
 
 // ─── Shared helpers ───────────────────────────────────────────────────────────
 
@@ -102,16 +103,15 @@ async function fillContactDetails(
     .fill(`${firstName.toLowerCase()}.${lastName.toLowerCase()}@do-not-resolve-for-testing.com`);
   await page.getByRole("button", { name: "Continue" }).click();
 
-  // Address
-  await page.getByRole("textbox", { name: "Address line 1" }).fill("1 Way");
-  await page.getByRole("textbox", { name: "Address line 1" }).press("Tab");
+  // Address – uses postcode lookup. Take the manual-entry path.
   await page
-    .getByRole("textbox", { name: "Address line 2 (optional)" })
-    .press("Tab");
+    .getByRole("button", { name: "enter address manually" })
+    .click();
+  await page.getByRole("textbox", { name: "Address line 1" }).fill("1 Way");
   await page.getByRole("textbox", { name: "Town or city" }).fill("York");
-  await page.getByRole("textbox", { name: "Town or city" }).press("Tab");
-  await page.getByRole("textbox", { name: "County (optional)" }).press("Tab");
   await page.getByRole("textbox", { name: "Postcode" }).fill("YO1 2ND");
+  await page.getByRole("button", { name: "Use this address" }).click();
+  // After manual entry, the form returns to the address summary page – click Continue to proceed
   await page.getByRole("button", { name: "Continue" }).click();
 }
 
@@ -215,6 +215,12 @@ test.describe("Assent Form", () => {
     await uploadFile(page);
     await page.getByRole("button", { name: "Continue" }).click();
 
+    // SBI of where the activities will take place
+    await page
+      .getByRole("textbox", { name: /Single Business Identifier/ })
+      .fill("123456789");
+    await page.getByRole("button", { name: "Continue" }).click();
+
     // Scheme dates
     // "Do you have a land management scheme agreement start and end date?" → Yes
     await page.getByRole("radio", { name: "Yes" }).check();
@@ -311,6 +317,12 @@ test.describe("Assent Form", () => {
       .fill("SFI7890");
     await page.getByRole("button", { name: "Continue" }).click();
 
+    // SBI of where the activities will take place
+    await page
+      .getByRole("textbox", { name: /Single Business Identifier/ })
+      .fill("123456789");
+    await page.getByRole("button", { name: "Continue" }).click();
+
     // Activities requiring Natural England's assent (ORNEC – single SSSI)
     await page
       .getByRole("textbox", {
@@ -341,46 +353,16 @@ test.describe("Assent Form", () => {
       .check();
     await page.getByRole("button", { name: "Continue" }).click();
 
-    // When the planned activities will take place
-    await page
-      .getByRole("group", { name: "When will the planned activities start?" })
-      .getByLabel("Day")
-      .fill("1");
-    await page
-      .getByRole("group", { name: "When will the planned activities start?" })
-      .getByLabel("Month")
-      .fill("6");
-    await page
-      .getByRole("group", { name: "When will the planned activities start?" })
-      .getByLabel("Year")
-      .fill("2027");
-    await page
-      .getByRole("group", {
-        name: "When will the planned activities finish?",
-      })
-      .getByLabel("Day")
-      .fill("30");
-    await page
-      .getByRole("group", {
-        name: "When will the planned activities finish?",
-      })
-      .getByLabel("Month")
-      .fill("6");
-    await page
-      .getByRole("group", {
-        name: "When will the planned activities finish?",
-      })
-      .getByLabel("Year")
-      .fill("2027");
-    await page
-      .getByRole("textbox", {
-        name: "Could anything delay or change when you will carry out your activities?",
-      })
-      .fill("No anticipated delays");
-    await page.getByRole("button", { name: "Continue" }).click();
-
+    // SFI = "I need flexible dates" – no activity dates page is shown.
     // Supporting documents (optional) – skip
     await page.getByRole("button", { name: "Continue" }).click();
+
+    // Scheme dates
+    // "Do you have a land management scheme agreement start and end date?" → Yes
+    await page.getByRole("radio", { name: "Yes" }).check();
+    await page.getByRole("button", { name: "Continue" }).click();
+
+    await fillSchemeDates(page, "1", "1", "2026", "31", "12", "2030");
 
     // Have you received advice? – No
     await page.getByText("No, I have not received advice").click();
@@ -456,6 +438,12 @@ test.describe("Assent Form", () => {
 
     // Upload MTA form
     await uploadFile(page);
+    await page.getByRole("button", { name: "Continue" }).click();
+
+    // SBI of where the activities will take place
+    await page
+      .getByRole("textbox", { name: /Single Business Identifier/ })
+      .fill("123456789");
     await page.getByRole("button", { name: "Continue" }).click();
 
     // Scheme dates
@@ -539,6 +527,12 @@ test.describe("Assent Form", () => {
 
     // Upload
     await uploadFile(page);
+    await page.getByRole("button", { name: "Continue" }).click();
+
+    // SBI of where the activities will take place
+    await page
+      .getByRole("textbox", { name: /Single Business Identifier/ })
+      .fill("123456789");
     await page.getByRole("button", { name: "Continue" }).click();
 
     // Scheme dates

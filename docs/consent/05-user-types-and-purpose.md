@@ -210,7 +210,7 @@ Customer type (KTObNK)
 
 ## SBI (Single Business Identifier)
 
-The SBI is a unique number identifying a farming business registered with the Rural Payments Agency. The consent form collects it from two possible fields (`oflKhi` primary, `VLUhzR` fallback) and converts it to a number.
+The SBI is a unique number identifying a farming business registered with the Rural Payments Agency. The consent form collects it from two possible fields (`rkIHYS` mandatory SBI page primary, `VLUhzR` address details fallback) and converts it to a number.
 
 | User type     | SBI typically present? | Why                                                                         |
 | ------------- | ---------------------- | --------------------------------------------------------------------------- |
@@ -234,5 +234,5 @@ When neither SBI field has a value, the field is omitted from the output entirel
 | European site question?    | No                                                                | Yes                                                                              | Yes (HRA path)                        |
 | Public body fields?        | No                                                                | Yes (`public_body_type`, `public_body`, `is_contractor_working_for_public_body`) | Yes                                   |
 | ORNEC in SSSI_info?        | Yes (`ornec` field per entry)                                     | No                                                                               | No                                    |
-| `email_header` field?      | Yes (activities + SSSI names, or scheme + SSSI names)             | Yes (activities/scheme + SSSI/Euro site names)                                   | Yes (detailed_work_type + site names) |
+| `email_header` field?      | Yes (activities and/or scheme + SSSI names)                       | Yes (activities and/or scheme + SSSI/Euro site names)                            | Yes (detailed_work_type + site names) |
 | Permission proof required? | Yes (for consultants and others)                                  | Yes (for contractors)                                                            | No                                    |

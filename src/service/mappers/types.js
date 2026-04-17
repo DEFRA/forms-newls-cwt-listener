@@ -37,7 +37,7 @@
  * @property {'Yes' | 'No'} is_contractor_working_for_public_body
  * @property {string} [public_body_type]
  * @property {string} [public_body]
- * @property {'Yes' | 'No'} is_there_a_european_site
+ * @property {'Yes' | ''} is_there_a_european_site
  * @property {SSSIInfo[]} SSSI_info
  * @property {EuroSiteInfo[]} euro_site_info
  */
@@ -54,11 +54,12 @@
  * @property {string} customer_name
  * @property {string} customer_email_address
  * @property {string} email_header
+ * @property {number} [SBI]
  * @property {string} [agreement_reference]
  * @property {'Yes' | 'No'} is_contractor_working_for_public_body
  * @property {string} [public_body_type]
  * @property {string} [public_body]
- * @property {'Yes' | 'No'} is_there_a_european_site
+ * @property {'Yes' | ''} is_there_a_european_site
  * @property {SSSIInfo[]} SSSI_info
  * @property {EuroSiteInfoId[]} euro_site_info
  */

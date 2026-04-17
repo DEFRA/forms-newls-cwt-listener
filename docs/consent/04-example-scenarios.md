@@ -17,7 +17,7 @@ Each example shows the form submission data (input) and the expected CWT output 
       "KTObNK": "An owner of land within a SSSI",
       "rTreXu": "A Countryside Stewardship Higher Tier (CSHT) agreement",
       "WZJDQG": "CS-2024-00789",
-      "oflKhi": "123456789",
+      "rkIHYS": "123456789",
       "hozdvW": "1003015---North Meadow & Clattinger Farm SSSI",
       "lmqMaY": false,
       "htlAAq": "Robert",
@@ -79,7 +79,7 @@ Each example shows the form submission data (input) and the expected CWT output 
       "KTObNK": "An occupier of land within a SSSI",
       "rTreXu": "A Higher Level Stewardship (HLS) agreement",
       "OFiizI": "HLS-AG-55678",
-      "oflKhi": "987654321",
+      "rkIHYS": "987654321",
       "hozdvW": "1001567---Thursley Common SSSI",
       "lmqMaY": false,
       "JPohUD": { "easting": 490200, "northing": 139800 },
@@ -128,7 +128,7 @@ Each example shows the form submission data (input) and the expected CWT output 
 {
   "data": {
     "main": {
-      "KTObNK": "Someone working on behalf of an owner or occupier of land within a SSSI",
+      "KTObNK": "Someone with permission to work on behalf of an owner or occupier of land within a SSSI",
       "hozdvW": "1000456---Epping Forest SSSI",
       "lmqMaY": false,
       "htlAAq": "Emma",
@@ -258,7 +258,7 @@ Each example shows the form submission data (input) and the expected CWT output 
       "KTObNK": "Somebody else",
       "rTreXu": "A Countryside Stewardship Mid Tier (CSMT) agreement extension",
       "WZJDQG": "CS-MT-99876",
-      "oflKhi": "444555666",
+      "rkIHYS": "444555666",
       "lmqMaY": true,
       "JPohUD": { "easting": 497600, "northing": 161200 },
       "htlAAq": "Peter",
@@ -318,7 +318,7 @@ Each example shows the form submission data (input) and the expected CWT output 
     "main": {
       "KTObNK": "An owner of land within a SSSI",
       "VacBun": "Planning Permission PP/2025/0042",
-      "oflKhi": "777888999",
+      "rkIHYS": "777888999",
       "hozdvW": "1000236---Castle Hill SSSI",
       "lmqMaY": false,
       "htlAAq": "Catherine",
@@ -367,7 +367,7 @@ Each example shows the form submission data (input) and the expected CWT output 
 
 | #   | Identity type | Scheme           | SSSI path               | Key features tested                                                                                        |
 | --- | ------------- | ---------------- | ----------------------- | ---------------------------------------------------------------------------------------------------------- |
-| 1   | Landowner     | CSHT             | Single SSSI (ORNEC)     | CS agreement ref, SBI (oflKhi), ORNEC activities with coordinates, email_header from activities + SSSI     |
+| 1   | Landowner     | CSHT             | Single SSSI (ORNEC)     | CS agreement ref, SBI (rkIHYS), ORNEC activities with coordinates, email_header from activities + SSSI     |
 | 2   | Land occupier | HLS              | Single SSSI (scheme)    | HLS ref, scheme coordinates (JPohUD), email_header from scheme + SSSI, no ORNEC                            |
 | 3   | Consultant    | None             | Single SSSI (ORNEC)     | No scheme, no SBI, ORNEC activity, default detailed_work_type                                              |
 | 4   | Landowner     | SFI              | Multiple SSSIs (ORNEC)  | SFI ref, SBI (VLUhzR fallback), multi SSSI grouped by name, coordinates + ORNECs per SSSI                  |

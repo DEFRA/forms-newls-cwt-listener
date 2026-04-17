@@ -6,12 +6,12 @@ This document describes the different routes a user can take through the consent
 
 The first decision point is "What type of customer are you?" which determines the user's identity path.
 
-| Customer type                                                           | Value                                                                     | Next step                                                |
-| ----------------------------------------------------------------------- | ------------------------------------------------------------------------- | -------------------------------------------------------- |
-| An owner of land within a SSSI                                          | `An owner of land within a SSSI`                                          | [Land management scheme](#land-management-scheme-rtreXu) |
-| An occupier of land within a SSSI                                       | `An occupier of land within a SSSI`                                       | [Land management scheme](#land-management-scheme-rtreXu) |
-| Someone working on behalf of an owner or occupier of land within a SSSI | `Someone working on behalf of an owner or occupier of land within a SSSI` | [Land management scheme](#land-management-scheme-rtreXu) |
-| Somebody else                                                           | `Somebody else`                                                           | [Land management scheme](#land-management-scheme-rtreXu) |
+| Customer type                                                           | Value                                                                                     | Next step                                                |
+| ----------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- | -------------------------------------------------------- |
+| An owner of land within a SSSI                                          | `An owner of land within a SSSI`                                                          | [Land management scheme](#land-management-scheme-rtreXu) |
+| An occupier of land within a SSSI                                       | `An occupier of land within a SSSI`                                                       | [Land management scheme](#land-management-scheme-rtreXu) |
+| Someone working on behalf of an owner or occupier of land within a SSSI | `Someone with permission to work on behalf of an owner or occupier of land within a SSSI` | [Land management scheme](#land-management-scheme-rtreXu) |
+| Somebody else                                                           | `Somebody else`                                                                           | [Land management scheme](#land-management-scheme-rtreXu) |
 
 **Note:** Unlike the assent form, the consent form does not have a public body category selection or organisation lookup. The customer type maps directly to `consulting_body_type`.
 
@@ -51,10 +51,10 @@ Question: "What's your Sustainable Farming Incentive agreement number?" Free tex
 
 Two possible SBI fields depending on the path:
 
-- oflKhi: "Single business identifier (SBI)" - primary SBI field
-- VLUhzR: "Single business identifier (SBI)" - alternate SBI field on the address details page
+- rkIHYS: "What is the Single Business Identifier (SBI) number of where the activities will take place?" - mandatory SBI page shown when a land management scheme is selected (page 15, primary)
+- VLUhzR: "Single business identifier (SBI)" - optional SBI field on the landowner/occupier address details page (page 39, fallback)
 
-The first available is used, converted to a number.
+rkIHYS takes priority; VLUhzR is used if rkIHYS is not present. Converted to a number.
 
 ---
 

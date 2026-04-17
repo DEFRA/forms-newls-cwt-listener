@@ -25,7 +25,7 @@ const generalTopicToDetailedWorkType = {
   'I would like to report potentially damaging activity on or near a protected site':
     'SSSI - Regulation and Enforcement',
   'I would like to submit or request surveys or information about the condition of SSSIs':
-    'SSSI - Regulation and Enforcement',
+    'SSSI - Site visits/surveys',
   'I have a question about Natural England managed National Nature Reserves (NNRs)':
     'SSSI - Other',
   'I have a question about designating a Local Nature Reserve (LNR)': 'LNRs',
@@ -35,6 +35,10 @@ const generalTopicToDetailedWorkType = {
   'I have a question about the sale of SSSI land': 'SSSI - Other',
   'Something else': 'SSSI - Other'
 }
+
+const HRA_ADVICE = 'Habitats Regulations Assessment (HRA) advice'
+const S28I_SSSI_ADVICE =
+  'Section 28i SSSI advice (statutory consultation, not including HRA)'
 
 /**
  * Mapping from the consulting body type form value to the CWT output value.
@@ -48,7 +52,7 @@ const consultingBodyTypeMap = {
   'Land occupier': 'Land occupier',
   'Member of public': 'Member of public',
   Other: 'Other',
-  'Regional body': 'Local Planning Authority',
+  'Local Planning Authority': 'Local Planning Authority',
   'Utility provider': 'Utility Provider'
 }
 
@@ -66,10 +70,10 @@ function mapBroadWorkType(main) {
   const adviceTypeRequested = /** @type {string | undefined} */ (main.YOwPAJ)
 
   if (typeOfAdvice) {
-    if (typeOfAdvice === 'HRA advice') {
+    if (typeOfAdvice === HRA_ADVICE) {
       return 'Standalone HRA Reg 63'
     }
-    if (typeOfAdvice === 'S28I SSSI advice') {
+    if (typeOfAdvice === S28I_SSSI_ADVICE) {
       return 'S28i Advice'
     }
     if (typeOfAdvice === 'Something else') {
@@ -78,10 +82,10 @@ function mapBroadWorkType(main) {
   }
 
   if (adviceTypeRequested) {
-    if (adviceTypeRequested === 'Standalone HRA advice') {
+    if (adviceTypeRequested === HRA_ADVICE) {
       return 'Standalone HRA Reg 63'
     }
-    if (adviceTypeRequested === 'S28i SSSI advice') {
+    if (adviceTypeRequested === S28I_SSSI_ADVICE) {
       return 'S28i Advice'
     }
     if (adviceTypeRequested === 'Something else') {
@@ -108,19 +112,19 @@ function mapDetailedWorkType(main) {
   const generalTopic = /** @type {string | undefined} */ (main.xzEslQ)
 
   if (typeOfAdvice && typeOfAdvice !== 'Something else') {
-    if (typeOfAdvice === 'HRA advice') {
+    if (typeOfAdvice === HRA_ADVICE) {
       return 'Standalone HRA Reg 63'
     }
-    if (typeOfAdvice === 'S28I SSSI advice') {
+    if (typeOfAdvice === S28I_SSSI_ADVICE) {
       return 'S28i Advice'
     }
   }
 
   if (adviceTypeRequested && adviceTypeRequested !== 'Something else') {
-    if (adviceTypeRequested === 'Standalone HRA advice') {
+    if (adviceTypeRequested === HRA_ADVICE) {
       return 'Standalone HRA Reg 63'
     }
-    if (adviceTypeRequested === 'S28i SSSI advice') {
+    if (adviceTypeRequested === S28I_SSSI_ADVICE) {
       return 'S28i Advice'
     }
   }
@@ -134,11 +138,46 @@ function mapDetailedWorkType(main) {
 }
 
 /**
+ * Collects the activity free-text from the relevant path-specific field.
+ * Used by both mapDescription and mapEmailHeader.
+ *
+ * - Drone flying path: mtiMfk — "Tell us more about the proposed drone flying activity".
+ * - S28i SSSI / general path: nJVeix — "Tell us about the proposed activities".
+ * - Damage reporting path: YhWlKB — "Give a description of the damaging activity".
+ *
+ * Only one of these fields will be present in any given submission.
+ *
+ * @param {Record<string, unknown>} main
+ * @returns {string | undefined}
+ */
+function collectActivity(main) {
+  // mtiMfk = "Tell us more about the proposed drone flying activity"
+  const droneActivity = /** @type {string | undefined} */ (main.mtiMfk)
+  if (droneActivity) {
+    return droneActivity
+  }
+
+  // nJVeix = "Tell us about the proposed activities"
+  const proposedActivities = /** @type {string | undefined} */ (main.nJVeix)
+  if (proposedActivities) {
+    return proposedActivities
+  }
+
+  // YhWlKB = "Give a description of the damaging activity"
+  const damagingActivity = /** @type {string | undefined} */ (main.YhWlKB)
+  if (damagingActivity) {
+    return damagingActivity
+  }
+
+  return undefined
+}
+
+/**
  * Collects site names relevant to the advice form path.
  * Used by both mapDescription and mapEmailHeader.
  *
  * - HRA path: European site names (from TJuSNf repeater, parsed from "ID---Name").
- * - S28I SSSI path: SSSI names (from Avdzxa entries, parsed from "ID---Name").
+ * - Section 28i SSSI path: SSSI names (from Avdzxa entries, parsed from "ID---Name").
  * - Damage reporting path: damaged SSSI name (from MoCXGK, parsed from "ID---Name").
  * - Drone flying path: drone SSSI name (from PxvdiH, parsed from "ID---Name").
  * - General topics path: no site names.
@@ -154,11 +193,10 @@ function collectSiteNames(main, repeaters) {
   const adviceTypeRequested = /** @type {string | undefined} */ (main.YOwPAJ)
 
   const isHraPath =
-    typeOfAdvice === 'HRA advice' ||
-    adviceTypeRequested === 'Standalone HRA advice'
+    typeOfAdvice === HRA_ADVICE || adviceTypeRequested === HRA_ADVICE
   const isSssiAdvicePath =
-    typeOfAdvice === 'S28I SSSI advice' ||
-    adviceTypeRequested === 'S28i SSSI advice'
+    typeOfAdvice === S28I_SSSI_ADVICE ||
+    adviceTypeRequested === S28I_SSSI_ADVICE
 
   if (isHraPath) {
     const euroSites = repeaters.TJuSNf ?? []
@@ -190,10 +228,11 @@ function collectSiteNames(main, repeaters) {
 }
 
 /**
- * Builds the description from the detailed work type and relevant site names.
+ * Builds the description from the detailed work type, activities, and relevant site names.
  * Uses the same segments as mapEmailHeader but without a length limit.
  *
- * Format: "[detailed_work_type] - [site names]"
+ * Format: "[detailed_work_type] - [activities] - [site names]"
+ * Activities and site names are each omitted when not present.
  *
  * @param {Record<string, unknown>} main
  * @param {Record<string, Array<Record<string, unknown>>>} repeaters
@@ -202,17 +241,26 @@ function collectSiteNames(main, repeaters) {
  */
 function mapDescription(main, repeaters, detailedWorkType) {
   const siteNames = collectSiteNames(main, repeaters)
+  const activity = collectActivity(main)
   // QmIGor = "What is your question?" (free text shown when xzEslQ = "Something else")
   const generalTopic = /** @type {string | undefined} */ (main.xzEslQ)
   const freeTextQuestion = /** @type {string | undefined} */ (main.QmIGor)
 
-  if (siteNames.length === 0) {
+  if (siteNames.length === 0 && !activity) {
     if (generalTopic === 'Something else' && freeTextQuestion) {
       return detailedWorkType + ' - ' + freeTextQuestion
     }
     return detailedWorkType
   }
-  return detailedWorkType + ' - ' + siteNames.join(', ')
+
+  const segments = [detailedWorkType]
+  if (activity) {
+    segments.push(activity)
+  }
+  if (siteNames.length > 0) {
+    segments.push(siteNames.join(', '))
+  }
+  return segments.join(' - ')
 }
 
 /**
@@ -268,10 +316,7 @@ function mapConsultingBody(main) {
     }
   }
 
-  if (
-    effectiveType === 'Local Planning Authority' ||
-    effectiveType === 'Regional body'
-  ) {
+  if (effectiveType === 'Local Planning Authority') {
     return localAuthority ?? ''
   }
 
@@ -418,8 +463,12 @@ function mapSssiInfo(main, repeaters) {
 }
 
 /**
- * Builds the email_header from the detailed work type and relevant site names.
+ * Builds the email_header from the detailed work type, activities, and relevant site names.
  * Uses the same segments as mapDescription but truncated to 255 characters.
+ *
+ * Format: "[detailed_work_type] - [activities] - [site names]"
+ * Activities and site names are each omitted when not present.
+ * When the activity is too long to leave room for site names, it is truncated with "...".
  *
  * @param {Record<string, unknown>} main
  * @param {Record<string, Array<Record<string, unknown>>>} repeaters
@@ -429,11 +478,12 @@ function mapSssiInfo(main, repeaters) {
 function mapEmailHeader(main, repeaters, detailedWorkType) {
   const separator = ' - '
   const siteNames = collectSiteNames(main, repeaters)
+  const activity = collectActivity(main)
   // QmIGor = "What is your question?" (free text shown when xzEslQ = "Something else")
   const generalTopic = /** @type {string | undefined} */ (main.xzEslQ)
   const freeTextQuestion = /** @type {string | undefined} */ (main.QmIGor)
 
-  if (siteNames.length === 0) {
+  if (siteNames.length === 0 && !activity) {
     if (generalTopic === 'Something else' && freeTextQuestion) {
       const full = detailedWorkType + separator + freeTextQuestion
       return full.length <= EMAIL_HEADER_MAX_LENGTH
@@ -445,13 +495,57 @@ function mapEmailHeader(main, repeaters, detailedWorkType) {
       : detailedWorkType.substring(0, EMAIL_HEADER_MAX_LENGTH - 3) + '...'
   }
 
-  const prefixWithSeparator = detailedWorkType + separator
-  const availableForNames = EMAIL_HEADER_MAX_LENGTH - prefixWithSeparator.length
-  const fittedNames = fitNames(siteNames, availableForNames)
+  const typePrefix = detailedWorkType + separator
 
-  return fittedNames
-    ? prefixWithSeparator + fittedNames
-    : detailedWorkType.substring(0, EMAIL_HEADER_MAX_LENGTH)
+  if (!activity) {
+    // No activity — existing site-names-only behaviour
+    const availableForNames = EMAIL_HEADER_MAX_LENGTH - typePrefix.length
+    const fittedNames = fitNames(siteNames, availableForNames)
+    return fittedNames
+      ? typePrefix + fittedNames
+      : detailedWorkType.substring(0, EMAIL_HEADER_MAX_LENGTH)
+  }
+
+  if (siteNames.length === 0) {
+    // Activity present, no site names
+    const full = typePrefix + activity
+    return full.length <= EMAIL_HEADER_MAX_LENGTH
+      ? full
+      : full.substring(0, EMAIL_HEADER_MAX_LENGTH - 3) + '...'
+  }
+
+  // Both activity and site names present
+  const activityPrefix = typePrefix + activity + separator
+  const availableForNames = EMAIL_HEADER_MAX_LENGTH - activityPrefix.length
+
+  if (availableForNames > 0) {
+    const fittedNames = fitNames(siteNames, availableForNames)
+    if (fittedNames) {
+      return activityPrefix + fittedNames
+    }
+  }
+
+  // Activity is too long — truncate it to leave room for the first site name
+  const minNamesSegment = separator + siteNames[0]
+  const maxActivityLen =
+    EMAIL_HEADER_MAX_LENGTH - typePrefix.length - minNamesSegment.length
+  if (maxActivityLen > 3) {
+    const truncatedActivity = activity.substring(0, maxActivityLen - 3) + '...'
+    const truncatedPrefix = typePrefix + truncatedActivity + separator
+    const remainingForNames = EMAIL_HEADER_MAX_LENGTH - truncatedPrefix.length
+    if (remainingForNames > 0) {
+      const fittedNames = fitNames(siteNames, remainingForNames)
+      if (fittedNames) {
+        return truncatedPrefix + fittedNames
+      }
+    }
+  }
+
+  // Last resort: type + activity, truncated if needed
+  const full = typePrefix + activity
+  return full.length <= EMAIL_HEADER_MAX_LENGTH
+    ? full
+    : full.substring(0, EMAIL_HEADER_MAX_LENGTH - 3) + '...'
 }
 
 /**
@@ -526,7 +620,7 @@ export function mapFormSubmission(message) {
     is_contractor_working_for_public_body: workingOnBehalfOf ? 'Yes' : 'No',
     public_body_type: mapPublicBodyType(workingOnBehalfOf, applicantCategory),
     public_body: mapPublicBody(main),
-    is_there_a_european_site: euroSiteInfo.length > 0 ? 'Yes' : 'No',
+    is_there_a_european_site: euroSiteInfo.length > 0 ? 'Yes' : '',
     SSSI_info: mapSssiInfo(main, repeaters),
     euro_site_info: euroSiteInfo
   }

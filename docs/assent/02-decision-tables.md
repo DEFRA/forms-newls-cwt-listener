@@ -50,8 +50,8 @@ The scheme determines the `detailed_work_type` and which agreement reference fie
 
 | #   | Could affect European site? (XydYUD) | Euro site repeater (aQYWxD)                                       | Result                                                         |
 | --- | ------------------------------------ | ----------------------------------------------------------------- | -------------------------------------------------------------- |
-| E1  | Yes                                  | IzQfir ("What is the name of the European site?") entries present | `is_there_a_european_site` = `"Yes"`, euro_site_info populated |
-| E2  | No / not set                         | -                                                                 | `is_there_a_european_site` = `"No"`, euro_site_info empty      |
+| E1  | Yes / No / not set                   | IzQfir ("What is the name of the European site?") entries present | `is_there_a_european_site` = `"Yes"`, euro_site_info populated |
+| E2  | Yes / No / not set                   | No entries                                                        | `is_there_a_european_site` = `""`, euro_site_info empty        |
 
 ## Complete submission scenarios
 

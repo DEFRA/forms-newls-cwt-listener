@@ -106,7 +106,7 @@ function collectSssiNames(main, repeaters) {
 }
 
 /**
- * Collects the primary segment (activities or scheme), SSSI names, and
+ * Collects the primary segment (activities and/or scheme), SSSI names, and
  * European site names for building the email header and description.
  * @param {Record<string, unknown>} main
  * @param {Record<string, Array<Record<string, unknown>>>} repeaters
@@ -152,17 +152,14 @@ function collectAssentSegments(main, repeaters) {
     .map((entry) => (entry.IzQfir ? parseName(entry.IzQfir) : ''))
     .filter(Boolean)
 
-  // Build primary segment: activities or scheme
-  let primary = ''
-  if (activities.length > 0) {
-    primary = activities.join(', ')
-  } else {
-    // rTreXu = "What land management scheme does this notice relate to?"
-    const landManagementScheme = /** @type {string | undefined} */ (main.rTreXu)
-    if (landManagementScheme) {
-      primary = landManagementScheme
-    }
+  // Build primary segment: activities and/or scheme (both included when present)
+  // rTreXu = "What land management scheme does this notice relate to?"
+  const landManagementScheme = /** @type {string | undefined} */ (main.rTreXu)
+  const primaryParts = [...activities]
+  if (landManagementScheme) {
+    primaryParts.push(landManagementScheme)
   }
+  const primary = primaryParts.join(', ')
 
   return { primary, sssiNames, euroSiteNames }
 }
@@ -172,7 +169,7 @@ function collectAssentSegments(main, repeaters) {
  * and scheme info. Uses the same segments as mapEmailHeader but without a
  * length limit.
  *
- * Format: "[activities or scheme] - [SSSI names] - [Euro site names]"
+ * Format: "[activities and/or scheme] - [SSSI names] - [Euro site names]"
  * Fallback: "S28H Assent"
  *
  * @param {Record<string, unknown>} main
@@ -214,7 +211,7 @@ function mapConsultingBody(main) {
   const otherPublicBody = /** @type {string | undefined} */ (main.FyLHmN)
 
   // Working on behalf of a public body - use organisation name
-  if (customerType === 'An organisation working on behalf of a public body') {
+  if (customerType === 'Somebody working on behalf of a public body') {
     if (organisationName === 'Other') {
       return otherOrganisationName ?? ''
     }
@@ -493,8 +490,10 @@ export function mapFormSubmission(message) {
   const customerType = /** @type {string | undefined} */ (main.KTObNK)
   // vUHwan = "Which category best describes the public body you're representing?"
   const publicBodyCategory = /** @type {string | undefined} */ (main.vUHwan)
-  // XydYUD = "Could the planned activities affect a European site?"
-  const couldAffectEuroSite = /** @type {boolean | undefined} */ (main.XydYUD)
+  // ylXSKE = "What is the Single Business Identifier (SBI) number of where the activities will take place?"
+  const sbi = /** @type {string | undefined} */ (main.ylXSKE)
+
+  const euroSiteInfo = mapEuroSiteInfo(repeaters)
 
   return {
     form_type: 'assent',
@@ -503,7 +502,7 @@ export function mapFormSubmission(message) {
     detailed_work_type: mapDetailedWorkType(main),
     description: mapDescription(main, repeaters),
     consulting_body_type:
-      customerType === 'An organisation working on behalf of a public body'
+      customerType === 'Somebody working on behalf of a public body'
         ? 'Consultant'
         : publicBodyCategory
           ? (publicBodyCategoryMap[publicBodyCategory] ?? publicBodyCategory)
@@ -514,17 +513,18 @@ export function mapFormSubmission(message) {
     // skdDtj = "What is your email address?"
     customer_email_address: /** @type {string} */ (main.skdDtj) ?? '',
     email_header: mapEmailHeader(main, repeaters),
+    SBI: sbi ? Number(sbi) : undefined,
     agreement_reference: mapAgreementReference(main),
     is_contractor_working_for_public_body:
-      customerType === 'An organisation working on behalf of a public body'
+      customerType === 'Somebody working on behalf of a public body'
         ? 'Yes'
         : 'No',
     public_body_type: publicBodyCategory
       ? (publicBodyCategoryMap[publicBodyCategory] ?? publicBodyCategory)
       : '',
     public_body: mapPublicBody(main),
-    is_there_a_european_site: couldAffectEuroSite ? 'Yes' : 'No',
+    is_there_a_european_site: euroSiteInfo.length > 0 ? 'Yes' : '',
     SSSI_info: mapSssiInfo(main, repeaters),
-    euro_site_info: mapEuroSiteInfo(repeaters)
+    euro_site_info: euroSiteInfo
   }
 }

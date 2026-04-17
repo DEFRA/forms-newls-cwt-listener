@@ -8,19 +8,26 @@
 
 ## Advice Form (`advice-form-mapper.js`)
 
-| Priority   | Segment              | Source                                                                                |
-| ---------- | -------------------- | ------------------------------------------------------------------------------------- |
-| 1 (prefix) | `detailed_work_type` | Always present (e.g., "Standalone HRA Reg 63", "S28i Advice", "LNRs", "SSSI - Other") |
-| 2          | European site names  | HRA path: parsed from `TJuSNf` repeater `rtuWky` field                                |
-| 2          | SSSI names           | S28I path: parsed from repeater entries with `Avdzxa` field                           |
-| 2          | Damaged SSSI name    | Damage reporting path: parsed from `MoCXGK` field                                     |
+| Priority   | Segment              | Source                                                                                                                   |
+| ---------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| 1 (prefix) | `detailed_work_type` | Always present (e.g., "Standalone HRA Reg 63", "S28i Advice", "LNRs", "SSSI - Other")                                    |
+| 2          | Activities           | Path-specific free text: `mtiMfk` (drone path), `nJVeix` (HRA / S28i path), `YhWlKB` (damage path). Omitted when absent. |
+| 3          | European site names  | HRA path: parsed from `TJuSNf` repeater `rtuWky` field                                                                   |
+| 3          | SSSI names           | S28I path: parsed from repeater entries with `Avdzxa` field                                                              |
+| 3          | Damaged SSSI name    | Damage reporting path: parsed from `MoCXGK` field                                                                        |
+| 3          | Drone SSSI name      | Drone flying path: parsed from `PxvdiH` field                                                                            |
+
+When no activity or site names are present and `xzEslQ = "Something else"`, `QmIGor` ("What is your question?") is appended instead.
+
+**Truncation:** If the activity text is too long to leave room for site names, the activity is truncated with `"..."` to make space for the first site name.
 
 ### Examples
 
-- `Standalone HRA Reg 63 - Arun Valley Ramsar, Abberton Reservoir Ramsar`
-- `S28i Advice - Abbey Wood SSSI`
-- `SSSI - Site visits/surveys - Damage Reporting SSSI`
-- `SSSI - Other` (general topics, no sites)
+- `Standalone HRA Reg 63 - Residential development of 200 units - Arun Valley Ramsar, Abberton Reservoir Ramsar`
+- `S28i Advice - Flood defence works - Abbey Wood SSSI`
+- `SSSI - Regulation and Enforcement - Unauthorised tree felling - Damage Reporting SSSI`
+- `SSSI - Other - Photography and wildlife observation - Aqualate Mere SSSI`
+- `SSSI - Other` (general topics, no activity or sites)
 
 ## Consent Form (`consent-form-mapper.js`)
 

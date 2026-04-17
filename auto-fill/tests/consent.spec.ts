@@ -1,5 +1,6 @@
 import { expect } from "@playwright/test";
 import { test } from "./fixtures";
+import path from "path";
 
 /**
  * Consent Form – auto-fill scripts for all main pathways.
@@ -19,7 +20,7 @@ import { test } from "./fixtures";
  */
 
 const FORM_URL = "http://localhost:3009/form/consent/before-you-start";
-const PDF_PATH = "/Users/aaron/Temp/pdf_for_upload_test.pdf";
+const PDF_PATH = path.join(__dirname, "files", "pdf_for_upload_test.pdf");
 
 // ─── Shared helpers ───────────────────────────────────────────────────────────
 
@@ -244,6 +245,20 @@ async function fillAdviceDetails(page: import("@playwright/test").Page) {
   await page.getByRole("button", { name: "Continue" }).click();
 }
 
+/**
+ * Fill address via the "enter address manually" lookup pattern.
+ * Clicks the manual-entry button, fills fields, clicks "Use this address".
+ */
+async function fillAddressManually(page: import("@playwright/test").Page) {
+  await page
+    .getByRole("button", { name: "enter address manually" })
+    .click();
+  await page.getByRole("textbox", { name: "Address line 1" }).fill("1 Way");
+  await page.getByRole("textbox", { name: "Town or city" }).fill("York");
+  await page.getByRole("textbox", { name: "Postcode" }).fill("YO1 2ND");
+  await page.getByRole("button", { name: "Use this address" }).click();
+}
+
 /** Fill the shared contact details pages: name → phone → email → address. */
 async function fillContactDetails(
   page: import("@playwright/test").Page,
@@ -270,15 +285,8 @@ async function fillContactDetails(
     );
   await page.getByRole("button", { name: "Continue" }).click();
 
-  await page
-    .getByRole("textbox", { name: "Address line 1" })
-    .fill("1 Way");
-  await page
-    .getByRole("textbox", { name: "Town or city" })
-    .fill("York");
-  await page
-    .getByRole("textbox", { name: "Postcode" })
-    .fill("YO1 2ND");
+  // Address – uses postcode lookup. Take the manual-entry path.
+  await fillAddressManually(page);
   await page.getByRole("button", { name: "Continue" }).click();
 }
 
@@ -400,6 +408,12 @@ test.describe("Consent Form", () => {
       .fill("CS12345");
     await page.getByRole("button", { name: "Continue" }).click();
 
+    // SBI of where the activities will take place
+    await page
+      .getByRole("textbox", { name: /Single Business Identifier/ })
+      .fill("123456789");
+    await page.getByRole("button", { name: "Continue" }).click();
+
     // Where are activities? (coordinates)
     await page.getByRole("textbox", { name: "Easting" }).fill("512050");
     await page.getByRole("textbox", { name: "Northing" }).fill("108050");
@@ -452,6 +466,9 @@ test.describe("Consent Form", () => {
     await page.getByRole("button", { name: "Continue" }).click();
 
     // Land owner or occupier details
+    await page
+      .getByRole("radio", { name: "Landowner", exact: true })
+      .check();
     await page.getByRole("textbox", { name: "First name" }).fill("Jane");
     await page.getByRole("textbox", { name: "Last name" }).fill("Doe");
     await page
@@ -460,15 +477,7 @@ test.describe("Consent Form", () => {
     await page
       .getByRole("textbox", { name: "Phone number" })
       .fill("07777777777");
-    await page
-      .getByRole("textbox", { name: "Address line 1" })
-      .fill("1 Way");
-    await page
-      .getByRole("textbox", { name: "Town or city" })
-      .fill("York");
-    await page
-      .getByRole("textbox", { name: "Postcode" })
-      .fill("YO1 2ND");
+    await fillAddressManually(page);
     await page.getByRole("button", { name: "Continue" }).click();
 
     // Multiple SSSIs? – Yes
@@ -570,6 +579,9 @@ test.describe("Consent Form", () => {
     await page.getByRole("button", { name: "Continue" }).click();
 
     // Land owner or occupier details
+    await page
+      .getByRole("radio", { name: "Landowner", exact: true })
+      .check();
     await page.getByRole("textbox", { name: "First name" }).fill("Jane");
     await page.getByRole("textbox", { name: "Last name" }).fill("Doe");
     await page
@@ -578,15 +590,7 @@ test.describe("Consent Form", () => {
     await page
       .getByRole("textbox", { name: "Phone number" })
       .fill("07777777777");
-    await page
-      .getByRole("textbox", { name: "Address line 1" })
-      .fill("1 Way");
-    await page
-      .getByRole("textbox", { name: "Town or city" })
-      .fill("York");
-    await page
-      .getByRole("textbox", { name: "Postcode" })
-      .fill("YO1 2ND");
+    await fillAddressManually(page);
     await page.getByRole("button", { name: "Continue" }).click();
 
     // Multiple SSSIs? – Yes
@@ -625,6 +629,12 @@ test.describe("Consent Form", () => {
     await page
       .getByRole("textbox", { name: "What's your Higher Level" })
       .fill("1234567");
+    await page.getByRole("button", { name: "Continue" }).click();
+
+    // SBI of where the activities will take place
+    await page
+      .getByRole("textbox", { name: /Single Business Identifier/ })
+      .fill("123456789");
     await page.getByRole("button", { name: "Continue" }).click();
 
     // Where are activities? (coordinates)
