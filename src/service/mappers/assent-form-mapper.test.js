@@ -311,6 +311,23 @@ describe('assent-form-mapper', () => {
       )
       expect(result.agreement_reference).toBe('SFI-11111')
     })
+
+    it('should use WtpFqT for Other schemes when provided', () => {
+      const result = mapFormSubmission(
+        buildMessage({
+          rTreXu: 'Other schemes',
+          WtpFqT: 'OTHER-REF-42'
+        })
+      )
+      expect(result.agreement_reference).toBe('OTHER-REF-42')
+    })
+
+    it('should be empty for Other schemes when WtpFqT not provided', () => {
+      const result = mapFormSubmission(
+        buildMessage({ rTreXu: 'Other schemes' })
+      )
+      expect(result.agreement_reference).toBe('')
+    })
   })
 
   describe('is_contractor_working_for_public_body', () => {

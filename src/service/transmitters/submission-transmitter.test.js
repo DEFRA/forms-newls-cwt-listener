@@ -12,7 +12,11 @@ vi.mock('../../common/helpers/logging/logger.js', () => ({
   })
 }))
 
-const mockMessage = { formId: 'test', data: { field: 'value' } }
+const mockMessage = {
+  formId: 'test',
+  DF_reference_number: 'DF-REF-123',
+  data: { field: 'value' }
+}
 
 describe('submission-transmitter', () => {
   beforeEach(() => {
@@ -72,7 +76,7 @@ describe('submission-transmitter', () => {
     mockFetch.mockRejectedValue(new Error('Network error'))
 
     await expect(send(mockMessage)).rejects.toThrow(
-      'An error occurred while sending message to API'
+      'An error occurred while sending message to API for submission DF-REF-123'
     )
   })
 
@@ -97,7 +101,7 @@ describe('submission-transmitter', () => {
     })
 
     await expect(send(mockMessage)).rejects.toThrow(
-      'Failed to send message to API: Internal Server Error'
+      'Failed to send message to API for submission DF-REF-123: Internal Server Error'
     )
   })
 })

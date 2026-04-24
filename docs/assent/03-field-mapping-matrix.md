@@ -126,14 +126,16 @@ Single Business Identifier, converted to a number. Sourced from ylXSKE ("What is
 
 ## agreement_reference
 
-Determined by the land management scheme selection (rTreXu).
+Determined by the land management scheme selection (rTreXu). When no scheme-specific branch matches, falls back to WtpFqT (the "Other schemes" reference number field) before returning an empty string.
 
-| Scheme (rTreXu)                 | Source field                                                                       | Output value               |
-| ------------------------------- | ---------------------------------------------------------------------------------- | -------------------------- |
-| CSHT / CSMT / CS Capital Grants | WZJDQG ("What's your Countryside Stewardship Scheme agreement reference number?")  | Free text reference number |
-| HLS agreement                   | OFiizI ("What is your Higher Level Stewardship (HLS) agreement reference number?") | Free text reference number |
-| SFI agreement                   | niVAkO ("What's your Sustainable Farming Incentive (SFI) agreement number?")       | Free text reference number |
-| Other / MTA / not set           | -                                                                                  | Empty string               |
+| Scheme (rTreXu)                 | Source field                                                                       | Output value                          |
+| ------------------------------- | ---------------------------------------------------------------------------------- | ------------------------------------- |
+| CSHT / CSMT / CS Capital Grants | WZJDQG ("What's your Countryside Stewardship Scheme agreement reference number?")  | Free text reference number            |
+| HLS agreement                   | OFiizI ("What is your Higher Level Stewardship (HLS) agreement reference number?") | Free text reference number            |
+| SFI agreement                   | niVAkO ("What's your Sustainable Farming Incentive (SFI) agreement number?")       | Free text reference number            |
+| Other schemes / any other value | WtpFqT ("What is the scheme reference number?") — fallback                         | Free text reference number (optional) |
+| Not set                         | -                                                                                  | Empty string                          |
+| Scheme set but WtpFqT blank     | -                                                                                  | Empty string                          |
 
 ## is_contractor_working_for_public_body
 
@@ -225,10 +227,10 @@ This section identifies all scenarios where output fields sent to the University
 
 ### Fields that may be empty strings
 
-| Field                      | Condition producing empty value                                          | Realistic scenario?                                                              |
-| -------------------------- | ------------------------------------------------------------------------ | -------------------------------------------------------------------------------- |
-| `agreement_reference`      | Scheme is MTA, Other, or not set — no agreement reference field is shown | **Expected** — MTA and Other schemes don't require references. See Examples 4, 5 |
-| `is_there_a_european_site` | `euro_site_info` array is empty (no European sites listed)               | **Expected** — many submissions don't affect European sites                      |
+| Field                      | Condition producing empty value                                                                                                                                 | Realistic scenario?                                                                               |
+| -------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| `agreement_reference`      | Scheme is MTA or not set (no reference field shown and WtpFqT fallback not collected on that path), or scheme is Other schemes and WtpFqT left blank (optional) | **Expected** — MTA has no reference field; Other schemes reference is optional. See Examples 4, 5 |
+| `is_there_a_european_site` | `euro_site_info` array is empty (no European sites listed)                                                                                                      | **Expected** — many submissions don't affect European sites                                       |
 
 **Note:** `description` is always populated — it falls back to `"S28H Assent"` when no activities, scheme text, SSSI names, or European site names are available. On the scheme multi-SSSI path, the description will contain the scheme text and SSSI names even though no activity fields are collected.
 
@@ -241,11 +243,11 @@ This section identifies all scenarios where output fields sent to the University
 
 ### Key empty value scenarios by form path
 
-| Path                                              | `description`  | `consulting_body_type` | `public_body_type` | `public_body` | `agreement_reference` | Notes                                                                     |
-| ------------------------------------------------- | -------------- | ---------------------- | ------------------ | ------------- | --------------------- | ------------------------------------------------------------------------- |
-| Public body, CS scheme, single SSSI               | Activities     | Body category          | Body category      | Body name     | CS reference          | All fields populated                                                      |
-| Public body, HLS, multiple SSSIs (scheme)         | Scheme + SSSIs | Body category          | Body category      | Body name     | HLS reference         | Description has scheme text and SSSI names (no activities on this path)   |
-| Contractor, SFI, single SSSI                      | Activities     | `Consultant`           | Body category      | Body name     | SFI reference         | Only **description** may vary                                             |
-| Public body, MTA, single SSSI                     | Activities     | Body category          | Body category      | Body name     | `""` empty            | **agreement_reference empty** — MTA has no reference field                |
-| Contractor, Other scheme, multiple SSSIs (scheme) | Scheme + SSSIs | `Consultant`           | Body category      | Body name     | `""` empty            | Description has scheme text and SSSI names; **agreement_reference empty** |
-| Public body, no scheme, multiple SSSIs (ORNEC)    | Activities     | Body category          | Body category      | Body name     | `""` empty            | Only agreement_reference is empty                                         |
+| Path                                              | `description`  | `consulting_body_type` | `public_body_type` | `public_body` | `agreement_reference` | Notes                                                                                                                           |
+| ------------------------------------------------- | -------------- | ---------------------- | ------------------ | ------------- | --------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| Public body, CS scheme, single SSSI               | Activities     | Body category          | Body category      | Body name     | CS reference          | All fields populated                                                                                                            |
+| Public body, HLS, multiple SSSIs (scheme)         | Scheme + SSSIs | Body category          | Body category      | Body name     | HLS reference         | Description has scheme text and SSSI names (no activities on this path)                                                         |
+| Contractor, SFI, single SSSI                      | Activities     | `Consultant`           | Body category      | Body name     | SFI reference         | Only **description** may vary                                                                                                   |
+| Public body, MTA, single SSSI                     | Activities     | Body category          | Body category      | Body name     | `""` empty            | **agreement_reference empty** — MTA has no reference field                                                                      |
+| Contractor, Other scheme, multiple SSSIs (scheme) | Scheme + SSSIs | `Consultant`           | Body category      | Body name     | WtpFqT or `""` empty  | Description has scheme text and SSSI names; **agreement_reference** comes from WtpFqT (optional, empty if user leaves it blank) |
+| Public body, no scheme, multiple SSSIs (ORNEC)    | Activities     | Body category          | Body category      | Body name     | `""` empty            | Only agreement_reference is empty                                                                                               |

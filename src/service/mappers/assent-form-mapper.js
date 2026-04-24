@@ -274,7 +274,9 @@ function mapAgreementReference(main) {
     return /** @type {string} */ (main.niVAkO) ?? ''
   }
 
-  return ''
+  // This will usually apply when the Land Management Scheme is 'Other schemes'
+  // WtpFqT = "What is the scheme reference number?" (optional)
+  return /** @type {string} */ (main.WtpFqT) ?? ''
 }
 
 /**

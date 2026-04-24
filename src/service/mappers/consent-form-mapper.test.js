@@ -229,6 +229,23 @@ describe('consent-form-mapper', () => {
       )
       expect(result.agreement_reference).toBe('Planning Permission 123')
     })
+
+    it('should use WtpFqT for Other schemes when provided', () => {
+      const result = mapFormSubmission(
+        buildMessage({
+          rTreXu: 'Other schemes',
+          WtpFqT: 'OTHER-REF-42'
+        })
+      )
+      expect(result.agreement_reference).toBe('OTHER-REF-42')
+    })
+
+    it('should be empty for Other schemes when WtpFqT not provided', () => {
+      const result = mapFormSubmission(
+        buildMessage({ rTreXu: 'Other schemes' })
+      )
+      expect(result.agreement_reference).toBe('')
+    })
   })
 
   describe('email_header', () => {

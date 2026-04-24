@@ -201,6 +201,11 @@ function mapAgreementReference(main) {
       // niVAkO = "What's your Sustainable Farming Incentive agreement number?"
       return /** @type {string} */ (main.niVAkO) ?? ''
     }
+
+    if (landManagementScheme.startsWith('Other schemes')) {
+      // WtpFqT = "What is the scheme reference number?" (optional)
+      return /** @type {string} */ (main.WtpFqT) ?? ''
+    }
   }
 
   // Another permission path
@@ -210,7 +215,9 @@ function mapAgreementReference(main) {
     return permissionName
   }
 
-  return ''
+  // Fallback
+  // WtpFqT = "What is the scheme reference number?" (optional)
+  return /** @type {string} */ (main.WtpFqT) ?? ''
 }
 
 /**
