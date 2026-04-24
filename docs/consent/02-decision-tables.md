@@ -39,11 +39,11 @@ The scheme determines the `detailed_work_type` and which agreement reference fie
 
 ## Decision table: email_header
 
-Uses the same segments as `description` (activities and/or scheme, plus SSSI names) but truncated to 255 characters. Falls back to `"S28E Consent"`.
+Uses the same segments as `description` (scheme and/or activities, plus SSSI names) but truncated to 255 characters. Falls back to `"S28E Consent"`.
 
 | #   | Condition                                             | Output                                                     |
 | --- | ----------------------------------------------------- | ---------------------------------------------------------- |
-| H1  | Activities present and scheme present                 | Activities comma-joined, then scheme text, plus SSSI names |
+| H1  | Scheme present and activities present                 | Scheme text, then activities comma-joined, plus SSSI names |
 | H2  | Activities present (from iTBHrY or cwZgSE), no scheme | All unique activities comma-joined, plus SSSI names        |
 | H3  | No activities, scheme present (rTreXu)                | Full scheme text, plus SSSI names                          |
 | H4  | No activities, no scheme, SSSI names present          | SSSI names only                                            |

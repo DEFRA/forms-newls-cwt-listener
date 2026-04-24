@@ -52,10 +52,10 @@ Handles S28E consent applications for works by land owners/occupiers on SSSIs.
 ### Key transformation logic
 
 - **Detailed work type** is scheme-dependent, similar to the assent mapper
-- **Description** combines activities and/or scheme text (both included when both are present) with SSSI names, joined with `-`
+- **Description** combines scheme text and/or activities (both included when both are present, scheme first) with SSSI names, joined with `-`
 - **SBI** (Single Business Identifier) is optionally included as a number
 - **SSSI info** uniquely includes an `ornec` field for each SSSI, grouping coordinates by SSSI name
-- **Email header** uses the same segments as description (activities and/or scheme, plus SSSI names), truncated to 255 characters
+- **Email header** uses the same segments as description (scheme and/or activities, plus SSSI names), truncated to 255 characters
 
 ### Output fields
 

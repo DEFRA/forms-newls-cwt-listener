@@ -88,18 +88,18 @@ Same data and precedence as `description`. Differences:
 
 ### `description`
 
-Format: `[activities and/or scheme] - [SSSI names] - [European site names]`. Empty segments are omitted. Fallback when all segments are empty: `S28H Assent`.
+Format: `[scheme and/or activities] - [SSSI names] - [European site names]`. Empty segments are omitted. Fallback when all segments are empty: `S28H Assent`.
 
-#### Primary segment (activities and/or scheme)
+#### Primary segment (scheme and/or activities)
 
-Activities and scheme are independent: both are included when both are present. The segment is built by joining (with `, `) the activities list (if any) followed by the scheme text (if selected).
+Scheme and activities are independent: both are included when both are present. The segment is built by joining (with `, `) the scheme text (if selected) followed by the activities list (if any).
 
 | Source       | Prerequisites                                          | Driving question(s)                                                                                                                        | Contribution                     |
 | ------------ | ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------- |
+| Scheme       | `rTreXu` selected                                      | **rTreXu** — "What land management scheme does this notice relate to?"                                                                     | The scheme text verbatim         |
 | Activities 1 | Single-SSSI path: repeater `gzSkgC` populated          | **lGsnXi** — "What activity is planned to be carried out?" (repeater `gzSkgC` "Activities requiring Natural England's assent")             | Unique activities joined by `, ` |
 | Activities 2 | Otherwise multi-SSSI path: repeater `QxIzSB` populated | **iNDqRN** — "What activity is planned to be carried out?" (repeater `QxIzSB` "Site name and activities requiring Natural England assent") | Unique activities joined by `, ` |
-| Scheme       | `rTreXu` selected                                      | **rTreXu** — "What land management scheme does this notice relate to?"                                                                     | The scheme text verbatim         |
-| Fallback     | No activities and no scheme                            | —                                                                                                                                          | Empty                            |
+| Fallback     | No scheme and no activities                            | —                                                                                                                                          | Empty                            |
 
 #### SSSI-names segment
 
@@ -139,18 +139,18 @@ Same data and precedence as `description`. Difference:
 
 ### `description`
 
-Format: `[activities and/or scheme] - [SSSI names]`. Empty segments are omitted. Fallback when both segments are empty: `S28E Consent`.
+Format: `[scheme and/or activities] - [SSSI names]`. Empty segments are omitted. Fallback when both segments are empty: `S28E Consent`.
 
-#### Primary segment (activities and/or scheme)
+#### Primary segment (scheme and/or activities)
 
-Activities and scheme are independent: both are included when both are present. The segment is built by joining (with `, `) the activities list (if any) followed by the scheme text (if selected).
+Scheme and activities are independent: both are included when both are present. The segment is built by joining (with `, `) the scheme text (if selected) followed by the activities list (if any).
 
 | Source       | Prerequisites                                             | Driving question(s)                                                                                                                      | Contribution                     |
 | ------------ | --------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------- |
+| Scheme       | `rTreXu` selected                                         | **rTreXu** — "What land management scheme does this notice relate to?"                                                                   | The scheme text verbatim         |
 | Activities 1 | Repeater `iTBHrY` populated (single-SSSI non-scheme path) | **hqsZMS** — "Which activity do you plan to carry out?" (repeater `iTBHrY` "Operations requiring Natural England consent")               | Unique activities joined by `, ` |
 | Activities 2 | Otherwise repeater `cwZgSE` populated (multi-SSSI path)   | **BscJLV** — "Which activity do you plan to carry out?" (repeater `cwZgSE` "Site name and operations requiring Natural England consent") | Unique activities joined by `, ` |
-| Scheme       | `rTreXu` selected                                         | **rTreXu** — "What land management scheme does this notice relate to?"                                                                   | The scheme text verbatim         |
-| Fallback     | No activities and no scheme                               | —                                                                                                                                        | Empty                            |
+| Fallback     | No scheme and no activities                               | —                                                                                                                                        | Empty                            |
 
 #### SSSI-names segment
 

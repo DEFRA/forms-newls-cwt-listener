@@ -54,19 +54,19 @@ Determined by field rTreXu ("What land management scheme does this notice relate
 
 ## description
 
-Built from up to three segments joined with `-` (space-dash-space): the primary segment (activities and/or scheme), SSSI names, and European site names. Falls back to `"S28H Assent"` when no segments are available.
+Built from up to three segments joined with `-` (space-dash-space): the primary segment (scheme and/or activities), SSSI names, and European site names. Falls back to `"S28H Assent"` when no segments are available.
 
-Format: `"{activities and/or scheme} - {SSSI names} - {Euro site names}"`
+Format: `"{scheme and/or activities} - {SSSI names} - {Euro site names}"`
 
-### Primary segment (activities and/or scheme)
+### Primary segment (scheme and/or activities)
 
-Activities and scheme are independent: both are included when both are present, joined with `, ` (activities first, then the scheme text). Single SSSI path takes precedence over multiple SSSI path when collecting activities.
+Scheme and activities are independent: both are included when both are present, joined with `, ` (scheme first, then the activities). Single SSSI path takes precedence over multiple SSSI path when collecting activities.
 
 | Source                | Repeater                                                             | Activity field                                         | Contribution                        |
 | --------------------- | -------------------------------------------------------------------- | ------------------------------------------------------ | ----------------------------------- |
+| Scheme                | rTreXu ("What land management scheme does this notice relate to?")   | -                                                      | Full scheme text                    |
 | Single SSSI           | gzSkgC ("Activities requiring Natural England's assent")             | lGsnXi ("What activity is planned to be carried out?") | Unique activity values comma-joined |
 | Multiple SSSI (ORNEC) | QxIzSB ("Site name and activities requiring Natural England assent") | iNDqRN ("What activity is planned to be carried out?") | Unique activity values comma-joined |
-| Scheme                | rTreXu ("What land management scheme does this notice relate to?")   | -                                                      | Full scheme text                    |
 
 ### SSSI names segment
 

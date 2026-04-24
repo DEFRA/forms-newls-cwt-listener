@@ -167,6 +167,27 @@ describe('assent-form-mapper', () => {
         'Grazing - Test SSSI - Arun Valley Ramsar'
       )
     })
+
+    it('should list scheme before activities when both are present', () => {
+      const result = mapFormSubmission(
+        buildMessage(
+          {
+            rTreXu: 'A Higher Level Stewardship (HLS) agreement',
+            ASataH: true
+          },
+          {
+            hhGvmX: [{ flbYHq: '2006159---SSSI One' }],
+            QxIzSB: [
+              { iNDqRN: 'Grazing', wRGnMW: '2006159---SSSI One' },
+              { iNDqRN: 'Fencing', wRGnMW: '2006159---SSSI One' }
+            ]
+          }
+        )
+      )
+      expect(result.description).toBe(
+        'A Higher Level Stewardship (HLS) agreement, Grazing, Fencing - SSSI One'
+      )
+    })
   })
 
   describe('consulting_body_type', () => {
@@ -447,6 +468,24 @@ describe('assent-form-mapper', () => {
       )
       expect(result.email_header).toBe(
         'A Higher Level Stewardship (HLS) agreement - SSSI One, SSSI Two'
+      )
+    })
+
+    it('should list scheme before activities when both are present', () => {
+      const result = mapFormSubmission(
+        buildMessage(
+          {
+            rTreXu: 'A Higher Level Stewardship (HLS) agreement',
+            ASataH: false,
+            gVlMxz: '1001001---Test SSSI'
+          },
+          {
+            gzSkgC: [{ lGsnXi: 'Grazing' }, { lGsnXi: 'Fencing' }]
+          }
+        )
+      )
+      expect(result.email_header).toBe(
+        'A Higher Level Stewardship (HLS) agreement, Grazing, Fencing - Test SSSI'
       )
     })
 

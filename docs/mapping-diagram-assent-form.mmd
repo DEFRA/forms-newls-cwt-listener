@@ -30,18 +30,18 @@ flowchart TD
     MAIN --> DW_Q
 
     %% ===== description (primary segment) =====
-    subgraph OutDescription["description (primary segment — activities and/or scheme)"]
-        DESC_Q{"Repeater gzSkgC (Activity)<br />has entries?<br />(single SSSI activities)"}
-        DESC_Q -->|Yes| DESC_SINGLE["lGsnXi values<br />What activity is planned<br />to be carried out?<br />(comma-joined)"]
-        DESC_Q -->|No| DESC_Q2{"Repeater QxIzSB (Activity)<br />has entries?<br />(multi SSSI activities)"}
-        DESC_Q2 -->|Yes| DESC_MULTI["iNDqRN values<br />What activity is planned<br />to be carried out?<br />(comma-joined)"]
-        DESC_SINGLE --> DESC_SCHEME_Q
-        DESC_MULTI --> DESC_SCHEME_Q
-        DESC_Q2 -->|No| DESC_SCHEME_Q
+    subgraph OutDescription["description (primary segment — scheme and/or activities)"]
         DESC_SCHEME_Q{"rTreXu present?<br />What land management scheme<br />does this notice relate to?"}
-        DESC_SCHEME_Q -->|Yes| DESC_APPEND["Append scheme text<br />(joined to activities with ', ')"]
-        DESC_SCHEME_Q -->|No| DESC_NOAPPEND["Use activities only<br />(or '' if no activities)"]
+        DESC_SCHEME_Q -->|Yes| DESC_SCHEME["Scheme text<br />(listed first)"]
+        DESC_SCHEME_Q -->|No| DESC_Q
+        DESC_SCHEME --> DESC_Q
+        DESC_Q{"Repeater gzSkgC (Activity)<br />has entries?<br />(single SSSI activities)"}
+        DESC_Q -->|Yes| DESC_SINGLE["lGsnXi values<br />What activity is planned<br />to be carried out?<br />(appended after scheme,<br />comma-joined)"]
+        DESC_Q -->|No| DESC_Q2{"Repeater QxIzSB (Activity)<br />has entries?<br />(multi SSSI activities)"}
+        DESC_Q2 -->|Yes| DESC_MULTI["iNDqRN values<br />What activity is planned<br />to be carried out?<br />(appended after scheme,<br />comma-joined)"]
+        DESC_Q2 -->|No| DESC_NOACT["No activities<br />(scheme only, or '' if no scheme)"]
     end
+    MAIN --> DESC_SCHEME_Q
     REP --> DESC_Q
 
     %% ===== consulting_body_type =====

@@ -61,42 +61,42 @@ When neither activities nor site names are present and `xzEslQ = "Something else
 
 ### Consent Form
 
-**Format:** `[activities and/or scheme] - [SSSI names]`
+**Format:** `[scheme and/or activities] - [SSSI names]`
 
-| Segment    | Source                                                                                    |
-| ---------- | ----------------------------------------------------------------------------------------- |
-| Activities | All unique activities from `iTBHrY.hqsZMS` (single SSSI) or `cwZgSE.BscJLV` (multi SSSI)  |
-| Scheme     | `rTreXu` — included alongside activities when both are present (appended after them)      |
-| SSSI names | Parsed from `hozdvW` (single), `cwZgSE.rWrBOK` (multi), or `gWZwzI.gVlMxz` (scheme multi) |
-| Fallback   | `"S28E Consent"` when nothing else is available                                           |
+| Segment    | Source                                                                                                                                    |
+| ---------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| Scheme     | `rTreXu` — when present, listed first in the primary segment                                                                              |
+| Activities | All unique activities from `iTBHrY.hqsZMS` (single SSSI) or `cwZgSE.BscJLV` (multi SSSI); appended after the scheme when both are present |
+| SSSI names | Parsed from `hozdvW` (single), `cwZgSE.rWrBOK` (multi), or `gWZwzI.gVlMxz` (scheme multi)                                                 |
+| Fallback   | `"S28E Consent"` when nothing else is available                                                                                           |
 
 **Examples:**
 
 - `Grazing, Fencing - Test SSSI`
 - `Grazing, Fencing, Drainage - Test SSSI A, Test SSSI B`
-- `Grazing, A Countryside Stewardship Higher Tier (CSHT) agreement - SSSI One, SSSI Two` (activities + scheme)
+- `A Countryside Stewardship Higher Tier (CSHT) agreement, Grazing - SSSI One, SSSI Two` (scheme + activities)
 - `A Countryside Stewardship Higher Tier (CSHT) agreement - SSSI One, SSSI Two` (scheme only)
 - `Test SSSI` (SSSI name only, no activities or scheme)
 - `S28E Consent`
 
 ### Assent Form
 
-**Format:** `[activities and/or scheme] - [SSSI names] - [Euro site names]`
+**Format:** `[scheme and/or activities] - [SSSI names] - [Euro site names]`
 
-| Segment         | Source                                                                                          |
-| --------------- | ----------------------------------------------------------------------------------------------- |
-| Activities      | All unique activities from `gzSkgC.lGsnXi` (single SSSI) or `QxIzSB.iNDqRN` (multi SSSI)        |
-| Scheme          | `rTreXu` — included alongside activities when both are present (appended after them)            |
-| SSSI names      | Parsed from `gVlMxz` (single), `hhGvmX.flbYHq` (scheme multi), or `QxIzSB.wRGnMW` (ORNEC multi) |
-| Euro site names | Parsed from `aQYWxD.IzQfir`                                                                     |
-| Fallback        | `"S28H Assent"` when nothing else is available                                                  |
+| Segment         | Source                                                                                                                                    |
+| --------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| Scheme          | `rTreXu` — when present, listed first in the primary segment                                                                              |
+| Activities      | All unique activities from `gzSkgC.lGsnXi` (single SSSI) or `QxIzSB.iNDqRN` (multi SSSI); appended after the scheme when both are present |
+| SSSI names      | Parsed from `gVlMxz` (single), `hhGvmX.flbYHq` (scheme multi), or `QxIzSB.wRGnMW` (ORNEC multi)                                           |
+| Euro site names | Parsed from `aQYWxD.IzQfir`                                                                                                               |
+| Fallback        | `"S28H Assent"` when nothing else is available                                                                                            |
 
 **Examples:**
 
 - `Grazing, Fencing - Test SSSI`
 - `Tree removal, Drainage - Test SSSI A, Test SSSI B`
 - `Grazing - Test SSSI - Arun Valley Ramsar`
-- `Grazing, A Higher Level Stewardship (HLS) agreement - SSSI One, SSSI Two` (activities + scheme)
+- `A Higher Level Stewardship (HLS) agreement, Grazing - SSSI One, SSSI Two` (scheme + activities)
 - `A Higher Level Stewardship (HLS) agreement - SSSI One, SSSI Two` (scheme only)
 - `S28H Assent`
 

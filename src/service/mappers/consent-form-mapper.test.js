@@ -125,6 +125,23 @@ describe('consent-form-mapper', () => {
       )
     })
 
+    it('should list scheme before activities when both are present', () => {
+      const result = mapFormSubmission(
+        buildMessage(
+          {
+            rTreXu: 'A Countryside Stewardship Higher Tier (CSHT) agreement',
+            hozdvW: '1001001---Test SSSI'
+          },
+          {
+            iTBHrY: [{ hqsZMS: 'Grazing' }, { hqsZMS: 'Fencing' }]
+          }
+        )
+      )
+      expect(result.description).toBe(
+        'A Countryside Stewardship Higher Tier (CSHT) agreement, Grazing, Fencing - Test SSSI'
+      )
+    })
+
     it('should fall back to "S28E Consent" when nothing available', () => {
       const result = mapFormSubmission(buildMessage({}))
       expect(result.description).toBe('S28E Consent')
@@ -272,6 +289,23 @@ describe('consent-form-mapper', () => {
       )
       expect(result.email_header).toBe(
         'A Countryside Stewardship Higher Tier (CSHT) agreement'
+      )
+    })
+
+    it('should list scheme before activities when both are present', () => {
+      const result = mapFormSubmission(
+        buildMessage(
+          {
+            rTreXu: 'A Countryside Stewardship Higher Tier (CSHT) agreement',
+            hozdvW: '1001001---Test SSSI'
+          },
+          {
+            iTBHrY: [{ hqsZMS: 'Grazing' }, { hqsZMS: 'Fencing' }]
+          }
+        )
+      )
+      expect(result.email_header).toBe(
+        'A Countryside Stewardship Higher Tier (CSHT) agreement, Grazing, Fencing - Test SSSI'
       )
     })
 
