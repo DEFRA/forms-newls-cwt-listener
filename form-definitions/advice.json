@@ -355,23 +355,6 @@
       "condition": "3ea05bd5-69bf-4f61-91c0-1e606cdce6ab"
     },
     {
-      "title": "Flying drones and SSSIs",
-      "controller": "TerminalPageController",
-      "path": "/flying-drones-and-sssis",
-      "components": [
-        {
-          "id": "76eeddff-0139-46f0-862f-85c40b3d7962",
-          "type": "Markdown",
-          "content": "If you want to fly a drone over a SSSI, your activity may require consent. The landowner or occupier may need to apply to Natural England for consent for the activities you wish to carry out. Natural England cannot provide landowner information, as this would breach the Data Protection Act. \r\n\r\nPublic bodies (Section 28G authorities) and the landowner or occupier of a Site of Special Scientific Interest (SSSI) have responsibilities which help protect these sites. \r\n\r\nMembers of the public would be breaking the law if they:\r\n\r\n* intentionally or recklessly damage the SSSI\r\n* destroy any of the features of special interest\r\n* disturb wildlife for which the site was notified\r\n* carry out listed operations without consent\r\n\r\nNatural England can only give consent for an activity on a SSSI to the landowner or occupier. So, if you wish to access or carry out any activities on a SSSI, you must contact the landowner or occupier, or the public body managing the site. \r\n\r\nFor further information on [public body SSSI responsibilities](https://www.gov.uk/guidance/sites-of-special-scientific-interest-public-body-responsibilities-and-getting-assent-for-works) \r\n\r\nFor further information on [landowner and occupier SSSI responsibilities](https://www.gov.uk/guidance/sites-of-special-scientific-interest-managing-your-land-and-getting-consent-for-activities)\r\n\r\nLandowner or occupier details may be available from [HM Land Registry](https://www.gov.uk/search-property-information-land-registry)\r\n\r\n\r\n### For more information on drone flying: \r\n\r\n* the [Drone and Model Aircraft Code](https://www.caa.co.uk/drones/getting-started-with-drones-and-model-aircraft/drone-code/) includes a brief reference to SSSIs\r\n* [government advice about drones](https://www.gov.uk/government/news/drones-are-you-flying-yours-safely-and-legally) and the guidance and laws surrounding their use\r\n* [Civil Aviation Authority information](https://www.caa.co.uk/drones/) about drone use (may be useful for third parties wishing to discuss consent with owner or occupiers)\r\n* guidance on whether you will need to [apply for a licence for disturbing or removing wildlife or damaging habitats](https://www.gov.uk/guidance/wildlife-licences)\r\n* there might also be local restrictions on drone flying. For example, the use of drones on any common land in [Dartmoor National Park is an offence under the National Park Byelaws](https://www.dartmoor.gov.uk/enjoy-dartmoor/outdoor-activities/drones-and-model-aircraft)\r\n* the [National Trust](https://www.nationaltrust.org.uk/who-we-are/about-us/flying-drones-at-our-places) have a policy of not granting permission for private flying from their land and properties",
-          "options": {},
-          "schema": {}
-        }
-      ],
-      "next": [],
-      "id": "1baa26a5-6886-4d45-ba4a-d439a895ba59",
-      "condition": "76cf25c3-7063-44e2-b7ee-334c0cff88f1"
-    },
-    {
       "title": "Flying a drone",
       "path": "/flying-a-drone",
       "components": [
@@ -479,6 +462,23 @@
       "next": [],
       "id": "cc0cb95c-6ce6-450f-839a-2f0f63093975",
       "condition": "1c6dbdd4-505e-46b1-8141-aef3f0bbf006"
+    },
+    {
+      "title": "Site not listed to fly drones",
+      "controller": "TerminalPageController",
+      "path": "/site-not-listed-to-fly-drones",
+      "components": [
+        {
+          "id": "fd7f23a6-885e-418c-9e11-c568fcfb7411",
+          "type": "Markdown",
+          "content": "If you want to fly a drone over a SSSI, your activity may require consent. The landowner or occupier may need to apply to Natural England for consent for the activities you wish to carry out. Natural England cannot provide landowner information, as this would breach the Data Protection Act. \r\n\r\nPublic bodies (Section 28G authorities) and the landowner or occupier of a Site of Special Scientific Interest (SSSI) have responsibilities which help protect these sites. \r\n\r\nMembers of the public would be breaking the law if they:\r\n\r\n* intentionally or recklessly damage the SSSI\r\n* destroy any of the features of special interest\r\n* disturb wildlife for which the site was notified\r\n* carry out listed operations without consent\r\n\r\nNatural England can only give consent for an activity on a SSSI to the landowner or occupier. So, if you wish to access or carry out any activities on a SSSI, you must contact the landowner or occupier, or the public body managing the site. \r\n\r\nFor further information on [public body SSSI responsibilities](https://www.gov.uk/guidance/sites-of-special-scientific-interest-public-body-responsibilities-and-getting-assent-for-works) \r\n\r\nFor further information on [landowner and occupier SSSI responsibilities](https://www.gov.uk/guidance/sites-of-special-scientific-interest-managing-your-land-and-getting-consent-for-activities)\r\n\r\nLandowner or occupier details may be available from [HM Land Registry](https://www.gov.uk/search-property-information-land-registry)\r\n\r\n\r\n### For more information on drone flying: \r\n\r\n* the [Drone and Model Aircraft Code](https://www.caa.co.uk/drones/getting-started-with-drones-and-model-aircraft/drone-code/) includes a brief reference to SSSIs\r\n* [government advice about drones](https://www.gov.uk/government/news/drones-are-you-flying-yours-safely-and-legally) and the guidance and laws surrounding their use\r\n* [Civil Aviation Authority information](https://www.caa.co.uk/drones/) about drone use (may be useful for third parties wishing to discuss consent with owner or occupiers)\r\n* guidance on whether you will need to [apply for a licence for disturbing or removing wildlife or damaging habitats](https://www.gov.uk/guidance/wildlife-licences)\r\n* there might also be local restrictions on drone flying. For example, the use of drones on any common land in [Dartmoor National Park is an offence under the National Park Byelaws](https://www.dartmoor.gov.uk/enjoy-dartmoor/outdoor-activities/drones-and-model-aircraft)\r\n* the [National Trust](https://www.nationaltrust.org.uk/who-we-are/about-us/flying-drones-at-our-places) have a policy of not granting permission for private flying from their land and properties",
+          "options": {},
+          "schema": {}
+        }
+      ],
+      "next": [],
+      "id": "9d66c706-7513-4b66-ac51-50a75b5901c4",
+      "condition": "d799206b-2a89-4f21-992d-e8041eaf82eb"
     },
     {
       "title": "Which European site does this plan or project affect?",
@@ -1192,6 +1192,23 @@
       "condition": "8c4c5df5-24a9-48a9-bbe7-6bb958c645ee"
     },
     {
+      "title": "Flying drones and SSSIs",
+      "path": "/flying-drones-and-sssis",
+      "components": [
+        {
+          "id": "76eeddff-0139-46f0-862f-85c40b3d7962",
+          "type": "Markdown",
+          "content": "If you want to fly a drone over a SSSI, your activity may require consent. The landowner or occupier may need to apply to Natural England for consent for the activities you wish to carry out. Natural England cannot provide landowner information, as this would breach the Data Protection Act. \r\n\r\nPublic bodies (Section 28G authorities) and the landowner or occupier of a Site of Special Scientific Interest (SSSI) have responsibilities which help protect these sites. \r\n\r\nMembers of the public would be breaking the law if they:\r\n\r\n* intentionally or recklessly damage the SSSI\r\n* destroy any of the features of special interest\r\n* disturb wildlife for which the site was notified\r\n* carry out listed operations without consent\r\n\r\nNatural England can only give consent for an activity on a SSSI to the landowner or occupier. So, if you wish to access or carry out any activities on a SSSI, you must contact the landowner or occupier, or the public body managing the site. \r\n\r\nFor further information on [public body SSSI responsibilities](https://www.gov.uk/guidance/sites-of-special-scientific-interest-public-body-responsibilities-and-getting-assent-for-works) \r\n\r\nFor further information on [landowner and occupier SSSI responsibilities](https://www.gov.uk/guidance/sites-of-special-scientific-interest-managing-your-land-and-getting-consent-for-activities)\r\n\r\nLandowner or occupier details may be available from [HM Land Registry](https://www.gov.uk/search-property-information-land-registry)\r\n\r\n\r\n### For more information on drone flying: \r\n\r\n* the [Drone and Model Aircraft Code](https://www.caa.co.uk/drones/getting-started-with-drones-and-model-aircraft/drone-code/) includes a brief reference to SSSIs\r\n* [government advice about drones](https://www.gov.uk/government/news/drones-are-you-flying-yours-safely-and-legally) and the guidance and laws surrounding their use\r\n* [Civil Aviation Authority information](https://www.caa.co.uk/drones/) about drone use (may be useful for third parties wishing to discuss consent with owner or occupiers)\r\n* guidance on whether you will need to [apply for a licence for disturbing or removing wildlife or damaging habitats](https://www.gov.uk/guidance/wildlife-licences)\r\n* there might also be local restrictions on drone flying. For example, the use of drones on any common land in [Dartmoor National Park is an offence under the National Park Byelaws](https://www.dartmoor.gov.uk/enjoy-dartmoor/outdoor-activities/drones-and-model-aircraft)\r\n* the [National Trust](https://www.nationaltrust.org.uk/who-we-are/about-us/flying-drones-at-our-places) have a policy of not granting permission for private flying from their land and properties",
+          "options": {},
+          "schema": {}
+        }
+      ],
+      "next": [],
+      "id": "1baa26a5-6886-4d45-ba4a-d439a895ba59",
+      "condition": "680c13dd-849b-4916-b805-482a982d4c56",
+      "controller": "TerminalPageController"
+    },
+    {
       "title": "",
       "path": "/what-is-your-full-name",
       "components": [
@@ -1448,10 +1465,21 @@
             "listId": "6aac240a-5e49-4b7a-924c-933305bd05d4"
           },
           "type": "ListItemRef"
+        },
+        {
+          "id": "810ef345-6418-49e1-8212-8d6db1f6923b",
+          "componentId": "566d428e-36be-44ef-8c94-80b12b3317ce",
+          "operator": "is",
+          "value": {
+            "itemId": "cf893fab-07f4-4000-bd2d-b4060c35ed76",
+            "listId": "d9f3c764-683f-4e04-81f4-df224b124b8e"
+          },
+          "type": "ListItemRef"
         }
       ],
       "displayName": "I want to fly drones",
-      "id": "dcf5238c-e958-4095-aae6-36c2a2a4eac7"
+      "id": "dcf5238c-e958-4095-aae6-36c2a2a4eac7",
+      "coordinator": "and"
     },
     {
       "items": [
@@ -2192,28 +2220,24 @@
       "coordinator": "or",
       "items": [
         {
-          "id": "f7eb4f53-97dc-424e-89d5-3b3da30aad73",
+          "id": "7f96cbc4-fc2f-469a-bd2d-b34dc1f0b635",
           "conditionId": "f5975c78-076a-4f5f-a484-6de8de5e7651"
         },
         {
-          "id": "149fc24f-c072-47e5-98e6-14e44b356401",
+          "id": "5ba71cc6-e474-4657-a42c-905f39cb0cbf",
           "conditionId": "905a5969-be8b-44d9-bf50-5a9269a8676b"
         },
         {
-          "id": "8bbd7854-78f6-4ea6-a1a8-502bdef8c6ae",
+          "id": "0ed94231-ef5e-43e7-92a1-38185c431235",
           "conditionId": "267fcfb9-3853-4870-ac8d-7f8a5fb886a8"
         },
         {
-          "id": "782443cb-98f4-4080-9f6b-c2398a1a21fd",
+          "id": "bb71e8eb-be89-4a98-a973-cc1a08dd859e",
           "conditionId": "c4cd2818-d8fe-45f9-9d5d-115a240afb86"
         },
         {
-          "id": "48558f46-c3d6-4ac2-9728-1b1188b6d418",
+          "id": "1aae91d2-e49e-4620-8196-45442b376974",
           "conditionId": "1b88efb2-fd91-4965-ad86-95e0e7db56f9"
-        },
-        {
-          "id": "d5722b28-3e6f-40eb-ac6b-e9af818442ba",
-          "conditionId": "d799206b-2a89-4f21-992d-e8041eaf82eb"
         }
       ]
     },
@@ -2614,6 +2638,119 @@
       ],
       "displayName": "I work for 'Other' organisation",
       "id": "fc09bfe0-9d11-4e44-9790-3efea5d5ca8c"
+    },
+    {
+      "items": [
+        {
+          "id": "706c2d34-97dd-4c41-81f0-7e2bd1c0318f",
+          "componentId": "566d428e-36be-44ef-8c94-80b12b3317ce",
+          "operator": "is",
+          "value": {
+            "itemId": "b310c16e-ef61-42c2-b633-6ec9a8838d0f",
+            "listId": "d9f3c764-683f-4e04-81f4-df224b124b8e"
+          },
+          "type": "ListItemRef"
+        },
+        {
+          "id": "0ea42963-5d38-4355-9fd6-a7e08ac9992b",
+          "componentId": "566d428e-36be-44ef-8c94-80b12b3317ce",
+          "operator": "is",
+          "value": {
+            "itemId": "d94c6595-090b-452a-9a4c-8ea42cc7ef57",
+            "listId": "d9f3c764-683f-4e04-81f4-df224b124b8e"
+          },
+          "type": "ListItemRef"
+        },
+        {
+          "id": "f9e573ea-1255-4eea-9315-4f8faf83bd57",
+          "componentId": "566d428e-36be-44ef-8c94-80b12b3317ce",
+          "operator": "is",
+          "value": {
+            "itemId": "3ba479e0-8070-4bed-b40b-754d269ec053",
+            "listId": "d9f3c764-683f-4e04-81f4-df224b124b8e"
+          },
+          "type": "ListItemRef"
+        },
+        {
+          "id": "1ee8432c-9bde-47e4-8a05-ffbf49316e8b",
+          "componentId": "f19d43fc-8af4-4244-80a2-12f259fa41d1",
+          "operator": "is",
+          "value": {
+            "itemId": "32afbef8-e5b7-460a-a7fa-bdd8051a29c8",
+            "listId": "b8f67bcf-ecd9-4fc0-a9f4-1380d506b25e"
+          },
+          "type": "ListItemRef"
+        },
+        {
+          "id": "577d5607-ba1b-42ba-89be-34685f487e60",
+          "componentId": "f19d43fc-8af4-4244-80a2-12f259fa41d1",
+          "operator": "is",
+          "value": {
+            "itemId": "62cc7583-3c0c-43e7-b2c2-d70c31c8975d",
+            "listId": "b8f67bcf-ecd9-4fc0-a9f4-1380d506b25e"
+          },
+          "type": "ListItemRef"
+        },
+        {
+          "id": "de21b23a-8c7e-402d-a293-2ee84c62c430",
+          "componentId": "f19d43fc-8af4-4244-80a2-12f259fa41d1",
+          "operator": "is",
+          "value": {
+            "itemId": "fe98ee1f-4d40-4a73-8300-d39fe745060a",
+            "listId": "b8f67bcf-ecd9-4fc0-a9f4-1380d506b25e"
+          },
+          "type": "ListItemRef"
+        }
+      ],
+      "coordinator": "or",
+      "displayName": "Cannot ask about drones",
+      "id": "ed477a82-e41b-4178-bc1a-94dc65c566fe"
+    },
+    {
+      "items": [
+        {
+          "id": "e30c92e6-e23c-4bd1-8c22-9b5f9475dc27",
+          "componentId": "d77f3663-de6c-47dc-952c-8f9ccdd65cc4",
+          "operator": "is",
+          "value": {
+            "itemId": "148e9be4-d312-4443-b82f-06443163620e",
+            "listId": "6aac240a-5e49-4b7a-924c-933305bd05d4"
+          },
+          "type": "ListItemRef"
+        }
+      ],
+      "displayName": "Question on Drones",
+      "id": "7bf505cb-3946-4820-93ff-9185a48b65e9"
+    },
+    {
+      "displayName": "Not Drone flyers",
+      "coordinator": "and",
+      "items": [
+        {
+          "id": "60d2179b-f710-4226-a13c-0e7d4c1a72d7",
+          "conditionId": "ed477a82-e41b-4178-bc1a-94dc65c566fe"
+        },
+        {
+          "id": "8b2ceb6d-a1ba-4322-941d-c6da954360a1",
+          "conditionId": "7bf505cb-3946-4820-93ff-9185a48b65e9"
+        }
+      ],
+      "id": "0b3e9d40-62d0-49f6-a939-bf789ec8c2c3"
+    },
+    {
+      "displayName": "Drone exit page",
+      "coordinator": "or",
+      "items": [
+        {
+          "id": "3da13986-8b2d-43a2-bdb3-e26d745a9146",
+          "conditionId": "0b3e9d40-62d0-49f6-a939-bf789ec8c2c3"
+        },
+        {
+          "id": "486d44c0-56bd-4072-bd3c-d4ad1f17d7d0",
+          "conditionId": "1b88efb2-fd91-4965-ad86-95e0e7db56f9"
+        }
+      ],
+      "id": "680c13dd-849b-4916-b805-482a982d4c56"
     }
   ],
   "sections": [],
@@ -7437,7 +7574,11 @@
         {
           "id": "8cf93c5a-2642-47c5-80dc-d13f78167f07",
           "text": "Public body or organisation",
-          "value": "Public body or organisation"
+          "value": "Public body or organisation",
+          "hint": {
+            "text": "Including Utility providers or Harbour authorities",
+            "id": "92d0fe08-61f3-4831-93e5-72676ea3a8cf"
+          }
         },
         {
           "id": "32afbef8-e5b7-460a-a7fa-bdd8051a29c8",
@@ -52058,8 +52199,8 @@
   },
   "metadata": {
     "$$__formVersion": {
-      "versionNumber": 46,
-      "createdAt": "2026-04-16T15:23:37.920Z"
+      "versionNumber": 1130,
+      "createdAt": "2026-04-17T13:30:19.477Z"
     }
   }
 }
