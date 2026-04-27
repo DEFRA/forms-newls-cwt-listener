@@ -37,7 +37,7 @@ Handles S28H assent applications for works under agri-environment agreements (e.
 
 - **Detailed work type** is determined by the selected agreement scheme (CSHT, CSMT, HLS, SFI, MTA)
 - **Agreement reference** is extracted from scheme-dependent fields
-- **Description** is pulled from activity repeater sections
+- **Description** is pulled from activity repeater sections; when the scheme is `Other schemes`, the literal text is replaced by the answer to `aIixRu` ("What is the name of the land management scheme?")
 - **SBI** (Single Business Identifier) is optionally included as a number when a land management scheme is selected
 - **SSSI info** handles both single and multiple SSSI paths, extracting coordinates from the appropriate repeater sections
 
@@ -52,7 +52,7 @@ Handles S28E consent applications for works by land owners/occupiers on SSSIs.
 ### Key transformation logic
 
 - **Detailed work type** is scheme-dependent, similar to the assent mapper
-- **Description** combines scheme text and/or activities (both included when both are present, scheme first) with SSSI names, joined with `-`
+- **Description** combines scheme text and/or activities (both included when both are present, scheme first) with SSSI names, joined with `-`. When the scheme is `Other schemes`, the literal text is replaced by the answer to `aIixRu` ("What is the name of the land management scheme?")
 - **SBI** (Single Business Identifier) is optionally included as a number
 - **SSSI info** uniquely includes an `ornec` field for each SSSI, grouping coordinates by SSSI name
 - **Email header** uses the same segments as description (scheme and/or activities, plus SSSI names), truncated to 255 characters

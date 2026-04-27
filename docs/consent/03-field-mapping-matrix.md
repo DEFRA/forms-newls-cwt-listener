@@ -56,12 +56,14 @@ Format: `"{scheme and/or activities} - {SSSI names}"`
 
 Scheme and activities are independent: both are included when both are present, joined with `, ` (scheme first, then the activities). Single SSSI path takes precedence over multiple SSSI path when collecting activities.
 
-| Source                       | Prerequisites                                                                                    | Contribution                        |
-| ---------------------------- | ------------------------------------------------------------------------------------------------ | ----------------------------------- |
-| Scheme                       | rTreXu ("What land management scheme does this notice relate to?") selected                      | Full scheme text                    |
-| Single SSSI ORNEC activities | Repeater iTBHrY ("Operations requiring Natural England consent"), hqsZMS ("Which activity?")     | Unique activity values comma-joined |
-| Multi SSSI ORNEC activities  | Otherwise repeater cwZgSE ("Site name and operations requiring Natural England consent"), BscJLV | Unique activity values comma-joined |
-| Fallback                     | No scheme and no activities                                                                      | Empty                               |
+| Source                          | Prerequisites                                                                                        | Contribution                                                                            |
+| ------------------------------- | ---------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| Scheme                          | rTreXu ("What land management scheme does this notice relate to?") selected, value ≠ `Other schemes` | Full scheme text                                                                        |
+| Scheme (Other schemes)          | rTreXu = `Other schemes` and aIixRu ("What is the name of the land management scheme?") provided     | Free-text scheme name from aIixRu (replaces the literal `Other schemes` in the segment) |
+| Scheme (Other schemes) fallback | rTreXu = `Other schemes` and aIixRu blank                                                            | Literal text `Other schemes`                                                            |
+| Single SSSI ORNEC activities    | Repeater iTBHrY ("Operations requiring Natural England consent"), hqsZMS ("Which activity?")         | Unique activity values comma-joined                                                     |
+| Multi SSSI ORNEC activities     | Otherwise repeater cwZgSE ("Site name and operations requiring Natural England consent"), BscJLV     | Unique activity values comma-joined                                                     |
+| Fallback                        | No scheme and no activities                                                                          | Empty                                                                                   |
 
 ### SSSI names segment
 

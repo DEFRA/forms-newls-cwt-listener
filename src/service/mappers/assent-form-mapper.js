@@ -155,8 +155,14 @@ function collectAssentSegments(main, repeaters) {
 
   // Build primary segment: scheme and/or activities (both included when present, scheme first)
   // rTreXu = "What land management scheme does this notice relate to?"
+  // aIixRu = "What is the name of the land management scheme?" (only shown when "Other schemes" is selected)
   const landManagementScheme = /** @type {string | undefined} */ (main.rTreXu)
-  const primaryParts = landManagementScheme ? [landManagementScheme] : []
+  const otherSchemeName = /** @type {string | undefined} */ (main.aIixRu)
+  const schemeLabel =
+    landManagementScheme === 'Other schemes' && otherSchemeName
+      ? otherSchemeName
+      : landManagementScheme
+  const primaryParts = schemeLabel ? [schemeLabel] : []
   primaryParts.push(...activities)
   const primary = primaryParts.join(', ')
 

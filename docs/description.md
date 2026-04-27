@@ -63,12 +63,12 @@ When neither activities nor site names are present and `xzEslQ = "Something else
 
 **Format:** `[scheme and/or activities] - [SSSI names]`
 
-| Segment    | Source                                                                                                                                    |
-| ---------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
-| Scheme     | `rTreXu` — when present, listed first in the primary segment                                                                              |
-| Activities | All unique activities from `iTBHrY.hqsZMS` (single SSSI) or `cwZgSE.BscJLV` (multi SSSI); appended after the scheme when both are present |
-| SSSI names | Parsed from `hozdvW` (single), `cwZgSE.rWrBOK` (multi), or `gWZwzI.gVlMxz` (scheme multi)                                                 |
-| Fallback   | `"S28E Consent"` when nothing else is available                                                                                           |
+| Segment    | Source                                                                                                                                                                                                 |
+| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Scheme     | `rTreXu` — when present, listed first in the primary segment. When `rTreXu = "Other schemes"`, the segment is replaced with the answer to `aIixRu` ("What is the name of the land management scheme?") |
+| Activities | All unique activities from `iTBHrY.hqsZMS` (single SSSI) or `cwZgSE.BscJLV` (multi SSSI); appended after the scheme when both are present                                                              |
+| SSSI names | Parsed from `hozdvW` (single), `cwZgSE.rWrBOK` (multi), or `gWZwzI.gVlMxz` (scheme multi)                                                                                                              |
+| Fallback   | `"S28E Consent"` when nothing else is available                                                                                                                                                        |
 
 **Examples:**
 
@@ -76,6 +76,7 @@ When neither activities nor site names are present and `xzEslQ = "Something else
 - `Grazing, Fencing, Drainage - Test SSSI A, Test SSSI B`
 - `A Countryside Stewardship Higher Tier (CSHT) agreement, Grazing - SSSI One, SSSI Two` (scheme + activities)
 - `A Countryside Stewardship Higher Tier (CSHT) agreement - SSSI One, SSSI Two` (scheme only)
+- `Landscape Recovery, Grazing - Test SSSI` (`Other schemes` selected, `aIixRu = "Landscape Recovery"`)
 - `Test SSSI` (SSSI name only, no activities or scheme)
 - `S28E Consent`
 
@@ -83,13 +84,13 @@ When neither activities nor site names are present and `xzEslQ = "Something else
 
 **Format:** `[scheme and/or activities] - [SSSI names] - [Euro site names]`
 
-| Segment         | Source                                                                                                                                    |
-| --------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
-| Scheme          | `rTreXu` — when present, listed first in the primary segment                                                                              |
-| Activities      | All unique activities from `gzSkgC.lGsnXi` (single SSSI) or `QxIzSB.iNDqRN` (multi SSSI); appended after the scheme when both are present |
-| SSSI names      | Parsed from `gVlMxz` (single), `hhGvmX.flbYHq` (scheme multi), or `QxIzSB.wRGnMW` (ORNEC multi)                                           |
-| Euro site names | Parsed from `aQYWxD.IzQfir`                                                                                                               |
-| Fallback        | `"S28H Assent"` when nothing else is available                                                                                            |
+| Segment         | Source                                                                                                                                                                                                 |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Scheme          | `rTreXu` — when present, listed first in the primary segment. When `rTreXu = "Other schemes"`, the segment is replaced with the answer to `aIixRu` ("What is the name of the land management scheme?") |
+| Activities      | All unique activities from `gzSkgC.lGsnXi` (single SSSI) or `QxIzSB.iNDqRN` (multi SSSI); appended after the scheme when both are present                                                              |
+| SSSI names      | Parsed from `gVlMxz` (single), `hhGvmX.flbYHq` (scheme multi), or `QxIzSB.wRGnMW` (ORNEC multi)                                                                                                        |
+| Euro site names | Parsed from `aQYWxD.IzQfir`                                                                                                                                                                            |
+| Fallback        | `"S28H Assent"` when nothing else is available                                                                                                                                                         |
 
 **Examples:**
 
@@ -98,6 +99,7 @@ When neither activities nor site names are present and `xzEslQ = "Something else
 - `Grazing - Test SSSI - Arun Valley Ramsar`
 - `A Higher Level Stewardship (HLS) agreement, Grazing - SSSI One, SSSI Two` (scheme + activities)
 - `A Higher Level Stewardship (HLS) agreement - SSSI One, SSSI Two` (scheme only)
+- `Landscape Recovery, Grazing - Test SSSI` (`Other schemes` selected, `aIixRu = "Landscape Recovery"`)
 - `S28H Assent`
 
 ## Key Changes Summary

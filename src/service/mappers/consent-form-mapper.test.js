@@ -142,6 +142,32 @@ describe('consent-form-mapper', () => {
       )
     })
 
+    it('should substitute "Other schemes" with the named scheme answer', () => {
+      const result = mapFormSubmission(
+        buildMessage(
+          {
+            rTreXu: 'Other schemes',
+            aIixRu: 'Landscape Recovery',
+            hozdvW: '1001001---Test SSSI'
+          },
+          {
+            iTBHrY: [{ hqsZMS: 'Grazing' }]
+          }
+        )
+      )
+      expect(result.description).toBe('Landscape Recovery, Grazing - Test SSSI')
+    })
+
+    it('should keep "Other schemes" when aIixRu is not provided', () => {
+      const result = mapFormSubmission(
+        buildMessage({
+          rTreXu: 'Other schemes',
+          hozdvW: '1001001---Test SSSI'
+        })
+      )
+      expect(result.description).toBe('Other schemes - Test SSSI')
+    })
+
     it('should fall back to "S28E Consent" when nothing available', () => {
       const result = mapFormSubmission(buildMessage({}))
       expect(result.description).toBe('S28E Consent')
@@ -322,6 +348,24 @@ describe('consent-form-mapper', () => {
     it('should fall back to "S28E Consent" when no activities, scheme, or SSSIs', () => {
       const result = mapFormSubmission(buildMessage({}))
       expect(result.email_header).toBe('S28E Consent')
+    })
+
+    it('should substitute "Other schemes" with the named scheme answer', () => {
+      const result = mapFormSubmission(
+        buildMessage(
+          {
+            rTreXu: 'Other schemes',
+            aIixRu: 'Landscape Recovery',
+            hozdvW: '1001001---Test SSSI'
+          },
+          {
+            iTBHrY: [{ hqsZMS: 'Grazing' }]
+          }
+        )
+      )
+      expect(result.email_header).toBe(
+        'Landscape Recovery, Grazing - Test SSSI'
+      )
     })
 
     it('should truncate to 255 characters when many SSSIs', () => {

@@ -33,12 +33,12 @@ When no activity or site names are present and `xzEslQ = "Something else"`, `QmI
 
 The primary segment is `[scheme and/or activities]` — both are included when both are present, with the scheme listed first.
 
-| Priority       | Segment                | Source                                                                                                         |
-| -------------- | ---------------------- | -------------------------------------------------------------------------------------------------------------- |
-| 1 (primary)    | Land management scheme | `rTreXu` — when present, listed first                                                                          |
-| 1 (primary)    | All unique activities  | `iTBHrY.hqsZMS` (single SSSI) or `cwZgSE.BscJLV` (multi SSSI); appended after the scheme when both are present |
-| 2              | SSSI names             | `hozdvW` (single), `cwZgSE.rWrBOK` (multi), or `gWZwzI.gVlMxz` (scheme multi)                                  |
-| Final fallback | `S28E Consent`         | When nothing else available                                                                                    |
+| Priority       | Segment                | Source                                                                                                                                                           |
+| -------------- | ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1 (primary)    | Land management scheme | `rTreXu` — when present, listed first. When `rTreXu = "Other schemes"`, replaced with the answer to `aIixRu` ("What is the name of the land management scheme?") |
+| 1 (primary)    | All unique activities  | `iTBHrY.hqsZMS` (single SSSI) or `cwZgSE.BscJLV` (multi SSSI); appended after the scheme when both are present                                                   |
+| 2              | SSSI names             | `hozdvW` (single), `cwZgSE.rWrBOK` (multi), or `gWZwzI.gVlMxz` (scheme multi)                                                                                    |
+| Final fallback | `S28E Consent`         | When nothing else available                                                                                                                                      |
 
 ### Examples
 
@@ -46,19 +46,20 @@ The primary segment is `[scheme and/or activities]` — both are included when b
 - `Tree removal, Drainage - Test SSSI A, Test SSSI B`
 - `A Countryside Stewardship Higher Tier (CSHT) agreement - SSSI One, SSSI Two`
 - `A Countryside Stewardship Higher Tier (CSHT) agreement, Grazing - SSSI One, SSSI Two` (scheme + activities)
+- `Landscape Recovery, Grazing - Test SSSI` (`Other schemes` selected, `aIixRu = "Landscape Recovery"`)
 - `S28E Consent`
 
 ## Assent Form (`assent-form-mapper.js`)
 
 The primary segment is `[scheme and/or activities]` — both are included when both are present, with the scheme listed first.
 
-| Priority       | Segment                | Source                                                                                                         |
-| -------------- | ---------------------- | -------------------------------------------------------------------------------------------------------------- |
-| 1 (primary)    | Land management scheme | `rTreXu` — when present, listed first                                                                          |
-| 1 (primary)    | All unique activities  | `gzSkgC.lGsnXi` (single SSSI) or `QxIzSB.iNDqRN` (multi SSSI); appended after the scheme when both are present |
-| 2              | SSSI names             | `gVlMxz` (single), `hhGvmX.flbYHq` (scheme multi), or `QxIzSB.wRGnMW` (ORNEC multi)                            |
-| 3              | European site names    | `aQYWxD.IzQfir`                                                                                                |
-| Final fallback | `S28H Assent`          | When nothing else available                                                                                    |
+| Priority       | Segment                | Source                                                                                                                                                           |
+| -------------- | ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1 (primary)    | Land management scheme | `rTreXu` — when present, listed first. When `rTreXu = "Other schemes"`, replaced with the answer to `aIixRu` ("What is the name of the land management scheme?") |
+| 1 (primary)    | All unique activities  | `gzSkgC.lGsnXi` (single SSSI) or `QxIzSB.iNDqRN` (multi SSSI); appended after the scheme when both are present                                                   |
+| 2              | SSSI names             | `gVlMxz` (single), `hhGvmX.flbYHq` (scheme multi), or `QxIzSB.wRGnMW` (ORNEC multi)                                                                              |
+| 3              | European site names    | `aQYWxD.IzQfir`                                                                                                                                                  |
+| Final fallback | `S28H Assent`          | When nothing else available                                                                                                                                      |
 
 ### Examples
 
@@ -67,6 +68,7 @@ The primary segment is `[scheme and/or activities]` — both are included when b
 - `Grazing - Test SSSI - Arun Valley Ramsar`
 - `A Higher Level Stewardship (HLS) agreement - SSSI One, SSSI Two`
 - `A Higher Level Stewardship (HLS) agreement, Grazing - SSSI One, SSSI Two` (scheme + activities)
+- `Landscape Recovery, Grazing - Test SSSI` (`Other schemes` selected, `aIixRu = "Landscape Recovery"`)
 - `S28H Assent`
 
 ## Shared Helpers (`helpers.js`)
