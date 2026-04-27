@@ -208,13 +208,6 @@ function mapAgreementReference(main) {
     }
   }
 
-  // Another permission path
-  // VacBun = "What is the name of the permission?" (page: "Other related permission")
-  const permissionName = /** @type {string | undefined} */ (main.VacBun)
-  if (permissionName) {
-    return permissionName
-  }
-
   // Fallback
   // WtpFqT = "What is the scheme reference number?" (optional)
   return /** @type {string} */ (main.WtpFqT) ?? ''

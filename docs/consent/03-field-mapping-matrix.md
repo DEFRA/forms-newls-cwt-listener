@@ -101,24 +101,22 @@ Single Business Identifier, converted to a number. Uses rkIHYS ("What is the Sin
 
 ## agreement_reference
 
-Determined by the land management scheme selection (rTreXu), with a fallback to the "other permission" path and a final fallback to the "Other schemes" reference number field.
+Determined by the land management scheme selection (rTreXu), with a final fallback to the "Other schemes" reference number field.
 
 Resolution order:
 
 1. rTreXu scheme match (CS / HLS / SFI / Other schemes) — return the corresponding scheme reference field.
-2. Otherwise, if VacBun ("What is the name of the permission?") is set, return it (used on the "Other related permission" path).
-3. Otherwise, fall back to WtpFqT ("What is the scheme reference number?") if present.
-4. Otherwise, return an empty string.
+2. Otherwise, fall back to WtpFqT ("What is the scheme reference number?") if present.
+3. Otherwise, return an empty string.
 
-| Condition                                                                           | Source field                                                                | Output value                          |
-| ----------------------------------------------------------------------------------- | --------------------------------------------------------------------------- | ------------------------------------- |
-| rTreXu starts with CSHT / CSMT / CS Capital Grants                                  | WZJDQG ("What's your Countryside Stewardship agreement reference number?")  | Free text reference number            |
-| rTreXu starts with HLS agreement                                                    | OFiizI ("What's your Higher Level Stewardship agreement reference number?") | Free text reference number            |
-| rTreXu starts with SFI agreement                                                    | niVAkO ("What's your Sustainable Farming Incentive agreement number?")      | Free text reference number            |
-| rTreXu starts with Other schemes                                                    | WtpFqT ("What is the scheme reference number?")                             | Free text reference number (optional) |
-| No scheme match, VacBun ("What is the name of the permission?") present             | VacBun ("What is the name of the permission?")                              | Permission name                       |
-| No scheme match, no VacBun, WtpFqT ("What is the scheme reference number?") present | WtpFqT ("What is the scheme reference number?") — fallback                  | Free text reference number            |
-| None of the above                                                                   | -                                                                           | Empty string                          |
+| Condition                                                                | Source field                                                                | Output value                          |
+| ------------------------------------------------------------------------ | --------------------------------------------------------------------------- | ------------------------------------- |
+| rTreXu starts with CSHT / CSMT / CS Capital Grants                       | WZJDQG ("What's your Countryside Stewardship agreement reference number?")  | Free text reference number            |
+| rTreXu starts with HLS agreement                                         | OFiizI ("What's your Higher Level Stewardship agreement reference number?") | Free text reference number            |
+| rTreXu starts with SFI agreement                                         | niVAkO ("What's your Sustainable Farming Incentive agreement number?")      | Free text reference number            |
+| rTreXu starts with Other schemes                                         | WtpFqT ("What is the scheme reference number?")                             | Free text reference number (optional) |
+| No scheme match, WtpFqT ("What is the scheme reference number?") present | WtpFqT ("What is the scheme reference number?") — fallback                  | Free text reference number            |
+| None of the above                                                        | -                                                                           | Empty string                          |
 
 ## email_header
 
@@ -206,11 +204,11 @@ This section identifies all scenarios where output fields sent to the University
 
 ### Fields that may be empty strings or undefined
 
-| Field                 | Condition producing empty/undefined value                                                                                                                                                                                                                                                  | Realistic scenario?                                                                                                                                         |
-| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `SBI`                 | Neither rkIHYS ("What is the Single Business Identifier (SBI) number of where the activities will take place?") nor VLUhzR ("Single business identifier (SBI)", address details page) present — field is `undefined` (omitted from output)                                                 | **Expected** — some customer types (e.g. Consultant, Somebody else) may not have SBI shown. See Example 3                                                   |
-| `agreement_reference` | No scheme match AND no VacBun ("What is the name of the permission?") permission name AND no WtpFqT ("What is the scheme reference number?") value (WtpFqT is only shown on the "Other schemes" path); or scheme is Other schemes and WtpFqT left blank (optional)                         | **Expected** — users without a scheme, other permission, or Other-schemes reference get empty reference; Other schemes reference is optional. See Example 3 |
-| `email_header`        | No ORNEC activities — iTBHrY ("Operations requiring Natural England consent") / cwZgSE ("Site name and operations requiring Natural England consent") empty — AND no land management scheme rTreXu ("What land management scheme does this notice relate to?") not set — AND no SSSI names | Falls back to `"S28E Consent"` rather than empty string. See Example 6                                                                                      |
+| Field                 | Condition producing empty/undefined value                                                                                                                                                                                                                                                  | Realistic scenario?                                                                                                                      |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| `SBI`                 | Neither rkIHYS ("What is the Single Business Identifier (SBI) number of where the activities will take place?") nor VLUhzR ("Single business identifier (SBI)", address details page) present — field is `undefined` (omitted from output)                                                 | **Expected** — some customer types (e.g. Consultant, Somebody else) may not have SBI shown. See Example 3                                |
+| `agreement_reference` | No scheme match AND no WtpFqT ("What is the scheme reference number?") value (WtpFqT is only shown on the "Other schemes" path); or scheme is Other schemes and WtpFqT left blank (optional)                                                                                               | **Expected** — users without a scheme or Other-schemes reference get empty reference; Other schemes reference is optional. See Example 3 |
+| `email_header`        | No ORNEC activities — iTBHrY ("Operations requiring Natural England consent") / cwZgSE ("Site name and operations requiring Natural England consent") empty — AND no land management scheme rTreXu ("What land management scheme does this notice relate to?") not set — AND no SSSI names | Falls back to `"S28E Consent"` rather than empty string. See Example 6                                                                   |
 
 ### Fields with empty sub-properties in SSSI_info entries
 
@@ -221,12 +219,12 @@ This section identifies all scenarios where output fields sent to the University
 
 ### Key empty value scenarios by form path
 
-| Path                                                                           | `SBI`       | `agreement_reference` | `email_header`                 | `coordinates` (in SSSI_info)                             | `ornec` (in SSSI_info) | Notes                                                                    |
-| ------------------------------------------------------------------------------ | ----------- | --------------------- | ------------------------------ | -------------------------------------------------------- | ---------------------- | ------------------------------------------------------------------------ |
-| Landowner, CS scheme, single SSSI with ORNECs                                  | SBI number  | CS reference          | Activities + SSSI              | ORNEC coords                                             | Activity names         | All fields populated                                                     |
-| Land occupier, HLS, single SSSI (scheme coords)                                | SBI number  | HLS reference         | Scheme + SSSI                  | JPohUD ("Where are the activities taking place?") coords | `""` empty             | **ornec empty** — scheme path has no ORNEC activities                    |
-| Consultant, no scheme, single SSSI with ORNECs                                 | `undefined` | `""` empty            | Activities + SSSI              | ORNEC coords                                             | Activity names         | **SBI undefined, agreement_reference empty** — consultant without scheme |
-| Landowner, SFI, multiple SSSIs with ORNECs                                     | SBI number  | SFI reference         | Activities + SSSIs             | Per-SSSI coords                                          | Per-SSSI activities    | All fields populated                                                     |
-| Other, CSMT, multiple SSSIs (scheme)                                           | SBI number  | CS reference          | Scheme + SSSIs                 | JPohUD ("Where are the activities taking place?") coords | `""` empty             | **ornec empty** — scheme multi-SSSI path has no ORNEC activities         |
-| Landowner, other permission via VacBun ("What is the name of the permission?") | SBI number  | VacBun text           | SSSI names or `"S28E Consent"` | `""` empty                                               | `""` empty             | **coordinates, ornec empty** — no ORNECs, no scheme, no coords           |
-| Somebody else, no scheme, no ORNECs                                            | May be set  | `""` empty            | SSSI names or `"S28E Consent"` | `""` empty                                               | `""` empty             | **Most optional fields empty** — no scheme, no ORNECs, no coordinates    |
+| Path                                            | `SBI`       | `agreement_reference` | `email_header`                 | `coordinates` (in SSSI_info)                             | `ornec` (in SSSI_info) | Notes                                                                    |
+| ----------------------------------------------- | ----------- | --------------------- | ------------------------------ | -------------------------------------------------------- | ---------------------- | ------------------------------------------------------------------------ |
+| Landowner, CS scheme, single SSSI with ORNECs   | SBI number  | CS reference          | Activities + SSSI              | ORNEC coords                                             | Activity names         | All fields populated                                                     |
+| Land occupier, HLS, single SSSI (scheme coords) | SBI number  | HLS reference         | Scheme + SSSI                  | JPohUD ("Where are the activities taking place?") coords | `""` empty             | **ornec empty** — scheme path has no ORNEC activities                    |
+| Consultant, no scheme, single SSSI with ORNECs  | `undefined` | `""` empty            | Activities + SSSI              | ORNEC coords                                             | Activity names         | **SBI undefined, agreement_reference empty** — consultant without scheme |
+| Landowner, SFI, multiple SSSIs with ORNECs      | SBI number  | SFI reference         | Activities + SSSIs             | Per-SSSI coords                                          | Per-SSSI activities    | All fields populated                                                     |
+| Other, CSMT, multiple SSSIs (scheme)            | SBI number  | CS reference          | Scheme + SSSIs                 | JPohUD ("Where are the activities taking place?") coords | `""` empty             | **ornec empty** — scheme multi-SSSI path has no ORNEC activities         |
+| Landowner, other permission (no scheme)         | SBI number  | `""` empty            | SSSI names or `"S28E Consent"` | `""` empty                                               | `""` empty             | **agreement_reference, coordinates, ornec empty** — no scheme, no coords |
+| Somebody else, no scheme, no ORNECs             | May be set  | `""` empty            | SSSI names or `"S28E Consent"` | `""` empty                                               | `""` empty             | **Most optional fields empty** — no scheme, no ORNECs, no coordinates    |

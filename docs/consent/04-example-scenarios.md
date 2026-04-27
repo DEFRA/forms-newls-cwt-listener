@@ -308,7 +308,7 @@ Each example shows the form submission data (input) and the expected CWT output 
 
 ## Example 6: Landowner with other permission, single SSSI with ORNEC activities
 
-**Scenario:** A landowner without a land management scheme but with a named permission (VacBun), single SSSI with ORNEC activities. The "another permission" path requires ORNEC details including coordinates.
+**Scenario:** A landowner without a land management scheme but operating under a separate permission, single SSSI with ORNEC activities. The "another permission" path requires ORNEC details including coordinates. No agreement reference is mapped (the named permission is collected by the form but not sent to CWT).
 
 ### Input
 
@@ -349,7 +349,7 @@ Each example shows the form submission data (input) and the expected CWT output 
   "customer_name": "Catherine Ward",
   "customer_email_address": "catherine.ward@email.com",
   "SBI": 777888999,
-  "agreement_reference": "Planning Permission PP/2025/0042",
+  "agreement_reference": "",
   "email_header": "Tree felling - Castle Hill SSSI",
   "SSSI_info": [
     {
@@ -365,11 +365,11 @@ Each example shows the form submission data (input) and the expected CWT output 
 
 ## Scenario coverage summary
 
-| #   | Identity type | Scheme           | SSSI path               | Key features tested                                                                                        |
-| --- | ------------- | ---------------- | ----------------------- | ---------------------------------------------------------------------------------------------------------- |
-| 1   | Landowner     | CSHT             | Single SSSI (ORNEC)     | CS agreement ref, SBI (rkIHYS), ORNEC activities with coordinates, email_header from activities + SSSI     |
-| 2   | Land occupier | HLS              | Single SSSI (scheme)    | HLS ref, scheme coordinates (JPohUD), email_header from scheme + SSSI, no ORNEC                            |
-| 3   | Consultant    | None             | Single SSSI (ORNEC)     | No scheme, no SBI, ORNEC activity, default detailed_work_type                                              |
-| 4   | Landowner     | SFI              | Multiple SSSIs (ORNEC)  | SFI ref, SBI (VLUhzR fallback), multi SSSI grouped by name, coordinates + ORNECs per SSSI                  |
-| 5   | Other         | CSMT             | Multiple SSSIs (scheme) | Scheme repeater with shared JPohUD coordinates, email_header from scheme + SSSIs, description comma-joined |
-| 6   | Landowner     | Other permission | Single SSSI (ORNEC)     | VacBun agreement ref, ORNEC activity with coordinates, email_header from activity + SSSI                   |
+| #   | Identity type | Scheme           | SSSI path               | Key features tested                                                                                                     |
+| --- | ------------- | ---------------- | ----------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| 1   | Landowner     | CSHT             | Single SSSI (ORNEC)     | CS agreement ref, SBI (rkIHYS), ORNEC activities with coordinates, email_header from activities + SSSI                  |
+| 2   | Land occupier | HLS              | Single SSSI (scheme)    | HLS ref, scheme coordinates (JPohUD), email_header from scheme + SSSI, no ORNEC                                         |
+| 3   | Consultant    | None             | Single SSSI (ORNEC)     | No scheme, no SBI, ORNEC activity, default detailed_work_type                                                           |
+| 4   | Landowner     | SFI              | Multiple SSSIs (ORNEC)  | SFI ref, SBI (VLUhzR fallback), multi SSSI grouped by name, coordinates + ORNECs per SSSI                               |
+| 5   | Other         | CSMT             | Multiple SSSIs (scheme) | Scheme repeater with shared JPohUD coordinates, email_header from scheme + SSSIs, description comma-joined              |
+| 6   | Landowner     | Other permission | Single SSSI (ORNEC)     | No agreement reference (permission name not mapped), ORNEC activity with coordinates, email_header from activity + SSSI |

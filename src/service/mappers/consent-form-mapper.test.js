@@ -223,13 +223,6 @@ describe('consent-form-mapper', () => {
       expect(result.agreement_reference).toBe('CS-12345')
     })
 
-    it('should use VacBun for another permission path', () => {
-      const result = mapFormSubmission(
-        buildMessage({ VacBun: 'Planning Permission 123' })
-      )
-      expect(result.agreement_reference).toBe('Planning Permission 123')
-    })
-
     it('should use WtpFqT for Other schemes when provided', () => {
       const result = mapFormSubmission(
         buildMessage({
