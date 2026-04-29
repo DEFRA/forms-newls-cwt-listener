@@ -96,15 +96,18 @@ flowchart TD
     MAIN --> AR_Q
 
     %% ===== email_header =====
-    subgraph OutEmailHeader["email_header"]
+    subgraph OutEmailHeader["email_header (primary segment — scheme and/or activities, plus SSSI names, truncated to 255 chars)"]
+        EH_SCHEME_Q{"rTreXu present?<br />What land management scheme<br />does this notice relate to?"}
+        EH_SCHEME_Q -->|Yes| EH_SCHEME["Scheme text<br />(listed first)"]
+        EH_SCHEME_Q -->|No| EH_Q
+        EH_SCHEME --> EH_Q
         EH_Q{"Repeater iTBHrY (Activity)<br />has entries?"}
-        EH_Q -->|"Yes & hqsZMS exists"| EH_SINGLE["First hqsZMS value<br />(first ORNEC activity name)"]
+        EH_Q -->|"Yes & hqsZMS present"| EH_SINGLE["Unique hqsZMS values<br />(appended after scheme,<br />comma-joined)"]
         EH_Q -->|No| EH_Q2{"Repeater cwZgSE (Activity)<br />has entries?"}
-        EH_Q2 -->|"Yes & BscJLV exists"| EH_MULTI["First BscJLV value<br />(first ORNEC activity name)"]
-        EH_Q2 -->|No| EH_Q3{"rTreXu present?<br />What land management scheme<br />does this notice relate to?"}
-        EH_Q3 -->|Yes| EH_SCHEME["rTreXu value<br />(full scheme text)"]
-        EH_Q3 -->|No| EH_EMPTY["'' (empty)"]
+        EH_Q2 -->|"Yes & BscJLV present"| EH_MULTI["Unique BscJLV values<br />(appended after scheme,<br />comma-joined)"]
+        EH_Q2 -->|No| EH_NOACT["No activities<br />(scheme only, or fallback<br />'S28E Consent' when all segments empty)"]
     end
+    MAIN --> EH_SCHEME_Q
     REP --> EH_Q
 
     %% ===== SSSI_info =====

@@ -26,7 +26,7 @@ The scheme determines the `detailed_work_type` and which agreement reference fie
 | S5  | A Sustainable Farming Incentive (SFI) agreement               | `S28E Consent SFI`               | niVAkO ("What's your Sustainable Farming Incentive agreement number?")      |
 | S6  | A Minor and Temporary Adjustments (MTA)                       | `S28E Consent MTA`               | (none)                                                                      |
 | S7  | Other schemes                                                 | `S28E Consent`                   | (none)                                                                      |
-| S8  | (not set)                                                     | `S28E Consent`                   | VacBun ("What is the name of the permission?") if present                   |
+| S8  | (not set)                                                     | `S28E Consent`                   | (none)                                                                      |
 
 ## Decision table: SSSI path routing
 
@@ -39,11 +39,11 @@ The scheme determines the `detailed_work_type` and which agreement reference fie
 
 ## Decision table: email_header
 
-Uses the same segments as `description` (activities and/or scheme, plus SSSI names) but truncated to 255 characters. Falls back to `"S28E Consent"`.
+Uses the same segments as `description` (scheme and/or activities, plus SSSI names) but truncated to 255 characters. Falls back to `"S28E Consent"`.
 
 | #   | Condition                                             | Output                                                     |
 | --- | ----------------------------------------------------- | ---------------------------------------------------------- |
-| H1  | Activities present and scheme present                 | Activities comma-joined, then scheme text, plus SSSI names |
+| H1  | Scheme present and activities present                 | Scheme text, then activities comma-joined, plus SSSI names |
 | H2  | Activities present (from iTBHrY or cwZgSE), no scheme | All unique activities comma-joined, plus SSSI names        |
 | H3  | No activities, scheme present (rTreXu)                | Full scheme text, plus SSSI names                          |
 | H4  | No activities, no scheme, SSSI names present          | SSSI names only                                            |
@@ -60,4 +60,4 @@ Combining the above tables, these are the main scenarios that result in a CWT su
 | Occupier, HLS, multiple SSSIs (scheme)         | Row 2    | S4     | P2b       | Land occupier with HLS scheme, multiple SSSIs (scheme repeater)       |
 | Consultant, no scheme, single SSSI with ORNECs | Row 3    | S8     | P1a       | Consultant without scheme, single SSSI with ORNEC activities          |
 | Other, SFI, multiple SSSIs with ORNECs         | Row 4    | S5     | P2a       | Other user with SFI scheme, multiple SSSIs with ORNEC activities      |
-| Landowner, other permission, single SSSI       | Row 1    | S8     | P1b       | Landowner with named permission (VacBun), single SSSI                 |
+| Landowner, other permission, single SSSI       | Row 1    | S8     | P1b       | Landowner with named permission, single SSSI (no agreement reference) |

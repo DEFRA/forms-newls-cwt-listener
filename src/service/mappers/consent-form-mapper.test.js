@@ -125,6 +125,49 @@ describe('consent-form-mapper', () => {
       )
     })
 
+    it('should list scheme before activities when both are present', () => {
+      const result = mapFormSubmission(
+        buildMessage(
+          {
+            rTreXu: 'A Countryside Stewardship Higher Tier (CSHT) agreement',
+            hozdvW: '1001001---Test SSSI'
+          },
+          {
+            iTBHrY: [{ hqsZMS: 'Grazing' }, { hqsZMS: 'Fencing' }]
+          }
+        )
+      )
+      expect(result.description).toBe(
+        'A Countryside Stewardship Higher Tier (CSHT) agreement, Grazing, Fencing - Test SSSI'
+      )
+    })
+
+    it('should substitute "Other schemes" with the named scheme answer', () => {
+      const result = mapFormSubmission(
+        buildMessage(
+          {
+            rTreXu: 'Other schemes',
+            aIixRu: 'Landscape Recovery',
+            hozdvW: '1001001---Test SSSI'
+          },
+          {
+            iTBHrY: [{ hqsZMS: 'Grazing' }]
+          }
+        )
+      )
+      expect(result.description).toBe('Landscape Recovery, Grazing - Test SSSI')
+    })
+
+    it('should keep "Other schemes" when aIixRu is not provided', () => {
+      const result = mapFormSubmission(
+        buildMessage({
+          rTreXu: 'Other schemes',
+          hozdvW: '1001001---Test SSSI'
+        })
+      )
+      expect(result.description).toBe('Other schemes - Test SSSI')
+    })
+
     it('should fall back to "S28E Consent" when nothing available', () => {
       const result = mapFormSubmission(buildMessage({}))
       expect(result.description).toBe('S28E Consent')
@@ -206,11 +249,21 @@ describe('consent-form-mapper', () => {
       expect(result.agreement_reference).toBe('CS-12345')
     })
 
-    it('should use VacBun for another permission path', () => {
+    it('should use WtpFqT for Other schemes when provided', () => {
       const result = mapFormSubmission(
-        buildMessage({ VacBun: 'Planning Permission 123' })
+        buildMessage({
+          rTreXu: 'Other schemes',
+          WtpFqT: 'OTHER-REF-42'
+        })
       )
-      expect(result.agreement_reference).toBe('Planning Permission 123')
+      expect(result.agreement_reference).toBe('OTHER-REF-42')
+    })
+
+    it('should be empty for Other schemes when WtpFqT not provided', () => {
+      const result = mapFormSubmission(
+        buildMessage({ rTreXu: 'Other schemes' })
+      )
+      expect(result.agreement_reference).toBe('')
     })
   })
 
@@ -275,9 +328,44 @@ describe('consent-form-mapper', () => {
       )
     })
 
+    it('should list scheme before activities when both are present', () => {
+      const result = mapFormSubmission(
+        buildMessage(
+          {
+            rTreXu: 'A Countryside Stewardship Higher Tier (CSHT) agreement',
+            hozdvW: '1001001---Test SSSI'
+          },
+          {
+            iTBHrY: [{ hqsZMS: 'Grazing' }, { hqsZMS: 'Fencing' }]
+          }
+        )
+      )
+      expect(result.email_header).toBe(
+        'A Countryside Stewardship Higher Tier (CSHT) agreement, Grazing, Fencing - Test SSSI'
+      )
+    })
+
     it('should fall back to "S28E Consent" when no activities, scheme, or SSSIs', () => {
       const result = mapFormSubmission(buildMessage({}))
       expect(result.email_header).toBe('S28E Consent')
+    })
+
+    it('should substitute "Other schemes" with the named scheme answer', () => {
+      const result = mapFormSubmission(
+        buildMessage(
+          {
+            rTreXu: 'Other schemes',
+            aIixRu: 'Landscape Recovery',
+            hozdvW: '1001001---Test SSSI'
+          },
+          {
+            iTBHrY: [{ hqsZMS: 'Grazing' }]
+          }
+        )
+      )
+      expect(result.email_header).toBe(
+        'Landscape Recovery, Grazing - Test SSSI'
+      )
     })
 
     it('should truncate to 255 characters when many SSSIs', () => {

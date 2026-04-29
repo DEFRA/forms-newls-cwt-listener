@@ -167,6 +167,55 @@ describe('assent-form-mapper', () => {
         'Grazing - Test SSSI - Arun Valley Ramsar'
       )
     })
+
+    it('should list scheme before activities when both are present', () => {
+      const result = mapFormSubmission(
+        buildMessage(
+          {
+            rTreXu: 'A Higher Level Stewardship (HLS) agreement',
+            ASataH: true
+          },
+          {
+            hhGvmX: [{ flbYHq: '2006159---SSSI One' }],
+            QxIzSB: [
+              { iNDqRN: 'Grazing', wRGnMW: '2006159---SSSI One' },
+              { iNDqRN: 'Fencing', wRGnMW: '2006159---SSSI One' }
+            ]
+          }
+        )
+      )
+      expect(result.description).toBe(
+        'A Higher Level Stewardship (HLS) agreement, Grazing, Fencing - SSSI One'
+      )
+    })
+
+    it('should substitute "Other schemes" with the named scheme answer', () => {
+      const result = mapFormSubmission(
+        buildMessage(
+          {
+            rTreXu: 'Other schemes',
+            aIixRu: 'Landscape Recovery',
+            ASataH: false,
+            gVlMxz: '1001001---Test SSSI'
+          },
+          {
+            gzSkgC: [{ lGsnXi: 'Grazing' }]
+          }
+        )
+      )
+      expect(result.description).toBe('Landscape Recovery, Grazing - Test SSSI')
+    })
+
+    it('should keep "Other schemes" when aIixRu is not provided', () => {
+      const result = mapFormSubmission(
+        buildMessage({
+          rTreXu: 'Other schemes',
+          ASataH: false,
+          gVlMxz: '1001001---Test SSSI'
+        })
+      )
+      expect(result.description).toBe('Other schemes - Test SSSI')
+    })
   })
 
   describe('consulting_body_type', () => {
@@ -289,6 +338,23 @@ describe('assent-form-mapper', () => {
         })
       )
       expect(result.agreement_reference).toBe('SFI-11111')
+    })
+
+    it('should use WtpFqT for Other schemes when provided', () => {
+      const result = mapFormSubmission(
+        buildMessage({
+          rTreXu: 'Other schemes',
+          WtpFqT: 'OTHER-REF-42'
+        })
+      )
+      expect(result.agreement_reference).toBe('OTHER-REF-42')
+    })
+
+    it('should be empty for Other schemes when WtpFqT not provided', () => {
+      const result = mapFormSubmission(
+        buildMessage({ rTreXu: 'Other schemes' })
+      )
+      expect(result.agreement_reference).toBe('')
     })
   })
 
@@ -450,9 +516,46 @@ describe('assent-form-mapper', () => {
       )
     })
 
+    it('should list scheme before activities when both are present', () => {
+      const result = mapFormSubmission(
+        buildMessage(
+          {
+            rTreXu: 'A Higher Level Stewardship (HLS) agreement',
+            ASataH: false,
+            gVlMxz: '1001001---Test SSSI'
+          },
+          {
+            gzSkgC: [{ lGsnXi: 'Grazing' }, { lGsnXi: 'Fencing' }]
+          }
+        )
+      )
+      expect(result.email_header).toBe(
+        'A Higher Level Stewardship (HLS) agreement, Grazing, Fencing - Test SSSI'
+      )
+    })
+
     it('should fall back to "S28H Assent" when no activities, scheme, SSSIs, or Euro sites', () => {
       const result = mapFormSubmission(buildMessage({}))
       expect(result.email_header).toBe('S28H Assent')
+    })
+
+    it('should substitute "Other schemes" with the named scheme answer', () => {
+      const result = mapFormSubmission(
+        buildMessage(
+          {
+            rTreXu: 'Other schemes',
+            aIixRu: 'Landscape Recovery',
+            ASataH: false,
+            gVlMxz: '1001001---Test SSSI'
+          },
+          {
+            gzSkgC: [{ lGsnXi: 'Grazing' }]
+          }
+        )
+      )
+      expect(result.email_header).toBe(
+        'Landscape Recovery, Grazing - Test SSSI'
+      )
     })
 
     it('should truncate to 255 characters when many sites', () => {

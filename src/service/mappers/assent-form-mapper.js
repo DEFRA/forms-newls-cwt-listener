@@ -106,8 +106,9 @@ function collectSssiNames(main, repeaters) {
 }
 
 /**
- * Collects the primary segment (activities and/or scheme), SSSI names, and
+ * Collects the primary segment (scheme and/or activities), SSSI names, and
  * European site names for building the email header and description.
+ * When both scheme and activities are present, the scheme is listed first.
  * @param {Record<string, unknown>} main
  * @param {Record<string, Array<Record<string, unknown>>>} repeaters
  * @returns {{ primary: string, sssiNames: string[], euroSiteNames: string[] }}
@@ -152,13 +153,17 @@ function collectAssentSegments(main, repeaters) {
     .map((entry) => (entry.IzQfir ? parseName(entry.IzQfir) : ''))
     .filter(Boolean)
 
-  // Build primary segment: activities and/or scheme (both included when present)
+  // Build primary segment: scheme and/or activities (both included when present, scheme first)
   // rTreXu = "What land management scheme does this notice relate to?"
+  // aIixRu = "What is the name of the land management scheme?" (only shown when "Other schemes" is selected)
   const landManagementScheme = /** @type {string | undefined} */ (main.rTreXu)
-  const primaryParts = [...activities]
-  if (landManagementScheme) {
-    primaryParts.push(landManagementScheme)
-  }
+  const otherSchemeName = /** @type {string | undefined} */ (main.aIixRu)
+  const schemeLabel =
+    landManagementScheme === 'Other schemes' && otherSchemeName
+      ? otherSchemeName
+      : landManagementScheme
+  const primaryParts = schemeLabel ? [schemeLabel] : []
+  primaryParts.push(...activities)
   const primary = primaryParts.join(', ')
 
   return { primary, sssiNames, euroSiteNames }
@@ -169,7 +174,7 @@ function collectAssentSegments(main, repeaters) {
  * and scheme info. Uses the same segments as mapEmailHeader but without a
  * length limit.
  *
- * Format: "[activities and/or scheme] - [SSSI names] - [Euro site names]"
+ * Format: "[scheme and/or activities] - [SSSI names] - [Euro site names]"
  * Fallback: "S28H Assent"
  *
  * @param {Record<string, unknown>} main
@@ -275,7 +280,9 @@ function mapAgreementReference(main) {
     return /** @type {string} */ (main.niVAkO) ?? ''
   }
 
-  return ''
+  // This will usually apply when the Land Management Scheme is 'Other schemes'
+  // WtpFqT = "What is the scheme reference number?" (optional)
+  return /** @type {string} */ (main.WtpFqT) ?? ''
 }
 
 /**

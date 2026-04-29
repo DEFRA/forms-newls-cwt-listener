@@ -24,6 +24,8 @@ export async function send(message) {
     json_form_data: jsonPayload
   })
 
+  const referenceNumber = message.DF_reference_number
+
   logger.debug(
     { event: { payload: jsonPayload } },
     'Sending message to API with payload: %s',
@@ -40,7 +42,9 @@ export async function send(message) {
       body
     })
   } catch (error) {
-    const err = new Error('An error occurred while sending message to API')
+    const err = new Error(
+      `An error occurred while sending message to API for submission ${referenceNumber}`
+    )
     err.cause = error
     throw err
   }
@@ -52,15 +56,18 @@ export async function send(message) {
       {
         statusCode: response.status,
         statusText: response.statusText,
-        body: responseBody
+        body: responseBody,
+        referenceNumber
       },
-      'Failed to send message to API'
+      `Failed to send message to API for submission ${referenceNumber}`
     )
-    throw new Error(`Failed to send message to API: ${response.statusText}`)
+    throw new Error(
+      `Failed to send message to API for submission ${referenceNumber}: ${response.statusText}`
+    )
   }
 
   logger.info(
-    { statusCode: response.status, body: responseBody },
-    'Successfully sent message to API'
+    { statusCode: response.status, body: responseBody, referenceNumber },
+    `Successfully sent message to API for submission ${referenceNumber}`
   )
 }
