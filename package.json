@@ -18,6 +18,8 @@
     "type-check": "tsc --noEmit -p jsconfig.json",
     "lint": "eslint --cache --cache-strategy content --ignore-pattern \"auto-fill/**\" \"**/*.{cjs,js}\" && npm run type-check",
     "lint:fix": "npm run lint -- --fix",
+    "mapping:gaps": "node scripts/detect-mapping-gaps.js",
+    "mapping:gaps:all": "node scripts/detect-mapping-gaps.js --mapping mappings/advice-cwt.mapping.json --form form-definitions/advice.json && node scripts/detect-mapping-gaps.js --mapping mappings/assent-cwt.mapping.json --form form-definitions/assent.json && node scripts/detect-mapping-gaps.js --mapping mappings/consent-cwt.mapping.json --form form-definitions/consent.json",
     "postinstall": "npm run setup:husky",
     "server:debug": "nodemon --inspect-brk=0.0.0.0 --ext js,json --watch src --legacy-watch ./src",
     "server:watch": "nodemon --inspect=0.0.0.0 --ext js,json --watch src --legacy-watch ./src",

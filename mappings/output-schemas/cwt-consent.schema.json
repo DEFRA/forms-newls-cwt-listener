@@ -1,0 +1,87 @@
+{
+  "id": "cwt-consent",
+  "description": "Output structure for consent form submissions sent to the CWT API",
+  "properties": {
+    "form_type": {
+      "type": "string",
+      "required": true,
+      "const": "consent",
+      "description": "Constant form type identifier"
+    },
+    "DF_reference_number": {
+      "type": "string",
+      "required": true,
+      "description": "Defra Forms submission reference number"
+    },
+    "broad_work_type": {
+      "type": "string",
+      "required": true,
+      "const": "S28E Consent",
+      "description": "All consent submissions are S28E Consent casework"
+    },
+    "detailed_work_type": {
+      "type": "string",
+      "required": true,
+      "description": "Scheme-specific work type, e.g. 'S28E Consent CS HT'"
+    },
+    "description": {
+      "type": "string",
+      "required": true,
+      "description": "Scheme/activities and SSSI names; unlimited length"
+    },
+    "consulting_body_type": {
+      "type": "string",
+      "required": true,
+      "description": "CWT consulting body type derived from the customer type"
+    },
+    "customer_name": {
+      "type": "string",
+      "required": true,
+      "description": "First and last name of the person submitting the form"
+    },
+    "customer_email_address": {
+      "type": "string",
+      "required": true,
+      "description": "Email address of the person submitting the form"
+    },
+    "SBI": {
+      "type": "number",
+      "required": false,
+      "description": "Single Business Identifier; omitted when not provided"
+    },
+    "agreement_reference": {
+      "type": "string",
+      "required": false,
+      "description": "Scheme agreement reference number; empty when not provided"
+    },
+    "email_header": {
+      "type": "string",
+      "required": false,
+      "description": "Same content as description, limited to 255 characters"
+    },
+    "SSSI_info": {
+      "type": "array",
+      "required": true,
+      "description": "SSSIs where activities are planned",
+      "items": {
+        "properties": {
+          "SSSI_id": {
+            "type": "number",
+            "required": true,
+            "description": "Numeric SSSI identifier"
+          },
+          "coordinates": {
+            "type": "string",
+            "required": true,
+            "description": "Format '<e>,<n>' or '<e1>,<n1>;<e2>,<n2>'; empty when not given"
+          },
+          "ornec": {
+            "type": "string",
+            "required": true,
+            "description": "Comma-separated ORNEC activity names for this SSSI; empty on scheme paths"
+          }
+        }
+      }
+    }
+  }
+}
