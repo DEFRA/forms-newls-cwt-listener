@@ -1,0 +1,1187 @@
+{
+  "id": "advice-to-cwt",
+  "name": "Protected sites advice form to CWT submission",
+  "version": 1,
+  "formIds": ["69a07d92093ab56d4fa9f325"],
+  "outputSchema": "./output-schemas/cwt-advice.schema.json",
+  "destination": {
+    "type": "rest",
+    "name": "universityApi"
+  },
+  "conditions": {
+    "isHraPath": {
+      "any": [
+        {
+          "question": {
+            "id": "NVRbCy",
+            "text": "What type of advice are you requesting?"
+          },
+          "operator": "equals",
+          "value": "Habitats Regulations Assessment (HRA) advice"
+        },
+        {
+          "question": {
+            "id": "YOwPAJ",
+            "text": "Tell us which type of advice you are requesting"
+          },
+          "operator": "equals",
+          "value": "Habitats Regulations Assessment (HRA) advice"
+        }
+      ]
+    },
+    "isS28iPath": {
+      "any": [
+        {
+          "question": {
+            "id": "NVRbCy",
+            "text": "What type of advice are you requesting?"
+          },
+          "operator": "equals",
+          "value": "Section 28i SSSI advice (statutory consultation, not including HRA)"
+        },
+        {
+          "question": {
+            "id": "YOwPAJ",
+            "text": "Tell us which type of advice you are requesting"
+          },
+          "operator": "equals",
+          "value": "Section 28i SSSI advice (statutory consultation, not including HRA)"
+        }
+      ]
+    },
+    "effectiveGovernmentAgency": {
+      "any": [
+        {
+          "question": {
+            "id": "PBmxNM",
+            "text": "Who are you working on behalf of?"
+          },
+          "operator": "in",
+          "values": ["Government agency", "Government Agency"]
+        },
+        {
+          "all": [
+            {
+              "question": {
+                "id": "PBmxNM",
+                "text": "Who are you working on behalf of?"
+              },
+              "operator": "isNotAnswered"
+            },
+            {
+              "question": {
+                "id": "teEzOl",
+                "text": "Which category best describes who is making this application?"
+              },
+              "operator": "in",
+              "values": ["Government agency", "Government Agency"]
+            }
+          ]
+        }
+      ]
+    },
+    "effectiveLocalPlanningAuthority": {
+      "any": [
+        {
+          "question": {
+            "id": "PBmxNM",
+            "text": "Who are you working on behalf of?"
+          },
+          "operator": "equals",
+          "value": "Local Planning Authority"
+        },
+        {
+          "all": [
+            {
+              "question": {
+                "id": "PBmxNM",
+                "text": "Who are you working on behalf of?"
+              },
+              "operator": "isNotAnswered"
+            },
+            {
+              "question": {
+                "id": "teEzOl",
+                "text": "Which category best describes who is making this application?"
+              },
+              "operator": "equals",
+              "value": "Local Planning Authority"
+            }
+          ]
+        }
+      ]
+    },
+    "effectivePublicBody": {
+      "any": [
+        {
+          "question": {
+            "id": "PBmxNM",
+            "text": "Who are you working on behalf of?"
+          },
+          "operator": "in",
+          "values": [
+            "Harbour authority",
+            "Utility provider",
+            "Public body or organisation"
+          ]
+        },
+        {
+          "all": [
+            {
+              "question": {
+                "id": "PBmxNM",
+                "text": "Who are you working on behalf of?"
+              },
+              "operator": "isNotAnswered"
+            },
+            {
+              "question": {
+                "id": "teEzOl",
+                "text": "Which category best describes who is making this application?"
+              },
+              "operator": "in",
+              "values": [
+                "Harbour authority",
+                "Utility provider",
+                "Public body or organisation"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "effectiveLandownerType": {
+      "any": [
+        {
+          "question": {
+            "id": "PBmxNM",
+            "text": "Who are you working on behalf of?"
+          },
+          "operator": "in",
+          "values": ["Landowner", "Land occupier", "None of the above"]
+        },
+        {
+          "all": [
+            {
+              "question": {
+                "id": "PBmxNM",
+                "text": "Who are you working on behalf of?"
+              },
+              "operator": "isNotAnswered"
+            },
+            {
+              "question": {
+                "id": "teEzOl",
+                "text": "Which category best describes who is making this application?"
+              },
+              "operator": "in",
+              "values": ["Landowner", "Land occupier", "None of the above"]
+            }
+          ]
+        }
+      ]
+    },
+    "hasActivity": {
+      "any": [
+        {
+          "question": {
+            "id": "mtiMfk",
+            "text": "Tell us more about the proposed drone flying activity"
+          },
+          "operator": "isAnswered"
+        },
+        {
+          "question": {
+            "id": "nJVeix",
+            "text": "Tell us about the proposed activities"
+          },
+          "operator": "isAnswered"
+        },
+        {
+          "question": {
+            "id": "YhWlKB",
+            "text": "Give a description of the damaging activity"
+          },
+          "operator": "isAnswered"
+        }
+      ]
+    },
+    "hasSiteNames": {
+      "any": [
+        {
+          "all": [
+            { "ref": "isHraPath" },
+            {
+              "repeater": { "id": "TJuSNf", "text": "European site" },
+              "operator": "hasAnswer",
+              "questionId": "rtuWky",
+              "questionText": "What is the name of the European site?"
+            }
+          ]
+        },
+        {
+          "all": [
+            { "ref": "isS28iPath" },
+            {
+              "repeater": { "id": "*", "text": "Any repeater" },
+              "operator": "hasAnswer",
+              "questionId": "Avdzxa",
+              "questionText": "What is the name of SSSI where the activities will cause impacts?"
+            }
+          ]
+        },
+        {
+          "all": [
+            { "not": { "ref": "isHraPath" } },
+            { "not": { "ref": "isS28iPath" } },
+            {
+              "any": [
+                {
+                  "question": {
+                    "id": "MoCXGK",
+                    "text": "What is the name of the SSSI that you would like to report damage for?"
+                  },
+                  "operator": "isAnswered"
+                },
+                {
+                  "question": {
+                    "id": "PxvdiH",
+                    "text": "What is the name of the SSSI?"
+                  },
+                  "operator": "isAnswered"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "definitions": {
+    "activity": {
+      "type": "firstAnswered",
+      "values": [
+        {
+          "type": "answer",
+          "question": {
+            "id": "mtiMfk",
+            "text": "Tell us more about the proposed drone flying activity"
+          }
+        },
+        {
+          "type": "answer",
+          "question": {
+            "id": "nJVeix",
+            "text": "Tell us about the proposed activities"
+          }
+        },
+        {
+          "type": "answer",
+          "question": {
+            "id": "YhWlKB",
+            "text": "Give a description of the damaging activity"
+          }
+        }
+      ]
+    },
+    "siteNames": {
+      "type": "conditional",
+      "cases": [
+        {
+          "when": { "ref": "isHraPath" },
+          "value": {
+            "type": "collect",
+            "repeater": { "id": "TJuSNf", "text": "European site" },
+            "question": {
+              "id": "rtuWky",
+              "text": "What is the name of the European site?"
+            },
+            "transforms": ["parseName"]
+          }
+        },
+        {
+          "when": { "ref": "isS28iPath" },
+          "value": {
+            "type": "collect",
+            "repeater": { "id": "*", "text": "Any repeater" },
+            "question": {
+              "id": "Avdzxa",
+              "text": "What is the name of SSSI where the activities will cause impacts?"
+            },
+            "transforms": ["parseName"]
+          }
+        },
+        {
+          "when": {
+            "question": {
+              "id": "MoCXGK",
+              "text": "What is the name of the SSSI that you would like to report damage for?"
+            },
+            "operator": "isAnswered"
+          },
+          "value": {
+            "type": "answer",
+            "question": {
+              "id": "MoCXGK",
+              "text": "What is the name of the SSSI that you would like to report damage for?"
+            },
+            "transforms": ["parseName"]
+          }
+        },
+        {
+          "when": {
+            "question": {
+              "id": "PxvdiH",
+              "text": "What is the name of the SSSI?"
+            },
+            "operator": "isAnswered"
+          },
+          "value": {
+            "type": "answer",
+            "question": {
+              "id": "PxvdiH",
+              "text": "What is the name of the SSSI?"
+            },
+            "transforms": ["parseName"]
+          }
+        }
+      ]
+    }
+  },
+  "rules": [
+    {
+      "id": "form-type",
+      "description": "Constant form type identifier for the CWT API",
+      "target": "form_type",
+      "value": { "type": "literal", "value": "advice" }
+    },
+    {
+      "id": "df-reference-number",
+      "description": "Defra Forms submission reference number",
+      "target": "DF_reference_number",
+      "value": { "type": "meta", "path": "referenceNumber" }
+    },
+    {
+      "id": "broad-work-type.fc-hra",
+      "description": "Forestry Commission path requesting HRA advice",
+      "target": "broad_work_type",
+      "when": {
+        "question": {
+          "id": "NVRbCy",
+          "text": "What type of advice are you requesting?"
+        },
+        "operator": "equals",
+        "value": "Habitats Regulations Assessment (HRA) advice"
+      },
+      "value": { "type": "literal", "value": "Standalone HRA Reg 63" }
+    },
+    {
+      "id": "broad-work-type.fc-s28i",
+      "description": "Forestry Commission path requesting Section 28i advice",
+      "target": "broad_work_type",
+      "when": {
+        "question": {
+          "id": "NVRbCy",
+          "text": "What type of advice are you requesting?"
+        },
+        "operator": "equals",
+        "value": "Section 28i SSSI advice (statutory consultation, not including HRA)"
+      },
+      "value": { "type": "literal", "value": "S28i Advice" }
+    },
+    {
+      "id": "broad-work-type.fc-something-else",
+      "target": "broad_work_type",
+      "when": {
+        "question": {
+          "id": "NVRbCy",
+          "text": "What type of advice are you requesting?"
+        },
+        "operator": "equals",
+        "value": "Something else"
+      },
+      "value": { "type": "literal", "value": "Other casework" }
+    },
+    {
+      "id": "broad-work-type.s28g-hra",
+      "description": "S28G path requesting HRA advice",
+      "target": "broad_work_type",
+      "when": {
+        "question": {
+          "id": "YOwPAJ",
+          "text": "Tell us which type of advice you are requesting"
+        },
+        "operator": "equals",
+        "value": "Habitats Regulations Assessment (HRA) advice"
+      },
+      "value": { "type": "literal", "value": "Standalone HRA Reg 63" }
+    },
+    {
+      "id": "broad-work-type.s28g-s28i",
+      "description": "S28G path requesting Section 28i advice",
+      "target": "broad_work_type",
+      "when": {
+        "question": {
+          "id": "YOwPAJ",
+          "text": "Tell us which type of advice you are requesting"
+        },
+        "operator": "equals",
+        "value": "Section 28i SSSI advice (statutory consultation, not including HRA)"
+      },
+      "value": { "type": "literal", "value": "S28i Advice" }
+    },
+    {
+      "id": "broad-work-type.fallback",
+      "description": "All general topics map to Other casework",
+      "target": "broad_work_type",
+      "value": { "type": "literal", "value": "Other casework" }
+    },
+    {
+      "id": "detailed-work-type.fc-hra",
+      "target": "detailed_work_type",
+      "when": {
+        "question": {
+          "id": "NVRbCy",
+          "text": "What type of advice are you requesting?"
+        },
+        "operator": "equals",
+        "value": "Habitats Regulations Assessment (HRA) advice"
+      },
+      "value": { "type": "literal", "value": "Standalone HRA Reg 63" }
+    },
+    {
+      "id": "detailed-work-type.fc-s28i",
+      "target": "detailed_work_type",
+      "when": {
+        "question": {
+          "id": "NVRbCy",
+          "text": "What type of advice are you requesting?"
+        },
+        "operator": "equals",
+        "value": "Section 28i SSSI advice (statutory consultation, not including HRA)"
+      },
+      "value": { "type": "literal", "value": "S28i Advice" }
+    },
+    {
+      "id": "detailed-work-type.s28g-hra",
+      "target": "detailed_work_type",
+      "when": {
+        "question": {
+          "id": "YOwPAJ",
+          "text": "Tell us which type of advice you are requesting"
+        },
+        "operator": "equals",
+        "value": "Habitats Regulations Assessment (HRA) advice"
+      },
+      "value": { "type": "literal", "value": "Standalone HRA Reg 63" }
+    },
+    {
+      "id": "detailed-work-type.s28g-s28i",
+      "target": "detailed_work_type",
+      "when": {
+        "question": {
+          "id": "YOwPAJ",
+          "text": "Tell us which type of advice you are requesting"
+        },
+        "operator": "equals",
+        "value": "Section 28i SSSI advice (statutory consultation, not including HRA)"
+      },
+      "value": { "type": "literal", "value": "S28i Advice" }
+    },
+    {
+      "id": "detailed-work-type.general-topic",
+      "description": "General topics map to detailed work types; unmapped topics fall through to the fallback rule",
+      "target": "detailed_work_type",
+      "when": {
+        "question": {
+          "id": "xzEslQ",
+          "text": "Which topic fits the nature of your question the best?"
+        },
+        "operator": "isAnswered"
+      },
+      "value": {
+        "type": "lookup",
+        "input": {
+          "type": "answer",
+          "question": {
+            "id": "xzEslQ",
+            "text": "Which topic fits the nature of your question the best?"
+          }
+        },
+        "table": {
+          "I am a SSSI landowner or land occupier and I would like advice before applying for SSSI consent": "SSSI - Pre Consent advice",
+          "I represent a public body and I would like advice before applying for SSSI assent": "SSSI - Pre Assent advice",
+          "I would like to report potentially damaging activity on or near a protected site": "SSSI - Regulation and Enforcement",
+          "I would like to submit or request surveys or information about the condition of SSSIs": "SSSI - Site visits/surveys",
+          "I have a question about Natural England managed National Nature Reserves (NNRs)": "SSSI - Other",
+          "I have a question about designating a Local Nature Reserve (LNR)": "LNRs",
+          "I have a question about flying drones on or near a protected site": "SSSI - Other",
+          "I have a question about designating or de-designating SSSIs": "SSSI - Other",
+          "I have a question about the sale of SSSI land": "SSSI - Other",
+          "Something else": "SSSI - Other"
+        }
+      }
+    },
+    {
+      "id": "detailed-work-type.fallback",
+      "target": "detailed_work_type",
+      "value": { "type": "literal", "value": "SSSI - Other" }
+    },
+    {
+      "id": "description.with-activity-or-sites",
+      "description": "Detailed work type, activity free-text and site names, unlimited length",
+      "target": "description",
+      "when": {
+        "any": [{ "ref": "hasActivity" }, { "ref": "hasSiteNames" }]
+      },
+      "value": {
+        "type": "joinSegments",
+        "separator": " - ",
+        "segments": [
+          { "value": { "type": "output", "target": "detailed_work_type" } },
+          { "value": { "type": "ref", "name": "activity" } },
+          { "value": { "type": "ref", "name": "siteNames" } }
+        ]
+      }
+    },
+    {
+      "id": "description.something-else-question",
+      "description": "General 'Something else' topic includes the free-text question",
+      "target": "description",
+      "when": {
+        "all": [
+          {
+            "question": {
+              "id": "xzEslQ",
+              "text": "Which topic fits the nature of your question the best?"
+            },
+            "operator": "equals",
+            "value": "Something else"
+          },
+          {
+            "question": { "id": "QmIGor", "text": "What is your question?" },
+            "operator": "isAnswered"
+          }
+        ]
+      },
+      "value": {
+        "type": "concat",
+        "separator": " - ",
+        "parts": [
+          { "type": "output", "target": "detailed_work_type" },
+          {
+            "type": "answer",
+            "question": { "id": "QmIGor", "text": "What is your question?" }
+          }
+        ]
+      }
+    },
+    {
+      "id": "description.fallback",
+      "target": "description",
+      "value": { "type": "output", "target": "detailed_work_type" }
+    },
+    {
+      "id": "consulting-body-type.from-category",
+      "target": "consulting_body_type",
+      "when": {
+        "question": {
+          "id": "teEzOl",
+          "text": "Which category best describes who is making this application?"
+        },
+        "operator": "isAnswered"
+      },
+      "value": {
+        "type": "lookup",
+        "input": {
+          "type": "answer",
+          "question": {
+            "id": "teEzOl",
+            "text": "Which category best describes who is making this application?"
+          }
+        },
+        "passthrough": true,
+        "table": {
+          "Consultant": "Consultant",
+          "Government Agency": "Government Agency",
+          "Harbour authority": "Harbour Authority",
+          "Landowner": "Landowner",
+          "Land occupier": "Land occupier",
+          "Member of public": "Member of public",
+          "Other": "Other",
+          "Local Planning Authority": "Local Planning Authority",
+          "Utility provider": "Utility Provider"
+        }
+      }
+    },
+    {
+      "id": "consulting-body-type.fallback",
+      "target": "consulting_body_type",
+      "value": { "type": "literal", "value": "" }
+    },
+    {
+      "id": "consulting-body.consultant-other-organisation",
+      "description": "Consultant or Other with 'Other' organisation: use the free-text organisation name",
+      "target": "consulting_body",
+      "when": {
+        "all": [
+          {
+            "question": {
+              "id": "teEzOl",
+              "text": "Which category best describes who is making this application?"
+            },
+            "operator": "in",
+            "values": ["Consultant", "Other"]
+          },
+          {
+            "question": {
+              "id": "jYwTmN",
+              "text": "What is the name of your organisation?"
+            },
+            "operator": "equals",
+            "value": "Other"
+          }
+        ]
+      },
+      "value": {
+        "type": "answer",
+        "question": { "id": "jcctvG", "text": "Other organisation name" },
+        "default": ""
+      }
+    },
+    {
+      "id": "consulting-body.consultant-organisation",
+      "description": "Consultant or Other: use their own organisation name",
+      "target": "consulting_body",
+      "when": {
+        "question": {
+          "id": "teEzOl",
+          "text": "Which category best describes who is making this application?"
+        },
+        "operator": "in",
+        "values": ["Consultant", "Other"]
+      },
+      "value": {
+        "type": "answer",
+        "question": {
+          "id": "jYwTmN",
+          "text": "What is the name of your organisation?"
+        },
+        "default": ""
+      }
+    },
+    {
+      "id": "consulting-body.individual",
+      "description": "Member of public or Landowner: use the customer name",
+      "target": "consulting_body",
+      "when": {
+        "question": {
+          "id": "teEzOl",
+          "text": "Which category best describes who is making this application?"
+        },
+        "operator": "in",
+        "values": ["Member of public", "Landowner"]
+      },
+      "value": {
+        "type": "answer",
+        "question": { "id": "hUpejP", "text": "What is your full name?" },
+        "default": ""
+      }
+    },
+    {
+      "id": "consulting-body.forestry-commission",
+      "target": "consulting_body",
+      "when": {
+        "all": [
+          { "ref": "effectiveGovernmentAgency" },
+          {
+            "question": {
+              "id": "PvUZyQ",
+              "text": "Which government agency do you work for?"
+            },
+            "operator": "equals",
+            "value": "Forestry Commission"
+          }
+        ]
+      },
+      "value": { "type": "literal", "value": "Forestry Commission" }
+    },
+    {
+      "id": "consulting-body.environment-agency",
+      "target": "consulting_body",
+      "when": {
+        "all": [
+          { "ref": "effectiveGovernmentAgency" },
+          {
+            "question": {
+              "id": "PvUZyQ",
+              "text": "Which government agency do you work for?"
+            },
+            "operator": "equals",
+            "value": "Environment Agency"
+          }
+        ]
+      },
+      "value": { "type": "literal", "value": "Environment Agency" }
+    },
+    {
+      "id": "consulting-body.other-government-agency",
+      "target": "consulting_body",
+      "when": {
+        "all": [
+          { "ref": "effectiveGovernmentAgency" },
+          {
+            "question": {
+              "id": "PvUZyQ",
+              "text": "Which government agency do you work for?"
+            },
+            "operator": "equals",
+            "value": "Other government agency"
+          }
+        ]
+      },
+      "value": {
+        "type": "answer",
+        "question": {
+          "id": "hOsLRu",
+          "text": "Tell us which government agency you work for"
+        },
+        "default": ""
+      }
+    },
+    {
+      "id": "consulting-body.local-planning-authority",
+      "target": "consulting_body",
+      "when": { "ref": "effectiveLocalPlanningAuthority" },
+      "value": {
+        "type": "answer",
+        "question": {
+          "id": "YouDQP",
+          "text": "Which local authority do you work for?"
+        },
+        "default": ""
+      }
+    },
+    {
+      "id": "consulting-body.other-public-body",
+      "target": "consulting_body",
+      "when": {
+        "all": [
+          { "ref": "effectivePublicBody" },
+          {
+            "question": {
+              "id": "HiTHQX",
+              "text": "Which public body do you work for?"
+            },
+            "operator": "equals",
+            "value": "Other"
+          }
+        ]
+      },
+      "value": {
+        "type": "answer",
+        "question": {
+          "id": "OYxtmu",
+          "text": "Which public body are you representing?"
+        },
+        "default": ""
+      }
+    },
+    {
+      "id": "consulting-body.public-body",
+      "target": "consulting_body",
+      "when": { "ref": "effectivePublicBody" },
+      "value": {
+        "type": "answer",
+        "question": {
+          "id": "HiTHQX",
+          "text": "Which public body do you work for?"
+        },
+        "default": ""
+      }
+    },
+    {
+      "id": "consulting-body.landowner-type",
+      "description": "Landowner, Land occupier or None of the above: use the effective type itself",
+      "target": "consulting_body",
+      "when": { "ref": "effectiveLandownerType" },
+      "value": {
+        "type": "firstAnswered",
+        "values": [
+          {
+            "type": "answer",
+            "question": {
+              "id": "PBmxNM",
+              "text": "Who are you working on behalf of?"
+            }
+          },
+          {
+            "type": "answer",
+            "question": {
+              "id": "teEzOl",
+              "text": "Which category best describes who is making this application?"
+            }
+          }
+        ],
+        "default": ""
+      }
+    },
+    {
+      "id": "consulting-body.fallback",
+      "target": "consulting_body",
+      "value": { "type": "literal", "value": "" }
+    },
+    {
+      "id": "customer-name",
+      "target": "customer_name",
+      "value": {
+        "type": "answer",
+        "question": { "id": "hUpejP", "text": "What is your full name?" },
+        "default": ""
+      }
+    },
+    {
+      "id": "customer-email-address",
+      "target": "customer_email_address",
+      "value": {
+        "type": "answer",
+        "question": { "id": "YOPYRe", "text": "What is your email address?" },
+        "default": ""
+      }
+    },
+    {
+      "id": "email-header.with-activity-or-sites",
+      "description": "Same segments as the description, limited to 255 characters with site names fitted into the remaining space",
+      "target": "email_header",
+      "when": {
+        "any": [{ "ref": "hasActivity" }, { "ref": "hasSiteNames" }]
+      },
+      "value": {
+        "type": "joinSegments",
+        "separator": " - ",
+        "maxLength": 255,
+        "segments": [
+          { "value": { "type": "output", "target": "detailed_work_type" } },
+          { "value": { "type": "ref", "name": "activity" } },
+          {
+            "value": { "type": "ref", "name": "siteNames" },
+            "overflow": "fitNames"
+          }
+        ]
+      }
+    },
+    {
+      "id": "email-header.something-else-question",
+      "target": "email_header",
+      "when": {
+        "all": [
+          {
+            "question": {
+              "id": "xzEslQ",
+              "text": "Which topic fits the nature of your question the best?"
+            },
+            "operator": "equals",
+            "value": "Something else"
+          },
+          {
+            "question": { "id": "QmIGor", "text": "What is your question?" },
+            "operator": "isAnswered"
+          }
+        ]
+      },
+      "value": {
+        "type": "concat",
+        "separator": " - ",
+        "parts": [
+          { "type": "output", "target": "detailed_work_type" },
+          {
+            "type": "answer",
+            "question": { "id": "QmIGor", "text": "What is your question?" }
+          }
+        ],
+        "transforms": [{ "name": "truncate", "maxLength": 255 }]
+      }
+    },
+    {
+      "id": "email-header.fallback",
+      "target": "email_header",
+      "value": {
+        "type": "output",
+        "target": "detailed_work_type",
+        "transforms": [{ "name": "truncate", "maxLength": 255 }]
+      }
+    },
+    {
+      "id": "is-contractor.yes",
+      "description": "Answering 'Who are you working on behalf of?' implies working for a public body",
+      "target": "is_contractor_working_for_public_body",
+      "when": {
+        "question": {
+          "id": "PBmxNM",
+          "text": "Who are you working on behalf of?"
+        },
+        "operator": "isAnswered"
+      },
+      "value": { "type": "literal", "value": "Yes" }
+    },
+    {
+      "id": "is-contractor.no",
+      "target": "is_contractor_working_for_public_body",
+      "value": { "type": "literal", "value": "No" }
+    },
+    {
+      "id": "public-body-type.government-agency",
+      "description": "Normalises the lowercase form option to the CWT casing",
+      "target": "public_body_type",
+      "when": {
+        "question": {
+          "id": "PBmxNM",
+          "text": "Who are you working on behalf of?"
+        },
+        "operator": "equals",
+        "value": "Government agency"
+      },
+      "value": { "type": "literal", "value": "Government Agency" }
+    },
+    {
+      "id": "public-body-type.working-on-behalf-of",
+      "target": "public_body_type",
+      "when": {
+        "question": {
+          "id": "PBmxNM",
+          "text": "Who are you working on behalf of?"
+        },
+        "operator": "isAnswered"
+      },
+      "value": {
+        "type": "answer",
+        "question": {
+          "id": "PBmxNM",
+          "text": "Who are you working on behalf of?"
+        }
+      }
+    },
+    {
+      "id": "public-body-type.applicant-category",
+      "target": "public_body_type",
+      "when": {
+        "question": {
+          "id": "teEzOl",
+          "text": "Which category best describes who is making this application?"
+        },
+        "operator": "isAnswered"
+      },
+      "value": {
+        "type": "answer",
+        "question": {
+          "id": "teEzOl",
+          "text": "Which category best describes who is making this application?"
+        }
+      }
+    },
+    {
+      "id": "public-body-type.fallback",
+      "target": "public_body_type",
+      "value": { "type": "literal", "value": "" }
+    },
+    {
+      "id": "public-body",
+      "description": "Only one of these path-dependent questions is answered on any given path",
+      "target": "public_body",
+      "value": {
+        "type": "firstAnswered",
+        "values": [
+          {
+            "type": "answer",
+            "question": {
+              "id": "hOsLRu",
+              "text": "Tell us which government agency you work for"
+            }
+          },
+          {
+            "type": "answer",
+            "question": {
+              "id": "PvUZyQ",
+              "text": "Which government agency do you work for?"
+            }
+          },
+          {
+            "type": "answer",
+            "question": {
+              "id": "YouDQP",
+              "text": "Which local authority do you work for?"
+            }
+          },
+          {
+            "type": "answer",
+            "question": {
+              "id": "HiTHQX",
+              "text": "Which public body do you work for?"
+            }
+          },
+          {
+            "type": "answer",
+            "question": {
+              "id": "OYxtmu",
+              "text": "Which public body are you representing?"
+            }
+          }
+        ],
+        "default": ""
+      }
+    },
+    {
+      "id": "is-there-a-european-site.yes",
+      "target": "is_there_a_european_site",
+      "when": {
+        "repeater": { "id": "TJuSNf", "text": "European site" },
+        "operator": "hasAnswer",
+        "questionId": "rtuWky",
+        "questionText": "What is the name of the European site?"
+      },
+      "value": { "type": "literal", "value": "Yes" }
+    },
+    {
+      "id": "is-there-a-european-site.no",
+      "target": "is_there_a_european_site",
+      "value": { "type": "literal", "value": "" }
+    },
+    {
+      "id": "sssi-info.s28i-advice",
+      "description": "SSSI advice path: one entry per affected SSSI across all repeaters",
+      "target": "SSSI_info",
+      "when": {
+        "repeater": { "id": "*", "text": "Any repeater" },
+        "operator": "hasAnswer",
+        "questionId": "Avdzxa",
+        "questionText": "What is the name of SSSI where the activities will cause impacts?"
+      },
+      "value": {
+        "type": "arrayFromRepeater",
+        "repeater": { "id": "*", "text": "Any repeater" },
+        "filterAnswered": "Avdzxa",
+        "item": {
+          "SSSI_id": {
+            "type": "answer",
+            "question": {
+              "id": "Avdzxa",
+              "text": "What is the name of SSSI where the activities will cause impacts?"
+            },
+            "transforms": ["parseSssiId"]
+          },
+          "coordinates": {
+            "type": "answer",
+            "question": {
+              "id": "NMCFES",
+              "text": "Where are the activities planned to take place?"
+            },
+            "transforms": ["formatCoordinates"],
+            "default": ""
+          }
+        }
+      }
+    },
+    {
+      "id": "sssi-info.damage-report",
+      "description": "Damage reporting path: a single entry for the damaged SSSI",
+      "target": "SSSI_info",
+      "when": {
+        "question": {
+          "id": "MoCXGK",
+          "text": "What is the name of the SSSI that you would like to report damage for?"
+        },
+        "operator": "isAnswered"
+      },
+      "value": {
+        "type": "array",
+        "items": [
+          {
+            "type": "object",
+            "properties": {
+              "SSSI_id": {
+                "type": "answer",
+                "question": {
+                  "id": "MoCXGK",
+                  "text": "What is the name of the SSSI that you would like to report damage for?"
+                },
+                "transforms": ["parseSssiId"]
+              },
+              "coordinates": {
+                "type": "answer",
+                "question": {
+                  "id": "rSJTFC",
+                  "text": "Where on the SSSI has the damage taken place?"
+                },
+                "transforms": ["formatCoordinates"],
+                "default": ""
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "sssi-info.drone-flying",
+      "description": "Drone flying path: a single entry with no coordinates",
+      "target": "SSSI_info",
+      "when": {
+        "question": { "id": "PxvdiH", "text": "What is the name of the SSSI?" },
+        "operator": "isAnswered"
+      },
+      "value": {
+        "type": "array",
+        "items": [
+          {
+            "type": "object",
+            "properties": {
+              "SSSI_id": {
+                "type": "answer",
+                "question": {
+                  "id": "PxvdiH",
+                  "text": "What is the name of the SSSI?"
+                },
+                "transforms": ["parseSssiId"]
+              },
+              "coordinates": { "type": "literal", "value": "" }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "sssi-info.fallback",
+      "description": "No SSSI information provided",
+      "target": "SSSI_info",
+      "value": { "type": "literal", "value": [] }
+    },
+    {
+      "id": "euro-site-info",
+      "description": "One entry per affected European site, with coordinates when given",
+      "target": "euro_site_info",
+      "value": {
+        "type": "arrayFromRepeater",
+        "repeater": { "id": "TJuSNf", "text": "European site" },
+        "filterAnswered": "rtuWky",
+        "item": {
+          "european_site_id": {
+            "type": "answer",
+            "question": {
+              "id": "rtuWky",
+              "text": "What is the name of the European site?"
+            },
+            "transforms": ["parseEuroSiteId"]
+          },
+          "european_site_coordinates": {
+            "type": "answer",
+            "question": {
+              "id": "xeJYcG",
+              "text": "Where are the activities taking place?"
+            },
+            "transforms": ["formatCoordinates"],
+            "default": ""
+          }
+        }
+      }
+    }
+  ]
+}

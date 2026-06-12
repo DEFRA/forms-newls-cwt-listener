@@ -174,6 +174,55 @@ const config = convict({
   },
 
   /**
+   * Rule-based mapping engine (prototype running alongside the legacy mappers)
+   */
+  mappingEngine: {
+    mode: {
+      doc: 'Which mapping implementation handles submissions: legacy only, rules only, or both (legacy payload is transmitted, both payloads are stored for comparison)',
+      format: ['legacy', 'rules', 'both'],
+      default: 'legacy',
+      env: 'MAPPING_ENGINE_MODE'
+    },
+    mappingsDir: {
+      doc: 'Directory containing the *.mapping.json mapping files',
+      format: String,
+      default: 'mappings',
+      env: 'MAPPINGS_DIR'
+    },
+    comparisonStore: {
+      doc: 'Where dual-run payload comparisons are persisted when mode is "both". "log" emits a single info line per submission (no payloads)',
+      format: ['none', 'file', 'mongo', 'log'],
+      default: 'log',
+      env: 'COMPARISON_STORE'
+    },
+    comparisonStoreDir: {
+      doc: 'Directory for the "file" comparison store backend',
+      format: String,
+      default: '.comparison-store',
+      env: 'COMPARISON_STORE_DIR'
+    },
+    mongoUri: {
+      doc: 'MongoDB connection URI for the "mongo" comparison store backend',
+      format: String,
+      nullable: true,
+      default: null,
+      env: 'MONGO_URI'
+    },
+    mongoDatabase: {
+      doc: 'MongoDB database name for the "mongo" comparison store backend',
+      format: String,
+      default: 'forms-newls-cwt-listener',
+      env: 'MONGO_DATABASE'
+    },
+    mongoCollection: {
+      doc: 'MongoDB collection name for the "mongo" comparison store backend',
+      format: String,
+      default: 'mapping-comparisons',
+      env: 'COMPARISON_STORE_COLLECTION'
+    }
+  },
+
+  /**
    * SQS Messaging
    */
   awsRegion: {

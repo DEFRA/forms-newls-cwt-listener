@@ -1,0 +1,614 @@
+{
+  "id": "consent-to-cwt",
+  "name": "SSSI consent form to CWT submission",
+  "version": 1,
+  "formIds": ["69a1a64c093ab56d4fa9f339"],
+  "outputSchema": "./output-schemas/cwt-consent.schema.json",
+  "destination": {
+    "type": "rest",
+    "name": "universityApi"
+  },
+  "conditions": {
+    "isCountrysideStewardshipScheme": {
+      "any": [
+        {
+          "question": {
+            "id": "rTreXu",
+            "text": "What land management scheme does this notice relate to?"
+          },
+          "operator": "startsWith",
+          "value": "A Countryside Stewardship Higher Tier (CSHT) agreement"
+        },
+        {
+          "question": {
+            "id": "rTreXu",
+            "text": "What land management scheme does this notice relate to?"
+          },
+          "operator": "startsWith",
+          "value": "A Countryside Stewardship Mid Tier (CSMT) agreement extension"
+        },
+        {
+          "question": {
+            "id": "rTreXu",
+            "text": "What land management scheme does this notice relate to?"
+          },
+          "operator": "startsWith",
+          "value": "A Countryside Stewardship Capital Grants agreement"
+        }
+      ]
+    },
+    "isSingleSssi": {
+      "all": [
+        {
+          "question": {
+            "id": "lmqMaY",
+            "text": "Are you planning to carry out activities on more than one SSSI?"
+          },
+          "operator": "isFalsy"
+        },
+        {
+          "question": {
+            "id": "hozdvW",
+            "text": "What is the name of the SSSI where you plan to carry out activities?"
+          },
+          "operator": "isAnswered"
+        }
+      ]
+    }
+  },
+  "definitions": {
+    "schemeLabel": {
+      "type": "conditional",
+      "cases": [
+        {
+          "when": {
+            "all": [
+              {
+                "question": {
+                  "id": "rTreXu",
+                  "text": "What land management scheme does this notice relate to?"
+                },
+                "operator": "equals",
+                "value": "Other schemes"
+              },
+              {
+                "question": {
+                  "id": "aIixRu",
+                  "text": "What is the name of the land management scheme?"
+                },
+                "operator": "isAnswered"
+              }
+            ]
+          },
+          "value": {
+            "type": "answer",
+            "question": {
+              "id": "aIixRu",
+              "text": "What is the name of the land management scheme?"
+            }
+          }
+        }
+      ],
+      "else": {
+        "type": "answer",
+        "question": {
+          "id": "rTreXu",
+          "text": "What land management scheme does this notice relate to?"
+        }
+      }
+    },
+    "activities": {
+      "type": "firstAnswered",
+      "values": [
+        {
+          "type": "collect",
+          "repeater": {
+            "id": "iTBHrY",
+            "text": "Operations requiring Natural England consent"
+          },
+          "question": {
+            "id": "hqsZMS",
+            "text": "Which activity do you plan to carry out?"
+          },
+          "unique": true
+        },
+        {
+          "type": "collect",
+          "repeater": {
+            "id": "cwZgSE",
+            "text": "Site name and operations requiring Natural England consent"
+          },
+          "question": {
+            "id": "BscJLV",
+            "text": "Which activity do you plan to carry out?"
+          },
+          "unique": true
+        }
+      ]
+    },
+    "primarySegment": {
+      "type": "concat",
+      "separator": ", ",
+      "skipEmpty": true,
+      "parts": [
+        { "type": "ref", "name": "schemeLabel" },
+        { "type": "ref", "name": "activities" }
+      ]
+    },
+    "sssiNames": {
+      "type": "firstAnswered",
+      "values": [
+        {
+          "type": "answer",
+          "question": {
+            "id": "hozdvW",
+            "text": "What is the name of the SSSI where you plan to carry out activities?"
+          }
+        },
+        {
+          "type": "collect",
+          "repeater": {
+            "id": "cwZgSE",
+            "text": "Site name and operations requiring Natural England consent"
+          },
+          "question": {
+            "id": "rWrBOK",
+            "text": "What is the name of the SSSI where you plan to carry out this activity?"
+          },
+          "unique": true
+        },
+        {
+          "type": "collect",
+          "repeater": {
+            "id": "gWZwzI",
+            "text": "Sites where you plan to carry out activities"
+          },
+          "question": {
+            "id": "gVlMxz",
+            "text": "What is the name of the SSSI where activities are planned?"
+          }
+        }
+      ],
+      "transforms": ["parseName"]
+    }
+  },
+  "rules": [
+    {
+      "id": "form-type",
+      "description": "Constant form type identifier for the CWT API",
+      "target": "form_type",
+      "value": { "type": "literal", "value": "consent" }
+    },
+    {
+      "id": "df-reference-number",
+      "description": "Defra Forms submission reference number",
+      "target": "DF_reference_number",
+      "value": { "type": "meta", "path": "referenceNumber" }
+    },
+    {
+      "id": "broad-work-type",
+      "description": "All consent submissions are S28E Consent casework",
+      "target": "broad_work_type",
+      "value": { "type": "literal", "value": "S28E Consent" }
+    },
+    {
+      "id": "detailed-work-type.from-scheme",
+      "description": "Land management scheme determines the detailed work type; prefix matching tolerates longer option text (e.g. MTA)",
+      "target": "detailed_work_type",
+      "value": {
+        "type": "lookup",
+        "input": {
+          "type": "answer",
+          "question": {
+            "id": "rTreXu",
+            "text": "What land management scheme does this notice relate to?"
+          }
+        },
+        "match": "startsWith",
+        "table": {
+          "A Countryside Stewardship Higher Tier (CSHT) agreement": "S28E Consent CS HT",
+          "A Countryside Stewardship Mid Tier (CSMT) agreement extension": "S28E Consent CS MT",
+          "A Countryside Stewardship Capital Grants agreement": "S28E Consent CS Capital Grants",
+          "A Higher Level Stewardship (HLS) agreement": "S28E Consent HLS extension",
+          "A Sustainable Farming Incentive (SFI) agreement": "S28E Consent SFI",
+          "A Minor and Temporary Adjustments (MTA)": "S28E Consent MTA",
+          "Other schemes": "S28E Consent"
+        }
+      }
+    },
+    {
+      "id": "detailed-work-type.fallback",
+      "description": "Default when no scheme was selected or the selection is unrecognised",
+      "target": "detailed_work_type",
+      "value": { "type": "literal", "value": "S28E Consent" }
+    },
+    {
+      "id": "description",
+      "description": "Scheme/activities followed by SSSI names, unlimited length",
+      "target": "description",
+      "value": {
+        "type": "joinSegments",
+        "separator": " - ",
+        "fallback": "S28E Consent",
+        "segments": [
+          { "value": { "type": "ref", "name": "primarySegment" } },
+          { "value": { "type": "ref", "name": "sssiNames" } }
+        ]
+      }
+    },
+    {
+      "id": "consulting-body-type.from-customer-type",
+      "description": "Customer type maps to the CWT consulting body type; unexpected values are an error",
+      "target": "consulting_body_type",
+      "value": {
+        "type": "lookup",
+        "input": {
+          "type": "answer",
+          "question": {
+            "id": "KTObNK",
+            "text": "What type of customer are you?"
+          }
+        },
+        "required": true,
+        "table": {
+          "An owner of land within a SSSI": "Landowner",
+          "An occupier of land within a SSSI": "Land occupier",
+          "Someone with permission to work on behalf of an owner or occupier of land within a SSSI": "Consultant",
+          "Somebody else": "Other"
+        }
+      }
+    },
+    {
+      "id": "consulting-body-type.fallback",
+      "description": "Empty when the customer type question was not answered",
+      "target": "consulting_body_type",
+      "value": { "type": "literal", "value": "" }
+    },
+    {
+      "id": "customer-name",
+      "description": "First and last name joined with a space",
+      "target": "customer_name",
+      "value": {
+        "type": "concat",
+        "separator": " ",
+        "skipEmpty": true,
+        "parts": [
+          {
+            "type": "answer",
+            "question": { "id": "htlAAq", "text": "What is your first name?" }
+          },
+          {
+            "type": "answer",
+            "question": { "id": "pPocjH", "text": "What is your last name?" }
+          }
+        ]
+      }
+    },
+    {
+      "id": "customer-email-address",
+      "target": "customer_email_address",
+      "value": {
+        "type": "answer",
+        "question": { "id": "skdDtj", "text": "What's your email address?" },
+        "default": ""
+      }
+    },
+    {
+      "id": "sbi",
+      "description": "SBI from the mandatory SBI page, falling back to the address details page; omitted when not provided",
+      "target": "SBI",
+      "value": {
+        "type": "firstAnswered",
+        "values": [
+          {
+            "type": "answer",
+            "question": {
+              "id": "rkIHYS",
+              "text": "What is the Single Business Identifier (SBI) number of where the activities will take place?"
+            }
+          },
+          {
+            "type": "answer",
+            "question": {
+              "id": "VLUhzR",
+              "text": "Single business identifier (SBI)"
+            }
+          }
+        ],
+        "transforms": ["toNumber"]
+      }
+    },
+    {
+      "id": "agreement-reference.countryside-stewardship",
+      "target": "agreement_reference",
+      "when": { "ref": "isCountrysideStewardshipScheme" },
+      "value": {
+        "type": "answer",
+        "question": {
+          "id": "WZJDQG",
+          "text": "What's your Countryside Stewardship agreement reference number?"
+        },
+        "default": ""
+      }
+    },
+    {
+      "id": "agreement-reference.hls",
+      "target": "agreement_reference",
+      "when": {
+        "question": {
+          "id": "rTreXu",
+          "text": "What land management scheme does this notice relate to?"
+        },
+        "operator": "startsWith",
+        "value": "A Higher Level Stewardship (HLS) agreement"
+      },
+      "value": {
+        "type": "answer",
+        "question": {
+          "id": "OFiizI",
+          "text": "What's your Higher Level Stewardship agreement reference number?"
+        },
+        "default": ""
+      }
+    },
+    {
+      "id": "agreement-reference.sfi",
+      "target": "agreement_reference",
+      "when": {
+        "question": {
+          "id": "rTreXu",
+          "text": "What land management scheme does this notice relate to?"
+        },
+        "operator": "startsWith",
+        "value": "A Sustainable Farming Incentive (SFI) agreement"
+      },
+      "value": {
+        "type": "answer",
+        "question": {
+          "id": "niVAkO",
+          "text": "What's your Sustainable Farming Incentive agreement number?"
+        },
+        "default": ""
+      }
+    },
+    {
+      "id": "agreement-reference.fallback",
+      "description": "Other schemes (and no scheme) use the optional scheme reference number",
+      "target": "agreement_reference",
+      "value": {
+        "type": "answer",
+        "question": {
+          "id": "WtpFqT",
+          "text": "What is the scheme reference number?"
+        },
+        "default": ""
+      }
+    },
+    {
+      "id": "email-header",
+      "description": "Same segments as the description, limited to 255 characters with SSSI names fitted into the remaining space",
+      "target": "email_header",
+      "value": {
+        "type": "joinSegments",
+        "separator": " - ",
+        "maxLength": 255,
+        "fallback": "S28E Consent",
+        "segments": [
+          { "value": { "type": "ref", "name": "primarySegment" } },
+          {
+            "value": { "type": "ref", "name": "sssiNames" },
+            "overflow": "fitNames"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sssi-info.single-with-operations",
+      "description": "Single SSSI, non-scheme path: one entry combining all operation locations and activities",
+      "target": "SSSI_info",
+      "when": {
+        "all": [
+          { "ref": "isSingleSssi" },
+          {
+            "repeater": {
+              "id": "iTBHrY",
+              "text": "Operations requiring Natural England consent"
+            },
+            "operator": "hasEntries"
+          }
+        ]
+      },
+      "value": {
+        "type": "array",
+        "items": [
+          {
+            "type": "object",
+            "properties": {
+              "SSSI_id": {
+                "type": "answer",
+                "question": {
+                  "id": "hozdvW",
+                  "text": "What is the name of the SSSI where you plan to carry out activities?"
+                },
+                "transforms": ["parseSssiId"]
+              },
+              "coordinates": {
+                "type": "collect",
+                "repeater": {
+                  "id": "iTBHrY",
+                  "text": "Operations requiring Natural England consent"
+                },
+                "question": {
+                  "id": "QKdhfh",
+                  "text": "Where do you plan to carry out this activity?"
+                },
+                "transforms": [
+                  "formatCoordinates",
+                  { "name": "join", "separator": ";" }
+                ],
+                "default": ""
+              },
+              "ornec": {
+                "type": "collect",
+                "repeater": {
+                  "id": "iTBHrY",
+                  "text": "Operations requiring Natural England consent"
+                },
+                "question": {
+                  "id": "hqsZMS",
+                  "text": "Which activity do you plan to carry out?"
+                },
+                "transforms": [{ "name": "join", "separator": ", " }],
+                "default": ""
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "sssi-info.single-scheme",
+      "description": "Single SSSI, scheme path: one entry with the shared activity coordinates and no ORNECs",
+      "target": "SSSI_info",
+      "when": { "ref": "isSingleSssi" },
+      "value": {
+        "type": "array",
+        "items": [
+          {
+            "type": "object",
+            "properties": {
+              "SSSI_id": {
+                "type": "answer",
+                "question": {
+                  "id": "hozdvW",
+                  "text": "What is the name of the SSSI where you plan to carry out activities?"
+                },
+                "transforms": ["parseSssiId"]
+              },
+              "coordinates": {
+                "type": "answer",
+                "question": {
+                  "id": "JPohUD",
+                  "text": "Easting and Northing coordinates"
+                },
+                "transforms": ["formatCoordinates"],
+                "default": ""
+              },
+              "ornec": { "type": "literal", "value": "" }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "sssi-info.multiple-with-operations",
+      "description": "Multiple SSSIs, non-scheme path: entries grouped by SSSI with coordinates and ORNECs stitched together",
+      "target": "SSSI_info",
+      "when": {
+        "all": [
+          {
+            "question": {
+              "id": "lmqMaY",
+              "text": "Are you planning to carry out activities on more than one SSSI?"
+            },
+            "operator": "isTruthy"
+          },
+          {
+            "repeater": {
+              "id": "cwZgSE",
+              "text": "Site name and operations requiring Natural England consent"
+            },
+            "operator": "hasEntries"
+          }
+        ]
+      },
+      "value": {
+        "type": "arrayFromRepeater",
+        "repeater": {
+          "id": "cwZgSE",
+          "text": "Site name and operations requiring Natural England consent"
+        },
+        "groupBy": {
+          "id": "rWrBOK",
+          "text": "What is the name of the SSSI where you plan to carry out this activity?"
+        },
+        "item": {
+          "SSSI_id": {
+            "type": "answer",
+            "question": {
+              "id": "rWrBOK",
+              "text": "What is the name of the SSSI where you plan to carry out this activity?"
+            },
+            "transforms": ["parseSssiId"]
+          },
+          "coordinates": {
+            "type": "answer",
+            "question": {
+              "id": "gjWdrc",
+              "text": "Where on the SSSI do you plan to carry out this activity?"
+            },
+            "transforms": ["formatCoordinates"],
+            "aggregate": { "join": ";" },
+            "default": ""
+          },
+          "ornec": {
+            "type": "answer",
+            "question": {
+              "id": "BscJLV",
+              "text": "Which activity do you plan to carry out?"
+            },
+            "aggregate": { "join": ", " },
+            "default": ""
+          }
+        }
+      }
+    },
+    {
+      "id": "sssi-info.multiple-scheme",
+      "description": "Multiple SSSIs, scheme path: one entry per site, all sharing the activity coordinates",
+      "target": "SSSI_info",
+      "when": {
+        "question": {
+          "id": "lmqMaY",
+          "text": "Are you planning to carry out activities on more than one SSSI?"
+        },
+        "operator": "isTruthy"
+      },
+      "value": {
+        "type": "arrayFromRepeater",
+        "repeater": {
+          "id": "gWZwzI",
+          "text": "Sites where you plan to carry out activities"
+        },
+        "filterAnswered": "gVlMxz",
+        "item": {
+          "SSSI_id": {
+            "type": "answer",
+            "question": {
+              "id": "gVlMxz",
+              "text": "What is the name of the SSSI where activities are planned?"
+            },
+            "transforms": ["parseSssiId"]
+          },
+          "coordinates": {
+            "type": "answer",
+            "scope": "main",
+            "question": {
+              "id": "JPohUD",
+              "text": "Easting and Northing coordinates"
+            },
+            "transforms": ["formatCoordinates"],
+            "default": ""
+          },
+          "ornec": { "type": "literal", "value": "" }
+        }
+      }
+    },
+    {
+      "id": "sssi-info.fallback",
+      "description": "No SSSI information provided",
+      "target": "SSSI_info",
+      "value": { "type": "literal", "value": [] }
+    }
+  ]
+}

@@ -1,0 +1,115 @@
+{
+  "id": "cwt-advice",
+  "description": "Output structure for advice form submissions sent to the CWT API",
+  "properties": {
+    "form_type": {
+      "type": "string",
+      "required": true,
+      "const": "advice",
+      "description": "Constant form type identifier"
+    },
+    "DF_reference_number": {
+      "type": "string",
+      "required": true,
+      "description": "Defra Forms submission reference number"
+    },
+    "broad_work_type": {
+      "type": "string",
+      "required": true,
+      "description": "Broad casework category, e.g. 'S28i Advice' or 'Other casework'"
+    },
+    "detailed_work_type": {
+      "type": "string",
+      "required": true,
+      "description": "Detailed casework category, e.g. 'SSSI - Pre Consent advice'"
+    },
+    "description": {
+      "type": "string",
+      "required": true,
+      "description": "Work type, activity and site names; unlimited length"
+    },
+    "consulting_body_type": {
+      "type": "string",
+      "required": true,
+      "description": "CWT consulting body type derived from the applicant category"
+    },
+    "consulting_body": {
+      "type": "string",
+      "required": true,
+      "description": "Name of the consulting body or individual"
+    },
+    "customer_name": {
+      "type": "string",
+      "required": true,
+      "description": "Full name of the person submitting the form"
+    },
+    "customer_email_address": {
+      "type": "string",
+      "required": true,
+      "description": "Email address of the person submitting the form"
+    },
+    "email_header": {
+      "type": "string",
+      "required": true,
+      "description": "Same content as description, limited to 255 characters"
+    },
+    "is_contractor_working_for_public_body": {
+      "type": "string",
+      "required": true,
+      "description": "'Yes' or 'No'"
+    },
+    "public_body_type": {
+      "type": "string",
+      "required": false,
+      "description": "Type of public body the applicant works on behalf of"
+    },
+    "public_body": {
+      "type": "string",
+      "required": false,
+      "description": "Name of the public body the applicant works for"
+    },
+    "is_there_a_european_site": {
+      "type": "string",
+      "required": true,
+      "description": "'Yes' when European sites are affected, otherwise empty"
+    },
+    "SSSI_info": {
+      "type": "array",
+      "required": true,
+      "description": "Affected SSSIs",
+      "items": {
+        "properties": {
+          "SSSI_id": {
+            "type": "number",
+            "required": true,
+            "description": "Numeric SSSI identifier"
+          },
+          "coordinates": {
+            "type": "string",
+            "required": true,
+            "description": "Format '<easting>,<northing>'; empty when not given"
+          }
+        }
+      }
+    },
+    "euro_site_info": {
+      "type": "array",
+      "required": true,
+      "description": "Affected European sites",
+      "items": {
+        "properties": {
+          "european_site_id": {
+            "type": "number",
+            "required": true,
+            "description": "Numeric European site identifier"
+          },
+          "european_site_coordinates": {
+            "type": "string",
+            "required": true,
+            "description": "Format '<easting>,<northing>'; empty when not given"
+          }
+        }
+      }
+    }
+  }
+}
