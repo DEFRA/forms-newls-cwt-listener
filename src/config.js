@@ -180,7 +180,7 @@ const config = convict({
     mode: {
       doc: 'Which mapping implementation handles submissions: legacy only, rules only, or both (legacy payload is transmitted, both payloads are stored for comparison)',
       format: ['legacy', 'rules', 'both'],
-      default: 'legacy',
+      default: 'both',
       env: 'MAPPING_ENGINE_MODE'
     },
     mappingsDir: {
