@@ -164,9 +164,12 @@ function storeToLog(record) {
     record.legacyPayload,
     record.rulesPayload
   )
+  const summary = differences
+    .map((difference) => `${difference.path}: ${difference.description}`)
+    .join('; ')
   logger.info(
     { ...base, differenceCount: differences.length, differences },
-    `${LOG_PREFIX} Comparison found ${differences.length} difference(s) for submission ${record.referenceNumber}`
+    `${LOG_PREFIX} Comparison found ${differences.length} difference(s) for submission ${record.referenceNumber}: ${summary}`
   )
 }
 
