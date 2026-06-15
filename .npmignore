@@ -1,4 +1,5 @@
-*.config.*
+    *.config.*
 *.test.*
 __fixtures__
 test-helpers
+mappings
