@@ -2,7 +2,12 @@
   "id": "consent-to-cwt",
   "name": "SSSI consent form to CWT submission",
   "version": 1,
-  "formIds": ["69a1a64c093ab56d4fa9f339"],
+  "formIds": [
+    "69a1a64c093ab56d4fa9f339",
+    "69b7d0899fe6b42cdd2f4392",
+    "68f5f6b974cd2874206e1da7",
+    "6989c6b37ecc5e260a1e2497"
+  ],
   "outputSchema": "./output-schemas/cwt-consent.schema.json",
   "destination": {
     "type": "rest",

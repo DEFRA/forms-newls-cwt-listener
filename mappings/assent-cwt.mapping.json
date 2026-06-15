@@ -2,7 +2,12 @@
   "id": "assent-to-cwt",
   "name": "SSSI assent form to CWT submission",
   "version": 1,
-  "formIds": ["69a1a593093ab56d4fa9f330"],
+  "formIds": [
+    "69a1a593093ab56d4fa9f330",
+    "69b7cf5e9fe6b42cdd2f438f",
+    "68f9fd08254264aa5cc4c7d8",
+    "69e0a25820e243acf73fc6cd"
+  ],
   "outputSchema": "./output-schemas/cwt-assent.schema.json",
   "destination": {
     "type": "rest",

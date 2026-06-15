@@ -2,7 +2,12 @@
   "id": "advice-to-cwt",
   "name": "Protected sites advice form to CWT submission",
   "version": 1,
-  "formIds": ["69a07d92093ab56d4fa9f325"],
+  "formIds": [
+    "69a07d92093ab56d4fa9f325",
+    "69b7cf109fe6b42cdd2f438c",
+    "69257caf4de93c54efdbeba3",
+    "69e0a08f20e243acf73fc6c7"
+  ],
   "outputSchema": "./output-schemas/cwt-advice.schema.json",
   "destination": {
     "type": "rest",
