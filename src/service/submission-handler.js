@@ -144,7 +144,7 @@ async function handleWithBoth(message, mappingsDir) {
       JSON.parse(JSON.stringify(rulesPayload))
     )
 
-  await storeComparison({
+  storeComparison({
     mappingId: mapping?.id ?? 'unknown',
     formId,
     referenceNumber: message.meta.referenceNumber,

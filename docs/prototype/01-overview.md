@@ -31,7 +31,7 @@ legacy mappers              legacy mappers + rules engine   rules engine
         ▼                             ▼                          ▼
    transmit payload        transmit LEGACY payload        transmit payload
                            store BOTH payloads in the     to the destination
-                           comparison store (file/mongo)  named in the mapping
+                           comparison store (file/log)    named in the mapping
 ```
 
 Modules under `src/service/rule-mapping/`:
@@ -45,7 +45,7 @@ Modules under `src/service/rule-mapping/`:
 | `registry.js`         | Loads, validates and indexes the mapping files by form id                              |
 | `mapping-schema.js`   | Joi structural validation of mapping files                                             |
 | `destinations.js`     | Resolves a mapping's `destination` to a sender (currently the University/CWT REST API) |
-| `comparison-store.js` | Persists dual-run payload pairs (file or MongoDB backend)                              |
+| `comparison-store.js` | Persists dual-run payload pairs (file or log backend)                                  |
 | `gap-analysis.js`     | Cross-checks mapping + form definition + output schema (used by the CLI)               |
 | `types.js`            | JSDoc type definitions for all of the above                                            |
 

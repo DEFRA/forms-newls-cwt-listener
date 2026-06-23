@@ -8,22 +8,19 @@
  *
  * Backends (selected with the COMPARISON_STORE config):
  * - "file": one JSON document per submission under the configured directory
- * - "mongo": one document per submission in a MongoDB collection
  * - "log": a single `info` line per submission (no payloads — see below)
  * - "none": comparisons are not persisted (mismatches are still logged)
  *
  * Submitted form data must never leave production: when NODE_ENV is "production"
  * / "prod" — or is not set at all (treated as production for safety) — the raw
- * payloads are stripped before anything is persisted to the file or mongo
- * backends. The "log" backend never emits payloads in any environment; it only
- * reports the reference number and, for mismatches, a data-free description of
- * which properties differ.
+ * payloads are stripped before anything is persisted to the file backend. The
+ * "log" backend never emits payloads in any environment; it only reports the
+ * reference number and, for mismatches, a data-free description of which
+ * properties differ.
  */
 
 import { mkdirSync, writeFileSync } from 'node:fs'
 import { join, resolve } from 'node:path'
-
-import { MongoClient } from 'mongodb'
 
 import { config } from '../../config.js'
 import { createLogger } from '../../common/helpers/logging/logger.js'
@@ -47,36 +44,11 @@ const LOG_PREFIX = '[cstore]'
  */
 
 /**
- * A comparison record as persisted to the file/mongo backends. It is either the
- * full record or, when the environment forbids persisting submitted data, the
+ * A comparison record as persisted to the file backend. It is either the full
+ * record or, when the environment forbids persisting submitted data, the
  * record with its payloads stripped and a `payloadsOmitted` marker added.
  * @typedef {ComparisonRecord | (Omit<ComparisonRecord, 'legacyPayload' | 'rulesPayload'> & { payloadsOmitted: true })} PersistableRecord
  */
-
-/** @type {MongoClient | undefined} */
-let mongoClient
-
-/**
- * @returns {Promise<import('mongodb').Collection>}
- */
-async function getMongoCollection() {
-  const { mongoUri, mongoDatabase, mongoCollection } =
-    /** @type {{ mongoUri: string | null, mongoDatabase: string, mongoCollection: string }} */ (
-      config.get('mappingEngine')
-    )
-
-  if (!mongoUri) {
-    throw new Error(
-      'MONGO_URI is not configured but the comparison store is set to "mongo"'
-    )
-  }
-
-  if (!mongoClient) {
-    mongoClient = new MongoClient(mongoUri)
-    await mongoClient.connect()
-  }
-  return mongoClient.db(mongoDatabase).collection(mongoCollection)
-}
 
 /**
  * @param {PersistableRecord} record
@@ -92,14 +64,6 @@ function storeToFile(record) {
   const safeReference = record.referenceNumber.replaceAll(/[^\w-]/g, '_')
   const filePath = join(directory, `${safeReference}-${Date.now()}.json`)
   writeFileSync(filePath, JSON.stringify(record, null, 2))
-}
-
-/**
- * @param {PersistableRecord} record
- */
-async function storeToMongo(record) {
-  const collection = await getMongoCollection()
-  await collection.insertOne({ ...record })
 }
 
 /**
@@ -179,9 +143,9 @@ function storeToLog(record) {
  * the legacy payload has already been transmitted, so a storage failure must
  * not cause the SQS message to be retried (and re-sent).
  * @param {ComparisonRecord} record
- * @returns {Promise<void>}
+ * @returns {void}
  */
-export async function storeComparison(record) {
+export function storeComparison(record) {
   const { comparisonStore } = /** @type {{ comparisonStore: string }} */ (
     config.get('mappingEngine')
   )
@@ -191,8 +155,6 @@ export async function storeComparison(record) {
       storeToLog(record)
     } else if (comparisonStore === 'file') {
       storeToFile(redactPayloadsIfRequired(record))
-    } else if (comparisonStore === 'mongo') {
-      await storeToMongo(redactPayloadsIfRequired(record))
     }
   } catch (error) {
     logger.error(
@@ -210,16 +172,5 @@ export async function storeComparison(record) {
       { referenceNumber: record.referenceNumber, mappingId: record.mappingId },
       `Mapping comparison MISMATCH for submission ${record.referenceNumber}`
     )
-  }
-}
-
-/**
- * Closes the MongoDB client if one was opened (intended for shutdown/tests).
- * @returns {Promise<void>}
- */
-export async function closeComparisonStore() {
-  if (mongoClient) {
-    await mongoClient.close()
-    mongoClient = undefined
   }
 }

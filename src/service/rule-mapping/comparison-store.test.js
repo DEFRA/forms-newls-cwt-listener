@@ -1,16 +1,19 @@
-import { mkdtempSync, readdirSync, readFileSync, rmSync } from 'node:fs'
+import {
+  mkdtempSync,
+  readdirSync,
+  readFileSync,
+  rmSync,
+  writeFileSync
+} from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 
 import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest'
 
-/** @type {{ comparisonStore: string, comparisonStoreDir: string, mongoUri: string | null, mongoDatabase: string, mongoCollection: string }} */
+/** @type {{ comparisonStore: string, comparisonStoreDir: string }} */
 const mappingEngineSettings = {
   comparisonStore: 'file',
-  comparisonStoreDir: '',
-  mongoUri: null,
-  mongoDatabase: 'test-db',
-  mongoCollection: 'mapping-comparisons'
+  comparisonStoreDir: ''
 }
 
 const loggerInfo = vi.fn()
@@ -65,8 +68,8 @@ describe('storeComparison', () => {
     rmSync(testDir, { recursive: true, force: true })
   })
 
-  it('writes one JSON document per comparison to the file backend', async () => {
-    await storeComparison(buildRecord())
+  it('writes one JSON document per comparison to the file backend', () => {
+    storeComparison(buildRecord())
 
     const formDir = join(testDir, 'form-1')
     const files = readdirSync(formDir)
@@ -82,8 +85,8 @@ describe('storeComparison', () => {
     })
   })
 
-  it('warns when the payloads do not match', async () => {
-    await storeComparison(
+  it('warns when the payloads do not match', () => {
+    storeComparison(
       buildRecord({ matches: false, rulesPayload: { a: 2 } })
     )
     expect(loggerWarn).toHaveBeenCalledWith(
@@ -92,17 +95,20 @@ describe('storeComparison', () => {
     )
   })
 
-  it('does nothing for the none backend', async () => {
+  it('does nothing for the none backend', () => {
     mappingEngineSettings.comparisonStore = 'none'
-    await storeComparison(buildRecord())
+    storeComparison(buildRecord())
     expect(readdirSync(testDir)).toEqual([])
   })
 
-  it('logs but does not throw when the backend fails', async () => {
-    mappingEngineSettings.comparisonStore = 'mongo'
-    mappingEngineSettings.mongoUri = null
+  it('logs but does not throw when the backend fails', () => {
+    // Point the file backend at a path whose parent is a regular file so the
+    // directory creation fails, exercising the swallow-and-log behaviour.
+    const blockingFile = join(testDir, 'not-a-dir')
+    writeFileSync(blockingFile, 'x')
+    mappingEngineSettings.comparisonStoreDir = join(blockingFile, 'nested')
 
-    await expect(storeComparison(buildRecord())).resolves.toBeUndefined()
+    expect(storeComparison(buildRecord())).toBeUndefined()
     expect(loggerError).toHaveBeenCalledWith(
       expect.objectContaining({ referenceNumber: '111-222-333' }),
       expect.stringContaining('Failed to store mapping comparison')
@@ -116,8 +122,8 @@ describe('storeComparison with the "log" backend', () => {
     vi.clearAllMocks()
   })
 
-  it('logs a data-free success line at info level on a match', async () => {
-    await storeComparison(buildRecord({ matches: true }))
+  it('logs a data-free success line at info level on a match', () => {
+    storeComparison(buildRecord({ matches: true }))
 
     expect(loggerInfo).toHaveBeenCalledTimes(1)
     const [meta, message] = loggerInfo.mock.calls[0]
@@ -129,8 +135,8 @@ describe('storeComparison with the "log" backend', () => {
     expect(meta).not.toHaveProperty('differences')
   })
 
-  it('logs the differing properties at info level on a mismatch', async () => {
-    await storeComparison(
+  it('logs the differing properties at info level on a mismatch', () => {
+    storeComparison(
       buildRecord({
         matches: false,
         legacyPayload: { name: 'Alice', extra: 1 },
@@ -154,8 +160,8 @@ describe('storeComparison with the "log" backend', () => {
     ])
   })
 
-  it('does not leak the underlying data when logging differences', async () => {
-    await storeComparison(
+  it('does not leak the underlying data when logging differences', () => {
+    storeComparison(
       buildRecord({
         matches: false,
         legacyPayload: { name: 'Alice' },
@@ -168,8 +174,8 @@ describe('storeComparison with the "log" backend', () => {
     expect(serialised).not.toContain('Bob')
   })
 
-  it('reports a rules-engine failure at info level', async () => {
-    await storeComparison(
+  it('reports a rules-engine failure at info level', () => {
+    storeComparison(
       buildRecord({
         matches: false,
         rulesPayload: null,
@@ -183,8 +189,8 @@ describe('storeComparison with the "log" backend', () => {
     expect(message).toContain('rules engine failed')
   })
 
-  it('does not emit the generic mismatch warning for the log backend', async () => {
-    await storeComparison(
+  it('does not emit the generic mismatch warning for the log backend', () => {
+    storeComparison(
       buildRecord({ matches: false, rulesPayload: { a: 2 } })
     )
     expect(loggerWarn).not.toHaveBeenCalled()
@@ -225,9 +231,9 @@ describe('storeComparison payload redaction by environment', () => {
     return JSON.parse(readFileSync(join(formDir, files[0]), 'utf8'))
   }
 
-  it('persists payloads for an explicitly non-production environment', async () => {
+  it('persists payloads for an explicitly non-production environment', () => {
     process.env.NODE_ENV = 'development'
-    await storeComparison(buildRecord())
+    storeComparison(buildRecord())
 
     const stored = readOnlyStoredRecord('form-1')
     expect(stored).toMatchObject({ legacyPayload: { a: 1 } })
@@ -236,9 +242,9 @@ describe('storeComparison payload redaction by environment', () => {
 
   it.each(['production', 'prod'])(
     'strips payloads when NODE_ENV is "%s"',
-    async (env) => {
+    (env) => {
       process.env.NODE_ENV = env
-      await storeComparison(buildRecord())
+      storeComparison(buildRecord())
 
       const stored = readOnlyStoredRecord('form-1')
       expect(stored.legacyPayload).toBeUndefined()
@@ -248,9 +254,9 @@ describe('storeComparison payload redaction by environment', () => {
     }
   )
 
-  it('strips payloads when NODE_ENV is unset (treated as production)', async () => {
+  it('strips payloads when NODE_ENV is unset (treated as production)', () => {
     delete process.env.NODE_ENV
-    await storeComparison(buildRecord())
+    storeComparison(buildRecord())
 
     const stored = readOnlyStoredRecord('form-1')
     expect(stored.legacyPayload).toBeUndefined()
