@@ -25,11 +25,7 @@ export async function send(message) {
 
   const referenceNumber = message.DF_reference_number
 
-  logger.debug(
-    { event: { payload: jsonPayload } },
-    'Sending message to API with payload: %s',
-    jsonPayload
-  )
+  logger.debug(`Sending message to API with payload: ${jsonPayload}`)
   let response
   try {
     response = await fetch(universityApiUrl, {
@@ -52,13 +48,7 @@ export async function send(message) {
 
   if (!response.ok) {
     logger.error(
-      {
-        statusCode: response.status,
-        statusText: response.statusText,
-        body: responseBody,
-        referenceNumber
-      },
-      `Failed to send message to API for submission ${referenceNumber}`
+      `Failed to send message to API for submission ${referenceNumber} with status ${response.status} ${response.statusText}: ${responseBody}`
     )
     throw new Error(
       `Failed to send message to API for submission ${referenceNumber}: ${response.statusText}`
@@ -66,7 +56,6 @@ export async function send(message) {
   }
 
   logger.info(
-    { statusCode: response.status, body: responseBody, referenceNumber },
-    `Successfully sent message to API for submission ${referenceNumber}`
+    `Successfully sent message to API for submission ${referenceNumber} with status ${response.status}: ${responseBody}`
   )
 }

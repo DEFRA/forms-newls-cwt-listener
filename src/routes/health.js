@@ -1,4 +1,5 @@
 import { config } from '../config.js'
+import { getErrorMessage } from '../common/helpers/error-message.js'
 import { createLogger } from '../common/helpers/logging/logger.js'
 
 const logger = createLogger()
@@ -30,11 +31,7 @@ const health = {
 
       if (!response.ok) {
         logger.error(
-          {
-            statusCode: response.status,
-            statusText: response.statusText
-          },
-          'Target service health check failed'
+          `Target service health check failed with status ${response.status} ${response.statusText}`
         )
         return h
           .response({
@@ -46,7 +43,9 @@ const health = {
 
       return h.response({ message: 'success' })
     } catch (error) {
-      logger.error({ error }, 'Target service health check errored')
+      logger.error(
+        `Target service health check errored: ${getErrorMessage(error)}`
+      )
       return h
         .response({
           message: 'error',
