@@ -87,9 +87,9 @@ describe('storeComparison', () => {
 
   it('warns when the payloads do not match', () => {
     storeComparison(buildRecord({ matches: false, rulesPayload: { a: 2 } }))
+    expect(loggerWarn).toHaveBeenCalledWith(expect.stringContaining('MISMATCH'))
     expect(loggerWarn).toHaveBeenCalledWith(
-      expect.objectContaining({ referenceNumber: '111-222-333' }),
-      expect.stringContaining('MISMATCH')
+      expect.stringContaining('111-222-333')
     )
   })
 
@@ -108,8 +108,10 @@ describe('storeComparison', () => {
 
     expect(storeComparison(buildRecord())).toBeUndefined()
     expect(loggerError).toHaveBeenCalledWith(
-      expect.objectContaining({ referenceNumber: '111-222-333' }),
       expect.stringContaining('Failed to store mapping comparison')
+    )
+    expect(loggerError).toHaveBeenCalledWith(
+      expect.stringContaining('111-222-333')
     )
   })
 })
@@ -124,13 +126,10 @@ describe('storeComparison with the "log" backend', () => {
     storeComparison(buildRecord({ matches: true }))
 
     expect(loggerInfo).toHaveBeenCalledTimes(1)
-    const [meta, message] = loggerInfo.mock.calls[0]
+    const [message] = loggerInfo.mock.calls[0]
     expect(message).toContain('[cstore]')
     expect(message).toContain('succeeded')
     expect(message).toContain('111-222-333')
-    expect(meta).not.toHaveProperty('legacyPayload')
-    expect(meta).not.toHaveProperty('rulesPayload')
-    expect(meta).not.toHaveProperty('differences')
   })
 
   it('logs the differing properties at info level on a mismatch', () => {
@@ -143,19 +142,11 @@ describe('storeComparison with the "log" backend', () => {
     )
 
     expect(loggerInfo).toHaveBeenCalledTimes(1)
-    const [meta, message] = loggerInfo.mock.calls[0]
+    const [message] = loggerInfo.mock.calls[0]
     expect(message).toContain('[cstore]')
     expect(message).toContain('difference')
-    expect(meta.differences).toEqual([
-      {
-        path: 'extra',
-        description: 'present in legacy but missing in rules'
-      },
-      {
-        path: 'name',
-        description: 'string length differs (legacy=5, rules=3)'
-      }
-    ])
+    expect(message).toContain('extra: present in legacy but missing in rules')
+    expect(message).toContain('name: string length differs (legacy=5, rules=3)')
   })
 
   it('does not leak the underlying data when logging differences', () => {
@@ -182,7 +173,7 @@ describe('storeComparison with the "log" backend', () => {
     )
 
     expect(loggerInfo).toHaveBeenCalledTimes(1)
-    const [, message] = loggerInfo.mock.calls[0]
+    const [message] = loggerInfo.mock.calls[0]
     expect(message).toContain('[cstore]')
     expect(message).toContain('rules engine failed')
   })

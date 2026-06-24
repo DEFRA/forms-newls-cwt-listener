@@ -128,8 +128,7 @@ async function handleWithBoth(message, mappingsDir) {
   } catch (error) {
     rulesError = error instanceof Error ? error.message : String(error)
     logger.error(
-      { err: error, referenceNumber: message.meta.referenceNumber },
-      `Rules engine failed for submission ${message.meta.referenceNumber}; legacy payload is unaffected`
+      `Rules engine failed for submission ${message.meta.referenceNumber}; legacy payload is unaffected: ${rulesError}`
     )
   }
 

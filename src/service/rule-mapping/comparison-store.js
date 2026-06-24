@@ -23,6 +23,7 @@ import { mkdirSync, writeFileSync } from 'node:fs'
 import { join, resolve } from 'node:path'
 
 import { config } from '../../config.js'
+import { getErrorMessage } from '../../common/helpers/error-message.js'
 import { createLogger } from '../../common/helpers/logging/logger.js'
 import { describeDifferences } from './diff-summary.js'
 
@@ -103,23 +104,16 @@ function redactPayloadsIfRequired(record) {
  * @param {ComparisonRecord} record
  */
 function storeToLog(record) {
-  const base = {
-    referenceNumber: record.referenceNumber,
-    mappingId: record.mappingId
-  }
-
   if (record.matches) {
     logger.info(
-      base,
-      `${LOG_PREFIX} Comparison succeeded for submission ${record.referenceNumber}: legacy and rules payloads match`
+      `${LOG_PREFIX} Comparison succeeded for submission ${record.referenceNumber} (mapping ${record.mappingId}): legacy and rules payloads match`
     )
     return
   }
 
   if (record.rulesError) {
     logger.info(
-      { ...base, rulesError: record.rulesError },
-      `${LOG_PREFIX} Comparison could not be made for submission ${record.referenceNumber}: rules engine failed (${record.rulesError})`
+      `${LOG_PREFIX} Comparison could not be made for submission ${record.referenceNumber} (mapping ${record.mappingId}): rules engine failed (${record.rulesError})`
     )
     return
   }
@@ -132,8 +126,7 @@ function storeToLog(record) {
     .map((difference) => `${difference.path}: ${difference.description}`)
     .join('; ')
   logger.info(
-    { ...base, differenceCount: differences.length, differences },
-    `${LOG_PREFIX} Comparison found ${differences.length} difference(s) for submission ${record.referenceNumber}: ${summary}`
+    `${LOG_PREFIX} Comparison found ${differences.length} difference(s) for submission ${record.referenceNumber} (mapping ${record.mappingId}): ${summary}`
   )
 }
 
@@ -158,8 +151,7 @@ export function storeComparison(record) {
     }
   } catch (error) {
     logger.error(
-      { err: error, referenceNumber: record.referenceNumber },
-      `Failed to store mapping comparison for submission ${record.referenceNumber}`
+      `Failed to store mapping comparison for submission ${record.referenceNumber}: ${getErrorMessage(error)}`
     )
     return
   }
@@ -169,8 +161,7 @@ export function storeComparison(record) {
   // duplicate it, so it is emitted for the other backends only.
   if (!record.matches && comparisonStore !== 'log') {
     logger.warn(
-      { referenceNumber: record.referenceNumber, mappingId: record.mappingId },
-      `Mapping comparison MISMATCH for submission ${record.referenceNumber}`
+      `Mapping comparison MISMATCH for submission ${record.referenceNumber} (mapping ${record.mappingId})`
     )
   }
 }
