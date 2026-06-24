@@ -41,11 +41,11 @@ warning because it already reports the mismatch (at `info`) itself.
 
 Selected with `COMPARISON_STORE` (config `mappingEngine.comparisonStore`):
 
-| Backend         | Configuration                                       | Notes                                                                                                         |
-| --------------- | --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
-| `log` (default) | —                                                   | One `info` log line per submission, prefixed `[cstore]`. Never emits payloads — safe for any environment      |
+| Backend         | Configuration                                        | Notes                                                                                                         |
+| --------------- | ---------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| `log` (default) | —                                                    | One `info` log line per submission, prefixed `[cstore]`. Never emits payloads — safe for any environment      |
 | `file`          | `COMPARISON_STORE_DIR` (default `.comparison-store`) | One JSON document per submission at `<dir>/<formId>/<reference>-<timestamp>.json`. Good for local development |
-| `none`          | —                                                   | Nothing is persisted; mismatches are still logged                                                             |
+| `none`          | —                                                    | Nothing is persisted; mismatches are still logged                                                             |
 
 Storage failures are logged and swallowed deliberately: by the time the
 comparison is stored the payload has already been transmitted, so throwing

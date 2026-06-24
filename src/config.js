@@ -93,13 +93,6 @@ const config = convict({
         : ['req', 'res', 'responseTime']
     }
   },
-  httpProxy: {
-    doc: 'HTTP Proxy URL',
-    format: String,
-    nullable: true,
-    default: null,
-    env: 'HTTP_PROXY'
-  },
   isMetricsEnabled: {
     doc: 'Enable metrics reporting',
     format: Boolean,

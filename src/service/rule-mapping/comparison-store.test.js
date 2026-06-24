@@ -86,9 +86,7 @@ describe('storeComparison', () => {
   })
 
   it('warns when the payloads do not match', () => {
-    storeComparison(
-      buildRecord({ matches: false, rulesPayload: { a: 2 } })
-    )
+    storeComparison(buildRecord({ matches: false, rulesPayload: { a: 2 } }))
     expect(loggerWarn).toHaveBeenCalledWith(
       expect.objectContaining({ referenceNumber: '111-222-333' }),
       expect.stringContaining('MISMATCH')
@@ -190,9 +188,7 @@ describe('storeComparison with the "log" backend', () => {
   })
 
   it('does not emit the generic mismatch warning for the log backend', () => {
-    storeComparison(
-      buildRecord({ matches: false, rulesPayload: { a: 2 } })
-    )
+    storeComparison(buildRecord({ matches: false, rulesPayload: { a: 2 } }))
     expect(loggerWarn).not.toHaveBeenCalled()
   })
 })
