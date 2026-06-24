@@ -7,12 +7,18 @@ import { requestLogger } from './common/helpers/logging/request-logger.js'
 import { failAction } from './common/helpers/fail-action.js'
 import { pulse } from './common/helpers/pulse.js'
 import { requestTracing } from './common/helpers/request-tracing.js'
+import { createLogger } from './common/helpers/logging/logger.js'
+import { describeProxyInfo } from './common/helpers/proxy/proxy-info.js'
 import { runTask } from './tasks/receive-messages.js'
+
+const logger = createLogger()
 
 /** @type {number} */
 const numberOfCoroutines = config.get('numberOfConcurrentPollingCoroutines')
 
 async function createServer() {
+  logger.info(`Startup outbound ${describeProxyInfo()}`)
+
   const server = Hapi.server({
     host: /** @type {string} */ (config.get('host')),
     port: /** @type {number} */ (config.get('port')),
