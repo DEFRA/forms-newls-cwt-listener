@@ -1,9 +1,9 @@
-import fetch from 'node-fetch'
 import { createServer } from '../server.js'
 import { config } from '../config.js'
 
 vi.mock('../tasks/receive-messages.js')
-vi.mock('node-fetch')
+
+const mockFetch = vi.fn()
 
 describe('Health route', () => {
   /** @type {Server} */
@@ -12,6 +12,10 @@ describe('Health route', () => {
   beforeAll(async () => {
     server = await createServer()
     await server.initialize()
+  })
+
+  beforeEach(() => {
+    global.fetch = mockFetch
   })
 
   afterAll(() => {
@@ -48,7 +52,7 @@ describe('Health route', () => {
     })
 
     test('GET /health returns 200 when target service is healthy', async () => {
-      vi.mocked(fetch).mockResolvedValue(
+      mockFetch.mockResolvedValue(
         /** @type {any} */ ({
           ok: true,
           status: 200
@@ -60,7 +64,7 @@ describe('Health route', () => {
         url: '/health'
       })
 
-      expect(fetch).toHaveBeenCalledWith(
+      expect(mockFetch).toHaveBeenCalledWith(
         'http://example.com/health-check',
         expect.objectContaining({
           method: 'GET',
@@ -72,7 +76,7 @@ describe('Health route', () => {
     })
 
     test('GET /health returns 503 when target service returns non-OK', async () => {
-      vi.mocked(fetch).mockResolvedValue(
+      mockFetch.mockResolvedValue(
         /** @type {any} */ ({
           ok: false,
           status: 500,
@@ -93,7 +97,7 @@ describe('Health route', () => {
     })
 
     test('GET /health returns 503 when target service is unreachable', async () => {
-      vi.mocked(fetch).mockRejectedValue(new Error('ECONNREFUSED'))
+      mockFetch.mockRejectedValue(new Error('ECONNREFUSED'))
 
       const response = await server.inject({
         method: 'GET',

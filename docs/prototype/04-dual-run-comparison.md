@@ -32,7 +32,7 @@ One record is stored per submission:
 `undefined`-valued key (legacy) and an omitted key (rules) compare equal —
 both serialise identically in the transmitted JSON.
 
-For the `file`, `mongo` and `none` backends a mismatch is also logged at `warn`
+For the `file` and `none` backends a mismatch is also logged at `warn`
 level (`Mapping comparison MISMATCH for submission <ref>`), so mismatches can be
 monitored from logs without reading the store. The `log` backend omits this
 warning because it already reports the mismatch (at `info`) itself.
@@ -41,12 +41,11 @@ warning because it already reports the mismatch (at `info`) itself.
 
 Selected with `COMPARISON_STORE` (config `mappingEngine.comparisonStore`):
 
-| Backend         | Configuration                                                                                                                     | Notes                                                                                                         |
-| --------------- | --------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
-| `log` (default) | —                                                                                                                                 | One `info` log line per submission, prefixed `[cstore]`. Never emits payloads — safe for any environment      |
-| `file`          | `COMPARISON_STORE_DIR` (default `.comparison-store`)                                                                              | One JSON document per submission at `<dir>/<formId>/<reference>-<timestamp>.json`. Good for local development |
-| `mongo`         | `MONGO_URI`, `MONGO_DATABASE` (default `forms-newls-cwt-listener`), `COMPARISON_STORE_COLLECTION` (default `mapping-comparisons`) | One document per submission; suitable for deployed environments                                               |
-| `none`          | —                                                                                                                                 | Nothing is persisted; mismatches are still logged                                                             |
+| Backend         | Configuration                                        | Notes                                                                                                         |
+| --------------- | ---------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| `log` (default) | —                                                    | One `info` log line per submission, prefixed `[cstore]`. Never emits payloads — safe for any environment      |
+| `file`          | `COMPARISON_STORE_DIR` (default `.comparison-store`) | One JSON document per submission at `<dir>/<formId>/<reference>-<timestamp>.json`. Good for local development |
+| `none`          | —                                                    | Nothing is persisted; mismatches are still logged                                                             |
 
 Storage failures are logged and swallowed deliberately: by the time the
 comparison is stored the payload has already been transmitted, so throwing
@@ -74,7 +73,7 @@ It never logs payload data:
 ### Submitted data is never persisted from production
 
 Submitted form data may contain personal data and must not be saved out of
-production. The `file` and `mongo` backends therefore **strip the raw payloads**
+production. The `file` backend therefore **strips the raw payloads**
 (leaving the comparison metadata and a `payloadsOmitted: true` marker) unless
 `NODE_ENV` is explicitly set to a non-production value. An unset `NODE_ENV` — or
 one set to `production` / `prod` — is treated as production and omits the
@@ -86,12 +85,6 @@ With the `file` backend, mismatches can be listed with:
 
 ```bash
 grep -rl '"matches": false' .comparison-store/
-```
-
-With the `mongo` backend:
-
-```js
-db.getCollection('mapping-comparisons').find({ matches: false })
 ```
 
 Each mismatching record contains both full payloads, so a diff of the two

@@ -93,13 +93,6 @@ const config = convict({
         : ['req', 'res', 'responseTime']
     }
   },
-  httpProxy: {
-    doc: 'HTTP Proxy URL',
-    format: String,
-    nullable: true,
-    default: null,
-    env: 'HTTP_PROXY'
-  },
   isMetricsEnabled: {
     doc: 'Enable metrics reporting',
     format: Boolean,
@@ -191,7 +184,7 @@ const config = convict({
     },
     comparisonStore: {
       doc: 'Where dual-run payload comparisons are persisted when mode is "both". "log" emits a single info line per submission (no payloads)',
-      format: ['none', 'file', 'mongo', 'log'],
+      format: ['none', 'file', 'log'],
       default: 'log',
       env: 'COMPARISON_STORE'
     },
@@ -200,25 +193,6 @@ const config = convict({
       format: String,
       default: '.comparison-store',
       env: 'COMPARISON_STORE_DIR'
-    },
-    mongoUri: {
-      doc: 'MongoDB connection URI for the "mongo" comparison store backend',
-      format: String,
-      nullable: true,
-      default: null,
-      env: 'MONGO_URI'
-    },
-    mongoDatabase: {
-      doc: 'MongoDB database name for the "mongo" comparison store backend',
-      format: String,
-      default: 'forms-newls-cwt-listener',
-      env: 'MONGO_DATABASE'
-    },
-    mongoCollection: {
-      doc: 'MongoDB collection name for the "mongo" comparison store backend',
-      format: String,
-      default: 'mapping-comparisons',
-      env: 'COMPARISON_STORE_COLLECTION'
     }
   },
 

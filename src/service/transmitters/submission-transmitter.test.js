@@ -1,8 +1,7 @@
 import { config } from '../../config.js'
 import { send } from './submission-transmitter.js'
 
-const { mockFetch } = vi.hoisted(() => ({ mockFetch: vi.fn() }))
-vi.mock('node-fetch', () => ({ default: mockFetch }))
+const mockFetch = vi.fn()
 vi.mock('../../config.js')
 vi.mock('../../common/helpers/logging/logger.js', () => ({
   createLogger: () => ({
@@ -20,6 +19,7 @@ const mockMessage = {
 
 describe('submission-transmitter', () => {
   beforeEach(() => {
+    global.fetch = mockFetch
     vi.mocked(config.get).mockReturnValue(
       /** @type {any} */ ({
         universityApiUrl: 'http://example.com/api',
