@@ -2,7 +2,7 @@
 
 This document maps each output field in the CWT JSON to its source form field(s), broken down by which path through the form was taken.
 
-Source: [src/service/mappers/consent-form-mapper.js](../../src/service/mappers/consent-form-mapper.js)
+Source: [mappings/consent-cwt.mapping.json](../../mappings/consent-cwt.mapping.json)
 
 ## Output field reference
 

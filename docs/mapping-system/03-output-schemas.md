@@ -65,4 +65,4 @@ Property fields:
   absent) produces no findings when its rules can fall through — that is the
   intended way to omit it.
 
-See [05-gap-detection.md](05-gap-detection.md) for the full list of checks.
+See [05-gap-detection.md](04-gap-detection.md) for the full list of checks.

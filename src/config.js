@@ -145,54 +145,14 @@ const config = convict({
   },
 
   /**
-   * Form IDs
-   */
-  adviceFormId: {
-    doc: 'Advice form ID',
-    format: String,
-    default: '69a07d92093ab56d4fa9f325',
-    env: 'ADVICE_FORM_ID'
-  },
-  assentFormId: {
-    doc: 'Assent form ID',
-    format: String,
-    default: '69a1a593093ab56d4fa9f330',
-    env: 'ASSENT_FORM_ID'
-  },
-  consentFormId: {
-    doc: 'Consent form ID',
-    format: String,
-    default: '69a1a64c093ab56d4fa9f339',
-    env: 'CONSENT_FORM_ID'
-  },
-
-  /**
-   * Rule-based mapping engine (prototype running alongside the legacy mappers)
+   * Rule-based mapping engine
    */
   mappingEngine: {
-    mode: {
-      doc: 'Which mapping implementation handles submissions: legacy only, rules only, or both (legacy payload is transmitted, both payloads are stored for comparison)',
-      format: ['legacy', 'rules', 'both'],
-      default: 'both',
-      env: 'MAPPING_ENGINE_MODE'
-    },
     mappingsDir: {
       doc: 'Directory containing the *.mapping.json mapping files',
       format: String,
       default: 'mappings',
       env: 'MAPPINGS_DIR'
-    },
-    comparisonStore: {
-      doc: 'Where dual-run payload comparisons are persisted when mode is "both". "log" emits a single info line per submission (no payloads)',
-      format: ['none', 'file', 'log'],
-      default: 'log',
-      env: 'COMPARISON_STORE'
-    },
-    comparisonStoreDir: {
-      doc: 'Directory for the "file" comparison store backend',
-      format: String,
-      default: '.comparison-store',
-      env: 'COMPARISON_STORE_DIR'
     }
   },
 

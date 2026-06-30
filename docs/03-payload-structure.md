@@ -45,7 +45,7 @@ Contains form metadata and submission context.
 
 Key fields:
 
-- **formId** - Used to route the submission to the correct form mapper
+- **formId** - Used to select the mapping file for the submission
 - **referenceNumber** - Unique submission identifier shown to the user
 - **timestamp** - ISO 8601 submission time
 - **status** - Which version of the form was submitted (`live` or `draft`)
@@ -70,7 +70,7 @@ Single-value fields keyed by component name.
 }
 ```
 
-Component names (like `fFzkDs`) are auto-generated unique identifiers. The form mappers know which field IDs correspond to which questions for each supported form.
+Component names (like `fFzkDs`) are auto-generated unique identifiers. Each form's mapping file declares which field IDs correspond to which questions.
 
 #### Repeaters
 
@@ -110,7 +110,7 @@ File upload metadata (references, not binary content).
 
 ## Output: Transformed payloads
 
-Each form mapper produces a different output structure. All outputs are sent as JSON POST requests to the downstream API.
+Each form's mapping produces a different output structure. All outputs are sent as JSON POST requests to the downstream API.
 
 ### Advice form output
 

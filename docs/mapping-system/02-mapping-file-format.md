@@ -361,8 +361,8 @@ transforms apply element-wise to arrays.
 | `{ "name": "fitNames", "maxLength": 100 }`                   | fits names into a budget with `(+N more)`                             |
 | `{ "name": "first" }`                                        | first element of an array                                             |
 
-The parsing primitives are shared with the legacy mappers
-(`src/service/mappers/helpers.js`) so both systems behave identically.
+The parsing primitives live in `src/service/rule-mapping/helpers.js` and are
+shared by the transform pipeline and the value resolver.
 
 ## Worked example
 

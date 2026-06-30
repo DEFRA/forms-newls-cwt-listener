@@ -5,7 +5,7 @@ const logger = createLogger()
 
 /**
  * Submits the message to the University of Southampton API.
- * @param {import('../mappers/types.js').TransmittableFormOutput} message
+ * @param {Record<string, unknown> & { DF_reference_number?: string }} message - The mapped output payload
  * @returns {Promise<void>}
  */
 export async function send(message) {

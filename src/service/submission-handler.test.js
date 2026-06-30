@@ -4,22 +4,28 @@ vi.mock('./transmitters/submission-transmitter.js', () => ({
   send: vi.fn()
 }))
 
-vi.mock('../config.js', () => ({
-  config: {
-    get: vi.fn(() => ({
-      adviceFormId: 'advice-form-id',
-      assentFormId: 'assent-form-id',
-      consentFormId: 'consent-form-id'
-    }))
-  }
-}))
-
 vi.mock('../common/helpers/logging/logger.js', () => ({
   createLogger: () => ({
     info: vi.fn(),
     warn: vi.fn(),
     error: vi.fn()
   })
+}))
+
+// Real form ids matching the mapping files in /mappings
+const ADVICE_FORM_ID = '69a07d92093ab56d4fa9f325'
+const ASSENT_FORM_ID = '69a1a593093ab56d4fa9f330'
+const CONSENT_FORM_ID = '69a1a64c093ab56d4fa9f339'
+
+vi.mock('../config.js', () => ({
+  config: {
+    get: vi.fn((/** @type {string | undefined} */ key) => {
+      if (key === 'mappingEngine') {
+        return { mappingsDir: 'mappings' }
+      }
+      return {}
+    })
+  }
 }))
 
 const { handleFormSubmission } = await import('./submission-handler.js')
@@ -37,7 +43,8 @@ function buildSubmissionMessage(formId, mainData = {}) {
     meta: {
       formId,
       formName: 'Test',
-      formSlug: 'test'
+      formSlug: 'test',
+      referenceNumber: '111-222-333'
     },
     data: {
       main: mainData,
@@ -53,7 +60,7 @@ describe('submission-handler', () => {
   })
 
   it('should handle advice form submission', async () => {
-    const message = buildSubmissionMessage('advice-form-id', {
+    const message = buildSubmissionMessage(ADVICE_FORM_ID, {
       teEzOl: 'Landowner',
       xzEslQ: 'Something else',
       hUpejP: 'Test User',
@@ -69,7 +76,7 @@ describe('submission-handler', () => {
   })
 
   it('should handle assent form submission', async () => {
-    const message = buildSubmissionMessage('assent-form-id', {
+    const message = buildSubmissionMessage(ASSENT_FORM_ID, {
       htlAAq: 'John',
       pPocjH: 'Doe',
       skdDtj: 'john@example.com'
@@ -84,21 +91,26 @@ describe('submission-handler', () => {
   })
 
   it('should handle consent form submission', async () => {
-    const message = buildSubmissionMessage('consent-form-id', {
+    const message = buildSubmissionMessage(CONSENT_FORM_ID, {
       htlAAq: 'Jane',
       pPocjH: 'Smith',
-      skdDtj: 'jane@example.com'
+      KTObNK: 'An owner of land within a SSSI'
     })
 
     await handleFormSubmission(message)
 
     expect(send).toHaveBeenCalledTimes(1)
     expect(send).toHaveBeenCalledWith(
-      expect.objectContaining({ form_type: 'consent' })
+      expect.objectContaining({
+        form_type: 'consent',
+        DF_reference_number: '111-222-333',
+        customer_name: 'Jane Smith',
+        consulting_body_type: 'Landowner'
+      })
     )
   })
 
-  it('should not send for unknown form IDs', async () => {
+  it('should not send for form ids without a mapping', async () => {
     const message = buildSubmissionMessage('unknown-form-id')
 
     await handleFormSubmission(message)
