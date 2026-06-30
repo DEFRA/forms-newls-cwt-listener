@@ -5,9 +5,8 @@
  * string ("parseName") or as an object with options
  * ({ "name": "truncate", "maxLength": 255 }).
  *
- * The value-parsing primitives are shared with the legacy mappers
- * (src/service/mappers/helpers.js); they are pure functions and will be
- * retained when the legacy mappers are eventually removed.
+ * The value-parsing primitives live alongside the engine in helpers.js; they
+ * are pure functions used by both the transform pipeline and value resolver.
  */
 
 import {
@@ -16,7 +15,7 @@ import {
   parseEuroSiteId,
   parseName,
   parseSssiId
-} from '../mappers/helpers.js'
+} from './helpers.js'
 
 /**
  * @typedef {import('./types.js').Transform} Transform

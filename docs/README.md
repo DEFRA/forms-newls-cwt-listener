@@ -15,7 +15,7 @@ This service currently handles three Natural England protected sites consultatio
 
 - Polls an SQS queue for form submission messages
 - Validates each message against the submission schema
-- Routes the submission to the correct form mapper based on form ID
+- Selects the mapping file for the submission based on its form ID
 - Transforms submission data into a structured output format
 - Sends the transformed data to an external RESTful API
 - Deletes successfully processed messages from the queue
@@ -24,18 +24,16 @@ This service currently handles three Natural England protected sites consultatio
 
 The service requires the following environment variables:
 
-| Variable                     | Description                      | Default                    |
-| ---------------------------- | -------------------------------- | -------------------------- |
-| `EVENTS_SQS_QUEUE_URL`       | SQS queue URL to poll            | -                          |
-| `UNIVERSITY_API_URL`         | Downstream API endpoint          | -                          |
-| `ADVICE_FORM_ID`             | Form ID for advice submissions   | `69a07d92093ab56d4fa9f325` |
-| `ASSENT_FORM_ID`             | Form ID for assent submissions   | `69a1a593093ab56d4fa9f330` |
-| `CONSENT_FORM_ID`            | Form ID for consent submissions  | `69a1a64c093ab56d4fa9f339` |
-| `RECEIVE_MESSAGE_TIMEOUT_MS` | Polling interval (ms)            | `30000`                    |
-| `SQS_MAX_NUMBER_OF_MESSAGES` | Max messages per poll            | `10`                       |
-| `SQS_VISIBILITY_TIMEOUT`     | Visibility timeout (seconds)     | `30`                       |
-| `CONCURRENT_COROUTINES`      | Number of parallel polling tasks | `1`                        |
-| `LOG_LEVEL`                  | Logging level                    | `info`                     |
+| Variable                     | Description                         | Default    |
+| ---------------------------- | ----------------------------------- | ---------- |
+| `EVENTS_SQS_QUEUE_URL`       | SQS queue URL to poll               | -          |
+| `UNIVERSITY_API_URL`         | Downstream API endpoint             | -          |
+| `MAPPINGS_DIR`               | Directory of `*.mapping.json` files | `mappings` |
+| `RECEIVE_MESSAGE_TIMEOUT_MS` | Polling interval (ms)               | `30000`    |
+| `SQS_MAX_NUMBER_OF_MESSAGES` | Max messages per poll               | `10`       |
+| `SQS_VISIBILITY_TIMEOUT`     | Visibility timeout (seconds)        | `30`       |
+| `CONCURRENT_COROUTINES`      | Number of parallel polling tasks    | `1`        |
+| `LOG_LEVEL`                  | Logging level                       | `info`     |
 
 ## Running locally
 

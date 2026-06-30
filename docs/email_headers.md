@@ -6,7 +6,7 @@
 - **Format:** Segments joined with `-` separator
 - **Truncation:** When site names exceed available space, names are dropped from the end with `(+N more)` appended. If even a single name doesn't fit, it's truncated with `...`
 
-## Advice Form (`advice-form-mapper.js`)
+## Advice Form (`advice-cwt.mapping.json`)
 
 | Priority   | Segment              | Source                                                                                                                   |
 | ---------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------ |
@@ -29,7 +29,7 @@ When no activity or site names are present and `xzEslQ = "Something else"`, `QmI
 - `SSSI - Other - Photography and wildlife observation - Aqualate Mere SSSI`
 - `SSSI - Other` (general topics, no activity or sites)
 
-## Consent Form (`consent-form-mapper.js`)
+## Consent Form (`consent-cwt.mapping.json`)
 
 The primary segment is `[scheme and/or activities]` — both are included when both are present, with the scheme listed first.
 
@@ -49,7 +49,7 @@ The primary segment is `[scheme and/or activities]` — both are included when b
 - `Landscape Recovery, Grazing - Test SSSI` (`Other schemes` selected, `aIixRu = "Landscape Recovery"`)
 - `S28E Consent`
 
-## Assent Form (`assent-form-mapper.js`)
+## Assent Form (`assent-cwt.mapping.json`)
 
 The primary segment is `[scheme and/or activities]` — both are included when both are present, with the scheme listed first.
 
@@ -71,7 +71,7 @@ The primary segment is `[scheme and/or activities]` — both are included when b
 - `Landscape Recovery, Grazing - Test SSSI` (`Other schemes` selected, `aIixRu = "Landscape Recovery"`)
 - `S28H Assent`
 
-## Shared Helpers (`helpers.js`)
+## Shared Helpers (`rule-mapping/helpers.js`)
 
 - **`parseName(value)`** — Extracts the display name from `ID---Name` format (e.g., `"1005725---Popehouse Moor SSSI"` → `"Popehouse Moor SSSI"`)
 - **`fitNames(names, maxLength)`** — Fits a list of names into available space with `(+N more)` truncation

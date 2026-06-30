@@ -68,8 +68,7 @@ clearest way to read the mapping.
 
 Running the tool against the advice mapping reports several
 `unmatchable-condition-value` warnings (e.g. comparing `PBmxNM` with
-`"Government Agency"` when the form option is `"Government agency"`). These
-faithfully reproduce defensive comparisons in the legacy mapper that check
-both spellings; the warnings document that one spelling can never occur with
-the current form definition. They should be revisited when the legacy code is
-retired.
+`"Government Agency"` when the form option is `"Government agency"`). These are
+defensive comparisons that check both spellings; the warnings document that one
+spelling can never occur with the current form definition and can be removed
+once the form definition is confirmed stable.

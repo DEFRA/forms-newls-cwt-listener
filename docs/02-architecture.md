@@ -8,7 +8,7 @@ graph LR
     B --> C[SNS Topic]
     C --> D[SQS Queue]
     D --> E[Transmit Listener]
-    E --> F[Form Mapper]
+    E --> F[Rules Engine]
     F --> G[Submission Transmitter]
     G --> H[Downstream API]
     E --> D
@@ -27,7 +27,7 @@ sequenceDiagram
     participant Queue as SQS Queue
     participant Listener as Transmit Listener
     participant Handler as Submission Handler
-    participant Mapper as Form Mapper
+    participant Engine as Rules Engine
     participant Transmitter as Submission Transmitter
     participant API as Downstream API
 
@@ -38,9 +38,9 @@ sequenceDiagram
         loop For each message
             Listener->>Listener: Validate against schema
             Listener->>Handler: handleFormSubmission()
-            Handler->>Handler: Route by form ID
-            Handler->>Mapper: Transform submission data
-            Mapper->>Handler: Return structured output
+            Handler->>Handler: Select mapping by form ID
+            Handler->>Engine: Apply mapping rules
+            Engine->>Handler: Return structured output
             Handler->>Transmitter: send(transformedData)
             Transmitter->>API: POST JSON payload
             API->>Transmitter: 200 OK
@@ -60,24 +60,19 @@ graph TD
     C --> D[handleFormSubmissionEvents]
     D --> E[mapFormAdapterSubmissionEvent - Schema Validation]
     D --> F[submissionHandler.handleFormSubmission]
-    F --> G{Route by form ID}
-    G --> H[adviceFormMapper]
-    G --> I[assentFormMapper]
-    G --> J[consentFormMapper]
+    F --> G[findMappingForForm - select mapping by form ID]
+    G --> H[mapWithRules - apply mapping rules]
     H --> K[submissionTransmitter.send]
-    I --> K
-    J --> K
     K --> L[POST to Downstream API]
     D --> M[deleteEventMessage]
 
     style F fill:#f9f,stroke:#333,stroke-width:2px
+    style G fill:#fcf,stroke:#333,stroke-width:2px
     style H fill:#fcf,stroke:#333,stroke-width:2px
-    style I fill:#fcf,stroke:#333,stroke-width:2px
-    style J fill:#fcf,stroke:#333,stroke-width:2px
     style K fill:#fcf,stroke:#333,stroke-width:2px
 ```
 
-The submission handler routes each submission to the appropriate form mapper based on the form ID in the message metadata. Each mapper transforms the raw submission data into a structured output format, which is then sent to the downstream API by the submission transmitter.
+The submission handler selects the mapping file whose `formIds` contains the form ID in the message metadata, then the rule-based engine applies that mapping's rules to transform the raw submission data into a structured output format, which is sent to the downstream API by the submission transmitter.
 
 ## Processing guarantees
 
@@ -105,7 +100,7 @@ Failed messages automatically retry based on the SQS queue configuration:
 
 When a message is received, it becomes invisible to other consumers for the visibility timeout period. This prevents duplicate processing while the handler runs.
 
-Set this to **longer than the expected execution time** of the mapper and API call combined, with buffer.
+Set this to **longer than the expected execution time** of the mapping and API call combined, with buffer.
 
 ## Scaling
 
@@ -143,11 +138,11 @@ graph TD
     A[Receive message] --> B{Valid schema?}
     B -->|No| C[Log error]
     C --> D[Leave in queue]
-    B -->|Yes| E{Known form ID?}
-    E -->|No| F[Log error]
+    B -->|Yes| E{Mapping for form ID?}
+    E -->|No| F[Log info, ignore]
     F --> D
-    E -->|Yes| G[Transform with mapper]
-    G --> H{Mapper success?}
+    E -->|Yes| G[Map with rules engine]
+    G --> H{Mapping success?}
     H -->|No| I[Log error]
     I --> D
     H -->|Yes| J[POST to API]

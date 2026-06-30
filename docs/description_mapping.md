@@ -9,10 +9,10 @@ The `email_header` property uses identical source data and precedence to the `de
 
 Source files:
 
-- `src/service/mappers/advice-form-mapper.js`
-- `src/service/mappers/assent-form-mapper.js`
-- `src/service/mappers/consent-form-mapper.js`
-- `src/service/mappers/helpers.js` (shared `fitNames`, `parseName`, `EMAIL_HEADER_MAX_LENGTH`)
+- `mappings/advice-cwt.mapping.json`
+- `mappings/assent-cwt.mapping.json`
+- `mappings/consent-cwt.mapping.json`
+- `src/service/rule-mapping/helpers.js` (shared `fitNames`, `parseName`, `EMAIL_HEADER_MAX_LENGTH`)
 
 ---
 

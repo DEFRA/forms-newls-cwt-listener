@@ -16,7 +16,7 @@
 import { evaluateCondition } from './conditions.js'
 import { isEmpty } from './is-empty.js'
 import { applyTransforms } from './transforms.js'
-import { fitNames } from '../mappers/helpers.js'
+import { fitNames } from './helpers.js'
 
 /**
  * @typedef {import('./types.js').ValueExpression} ValueExpression
