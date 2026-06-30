@@ -56,6 +56,6 @@ export async function send(message) {
   }
 
   logger.info(
-    `Successfully sent message to API for submission ${referenceNumber} with status ${response.status}: ${responseBody}`
+    `Successfully sent message to API for submission ${referenceNumber} with status ${response.status}`
   )
 }
