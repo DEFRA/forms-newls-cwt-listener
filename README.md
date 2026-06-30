@@ -130,7 +130,7 @@ SQS Queue
   -> src/service/transmitters/         (POSTs to University API)
 ```
 
-Mapping behaviour is declared in the JSON mapping files under `mappings/`; see the [mapping engine docs](docs/prototype/README.md).
+Mapping behaviour is declared in the JSON mapping files under `mappings/`; see the [mapping engine docs](docs/mapping-system/README.md).
 
 ## API endpoints
 

@@ -2,7 +2,7 @@
  * Mapping gap detection CLI.
  *
  * Cross-checks a mapping file against the form definition it maps and the
- * output schema it must produce. See docs/prototype/04-gap-detection.md.
+ * output schema it must produce. See docs/mapping-system/04-gap-detection.md.
  *
  * Usage:
  *   node scripts/detect-mapping-gaps.js --mapping <mapping-file> --form <form-definition> [--strict]

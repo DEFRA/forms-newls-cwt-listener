@@ -5,7 +5,7 @@ downstream API by the **rule-based mapping engine**. Mapping behaviour is
 declared in JSON mapping files rather than in code, so adding or changing a
 mapping means editing a file, not writing a mapper.
 
-See the [rule-based mapping engine documentation](prototype/README.md) for the
+See the [rule-based mapping engine documentation](mapping-system/README.md) for the
 full reference.
 
 ## How routing works
@@ -36,7 +36,7 @@ Each mapping pairs with an output schema in
 [mappings/output-schemas/](../mappings/output-schemas/) that declares the
 required and optional output fields. The `npm run mapping:gaps` tool
 cross-checks a mapping against its form definition and output schema (see
-[gap detection](prototype/04-gap-detection.md)).
+[gap detection](mapping-system/04-gap-detection.md)).
 
 ## Adding a new form
 
@@ -46,7 +46,7 @@ To add support for a new form type:
 2. Add an output schema to `mappings/output-schemas/`.
 3. Create a `*.mapping.json` file in `mappings/` that lists the form's id in
    `formIds`, names its `destination`, and declares the mapping rules (see the
-   [mapping file format](prototype/02-mapping-file-format.md)).
+   [mapping file format](mapping-system/02-mapping-file-format.md)).
 4. Run `npm run mapping:gaps` to confirm the mapping covers the form.
 
 No engine code changes are required.
