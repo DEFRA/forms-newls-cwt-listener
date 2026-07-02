@@ -614,6 +614,42 @@
       "description": "No SSSI information provided",
       "target": "SSSI_info",
       "value": { "type": "literal", "value": [] }
+    },
+    {
+      "id": "is-there-a-european-site.yes",
+      "target": "is_there_a_european_site",
+      "when": {
+        "repeater": { "id": "hwaByT", "text": "European site" },
+        "operator": "hasAnswer",
+        "questionId": "FqfxKM",
+        "questionText": "What is the name of the European site?"
+      },
+      "value": { "type": "literal", "value": "Yes" }
+    },
+    {
+      "id": "is-there-a-european-site.no",
+      "target": "is_there_a_european_site",
+      "value": { "type": "literal", "value": "" }
+    },
+    {
+      "id": "euro-site-info",
+      "description": "One entry per European site affected",
+      "target": "euro_site_info",
+      "value": {
+        "type": "arrayFromRepeater",
+        "repeater": { "id": "hwaByT", "text": "European site" },
+        "filterAnswered": "FqfxKM",
+        "item": {
+          "european_site_id": {
+            "type": "answer",
+            "question": {
+              "id": "FqfxKM",
+              "text": "What is the name of the European site?"
+            },
+            "transforms": ["parseEuroSiteId"]
+          }
+        }
+      }
     }
   ]
 }

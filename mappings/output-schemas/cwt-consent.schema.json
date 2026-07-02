@@ -82,6 +82,25 @@
           }
         }
       }
+    },
+    "is_there_a_european_site": {
+      "type": "string",
+      "required": false,
+      "description": "'Yes' when European sites are affected, otherwise empty"
+    },
+    "euro_site_info": {
+      "type": "array",
+      "required": false,
+      "description": "Affected European sites",
+      "items": {
+        "properties": {
+          "european_site_id": {
+            "type": "number",
+            "required": true,
+            "description": "Numeric European site identifier"
+          }
+        }
+      }
     }
   }
 }
