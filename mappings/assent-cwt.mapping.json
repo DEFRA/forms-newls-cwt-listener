@@ -428,7 +428,7 @@
     },
     {
       "id": "email-header",
-      "description": "Same segments as the description, limited to 255 characters with site names fitted into the remaining space",
+      "description": "Same segments as the description, limited to 255 characters with site and MCZ names fitted into the remaining space",
       "target": "email_header",
       "value": {
         "type": "joinSegments",
@@ -443,6 +443,10 @@
           },
           {
             "value": { "type": "ref", "name": "euroSiteNames" },
+            "overflow": "fitNames"
+          },
+          {
+            "value": { "type": "ref", "name": "mczName" },
             "overflow": "fitNames"
           }
         ]
