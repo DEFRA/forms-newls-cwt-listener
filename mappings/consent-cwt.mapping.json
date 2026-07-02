@@ -175,6 +175,15 @@
         }
       ],
       "transforms": ["parseName"]
+    },
+    "euroSiteNames": {
+      "type": "collect",
+      "repeater": { "id": "hwaByT", "text": "European site" },
+      "question": {
+        "id": "FqfxKM",
+        "text": "What is the name of the European site?"
+      },
+      "transforms": ["parseName"]
     }
   },
   "rules": [
@@ -229,7 +238,7 @@
     },
     {
       "id": "description",
-      "description": "Scheme/activities followed by SSSI names, unlimited length",
+      "description": "Scheme/activities, SSSI names then European site names, unlimited length",
       "target": "description",
       "value": {
         "type": "joinSegments",
@@ -237,7 +246,8 @@
         "fallback": "S28E Consent",
         "segments": [
           { "value": { "type": "ref", "name": "primarySegment" } },
-          { "value": { "type": "ref", "name": "sssiNames" } }
+          { "value": { "type": "ref", "name": "sssiNames" } },
+          { "value": { "type": "ref", "name": "euroSiteNames" } }
         ]
       }
     },
@@ -391,7 +401,7 @@
     },
     {
       "id": "email-header",
-      "description": "Same segments as the description, limited to 255 characters with SSSI names fitted into the remaining space",
+      "description": "Same segments as the description, limited to 255 characters with SSSI and European site names fitted into the remaining space",
       "target": "email_header",
       "value": {
         "type": "joinSegments",
@@ -402,6 +412,10 @@
           { "value": { "type": "ref", "name": "primarySegment" } },
           {
             "value": { "type": "ref", "name": "sssiNames" },
+            "overflow": "fitNames"
+          },
+          {
+            "value": { "type": "ref", "name": "euroSiteNames" },
             "overflow": "fitNames"
           }
         ]
