@@ -427,14 +427,26 @@
     },
     {
       "id": "sbi",
-      "description": "Omitted when not provided",
+      "description": "SBI from the main SBI question, falling back to the address details page; omitted when neither is provided",
       "target": "SBI",
       "value": {
-        "type": "answer",
-        "question": {
-          "id": "ylXSKE",
-          "text": "What is the Single Business Identifier (SBI) number of where the activities will take place?"
-        },
+        "type": "firstAnswered",
+        "values": [
+          {
+            "type": "answer",
+            "question": {
+              "id": "ylXSKE",
+              "text": "What is the Single Business Identifier (SBI) number of where the activities will take place?"
+            }
+          },
+          {
+            "type": "answer",
+            "question": {
+              "id": "IOetrS",
+              "text": "Single business identifier (SBI)"
+            }
+          }
+        ],
         "transforms": ["toNumber"]
       }
     },
