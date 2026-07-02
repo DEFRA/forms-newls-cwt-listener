@@ -351,6 +351,28 @@
           }
         }
       ]
+    },
+    "mczName": {
+      "type": "conditional",
+      "cases": [
+        {
+          "when": {
+            "question": {
+              "id": "ezHrva",
+              "text": "Could the planned activities likely affect a Marine Conservation Zone (MCZ)?"
+            },
+            "operator": "isTruthy"
+          },
+          "value": {
+            "type": "answer",
+            "question": {
+              "id": "joWQbp",
+              "text": "What is the name of the Marine Conservation Zone?"
+            },
+            "transforms": ["parseName"]
+          }
+        }
+      ]
     }
   },
   "rules": [
@@ -534,7 +556,7 @@
     },
     {
       "id": "description.with-activity-or-sites",
-      "description": "Detailed work type, activity free-text and site names, unlimited length",
+      "description": "Detailed work type, activity free-text, site names then MCZ name, unlimited length",
       "target": "description",
       "when": {
         "any": [{ "ref": "hasActivity" }, { "ref": "hasSiteNames" }]
@@ -545,7 +567,8 @@
         "segments": [
           { "value": { "type": "output", "target": "detailed_work_type" } },
           { "value": { "type": "ref", "name": "activity" } },
-          { "value": { "type": "ref", "name": "siteNames" } }
+          { "value": { "type": "ref", "name": "siteNames" } },
+          { "value": { "type": "ref", "name": "mczName" } }
         ]
       }
     },
