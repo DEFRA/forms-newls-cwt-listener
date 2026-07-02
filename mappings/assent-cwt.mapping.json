@@ -194,6 +194,28 @@
         "text": "What is the name of the European site?"
       },
       "transforms": ["parseName"]
+    },
+    "mczName": {
+      "type": "conditional",
+      "cases": [
+        {
+          "when": {
+            "question": {
+              "id": "eaYOCX",
+              "text": "Could the planned activities likely affect a Marine Conservation Zone (MCZ)?"
+            },
+            "operator": "isTruthy"
+          },
+          "value": {
+            "type": "answer",
+            "question": {
+              "id": "pwSMNt",
+              "text": "What is the name of the Marine Conservation Zone?"
+            },
+            "transforms": ["parseName"]
+          }
+        }
+      ]
     }
   },
   "rules": [
@@ -248,7 +270,7 @@
     },
     {
       "id": "description",
-      "description": "Scheme/activities, SSSI names then European site names, unlimited length",
+      "description": "Scheme/activities, SSSI names, European site names then MCZ name, unlimited length",
       "target": "description",
       "value": {
         "type": "joinSegments",
@@ -257,7 +279,8 @@
         "segments": [
           { "value": { "type": "ref", "name": "primarySegment" } },
           { "value": { "type": "ref", "name": "sssiNames" } },
-          { "value": { "type": "ref", "name": "euroSiteNames" } }
+          { "value": { "type": "ref", "name": "euroSiteNames" } },
+          { "value": { "type": "ref", "name": "mczName" } }
         ]
       }
     },
