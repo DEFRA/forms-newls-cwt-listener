@@ -54,9 +54,9 @@ Determined by field rTreXu ("What land management scheme does this notice relate
 
 ## description
 
-Built from up to three segments joined with `-` (space-dash-space): the primary segment (scheme and/or activities), SSSI names, and European site names. Falls back to `"S28H Assent"` when no segments are available.
+Built from up to four segments joined with `-` (space-dash-space): the primary segment (scheme and/or activities), SSSI names, European site names, and the MCZ name. Falls back to `"S28H Assent"` when no segments are available.
 
-Format: `"{scheme and/or activities} - {SSSI names} - {Euro site names}"`
+Format: `"{scheme and/or activities} - {SSSI names} - {Euro site names} - {MCZ name}"`
 
 ### Primary segment (scheme and/or activities)
 
@@ -77,6 +77,10 @@ Collected from: gVlMxz (single SSSI) > hhGvmX repeater [flbYHq] (multiple scheme
 ### European site names segment
 
 Collected from repeater aQYWxD [IzQfir]. Parsed from "ID---Name" format and comma-joined.
+
+### MCZ name segment
+
+Appended when eaYOCX ("Could the planned activities likely affect a Marine Conservation Zone (MCZ)?") is answered (truthy) and a zone name is given in pwSMNt ("What is the name of the Marine Conservation Zone?"). The name is parsed via `parseName`. The pwSMNt name page is only shown on the "Yes" branch, so the trailing segment is naturally absent on the "No" branch (and when no name is given).
 
 ## consulting_body_type
 
@@ -119,12 +123,13 @@ Always from field skdDtj ("What is your email address?").
 
 ## SBI
 
-Single Business Identifier, converted to a number. Sourced from ylXSKE ("What is the Single Business Identifier (SBI) number of where the activities will take place?"), which is mandatory on the new SBI page shown when a land management scheme is selected.
+Single Business Identifier, converted to a number. Uses a `firstAnswered` fallback: the primary source is ylXSKE ("What is the Single Business Identifier (SBI) number of where the activities will take place?"), which is mandatory on the SBI page shown when a land management scheme is selected; the fallback is IOetrS ("Single business identifier (SBI)") on the landowner/occupier address details page. The value is `Number(...)` of whichever is answered first; the field is omitted when neither is provided.
 
-| Condition      | Source field | Output value                      |
-| -------------- | ------------ | --------------------------------- |
-| ylXSKE present | ylXSKE       | `Number(ylXSKE)`                  |
-| ylXSKE not set | -            | `undefined` (omitted from output) |
+| Condition                      | Source field | Output value                      |
+| ------------------------------ | ------------ | --------------------------------- |
+| ylXSKE present                 | ylXSKE       | `Number(ylXSKE)`                  |
+| ylXSKE not set, IOetrS present | IOetrS       | `Number(IOetrS)`                  |
+| Neither present                | -            | `undefined` (omitted from output) |
 
 ## agreement_reference
 
@@ -212,20 +217,20 @@ This section identifies all scenarios where output fields sent to the University
 
 ### Fields that are always populated
 
-| Field                                   | Guarantee                                                                                                     |
-| --------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
-| `form_type`                             | Hardcoded `"assent"`                                                                                          |
-| `broad_work_type`                       | Hardcoded `"S28H Assent"`                                                                                     |
-| `detailed_work_type`                    | Always resolves (defaults to `"S28H Assent"`)                                                                 |
-| `description`                           | Always resolves — contains activities/scheme, SSSI names, Euro site names; falls back to `"S28H Assent"`      |
-| `email_header`                          | Always resolves — same segments as description (truncated to 255 chars); falls back to `"S28H Assent"`        |
-| `consulting_body`                       | At least one source field (ueDuNl, XAZlxH, cfPoiN, or FyLHmN) is collected as a mandatory field on every path |
-| `customer_name`                         | htlAAq ("What is your first name?") and pPocjH ("What is your last name?") are mandatory fields on all paths  |
-| `customer_email_address`                | skdDtj ("What is your email address?") is a mandatory field on all paths                                      |
-| `consulting_body_type`                  | `"Consultant"` for contractors; vUHwan lookup for public bodies — always resolves                             |
-| `public_body_type`                      | Same as `consulting_body_type`                                                                                |
-| `public_body`                           | Resolved from vUHwan-dependent fields (XAZlxH, cfPoiN, or FyLHmN) — at least one is mandatory on every path   |
-| `is_contractor_working_for_public_body` | Always `"Yes"` or `"No"`                                                                                      |
+| Field                                   | Guarantee                                                                                                                                                                   |
+| --------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `form_type`                             | Hardcoded `"assent"`                                                                                                                                                        |
+| `broad_work_type`                       | Hardcoded `"S28H Assent"`                                                                                                                                                   |
+| `detailed_work_type`                    | Always resolves (defaults to `"S28H Assent"`)                                                                                                                               |
+| `description`                           | Always resolves — contains activities/scheme, SSSI names, Euro site names, MCZ name; falls back to `"S28H Assent"`                                                          |
+| `email_header`                          | Always resolves — same segments as description including the MCZ name (SSSI, Euro site and MCZ names fitted within 255 chars via `fitNames`); falls back to `"S28H Assent"` |
+| `consulting_body`                       | At least one source field (ueDuNl, XAZlxH, cfPoiN, or FyLHmN) is collected as a mandatory field on every path                                                               |
+| `customer_name`                         | htlAAq ("What is your first name?") and pPocjH ("What is your last name?") are mandatory fields on all paths                                                                |
+| `customer_email_address`                | skdDtj ("What is your email address?") is a mandatory field on all paths                                                                                                    |
+| `consulting_body_type`                  | `"Consultant"` for contractors; vUHwan lookup for public bodies — always resolves                                                                                           |
+| `public_body_type`                      | Same as `consulting_body_type`                                                                                                                                              |
+| `public_body`                           | Resolved from vUHwan-dependent fields (XAZlxH, cfPoiN, or FyLHmN) — at least one is mandatory on every path                                                                 |
+| `is_contractor_working_for_public_body` | Always `"Yes"` or `"No"`                                                                                                                                                    |
 
 ### Fields that may be empty strings
 

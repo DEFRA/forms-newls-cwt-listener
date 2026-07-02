@@ -20,7 +20,7 @@ Source files:
 
 ### `description`
 
-Format: `[detailed_work_type] - [activities] - [site names]` (activities and site names each omitted when not present). When neither activities nor site names apply and the general-topic path was chosen with `xzEslQ = "Something else"`, the `QmIGor` free-text question is appended instead.
+Format: `[detailed_work_type] - [activities] - [site names] - [MCZ name]` (activities, site names and MCZ name each omitted when not present). The MCZ name is only appended on the activity/sites path (see the MCZ-name segment below). When neither activities nor site names apply and the general-topic path was chosen with `xzEslQ = "Something else"`, the `QmIGor` free-text question is appended instead.
 
 `detailed_work_type` is itself derived with its own precedence (NVRbCy → YOwPAJ → xzEslQ). The `detailed_work_type` table is included below for completeness.
 
@@ -72,6 +72,17 @@ Only one of these fields will be present in any given submission (they are path-
 | 5 (General-topic free-text path) | No site names AND no activities AND `xzEslQ = "Something else"` AND `QmIGor` present                                   | **QmIGor** — "What is your question?"                                                         | The free-text question (replaces the site-name suffix)                  |
 | 6 (General-topic default)        | No site names and not the free-text path                                                                               | —                                                                                             | No suffix                                                               |
 
+#### MCZ-name segment
+
+Appended after the site names on the activity/sites path only (the rule guarded by `hasActivity` OR `hasSiteNames`). It is not added on the "Something else" free-text path or the fallback path.
+
+| Precedence | Prerequisites                                   | Driving question(s)                                                                                                                                           | Segment appended                 |
+| ---------- | ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------- |
+| 1          | `ezHrva` answered (truthy) AND `joWQbp` present | **ezHrva** — "Could the planned activities likely affect a Marine Conservation Zone (MCZ)?"; **joWQbp** — "What is the name of the Marine Conservation Zone?" | One MCZ name (after `parseName`) |
+| 2          | MCZ question not answered, or no name given     | —                                                                                                                                                             | No MCZ segment                   |
+
+The effective gate is whether `joWQbp` holds a value — the name page is only shown on the "Yes" branch, so the segment is naturally absent otherwise.
+
 ### `email_header`
 
 Same data and precedence as `description`. Differences:
@@ -79,6 +90,7 @@ Same data and precedence as `description`. Differences:
 - Capped at **255 chars**.
 - For the activities segment: if `detailed_work_type + activities` leaves insufficient room for site names, the activity text is truncated with `"..."` to make space for the first site name.
 - For site-name suffixes, `fitNames()` trims trailing names and adds `" (+N more)"`.
+- The MCZ name (activity/sites path) is appended after the site names as a `fitNames()` segment, fitted into whatever space remains.
 - For the free-text (`QmIGor`) suffix (no activities or site names), the whole string is truncated with `"..."` if too long.
 - If even `detailed_work_type` alone exceeds 255 chars, it is truncated with `"..."`.
 
@@ -88,7 +100,7 @@ Same data and precedence as `description`. Differences:
 
 ### `description`
 
-Format: `[scheme and/or activities] - [SSSI names] - [European site names]`. Empty segments are omitted. Fallback when all segments are empty: `S28H Assent`.
+Format: `[scheme and/or activities] - [SSSI names] - [European site names] - [MCZ name]`. Empty segments are omitted. Fallback when all segments are empty: `S28H Assent`.
 
 #### Primary segment (scheme and/or activities)
 
@@ -119,11 +131,20 @@ Scheme and activities are independent: both are included when both are present. 
 | 1          | Repeater `aQYWxD` entries with `IzQfir` present | **IzQfir** — "What is the name of the European site?" (repeater `aQYWxD` "European site affected") | All parsed European site names |
 | 2          | No such entries                                 | —                                                                                                  | Empty                          |
 
+#### MCZ-name segment
+
+| Precedence | Prerequisites                                   | Driving question(s)                                                                                                                                           | Result                           |
+| ---------- | ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------- |
+| 1          | `eaYOCX` answered (truthy) AND `pwSMNt` present | **eaYOCX** — "Could the planned activities likely affect a Marine Conservation Zone (MCZ)?"; **pwSMNt** — "What is the name of the Marine Conservation Zone?" | One MCZ name (after `parseName`) |
+| 2          | MCZ question not answered, or no name given     | —                                                                                                                                                             | Empty                            |
+
+The effective gate is whether `pwSMNt` holds a value — the name page is only shown on the "Yes" branch, so the segment is naturally absent otherwise.
+
 #### Fallback
 
-| Precedence | Prerequisites                                                | Result        |
-| ---------- | ------------------------------------------------------------ | ------------- |
-| Final      | Primary empty AND SSSI names empty AND Euro site names empty | `S28H Assent` |
+| Precedence | Prerequisites                                                                | Result        |
+| ---------- | ---------------------------------------------------------------------------- | ------------- |
+| Final      | Primary empty AND SSSI names empty AND Euro site names empty AND no MCZ name | `S28H Assent` |
 
 ### `email_header`
 
@@ -132,6 +153,7 @@ Same data and precedence as `description`. Difference:
 - Total length capped at **255 chars**.
 - SSSI-names segment is fitted via `fitNames()`, reserving space for at least the first Euro-site name if any are present.
 - Euro-site-names segment is fitted via `fitNames()` with whatever remains.
+- MCZ-name segment (when present) is fitted via `fitNames()` after the Euro-site names with whatever remains.
 - If, after all fitting, the result still overruns 255 chars, it is truncated and suffixed with `"..."`.
 - Fallback remains `S28H Assent` when all segments are empty.
 
@@ -141,7 +163,7 @@ Same data and precedence as `description`. Difference:
 
 ### `description`
 
-Format: `[scheme and/or activities] - [SSSI names]`. Empty segments are omitted. Fallback when both segments are empty: `S28E Consent`.
+Format: `[scheme and/or activities] - [SSSI names] - [European site names]`. Empty segments are omitted. Fallback when all segments are empty: `S28E Consent`.
 
 #### Primary segment (scheme and/or activities)
 
@@ -165,11 +187,20 @@ Scheme and activities are independent: both are included when both are present. 
 | 3          | `hozdvW` missing and `cwZgSE` empty; repeater `gWZwzI` populated (multi-SSSI scheme path) | **gVlMxz** — "What is the name of the SSSI where activities are planned?" (repeater `gWZwzI` "Sites where you plan to carry out activities") | Parsed SSSI names        |
 | 4          | None present                                                                              | —                                                                                                                                            | Empty                    |
 
+#### European-site-names segment
+
+Collected from the same repeater/field used for the structured `euro_site_info`, but parsed to the human-readable name (mirrors the Assent form).
+
+| Precedence | Prerequisites                                   | Driving question(s)                                                                       | Result                         |
+| ---------- | ----------------------------------------------- | ----------------------------------------------------------------------------------------- | ------------------------------ |
+| 1          | Repeater `hwaByT` entries with `FqfxKM` present | **FqfxKM** — "What is the name of the European site?" (repeater `hwaByT` "European site") | All parsed European site names |
+| 2          | No such entries                                 | —                                                                                         | Empty                          |
+
 #### Fallback
 
-| Precedence | Prerequisites                      | Result         |
-| ---------- | ---------------------------------- | -------------- |
-| Final      | Primary empty AND SSSI names empty | `S28E Consent` |
+| Precedence | Prerequisites                                                | Result         |
+| ---------- | ------------------------------------------------------------ | -------------- |
+| Final      | Primary empty AND SSSI names empty AND Euro site names empty | `S28E Consent` |
 
 ### `email_header`
 
@@ -177,6 +208,7 @@ Same data and precedence as `description`. Differences:
 
 - Capped at **255 chars**.
 - If only the primary is present: truncated with `"..."` if too long.
-- If only SSSI names are present: fitted via `fitNames()` into the full 255 chars.
-- If both are present: `primary - ` is the prefix; the SSSI-names list is fitted into the remaining space via `fitNames()` (which adds `" (+N more)"` when dropping names). If nothing fits, the primary alone is truncated to 255 chars.
-- Fallback remains `S28E Consent` when both segments are empty.
+- The SSSI-names list is fitted via `fitNames()` (which adds `" (+N more)"` when dropping names), reserving space for at least the first Euro-site name if any are present.
+- The Euro-site-names list is fitted via `fitNames()` with whatever space remains.
+- If nothing fits after the prefix, the primary alone is truncated to 255 chars; if the whole result still overruns, it is truncated with `"..."`.
+- Fallback remains `S28E Consent` when all segments are empty.

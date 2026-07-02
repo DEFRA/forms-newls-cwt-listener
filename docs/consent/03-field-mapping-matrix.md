@@ -6,20 +6,22 @@ Source: [mappings/consent-cwt.mapping.json](../../mappings/consent-cwt.mapping.j
 
 ## Output field reference
 
-| Output field             | Type             | Always present?            |
-| ------------------------ | ---------------- | -------------------------- |
-| `form_type`              | `"consent"`      | Yes                        |
-| `DF_reference_number`    | string           | Yes                        |
-| `broad_work_type`        | `"S28E Consent"` | Yes                        |
-| `detailed_work_type`     | string           | Yes                        |
-| `description`            | string           | Yes                        |
-| `consulting_body_type`   | string           | Yes                        |
-| `customer_name`          | string           | Yes                        |
-| `customer_email_address` | string           | Yes                        |
-| `SBI`                    | number           | When SBI field has a value |
-| `agreement_reference`    | string           | Yes                        |
-| `email_header`           | string           | Yes                        |
-| `SSSI_info`              | array            | Yes (may be empty)         |
+| Output field               | Type             | Always present?            |
+| -------------------------- | ---------------- | -------------------------- |
+| `form_type`                | `"consent"`      | Yes                        |
+| `DF_reference_number`      | string           | Yes                        |
+| `broad_work_type`          | `"S28E Consent"` | Yes                        |
+| `detailed_work_type`       | string           | Yes                        |
+| `description`              | string           | Yes                        |
+| `consulting_body_type`     | string           | Yes                        |
+| `customer_name`            | string           | Yes                        |
+| `customer_email_address`   | string           | Yes                        |
+| `SBI`                      | number           | When SBI field has a value |
+| `agreement_reference`      | string           | Yes                        |
+| `email_header`             | string           | Yes                        |
+| `SSSI_info`                | array            | Yes (may be empty)         |
+| `is_there_a_european_site` | `"Yes"` / `""`   | Yes                        |
+| `euro_site_info`           | array            | Yes (may be empty)         |
 
 ---
 
@@ -48,9 +50,9 @@ Determined by field rTreXu ("What land management scheme does this notice relate
 
 ## description
 
-Built from up to two segments joined with `-` (space-dash-space): the primary segment (scheme and/or activities) and SSSI names. Falls back to `"S28E Consent"` when no segments are available.
+Built from up to three segments joined with `-` (space-dash-space): the primary segment (scheme and/or activities), SSSI names and European site names. Falls back to `"S28E Consent"` when no segments are available.
 
-Format: `"{scheme and/or activities} - {SSSI names}"`
+Format: `"{scheme and/or activities} - {SSSI names} - {European site names}"`
 
 ### Primary segment (scheme and/or activities)
 
@@ -68,6 +70,10 @@ Scheme and activities are independent: both are included when both are present, 
 ### SSSI names segment
 
 Collected from: hozdvW (single SSSI) > cwZgSE repeater [rWrBOK] (multiple ORNEC, unique) > gWZwzI repeater [gVlMxz] (multiple scheme). Parsed from "ID---Name" format and comma-joined.
+
+### European site names segment
+
+Collected from repeater hwaByT ("European site"), question FqfxKM ("What is the name of the European site?"). Parsed from "ID---Name" format via `parseName` (id stripped) and comma-joined. Omitted when no European site is present.
 
 ## consulting_body_type
 
@@ -122,9 +128,9 @@ Resolution order:
 
 ## email_header
 
-Uses the same segments as `description` (scheme and/or activities, plus SSSI names) but truncated to 255 characters. Falls back to `"S28E Consent"` when no segments are available.
+Uses the same segments as `description` (scheme and/or activities, SSSI names, then European site names) but truncated to 255 characters. Falls back to `"S28E Consent"` when no segments are available.
 
-Format: `"{scheme and/or activities} - {SSSI names}"` (truncated to 255 characters using the `fitNames` helper, which progressively drops names and appends "(+N more)" when truncation is needed).
+Format: `"{scheme and/or activities} - {SSSI names} - {European site names}"` (truncated to 255 characters using the `fitNames` helper, which progressively drops names and appends "(+N more)" when truncation is needed). Both the SSSI names and European site names are fitted via `fitNames` into the remaining space within the 255-character limit.
 
 | Condition                                             | Output value                                               |
 | ----------------------------------------------------- | ---------------------------------------------------------- |
@@ -185,6 +191,18 @@ SSSI ID from hozdvW ("What is the name of the SSSI where you plan to carry out a
 | `SSSI_id`     | gVlMxz ("What is the name of the SSSI where activities are planned?") from repeater gWZwzI ("Sites where you plan to carry out activities") | Parsed as integer from string value                                           |
 | `coordinates` | JPohUD ("Where are the activities taking place?") from main                                                                                 | Formatted as `"<easting>,<northing>"`, shared across all SSSIs on scheme path |
 | `ornec`       | -                                                                                                                                           | Empty string                                                                  |
+
+## is_there_a_european_site
+
+`"Yes"` when the European site repeater hwaByT ("European site") has an answer to FqfxKM ("What is the name of the European site?"), otherwise `""` (empty string). Always present — populated on both branches. This mirrors the Assent form.
+
+## euro_site_info
+
+Array of `{ european_site_id }` objects — one entry per hwaByT ("European site") repeater entry that has FqfxKM ("What is the name of the European site?") answered. Empty array (`[]`) when no European site is present. This mirrors the Assent form.
+
+| Field              | Source                                                                                   | Description                                                   |
+| ------------------ | ---------------------------------------------------------------------------------------- | ------------------------------------------------------------- |
+| `european_site_id` | FqfxKM ("What is the name of the European site?") from repeater hwaByT ("European site") | Parsed as number from "ID---Name" value via `parseEuroSiteId` |
 
 ---
 

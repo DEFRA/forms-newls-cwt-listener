@@ -39,15 +39,16 @@ The description now follows the same structure as the `email_header` field (see 
 
 ### Advice Form
 
-**Format:** `[detailed_work_type] - [activities] - [site names]`
+**Format:** `[detailed_work_type] - [activities] - [site names] - [MCZ name]`
 
-Activities and site names are each omitted when not present.
+Activities, site names and MCZ name are each omitted when not present. The MCZ name is only appended on the activity/sites path.
 
 | Segment              | Source                                                                                                                                                                               |
 | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `detailed_work_type` | Always present (e.g., "Standalone HRA Reg 63", "S28i Advice", "SSSI - Other")                                                                                                        |
 | Activities           | Path-specific free text — `mtiMfk` (drone path), `nJVeix` (HRA / S28i path), or `YhWlKB` (damage path). Only one is present per submission; omitted when absent.                     |
 | Site names           | HRA path: Euro site names from `TJuSNf.rtuWky`; S28I path: SSSI names from `Avdzxa`; Damage path: SSSI name from `MoCXGK`; Drone path: SSSI name from `PxvdiH`. Omitted when absent. |
+| MCZ name             | Activity/sites path only: `joWQbp` ("What is the name of the Marine Conservation Zone?") when `ezHrva` is answered, parsed via `parseName`. Omitted otherwise.                       |
 
 When neither activities nor site names are present and `xzEslQ = "Something else"`, the free-text question from `QmIGor` is appended instead.
 
@@ -61,14 +62,15 @@ When neither activities nor site names are present and `xzEslQ = "Something else
 
 ### Consent Form
 
-**Format:** `[scheme and/or activities] - [SSSI names]`
+**Format:** `[scheme and/or activities] - [SSSI names] - [European site names]`
 
-| Segment    | Source                                                                                                                                                                                                 |
-| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Scheme     | `rTreXu` — when present, listed first in the primary segment. When `rTreXu = "Other schemes"`, the segment is replaced with the answer to `aIixRu` ("What is the name of the land management scheme?") |
-| Activities | All unique activities from `iTBHrY.hqsZMS` (single SSSI) or `cwZgSE.BscJLV` (multi SSSI); appended after the scheme when both are present                                                              |
-| SSSI names | Parsed from `hozdvW` (single), `cwZgSE.rWrBOK` (multi), or `gWZwzI.gVlMxz` (scheme multi)                                                                                                              |
-| Fallback   | `"S28E Consent"` when nothing else is available                                                                                                                                                        |
+| Segment             | Source                                                                                                                                                                                                 |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Scheme              | `rTreXu` — when present, listed first in the primary segment. When `rTreXu = "Other schemes"`, the segment is replaced with the answer to `aIixRu` ("What is the name of the land management scheme?") |
+| Activities          | All unique activities from `iTBHrY.hqsZMS` (single SSSI) or `cwZgSE.BscJLV` (multi SSSI); appended after the scheme when both are present                                                              |
+| SSSI names          | Parsed from `hozdvW` (single), `cwZgSE.rWrBOK` (multi), or `gWZwzI.gVlMxz` (scheme multi)                                                                                                              |
+| European site names | Parsed from `hwaByT.FqfxKM` (the same field used for the structured `euro_site_info`); omitted when absent                                                                                             |
+| Fallback            | `"S28E Consent"` when nothing else is available                                                                                                                                                        |
 
 **Examples:**
 
@@ -76,13 +78,14 @@ When neither activities nor site names are present and `xzEslQ = "Something else
 - `Grazing, Fencing, Drainage - Test SSSI A, Test SSSI B`
 - `A Countryside Stewardship Higher Tier (CSHT) agreement, Grazing - SSSI One, SSSI Two` (scheme + activities)
 - `A Countryside Stewardship Higher Tier (CSHT) agreement - SSSI One, SSSI Two` (scheme only)
+- `Grazing - Test SSSI - Arun Valley Ramsar` (with an affected European site)
 - `Landscape Recovery, Grazing - Test SSSI` (`Other schemes` selected, `aIixRu = "Landscape Recovery"`)
 - `Test SSSI` (SSSI name only, no activities or scheme)
 - `S28E Consent`
 
 ### Assent Form
 
-**Format:** `[scheme and/or activities] - [SSSI names] - [Euro site names]`
+**Format:** `[scheme and/or activities] - [SSSI names] - [Euro site names] - [MCZ name]`
 
 | Segment         | Source                                                                                                                                                                                                 |
 | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -90,6 +93,7 @@ When neither activities nor site names are present and `xzEslQ = "Something else
 | Activities      | All unique activities from `gzSkgC.lGsnXi` (single SSSI) or `QxIzSB.iNDqRN` (multi SSSI); appended after the scheme when both are present                                                              |
 | SSSI names      | Parsed from `gVlMxz` (single), `hhGvmX.flbYHq` (scheme multi), or `QxIzSB.wRGnMW` (ORNEC multi)                                                                                                        |
 | Euro site names | Parsed from `aQYWxD.IzQfir`                                                                                                                                                                            |
+| MCZ name        | `pwSMNt` ("What is the name of the Marine Conservation Zone?") when `eaYOCX` is answered, parsed via `parseName`. Omitted otherwise.                                                                   |
 | Fallback        | `"S28H Assent"` when nothing else is available                                                                                                                                                         |
 
 **Examples:**
@@ -97,6 +101,7 @@ When neither activities nor site names are present and `xzEslQ = "Something else
 - `Grazing, Fencing - Test SSSI`
 - `Tree removal, Drainage - Test SSSI A, Test SSSI B`
 - `Grazing - Test SSSI - Arun Valley Ramsar`
+- `Grazing - Test SSSI - Arun Valley Ramsar - Chesil and the Fleet MCZ` (with an affected MCZ)
 - `A Higher Level Stewardship (HLS) agreement, Grazing - SSSI One, SSSI Two` (scheme + activities)
 - `A Higher Level Stewardship (HLS) agreement - SSSI One, SSSI Two` (scheme only)
 - `Landscape Recovery, Grazing - Test SSSI` (`Other schemes` selected, `aIixRu = "Landscape Recovery"`)

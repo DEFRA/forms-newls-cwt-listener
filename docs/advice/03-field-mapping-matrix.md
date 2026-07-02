@@ -67,27 +67,39 @@ Same precedence as `broad_work_type`, but with finer granularity for general top
 
 ## email_header
 
-Format: `"[detailed_work_type] - [activities] - [site names]"` (truncated to 255 characters). Activities and site names are each omitted when not present. When neither is present and the topic is "Something else", the free-text question is appended instead. When the activity is too long to leave room for the site name(s), it is truncated with `"..."`.
+Format: `"[detailed_work_type] - [activities] - [site names] - [MCZ name]"` (truncated to 255 characters). Activities, site names and MCZ name are each omitted when not present. The MCZ name is only appended on the activity/sites path (see `description` below); it is absent on the "Something else" and fallback paths. When neither activity nor site names are present and the topic is "Something else", the free-text question is appended instead. When the activity is too long to leave room for the site name(s) or MCZ name, they are fitted into the remaining space (site names then MCZ name), truncated with `"..."` where necessary.
 
 ## description
 
-Built from `detailed_work_type`, activities, and site names collected from the relevant path.
+Built from `detailed_work_type`, activities, site names, and (on the activity/sites path only) the Marine Conservation Zone (MCZ) name, collected from the relevant path.
 
-| Path                                  | Format                                               | Activity source                                                  | Site name source                                                                                                    |
-| ------------------------------------- | ---------------------------------------------------- | ---------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
-| HRA path                              | `{detailed_work_type} - {activities} - {site names}` | nJVeix ("Tell us about the proposed activities")                 | European site names from repeater TJuSNf [rtuWky ("EU site name")], parsed from "ID---Name" format, comma-separated |
-| S28I SSSI path                        | `{detailed_work_type} - {activities} - {site names}` | nJVeix ("Tell us about the proposed activities")                 | SSSI names from repeater entries [Avdzxa ("SSSI site name")], parsed from "ID---Name" format, comma-separated       |
-| Damage reporting path                 | `{detailed_work_type} - {activities} - {site name}`  | YhWlKB ("Give a description of the damaging activity")           | MoCXGK ("SSSI name for damage report"), parsed from "ID---Name" format                                              |
-| Drone flying path                     | `{detailed_work_type} - {activities} - {site name}`  | mtiMfk ("Tell us more about the proposed drone flying activity") | PxvdiH ("SSSI name for drone flying"), parsed from "ID---Name" format                                               |
-| General topics: "Something else" path | `{detailed_work_type} - {free text question}`        | (no activity fields on this path)                                | QmIGor ("What is your question?") — only when xzEslQ = "Something else" and QmIGor has a value                      |
-| General topics: all other topics      | `{detailed_work_type}`                               | (no activity fields on this path)                                | No site names collected                                                                                             |
+| Path                                  | Format                                                            | Activity source                                                  | Site name source                                                                                                    |
+| ------------------------------------- | ----------------------------------------------------------------- | ---------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| HRA path                              | `{detailed_work_type} - {activities} - {site names} - {MCZ name}` | nJVeix ("Tell us about the proposed activities")                 | European site names from repeater TJuSNf [rtuWky ("EU site name")], parsed from "ID---Name" format, comma-separated |
+| S28I SSSI path                        | `{detailed_work_type} - {activities} - {site names} - {MCZ name}` | nJVeix ("Tell us about the proposed activities")                 | SSSI names from repeater entries [Avdzxa ("SSSI site name")], parsed from "ID---Name" format, comma-separated       |
+| Damage reporting path                 | `{detailed_work_type} - {activities} - {site name} - {MCZ name}`  | YhWlKB ("Give a description of the damaging activity")           | MoCXGK ("SSSI name for damage report"), parsed from "ID---Name" format                                              |
+| Drone flying path                     | `{detailed_work_type} - {activities} - {site name} - {MCZ name}`  | mtiMfk ("Tell us more about the proposed drone flying activity") | PxvdiH ("SSSI name for drone flying"), parsed from "ID---Name" format                                               |
+| General topics: "Something else" path | `{detailed_work_type} - {free text question}`                     | (no activity fields on this path)                                | QmIGor ("What is your question?") — only when xzEslQ = "Something else" and QmIGor has a value                      |
+| General topics: all other topics      | `{detailed_work_type}`                                            | (no activity fields on this path)                                | No site names collected                                                                                             |
 
 **Notes:**
 
 - Activity fields are path-specific; only one will be present in any given submission.
 - Activities segment is omitted when the relevant field is absent.
 - Site names are collected via a precedence chain: HRA European sites > S28I SSSI sites > damage SSSI > drone SSSI > none.
+- The MCZ name is appended as a trailing segment on the activity/sites path only; it is never added on the "Something else" or fallback paths.
 - Parts are joined with `-` (space-dash-space).
+
+### MCZ name segment
+
+When the planned activities may affect a Marine Conservation Zone, a trailing MCZ-name segment is appended to the `description` (and, within the 255-character limit, to the `email_header`). The MCZ pages sit on the activity/sites path, so this segment only ever appears there.
+
+| Source field                                                 | When appended                                                                                                                       | Parsing                                        |
+| ------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------- |
+| joWQbp ("What is the name of the Marine Conservation Zone?") | ezHrva ("Could the planned activities likely affect a Marine Conservation Zone (MCZ)?") is answered (truthy) AND joWQbp has a value | parsed from "ID---Name" format via `parseName` |
+
+- The segment is omitted when the MCZ question ezHrva is not answered, or when no zone name is given in joWQbp.
+- In practice the real gate is whether joWQbp has a value: the name page is only shown on the "Yes" branch of ezHrva.
 
 ## consulting_body_type
 
