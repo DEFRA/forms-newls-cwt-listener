@@ -1,5 +1,13 @@
 # Form Changes
 
+## 2026-07-03 - Fri (DF-1016: form → CWT mapping updates, continued)
+
+Mapper-only change (no form-definition edits). Committed as work item W5.
+
+### Advice
+
+- **W5 — Topic-question SSSI path.** The "Which topic fits the nature of your question the best?" route now carries its SSSI details through to `SSSI_info`. New rule `sssi-info.question-topic-advice` (guarded on `bjblyN` being answered, placed before the `[]` fallback) emits one entry with `SSSI_id` from `bjblyN` ("Which SSSI does your question relate to?", via `parseSssiId`) and `coordinates` from `uhYhpV` ("Where does your question relate?", via `formatCoordinates`). Coordinates are included whenever `uhYhpV` is populated, independent of the `hYybKm` ("Do you know the location…?") Yes/No answer. This route is mutually exclusive with the S28i (`Avdzxa`) path, so first-match-wins rule ordering keeps the two independent.
+
 ## 2026-07-02 - Thu (DF-1016: form → CWT mapping updates)
 
 Mapper-only changes (no form-definition edits) that carry more of the submitted data through to the CWT payload. Implemented as work items W1–W4 and W1b, each committed separately.
