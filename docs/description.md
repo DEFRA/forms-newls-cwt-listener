@@ -64,13 +64,13 @@ When neither activities nor site names are present and `xzEslQ = "Something else
 
 **Format:** `[scheme and/or activities] - [SSSI names] - [European site names]`
 
-| Segment             | Source                                                                                                                                                                                                 |
-| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Scheme              | `rTreXu` — when present, listed first in the primary segment. When `rTreXu = "Other schemes"`, the segment is replaced with the answer to `aIixRu` ("What is the name of the land management scheme?") |
-| Activities          | All unique activities from `iTBHrY.hqsZMS` (single SSSI) or `cwZgSE.BscJLV` (multi SSSI); appended after the scheme when both are present                                                              |
-| SSSI names          | Parsed from `hozdvW` (single), `cwZgSE.rWrBOK` (multi), or `gWZwzI.gVlMxz` (scheme multi)                                                                                                              |
-| European site names | Parsed from `hwaByT.FqfxKM` (the same field used for the structured `euro_site_info`); omitted when absent                                                                                             |
-| Fallback            | `"S28E Consent"` when nothing else is available                                                                                                                                                        |
+| Segment             | Source                                                                                                                                                                                                          |
+| ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Scheme              | `rTreXu` — when present, listed first in the primary segment. When `rTreXu = "Other schemes"`, the segment is replaced with the answer to `aIixRu` ("What is the name of the land management scheme?")          |
+| Activities          | All unique activities from `iTBHrY.hqsZMS` (single SSSI) or `cwZgSE.BscJLV` (multi SSSI); on the SFI route, the page-20 action codes `qocAEz` are used instead. Appended after the scheme when both are present |
+| SSSI names          | Parsed from `hozdvW` (single), `cwZgSE.rWrBOK` (multi), or `gWZwzI.gVlMxz` (scheme multi)                                                                                                                       |
+| European site names | Parsed from `hwaByT.FqfxKM` (the same field used for the structured `euro_site_info`); omitted when absent                                                                                                      |
+| Fallback            | `"S28E Consent"` when nothing else is available                                                                                                                                                                 |
 
 **Examples:**
 

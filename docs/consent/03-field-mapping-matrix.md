@@ -56,16 +56,17 @@ Format: `"{scheme and/or activities} - {SSSI names} - {European site names}"`
 
 ### Primary segment (scheme and/or activities)
 
-Scheme and activities are independent: both are included when both are present, joined with `, ` (scheme first, then the activities). Single SSSI path takes precedence over multiple SSSI path when collecting activities.
+Scheme and activities are independent: both are included when both are present, joined with `, ` (scheme first, then the activities). The "activities" contribution is resolved as the first populated of: single-SSSI ORNEC activities, multi-SSSI ORNEC activities, then (on the SFI route only) the SFI action codes.
 
-| Source                          | Prerequisites                                                                                        | Contribution                                                                            |
-| ------------------------------- | ---------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
-| Scheme                          | rTreXu ("What land management scheme does this notice relate to?") selected, value ≠ `Other schemes` | Full scheme text                                                                        |
-| Scheme (Other schemes)          | rTreXu = `Other schemes` and aIixRu ("What is the name of the land management scheme?") provided     | Free-text scheme name from aIixRu (replaces the literal `Other schemes` in the segment) |
-| Scheme (Other schemes) fallback | rTreXu = `Other schemes` and aIixRu blank                                                            | Literal text `Other schemes`                                                            |
-| Single SSSI ORNEC activities    | Repeater iTBHrY ("Operations requiring Natural England consent"), hqsZMS ("Which activity?")         | Unique activity values comma-joined                                                     |
-| Multi SSSI ORNEC activities     | Otherwise repeater cwZgSE ("Site name and operations requiring Natural England consent"), BscJLV     | Unique activity values comma-joined                                                     |
-| Fallback                        | No scheme and no activities                                                                          | Empty                                                                                   |
+| Source                          | Prerequisites                                                                                            | Contribution                                                                            |
+| ------------------------------- | -------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| Scheme                          | rTreXu ("What land management scheme does this notice relate to?") selected, value ≠ `Other schemes`     | Full scheme text                                                                        |
+| Scheme (Other schemes)          | rTreXu = `Other schemes` and aIixRu ("What is the name of the land management scheme?") provided         | Free-text scheme name from aIixRu (replaces the literal `Other schemes` in the segment) |
+| Scheme (Other schemes) fallback | rTreXu = `Other schemes` and aIixRu blank                                                                | Literal text `Other schemes`                                                            |
+| Single SSSI ORNEC activities    | Repeater iTBHrY ("Operations requiring Natural England consent"), hqsZMS ("Which activity?")             | Unique activity values comma-joined                                                     |
+| Multi SSSI ORNEC activities     | Otherwise repeater cwZgSE ("Site name and operations requiring Natural England consent"), BscJLV         | Unique activity values comma-joined                                                     |
+| SFI action codes                | Otherwise rTreXu starts with SFI and qocAEz ("Which SFI action codes…") selected (ORNEC repeaters empty) | Selected action codes comma-joined                                                      |
+| Fallback                        | No scheme and no activities                                                                              | Empty                                                                                   |
 
 ### SSSI names segment
 
@@ -158,6 +159,16 @@ SSSI ID from hozdvW ("What is the name of the SSSI where you plan to carry out a
 | `coordinates` | QKdhfh ("Where do you plan to carry out this activity?") from repeater iTBHrY ("Operations requiring Natural England consent") | Formatted as `"<easting>,<northing>"`, multiple entries joined with `";"` |
 | `ornec`       | hqsZMS ("Which activity do you plan to carry out?") from repeater iTBHrY                                                       | Activity names comma-joined                                               |
 
+#### SFI scheme path (rTreXu starts with SFI, no repeater)
+
+Evaluated **before** the generic scheme path so it wins whenever the scheme is SFI. Unlike other scheme paths, `ornec` is populated — from the page-20 SFI action codes rather than an activity.
+
+| Field         | Source                                                                                            | Description                           |
+| ------------- | ------------------------------------------------------------------------------------------------- | ------------------------------------- |
+| `SSSI_id`     | hozdvW ("What is the name of the SSSI where you plan to carry out activities?")                   | Parsed as integer from string value   |
+| `coordinates` | JPohUD ("Where are the activities taking place?") from main                                       | Formatted as `"<easting>,<northing>"` |
+| `ornec`       | qocAEz ("Which SFI action codes involve operations that need Natural England consent?") from main | Selected action codes comma-joined    |
+
 #### Scheme path (no repeater, JPohUD present)
 
 | Field         | Source                                                                          | Description                           |
@@ -183,6 +194,16 @@ SSSI ID from hozdvW ("What is the name of the SSSI where you plan to carry out a
 | `SSSI_id`     | rWrBOK ("What is the name of the SSSI where you plan to carry out this activity?") from repeater cwZgSE ("Site name and operations requiring Natural England consent") | Parsed as integer from string value (grouped by unique value)                           |
 | `coordinates` | gjWdrc ("Where on the SSSI do you plan to carry out this activity?") from repeater cwZgSE                                                                              | Formatted as `"<easting>,<northing>"`, multiple entries for same SSSI joined with `";"` |
 | `ornec`       | BscJLV ("Which activity do you plan to carry out?") from repeater cwZgSE                                                                                               | Activity names comma-joined per SSSI                                                    |
+
+#### SFI scheme path (rTreXu starts with SFI, repeater gWZwzI)
+
+Evaluated **before** the generic scheme path so it wins whenever the scheme is SFI. One entry per gWZwzI site; `qocAEz` is a single form-level field, so the same action-code list is applied to every SSSI.
+
+| Field         | Source                                                                                                                                      | Description                                                                   |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| `SSSI_id`     | gVlMxz ("What is the name of the SSSI where activities are planned?") from repeater gWZwzI ("Sites where you plan to carry out activities") | Parsed as integer from string value                                           |
+| `coordinates` | JPohUD ("Where are the activities taking place?") from main                                                                                 | Formatted as `"<easting>,<northing>"`, shared across all SSSIs on scheme path |
+| `ornec`       | qocAEz ("Which SFI action codes involve operations that need Natural England consent?") from main                                           | Selected action codes comma-joined, same for every SSSI                       |
 
 #### Scheme path (repeater gWZwzI)
 
@@ -232,19 +253,19 @@ This section identifies all scenarios where output fields sent to the University
 
 ### Fields with empty sub-properties in SSSI_info entries
 
-| Field in SSSI_info | Condition producing empty value                                                                                                                            | Realistic scenario?                                                              |
-| ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
-| `coordinates`      | Single SSSI without scheme coordinates JPohUD ("Where are the activities taking place?") and without ORNEC repeater entries                                | **Expected** — single SSSI fallback path has no coordinates. See Example 6       |
-| `ornec`            | Single SSSI scheme path (no ORNEC repeater); multi SSSI scheme path via gWZwzI ("Sites where you plan to carry out activities"); single SSSI fallback path | **Expected** — scheme paths don't collect ORNEC activities. See Examples 2, 5, 6 |
+| Field in SSSI_info | Condition producing empty value                                                                                                                            | Realistic scenario?                                                                                                                                                                         |
+| ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `coordinates`      | Single SSSI without scheme coordinates JPohUD ("Where are the activities taking place?") and without ORNEC repeater entries                                | **Expected** — single SSSI fallback path has no coordinates. See Example 6                                                                                                                  |
+| `ornec`            | Single SSSI scheme path (no ORNEC repeater); multi SSSI scheme path via gWZwzI ("Sites where you plan to carry out activities"); single SSSI fallback path | **Expected** — non-SFI scheme paths don't collect ORNEC activities. The SFI scheme path is the exception: it populates `ornec` from the page-20 action codes (qocAEz). See Examples 2, 5, 6 |
 
 ### Key empty value scenarios by form path
 
-| Path                                            | `SBI`       | `agreement_reference` | `email_header`                 | `coordinates` (in SSSI_info)                             | `ornec` (in SSSI_info) | Notes                                                                    |
-| ----------------------------------------------- | ----------- | --------------------- | ------------------------------ | -------------------------------------------------------- | ---------------------- | ------------------------------------------------------------------------ |
-| Landowner, CS scheme, single SSSI with ORNECs   | SBI number  | CS reference          | Activities + SSSI              | ORNEC coords                                             | Activity names         | All fields populated                                                     |
-| Land occupier, HLS, single SSSI (scheme coords) | SBI number  | HLS reference         | Scheme + SSSI                  | JPohUD ("Where are the activities taking place?") coords | `""` empty             | **ornec empty** — scheme path has no ORNEC activities                    |
-| Consultant, no scheme, single SSSI with ORNECs  | `undefined` | `""` empty            | Activities + SSSI              | ORNEC coords                                             | Activity names         | **SBI undefined, agreement_reference empty** — consultant without scheme |
-| Landowner, SFI, multiple SSSIs with ORNECs      | SBI number  | SFI reference         | Activities + SSSIs             | Per-SSSI coords                                          | Per-SSSI activities    | All fields populated                                                     |
-| Other, CSMT, multiple SSSIs (scheme)            | SBI number  | CS reference          | Scheme + SSSIs                 | JPohUD ("Where are the activities taking place?") coords | `""` empty             | **ornec empty** — scheme multi-SSSI path has no ORNEC activities         |
-| Landowner, other permission (no scheme)         | SBI number  | `""` empty            | SSSI names or `"S28E Consent"` | `""` empty                                               | `""` empty             | **agreement_reference, coordinates, ornec empty** — no scheme, no coords |
-| Somebody else, no scheme, no ORNECs             | May be set  | `""` empty            | SSSI names or `"S28E Consent"` | `""` empty                                               | `""` empty             | **Most optional fields empty** — no scheme, no ORNECs, no coordinates    |
+| Path                                            | `SBI`       | `agreement_reference` | `email_header`                 | `coordinates` (in SSSI_info)                             | `ornec` (in SSSI_info)             | Notes                                                                    |
+| ----------------------------------------------- | ----------- | --------------------- | ------------------------------ | -------------------------------------------------------- | ---------------------------------- | ------------------------------------------------------------------------ |
+| Landowner, CS scheme, single SSSI with ORNECs   | SBI number  | CS reference          | Activities + SSSI              | ORNEC coords                                             | Activity names                     | All fields populated                                                     |
+| Land occupier, HLS, single SSSI (scheme coords) | SBI number  | HLS reference         | Scheme + SSSI                  | JPohUD ("Where are the activities taking place?") coords | `""` empty                         | **ornec empty** — scheme path has no ORNEC activities                    |
+| Consultant, no scheme, single SSSI with ORNECs  | `undefined` | `""` empty            | Activities + SSSI              | ORNEC coords                                             | Activity names                     | **SBI undefined, agreement_reference empty** — consultant without scheme |
+| Landowner, SFI, multiple SSSIs (action codes)   | SBI number  | SFI reference         | Scheme + action codes + SSSIs  | JPohUD ("Where are the activities taking place?") coords | Action codes (same for every SSSI) | **ornec from action codes** — SFI scheme path sources ORNEC from qocAEz  |
+| Other, CSMT, multiple SSSIs (scheme)            | SBI number  | CS reference          | Scheme + SSSIs                 | JPohUD ("Where are the activities taking place?") coords | `""` empty                         | **ornec empty** — non-SFI scheme multi-SSSI path has no ORNEC activities |
+| Landowner, other permission (no scheme)         | SBI number  | `""` empty            | SSSI names or `"S28E Consent"` | `""` empty                                               | `""` empty                         | **agreement_reference, coordinates, ornec empty** — no scheme, no coords |
+| Somebody else, no scheme, no ORNECs             | May be set  | `""` empty            | SSSI names or `"S28E Consent"` | `""` empty                                               | `""` empty                         | **Most optional fields empty** — no scheme, no ORNECs, no coordinates    |

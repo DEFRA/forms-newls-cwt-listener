@@ -34,13 +34,13 @@ When no activity or site names are present and `xzEslQ = "Something else"`, `QmI
 
 The primary segment is `[scheme and/or activities]` — both are included when both are present, with the scheme listed first.
 
-| Priority       | Segment                | Source                                                                                                                                                           |
-| -------------- | ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1 (primary)    | Land management scheme | `rTreXu` — when present, listed first. When `rTreXu = "Other schemes"`, replaced with the answer to `aIixRu` ("What is the name of the land management scheme?") |
-| 1 (primary)    | All unique activities  | `iTBHrY.hqsZMS` (single SSSI) or `cwZgSE.BscJLV` (multi SSSI); appended after the scheme when both are present                                                   |
-| 2              | SSSI names             | `hozdvW` (single), `cwZgSE.rWrBOK` (multi), or `gWZwzI.gVlMxz` (scheme multi)                                                                                    |
-| 3              | European site names    | `hwaByT` repeater `FqfxKM` field (parsed via `parseName`); appended after SSSI names and fitted via `fitNames`                                                   |
-| Final fallback | `S28E Consent`         | When nothing else available                                                                                                                                      |
+| Priority       | Segment                | Source                                                                                                                                                                               |
+| -------------- | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 1 (primary)    | Land management scheme | `rTreXu` — when present, listed first. When `rTreXu = "Other schemes"`, replaced with the answer to `aIixRu` ("What is the name of the land management scheme?")                     |
+| 1 (primary)    | All unique activities  | `iTBHrY.hqsZMS` (single SSSI) or `cwZgSE.BscJLV` (multi SSSI); on the SFI route, the page-20 action codes `qocAEz` are used instead. Appended after the scheme when both are present |
+| 2              | SSSI names             | `hozdvW` (single), `cwZgSE.rWrBOK` (multi), or `gWZwzI.gVlMxz` (scheme multi)                                                                                                        |
+| 3              | European site names    | `hwaByT` repeater `FqfxKM` field (parsed via `parseName`); appended after SSSI names and fitted via `fitNames`                                                                       |
+| Final fallback | `S28E Consent`         | When nothing else available                                                                                                                                                          |
 
 ### Examples
 

@@ -1,5 +1,17 @@
 # Form Changes
 
+## 2026-07-03 - Fri (DF-1016: consent SFI ORNEC from action codes)
+
+Mapper-only change (no form-definition edits). Committed as work item W6. This was previously parked as "spec pending"; the 11-June requirement (`_tasks/001/more-changes.md`) resolved both open questions — the source is the page-20 action-code checkboxes (`qocAEz`), and the output follows the old ORNEC treatment (selected values comma-joined, feeding the same CWT fields).
+
+### Consent
+
+- **W6 — SFI route: ORNEC from the page-20 action codes.** On the Sustainable Farming Incentive route, the consent codes are no longer taken from an activity — they now come from `qocAEz` ("Which SFI action codes involve operations that need Natural England consent?"), the multi-select on page 20. Previously the SFI route was treated as a generic scheme path, so every `SSSI_info[].ornec` was `""`.
+  - New condition `isSfiScheme` (`rTreXu` starts with `"A Sustainable Farming Incentive (SFI) agreement"`).
+  - Two new SSSI_info rules placed **above** the generic scheme rules so they win for SFI: `sssi-info.single-sfi` (single SSSI) and `sssi-info.multiple-sfi` (multiple SSSIs, one entry per `gWZwzI` site). Both source `ornec` from `qocAEz`, the selected action codes comma-joined; `coordinates` and `SSSI_id` are unchanged from the scheme path. `qocAEz` is a single form-level field, so on a multi-SSSI submission the same action-code list is applied to every site (there is no per-SSSI action-code capture).
+  - The action codes also flow to `description` and `email_header` "alike the ORNECs did": the `activities` definition now falls through to `qocAEz` (guarded by `isSfiScheme`) when the non-scheme ORNEC repeaters are empty, so the primary segment reads `"{scheme}, {action codes}"` on the SFI route.
+  - Non-SFI routes are unaffected: `ornec` stays `""` on other scheme paths, and the `isSfiScheme` guard on the `activities` fall-through keeps action codes out of non-SFI descriptions even if the field were ever populated off-route.
+
 ## 2026-07-03 - Fri (DF-1016: advice topic-question work types)
 
 Advice form definition updated to version 1197 (two new topic options on the "Which topic fits the nature of your question the best?" page), plus the matching mapper change. Committed as work item W13.

@@ -45,6 +45,8 @@ Question: "What's your Higher Level Stewardship agreement reference number?" Fre
 
 Question: "What's your Sustainable Farming Incentive agreement number?" Free text. Then proceeds to [SSSI selection](#sssi-selection).
 
+The SFI route also has a dedicated action-codes page (page 20): qocAEz ("Which SFI action codes involve operations that need Natural England consent?"), a multi-select checkbox list of ~71 action codes. These action codes are the SFI route's ORNEC source — they feed `SSSI_info[].ornec` and the description/email_header activities segment (see the field mapping matrix), replacing the activity that other routes use.
+
 ---
 
 ## SBI (Single Business Identifier)
