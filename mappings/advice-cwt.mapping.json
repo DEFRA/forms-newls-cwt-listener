@@ -1181,6 +1181,45 @@
       }
     },
     {
+      "id": "sssi-info.question-topic-advice",
+      "description": "Topic-question advice path (pages 45-47): SSSI name + optional coordinates",
+      "target": "SSSI_info",
+      "when": {
+        "question": {
+          "id": "bjblyN",
+          "text": "Which SSSI does your question relate to?"
+        },
+        "operator": "isAnswered"
+      },
+      "value": {
+        "type": "array",
+        "items": [
+          {
+            "type": "object",
+            "properties": {
+              "SSSI_id": {
+                "type": "answer",
+                "question": {
+                  "id": "bjblyN",
+                  "text": "Which SSSI does your question relate to?"
+                },
+                "transforms": ["parseSssiId"]
+              },
+              "coordinates": {
+                "type": "answer",
+                "question": {
+                  "id": "uhYhpV",
+                  "text": "Where does your question relate?"
+                },
+                "transforms": ["formatCoordinates"],
+                "default": ""
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
       "id": "sssi-info.fallback",
       "description": "No SSSI information provided",
       "target": "SSSI_info",
