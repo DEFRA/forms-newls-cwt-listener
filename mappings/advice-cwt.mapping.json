@@ -545,6 +545,8 @@
           "I have a question about flying drones on or near a protected site": "SSSI - Other",
           "I have a question about designating or de-designating SSSIs": "SSSI - Other",
           "I have a question about the sale of SSSI land": "SSSI - Other",
+          "I have a question about Sustainable Farming Incentive (SFI) and SSSIs": "SFI - Technical query",
+          "I have a question about other land management schemes and SSSIs": "SSSI - Other",
           "Something else": "SSSI - Other"
         }
       }

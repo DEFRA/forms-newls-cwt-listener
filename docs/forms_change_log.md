@@ -1,5 +1,17 @@
 # Form Changes
 
+## 2026-07-03 - Fri (DF-1016: advice topic-question work types)
+
+Advice form definition updated to version 1197 (two new topic options on the "Which topic fits the nature of your question the best?" page), plus the matching mapper change. Committed as work item W13.
+
+### Advice
+
+- **W13 — Two new page-16 topic options → work types.** The topic question `xzEslQ` ("Which topic fits the nature of your question the best?") gained two options, both routed through the generic "what is your question?" pages:
+  - "I have a question about Sustainable Farming Incentive (SFI) and SSSIs" → `broad_work_type` = `Other casework`, `detailed_work_type` = `SFI - Technical query`.
+  - "I have a question about other land management schemes and SSSIs" → `broad_work_type` = `Other casework`, `detailed_work_type` = `SSSI - Other`.
+
+  `broad_work_type` needed no change — all general topics already resolve to `Other casework` via `broad-work-type.fallback`. Only two entries were added to the `detailed-work-type.general-topic` lookup table (keyed on `xzEslQ`). Output values follow the existing `<Category> - <Descriptor>` house style rather than the raw ticket wording ("SFI technical query" / "SSSI other").
+
 ## 2026-07-03 - Fri (DF-1016: form → CWT mapping updates, continued)
 
 Mapper-only change (no form-definition edits). Committed as work item W5.

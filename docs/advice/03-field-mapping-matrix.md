@@ -62,6 +62,8 @@ Same precedence as `broad_work_type`, but with finer granularity for general top
 | General topics | xzEslQ ("Topic of query") | Flying drones on/near a protected site                                | `SSSI - Other`                             |
 | General topics | xzEslQ ("Topic of query") | Designating or de-designating SSSIs                                   | `SSSI - Other`                             |
 | General topics | xzEslQ ("Topic of query") | Sale of SSSI land                                                     | `SSSI - Other`                             |
+| General topics | xzEslQ ("Topic of query") | Sustainable Farming Incentive (SFI) and SSSIs                         | `SFI - Technical query`                    |
+| General topics | xzEslQ ("Topic of query") | Other land management schemes and SSSIs                               | `SSSI - Other`                             |
 | General topics | xzEslQ ("Topic of query") | Something else                                                        | `SSSI - Other`                             |
 | (none set)     | -                         | -                                                                     | `SSSI - Other`                             |
 

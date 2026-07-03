@@ -2419,6 +2419,26 @@
           "operator": "is",
           "value": false,
           "type": "BooleanValue"
+        },
+        {
+          "id": "8d8da211-98fc-4ce8-ab2c-84f71c49364d",
+          "componentId": "d77f3663-de6c-47dc-952c-8f9ccdd65cc4",
+          "operator": "is",
+          "value": {
+            "itemId": "d28cb259-7a2d-40d6-8c1e-83f725b0fb2e",
+            "listId": "6aac240a-5e49-4b7a-924c-933305bd05d4"
+          },
+          "type": "ListItemRef"
+        },
+        {
+          "id": "74311ed4-9acf-4ccc-99e3-1ea9c08975ca",
+          "componentId": "d77f3663-de6c-47dc-952c-8f9ccdd65cc4",
+          "operator": "is",
+          "value": {
+            "itemId": "79ab6943-26fe-4068-80cb-79b3325d460b",
+            "listId": "6aac240a-5e49-4b7a-924c-933305bd05d4"
+          },
+          "type": "ListItemRef"
         }
       ],
       "coordinator": "or",
@@ -7791,6 +7811,16 @@
           "id": "7b4a16f1-2d06-4792-a72e-87088573f1be",
           "text": "I would like to submit or request surveys or information about the condition of SSSIs",
           "value": "I would like to submit or request surveys or information about the condition of SSSIs"
+        },
+        {
+          "text": "I have a question about Sustainable Farming Incentive (SFI) and SSSIs",
+          "value": "I have a question about Sustainable Farming Incentive (SFI) and SSSIs",
+          "id": "d28cb259-7a2d-40d6-8c1e-83f725b0fb2e"
+        },
+        {
+          "text": "I have a question about other land management schemes and SSSIs",
+          "value": "I have a question about other land management schemes and SSSIs",
+          "id": "79ab6943-26fe-4068-80cb-79b3325d460b"
         },
         {
           "id": "4f09559b-6374-4cb7-89c3-30f8e15fb3b5",
@@ -73805,8 +73835,8 @@
   },
   "metadata": {
     "$$__formVersion": {
-      "versionNumber": 1193,
-      "createdAt": "2026-06-10T12:53:51.327Z"
+      "versionNumber": 1197,
+      "createdAt": "2026-07-01T10:33:14.692Z"
     }
   }
 }
