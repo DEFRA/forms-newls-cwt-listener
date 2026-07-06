@@ -102,6 +102,22 @@
               "text": "What is the name of the land management scheme?"
             }
           }
+        },
+        {
+          "when": {
+            "question": {
+              "id": "VacBun",
+              "text": "What is the name of the permission?"
+            },
+            "operator": "isAnswered"
+          },
+          "value": {
+            "type": "answer",
+            "question": {
+              "id": "VacBun",
+              "text": "What is the name of the permission?"
+            }
+          }
         }
       ],
       "else": {
