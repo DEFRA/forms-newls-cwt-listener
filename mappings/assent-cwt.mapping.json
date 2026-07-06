@@ -548,14 +548,26 @@
     },
     {
       "id": "agreement-reference.fallback",
-      "description": "Other schemes (and no scheme) use the optional scheme reference number",
+      "description": "Other schemes use the scheme reference number; the 'another permission' branch uses its own permission reference number (Uureah). Both optional",
       "target": "agreement_reference",
       "value": {
-        "type": "answer",
-        "question": {
-          "id": "WtpFqT",
-          "text": "What is the scheme reference number?"
-        },
+        "type": "firstAnswered",
+        "values": [
+          {
+            "type": "answer",
+            "question": {
+              "id": "WtpFqT",
+              "text": "What is the scheme reference number?"
+            }
+          },
+          {
+            "type": "answer",
+            "question": {
+              "id": "Uureah",
+              "text": "What is the reference number for this permission?"
+            }
+          }
+        ],
         "default": ""
       }
     },
