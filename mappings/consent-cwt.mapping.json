@@ -59,6 +59,14 @@
           "operator": "isAnswered"
         }
       ]
+    },
+    "isSfiScheme": {
+      "question": {
+        "id": "rTreXu",
+        "text": "What land management scheme does this notice relate to?"
+      },
+      "operator": "startsWith",
+      "value": "A Sustainable Farming Incentive (SFI) agreement"
     }
   },
   "definitions": {
@@ -90,6 +98,22 @@
             "question": {
               "id": "aIixRu",
               "text": "What is the name of the land management scheme?"
+            }
+          }
+        },
+        {
+          "when": {
+            "question": {
+              "id": "VacBun",
+              "text": "What is the name of the permission?"
+            },
+            "operator": "isAnswered"
+          },
+          "value": {
+            "type": "answer",
+            "question": {
+              "id": "VacBun",
+              "text": "What is the name of the permission?"
             }
           }
         }
@@ -128,6 +152,21 @@
             "text": "Which activity do you plan to carry out?"
           },
           "unique": true
+        },
+        {
+          "type": "conditional",
+          "cases": [
+            {
+              "when": { "ref": "isSfiScheme" },
+              "value": {
+                "type": "answer",
+                "question": {
+                  "id": "qocAEz",
+                  "text": "Which SFI action codes involve operations that need Natural England consent?"
+                }
+              }
+            }
+          ]
         }
       ]
     },
@@ -174,6 +213,15 @@
           }
         }
       ],
+      "transforms": ["parseName"]
+    },
+    "euroSiteNames": {
+      "type": "collect",
+      "repeater": { "id": "hwaByT", "text": "European site" },
+      "question": {
+        "id": "FqfxKM",
+        "text": "What is the name of the European site?"
+      },
       "transforms": ["parseName"]
     }
   },
@@ -229,7 +277,7 @@
     },
     {
       "id": "description",
-      "description": "Scheme/activities followed by SSSI names, unlimited length",
+      "description": "Scheme/activities, SSSI names then European site names, unlimited length",
       "target": "description",
       "value": {
         "type": "joinSegments",
@@ -237,7 +285,8 @@
         "fallback": "S28E Consent",
         "segments": [
           { "value": { "type": "ref", "name": "primarySegment" } },
-          { "value": { "type": "ref", "name": "sssiNames" } }
+          { "value": { "type": "ref", "name": "sssiNames" } },
+          { "value": { "type": "ref", "name": "euroSiteNames" } }
         ]
       }
     },
@@ -378,30 +427,46 @@
     },
     {
       "id": "agreement-reference.fallback",
-      "description": "Other schemes (and no scheme) use the optional scheme reference number",
+      "description": "Other schemes use the scheme reference number; the 'another permission' branch uses its own permission reference number (Uureah). Both optional",
       "target": "agreement_reference",
       "value": {
-        "type": "answer",
-        "question": {
-          "id": "WtpFqT",
-          "text": "What is the scheme reference number?"
-        },
+        "type": "firstAnswered",
+        "values": [
+          {
+            "type": "answer",
+            "question": {
+              "id": "WtpFqT",
+              "text": "What is the scheme reference number?"
+            }
+          },
+          {
+            "type": "answer",
+            "question": {
+              "id": "Uureah",
+              "text": "Give the reference number for this permission if available"
+            }
+          }
+        ],
         "default": ""
       }
     },
     {
       "id": "email-header",
-      "description": "Same segments as the description, limited to 255 characters with SSSI names fitted into the remaining space",
+      "description": "Same segments as the description, limited to 254 characters with SSSI and European site names fitted into the remaining space",
       "target": "email_header",
       "value": {
         "type": "joinSegments",
         "separator": " - ",
-        "maxLength": 255,
+        "maxLength": 254,
         "fallback": "S28E Consent",
         "segments": [
           { "value": { "type": "ref", "name": "primarySegment" } },
           {
             "value": { "type": "ref", "name": "sssiNames" },
+            "overflow": "fitNames"
+          },
+          {
+            "value": { "type": "ref", "name": "euroSiteNames" },
             "overflow": "fitNames"
           }
         ]
@@ -462,6 +527,48 @@
                 "question": {
                   "id": "hqsZMS",
                   "text": "Which activity do you plan to carry out?"
+                },
+                "transforms": [{ "name": "join", "separator": ", " }],
+                "default": ""
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "sssi-info.single-sfi",
+      "description": "Single SSSI, SFI scheme path: one entry with the shared activity coordinates; ORNECs sourced from the page-20 SFI action codes (qocAEz) instead of an activity",
+      "target": "SSSI_info",
+      "when": { "all": [{ "ref": "isSingleSssi" }, { "ref": "isSfiScheme" }] },
+      "value": {
+        "type": "array",
+        "items": [
+          {
+            "type": "object",
+            "properties": {
+              "SSSI_id": {
+                "type": "answer",
+                "question": {
+                  "id": "hozdvW",
+                  "text": "What is the name of the SSSI where you plan to carry out activities?"
+                },
+                "transforms": ["parseSssiId"]
+              },
+              "coordinates": {
+                "type": "answer",
+                "question": {
+                  "id": "JPohUD",
+                  "text": "Easting and Northing coordinates"
+                },
+                "transforms": ["formatCoordinates"],
+                "default": ""
+              },
+              "ornec": {
+                "type": "answer",
+                "question": {
+                  "id": "qocAEz",
+                  "text": "Which SFI action codes involve operations that need Natural England consent?"
                 },
                 "transforms": [{ "name": "join", "separator": ", " }],
                 "default": ""
@@ -569,6 +676,61 @@
       }
     },
     {
+      "id": "sssi-info.multiple-sfi",
+      "description": "Multiple SSSIs, SFI scheme path: one entry per site sharing the activity coordinates; ORNECs sourced from the page-20 SFI action codes (qocAEz)",
+      "target": "SSSI_info",
+      "when": {
+        "all": [
+          {
+            "question": {
+              "id": "lmqMaY",
+              "text": "Are you planning to carry out activities on more than one SSSI?"
+            },
+            "operator": "isTruthy"
+          },
+          { "ref": "isSfiScheme" }
+        ]
+      },
+      "value": {
+        "type": "arrayFromRepeater",
+        "repeater": {
+          "id": "gWZwzI",
+          "text": "Sites where you plan to carry out activities"
+        },
+        "filterAnswered": "gVlMxz",
+        "item": {
+          "SSSI_id": {
+            "type": "answer",
+            "question": {
+              "id": "gVlMxz",
+              "text": "What is the name of the SSSI where activities are planned?"
+            },
+            "transforms": ["parseSssiId"]
+          },
+          "coordinates": {
+            "type": "answer",
+            "scope": "main",
+            "question": {
+              "id": "JPohUD",
+              "text": "Easting and Northing coordinates"
+            },
+            "transforms": ["formatCoordinates"],
+            "default": ""
+          },
+          "ornec": {
+            "type": "answer",
+            "scope": "main",
+            "question": {
+              "id": "qocAEz",
+              "text": "Which SFI action codes involve operations that need Natural England consent?"
+            },
+            "transforms": [{ "name": "join", "separator": ", " }],
+            "default": ""
+          }
+        }
+      }
+    },
+    {
       "id": "sssi-info.multiple-scheme",
       "description": "Multiple SSSIs, scheme path: one entry per site, all sharing the activity coordinates",
       "target": "SSSI_info",
@@ -614,6 +776,42 @@
       "description": "No SSSI information provided",
       "target": "SSSI_info",
       "value": { "type": "literal", "value": [] }
+    },
+    {
+      "id": "is-there-a-european-site.yes",
+      "target": "is_there_a_european_site",
+      "when": {
+        "repeater": { "id": "hwaByT", "text": "European site" },
+        "operator": "hasAnswer",
+        "questionId": "FqfxKM",
+        "questionText": "What is the name of the European site?"
+      },
+      "value": { "type": "literal", "value": "Yes" }
+    },
+    {
+      "id": "is-there-a-european-site.no",
+      "target": "is_there_a_european_site",
+      "value": { "type": "literal", "value": "" }
+    },
+    {
+      "id": "euro-site-info",
+      "description": "One entry per European site affected",
+      "target": "euro_site_info",
+      "value": {
+        "type": "arrayFromRepeater",
+        "repeater": { "id": "hwaByT", "text": "European site" },
+        "filterAnswered": "FqfxKM",
+        "item": {
+          "european_site_id": {
+            "type": "answer",
+            "question": {
+              "id": "FqfxKM",
+              "text": "What is the name of the European site?"
+            },
+            "transforms": ["parseEuroSiteId"]
+          }
+        }
+      }
     }
   ]
 }

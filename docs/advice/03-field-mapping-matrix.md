@@ -62,32 +62,46 @@ Same precedence as `broad_work_type`, but with finer granularity for general top
 | General topics | xzEslQ ("Topic of query") | Flying drones on/near a protected site                                | `SSSI - Other`                             |
 | General topics | xzEslQ ("Topic of query") | Designating or de-designating SSSIs                                   | `SSSI - Other`                             |
 | General topics | xzEslQ ("Topic of query") | Sale of SSSI land                                                     | `SSSI - Other`                             |
+| General topics | xzEslQ ("Topic of query") | Sustainable Farming Incentive (SFI) and SSSIs                         | `SFI - Technical query`                    |
+| General topics | xzEslQ ("Topic of query") | Other land management schemes and SSSIs                               | `SSSI - Other`                             |
 | General topics | xzEslQ ("Topic of query") | Something else                                                        | `SSSI - Other`                             |
 | (none set)     | -                         | -                                                                     | `SSSI - Other`                             |
 
 ## email_header
 
-Format: `"[detailed_work_type] - [activities] - [site names]"` (truncated to 255 characters). Activities and site names are each omitted when not present. When neither is present and the topic is "Something else", the free-text question is appended instead. When the activity is too long to leave room for the site name(s), it is truncated with `"..."`.
+Format: `"[detailed_work_type] - [activities] - [site names] - [MCZ name]"` (truncated to 254 characters). Activities, site names and MCZ name are each omitted when not present. The MCZ name is only appended on the activity/sites path (see `description` below); it is absent on the "Something else" and fallback paths. When neither activity nor site names are present and the topic is "Something else", the free-text question is appended instead. When the activity is too long to leave room for the site name(s) or MCZ name, they are fitted into the remaining space (site names then MCZ name), truncated with `"..."` where necessary.
 
 ## description
 
-Built from `detailed_work_type`, activities, and site names collected from the relevant path.
+Built from `detailed_work_type`, activities, site names, and (on the activity/sites path only) the Marine Conservation Zone (MCZ) name, collected from the relevant path.
 
-| Path                                  | Format                                               | Activity source                                                  | Site name source                                                                                                    |
-| ------------------------------------- | ---------------------------------------------------- | ---------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
-| HRA path                              | `{detailed_work_type} - {activities} - {site names}` | nJVeix ("Tell us about the proposed activities")                 | European site names from repeater TJuSNf [rtuWky ("EU site name")], parsed from "ID---Name" format, comma-separated |
-| S28I SSSI path                        | `{detailed_work_type} - {activities} - {site names}` | nJVeix ("Tell us about the proposed activities")                 | SSSI names from repeater entries [Avdzxa ("SSSI site name")], parsed from "ID---Name" format, comma-separated       |
-| Damage reporting path                 | `{detailed_work_type} - {activities} - {site name}`  | YhWlKB ("Give a description of the damaging activity")           | MoCXGK ("SSSI name for damage report"), parsed from "ID---Name" format                                              |
-| Drone flying path                     | `{detailed_work_type} - {activities} - {site name}`  | mtiMfk ("Tell us more about the proposed drone flying activity") | PxvdiH ("SSSI name for drone flying"), parsed from "ID---Name" format                                               |
-| General topics: "Something else" path | `{detailed_work_type} - {free text question}`        | (no activity fields on this path)                                | QmIGor ("What is your question?") — only when xzEslQ = "Something else" and QmIGor has a value                      |
-| General topics: all other topics      | `{detailed_work_type}`                               | (no activity fields on this path)                                | No site names collected                                                                                             |
+| Path                                  | Format                                                            | Activity source                                                  | Site name source                                                                                                    |
+| ------------------------------------- | ----------------------------------------------------------------- | ---------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| HRA path                              | `{detailed_work_type} - {activities} - {site names} - {MCZ name}` | nJVeix ("Tell us about the proposed activities")                 | European site names from repeater TJuSNf [rtuWky ("EU site name")], parsed from "ID---Name" format, comma-separated |
+| S28I SSSI path                        | `{detailed_work_type} - {activities} - {site names} - {MCZ name}` | nJVeix ("Tell us about the proposed activities")                 | SSSI names from repeater entries [Avdzxa ("SSSI site name")], parsed from "ID---Name" format, comma-separated       |
+| Damage reporting path                 | `{detailed_work_type} - {activities} - {site name} - {MCZ name}`  | YhWlKB ("Give a description of the damaging activity")           | MoCXGK ("SSSI name for damage report"), parsed from "ID---Name" format                                              |
+| Drone flying path                     | `{detailed_work_type} - {activities} - {site name} - {MCZ name}`  | mtiMfk ("Tell us more about the proposed drone flying activity") | PxvdiH ("SSSI name for drone flying"), parsed from "ID---Name" format                                               |
+| General topics: "Something else" path | `{detailed_work_type} - {free text question}`                     | (no activity fields on this path)                                | QmIGor ("What is your question?") — only when xzEslQ = "Something else" and QmIGor has a value                      |
+| General topics: all other topics      | `{detailed_work_type}`                                            | (no activity fields on this path)                                | No site names collected                                                                                             |
 
 **Notes:**
 
 - Activity fields are path-specific; only one will be present in any given submission.
 - Activities segment is omitted when the relevant field is absent.
 - Site names are collected via a precedence chain: HRA European sites > S28I SSSI sites > damage SSSI > drone SSSI > none.
+- The MCZ name is appended as a trailing segment on the activity/sites path only; it is never added on the "Something else" or fallback paths.
 - Parts are joined with `-` (space-dash-space).
+
+### MCZ name segment
+
+When the planned activities may affect a Marine Conservation Zone, a trailing MCZ-name segment is appended to the `description` (and, within the 254-character limit, to the `email_header`). The MCZ pages sit on the activity/sites path, so this segment only ever appears there.
+
+| Source field                                                 | When appended                                                                                                                       | Parsing                                        |
+| ------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------- |
+| joWQbp ("What is the name of the Marine Conservation Zone?") | ezHrva ("Could the planned activities likely affect a Marine Conservation Zone (MCZ)?") is answered (truthy) AND joWQbp has a value | parsed from "ID---Name" format via `parseName` |
+
+- The segment is omitted when the MCZ question ezHrva is not answered, or when no zone name is given in joWQbp.
+- In practice the real gate is whether joWQbp has a value: the name page is only shown on the "Yes" branch of ezHrva.
 
 ## consulting_body_type
 
@@ -173,15 +187,16 @@ Always from field **YOPYRe** ("Email address").
 
 ## SSSI_info
 
-Array of `{ SSSI_id, coordinates }` objects, populated from two possible sources:
+Array of `{ SSSI_id, coordinates }` objects, populated from one of several mutually exclusive question paths (first match wins):
 
 SSSI_id values are parsed as integers from the string form field value. An error is thrown if a non-empty value cannot be parsed.
 
-| Source                              | SSSI_id field                                            | Coordinates field             | When used                                                         |
-| ----------------------------------- | -------------------------------------------------------- | ----------------------------- | ----------------------------------------------------------------- |
-| Repeater entries (S28I/HRA path)    | Avdzxa ("SSSI site ID", parsed as integer)               | NMCFES ("Activity location")  | When repeater contains entries with Avdzxa                        |
-| Main fields (damage reporting path) | MoCXGK ("SSSI site ID for damage", parsed as integer)    | rSJTFC ("Location of damage") | When no repeater SSSI data exists AND MoCXGK is present           |
-| Main fields (drone flying path)     | PxvdiH ("SSSI name for drone flying", parsed as integer) | (none)                        | When no repeater or damage SSSI data exists AND PxvdiH is present |
+| Source                              | SSSI_id field                                                          | Coordinates field                                     | When used                                                                                                                                                                                                      |
+| ----------------------------------- | ---------------------------------------------------------------------- | ----------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Repeater entries (S28I/HRA path)    | Avdzxa ("SSSI site ID", parsed as integer)                             | NMCFES ("Activity location")                          | When repeater contains entries with Avdzxa                                                                                                                                                                     |
+| Main fields (damage reporting path) | MoCXGK ("SSSI site ID for damage", parsed as integer)                  | rSJTFC ("Location of damage")                         | When no repeater SSSI data exists AND MoCXGK is present                                                                                                                                                        |
+| Main fields (drone flying path)     | PxvdiH ("SSSI name for drone flying", parsed as integer)               | (none)                                                | When no repeater or damage SSSI data exists AND PxvdiH is present                                                                                                                                              |
+| Main fields (topic-question path)   | bjblyN ("Which SSSI does your question relate to?", parsed as integer) | uhYhpV ("Where does your question relate?"), optional | When none of the above apply AND bjblyN is present. Coordinates included whenever uhYhpV is populated, independent of the hYybKm ("Do you know the location…?") Yes/No — uhYhpV only renders when hYybKm = Yes |
 
 Coordinates are formatted as `"<easting>,<northing>"`.
 
@@ -226,24 +241,24 @@ This section identifies all scenarios where output fields sent to the University
 
 ### Fields that may be empty arrays
 
-| Field            | Condition producing empty array                                                              | Realistic scenario?                                                                                                                          |
-| ---------------- | -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
-| `SSSI_info`      | No SSSI repeater entries via Avdzxa, no damage SSSI via MoCXGK, and no drone SSSI via PxvdiH | **Expected** — general topic paths (NNRs, pre-consent, pre-assent, SSSI sale, something else) do not collect SSSI data. See Examples 5, 7, 9 |
-| `euro_site_info` | Not on HRA path, or HRA path with no European site entries                                   | **Expected** — all non-HRA paths produce an empty array. See Examples 2, 4, 5, 6, 7, 9                                                       |
+| Field            | Condition producing empty array                                                                                                 | Realistic scenario?                                                                                                                                                                                                                                                   |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `SSSI_info`      | No SSSI repeater entries via Avdzxa, no damage SSSI via MoCXGK, no drone SSSI via PxvdiH, and no topic-question SSSI via bjblyN | **Expected** — only paths that omit an SSSI name (e.g. pre-assent, or a topic-question route where the SSSI page was not reached). Topic-question routes that answer bjblyN ("Which SSSI does your question relate to?") now populate SSSI_info. See Examples 5, 7, 9 |
+| `euro_site_info` | Not on HRA path, or HRA path with no European site entries                                                                      | **Expected** — all non-HRA paths produce an empty array. See Examples 2, 4, 5, 6, 7, 9                                                                                                                                                                                |
 
 ### Key empty value scenarios by form path
 
-| Path                       | `public_body` | `SSSI_info` | `euro_site_info` | Notes                                                                                                                                        |
-| -------------------------- | ------------- | ----------- | ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
-| FC HRA with SSSI impact    | FC name       | Populated   | Populated        | All fields populated                                                                                                                         |
-| FC S28I with SSSI impact   | FC name       | Populated   | `[]` empty       | No European sites on S28I path                                                                                                               |
-| S28G HRA with SSSI impact  | Body name     | Populated   | Populated        | All fields populated                                                                                                                         |
-| S28G S28I with SSSI impact | Body name     | Populated   | `[]` empty       | No European sites on S28I path                                                                                                               |
-| Direct LPA (any path)      | `""` empty    | Varies      | Varies           | `public_body` is always empty for direct LPA users — PvUZyQ ("Which government agency do you work for?") not set                             |
-| General: Pre-consent       | `""` empty    | `[]` empty  | `[]` empty       | No SSSI or European site data collected on general question path                                                                             |
-| General: NNRs              | `""` empty    | `[]` empty  | `[]` empty       | No SSSI or European site data collected on general question path                                                                             |
-| General: Damage report     | `""` empty    | Populated   | `[]` empty       | SSSI from damage fields MoCXGK ("SSSI name for damage report") / rSJTFC ("Where on the SSSI has the damage taken place?"), no European sites |
-| General: Drones (MoP only) | `""` empty    | Populated   | `[]` empty       | SSSI from drone field PxvdiH ("What is the name of the SSSI?"), no coordinates collected; no European sites                                  |
-| General: SSSI sale         | `""` empty    | `[]` empty  | `[]` empty       | No SSSI or European site data collected                                                                                                      |
-| General: Something else    | `""` empty    | `[]` empty  | `[]` empty       | No SSSI or European site data collected                                                                                                      |
-| Consultant for Landowner   | `""` empty    | `[]` empty  | `[]` empty       | `public_body` empty because PBmxNM ("Who are you working on behalf of?") = Landowner doesn't resolve to a body name                          |
+| Path                       | `public_body` | `SSSI_info`                               | `euro_site_info` | Notes                                                                                                                                                |
+| -------------------------- | ------------- | ----------------------------------------- | ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| FC HRA with SSSI impact    | FC name       | Populated                                 | Populated        | All fields populated                                                                                                                                 |
+| FC S28I with SSSI impact   | FC name       | Populated                                 | `[]` empty       | No European sites on S28I path                                                                                                                       |
+| S28G HRA with SSSI impact  | Body name     | Populated                                 | Populated        | All fields populated                                                                                                                                 |
+| S28G S28I with SSSI impact | Body name     | Populated                                 | `[]` empty       | No European sites on S28I path                                                                                                                       |
+| Direct LPA (any path)      | `""` empty    | Varies                                    | Varies           | `public_body` is always empty for direct LPA users — PvUZyQ ("Which government agency do you work for?") not set                                     |
+| General: Pre-consent       | `""` empty    | Populated when bjblyN answered, else `[]` | `[]` empty       | SSSI from topic-question fields bjblyN ("Which SSSI does your question relate to?") / uhYhpV ("Where does your question relate?"); no European sites |
+| General: NNRs              | `""` empty    | Populated when bjblyN answered, else `[]` | `[]` empty       | SSSI from topic-question fields bjblyN / uhYhpV; no European sites                                                                                   |
+| General: Damage report     | `""` empty    | Populated                                 | `[]` empty       | SSSI from damage fields MoCXGK ("SSSI name for damage report") / rSJTFC ("Where on the SSSI has the damage taken place?"), no European sites         |
+| General: Drones (MoP only) | `""` empty    | Populated                                 | `[]` empty       | SSSI from drone field PxvdiH ("What is the name of the SSSI?"), no coordinates collected; no European sites                                          |
+| General: SSSI sale         | `""` empty    | `[]` empty                                | `[]` empty       | No SSSI or European site data collected                                                                                                              |
+| General: Something else    | `""` empty    | `[]` empty                                | `[]` empty       | No SSSI or European site data collected                                                                                                              |
+| Consultant for Landowner   | `""` empty    | `[]` empty                                | `[]` empty       | `public_body` empty because PBmxNM ("Who are you working on behalf of?") = Landowner doesn't resolve to a body name                                  |

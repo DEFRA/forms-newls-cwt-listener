@@ -31,8 +31,8 @@ flowchart TD
 
     %% ===== description (primary segment) =====
     subgraph OutDescription["description (primary segment — scheme and/or activities)"]
-        DESC_SCHEME_Q{"rTreXu present?<br />What land management scheme<br />does this notice relate to?"}
-        DESC_SCHEME_Q -->|Yes| DESC_SCHEME["Scheme text<br />(listed first)"]
+        DESC_SCHEME_Q{"Scheme/permission label present?<br />rTreXu (scheme), aIixRu (Other schemes),<br />or VacBun (another permission)"}
+        DESC_SCHEME_Q -->|Yes| DESC_SCHEME["Scheme or permission text<br />(listed first)"]
         DESC_SCHEME_Q -->|No| DESC_Q
         DESC_SCHEME --> DESC_Q
         DESC_Q{"Repeater gzSkgC (Activity)<br />has entries?<br />(single SSSI activities)"}
@@ -105,7 +105,11 @@ flowchart TD
         AR_Q -->|"CSHT / CSMT /<br />CS Capital Grants"| AR_CS["WZJDQG<br />What's your Countryside<br />Stewardship agreement<br />reference number?"]
         AR_Q -->|"HLS agreement"| AR_HLS["OFiizI<br />What is your HLS<br />agreement reference number?"]
         AR_Q -->|"SFI agreement"| AR_SFI["niVAkO<br />What's your SFI<br />agreement number?"]
-        AR_Q -->|"Not present /<br />other scheme"| AR_EMPTY["'' (empty)"]
+        AR_Q -->|"Not present /<br />other scheme /<br />another permission"| AR_Q2{"WtpFqT present?<br />What is the scheme<br />reference number?"}
+        AR_Q2 -->|Yes| AR_WTP["WtpFqT value"]
+        AR_Q2 -->|No| AR_Q3{"Uureah present?<br />What is the reference number<br />for this permission?"}
+        AR_Q3 -->|Yes| AR_UUR["Uureah value"]
+        AR_Q3 -->|No| AR_EMPTY["'' (empty)"]
     end
     MAIN --> AR_Q
 

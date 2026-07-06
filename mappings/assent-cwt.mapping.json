@@ -102,6 +102,22 @@
               "text": "What is the name of the land management scheme?"
             }
           }
+        },
+        {
+          "when": {
+            "question": {
+              "id": "VacBun",
+              "text": "What is the name of the permission?"
+            },
+            "operator": "isAnswered"
+          },
+          "value": {
+            "type": "answer",
+            "question": {
+              "id": "VacBun",
+              "text": "What is the name of the permission?"
+            }
+          }
         }
       ],
       "else": {
@@ -194,6 +210,28 @@
         "text": "What is the name of the European site?"
       },
       "transforms": ["parseName"]
+    },
+    "mczName": {
+      "type": "conditional",
+      "cases": [
+        {
+          "when": {
+            "question": {
+              "id": "eaYOCX",
+              "text": "Could the planned activities likely affect a Marine Conservation Zone (MCZ)?"
+            },
+            "operator": "isTruthy"
+          },
+          "value": {
+            "type": "answer",
+            "question": {
+              "id": "pwSMNt",
+              "text": "What is the name of the Marine Conservation Zone?"
+            },
+            "transforms": ["parseName"]
+          }
+        }
+      ]
     }
   },
   "rules": [
@@ -248,7 +286,7 @@
     },
     {
       "id": "description",
-      "description": "Scheme/activities, SSSI names then European site names, unlimited length",
+      "description": "Scheme/activities, SSSI names, European site names then MCZ name, unlimited length",
       "target": "description",
       "value": {
         "type": "joinSegments",
@@ -257,7 +295,8 @@
         "segments": [
           { "value": { "type": "ref", "name": "primarySegment" } },
           { "value": { "type": "ref", "name": "sssiNames" } },
-          { "value": { "type": "ref", "name": "euroSiteNames" } }
+          { "value": { "type": "ref", "name": "euroSiteNames" } },
+          { "value": { "type": "ref", "name": "mczName" } }
         ]
       }
     },
@@ -405,12 +444,12 @@
     },
     {
       "id": "email-header",
-      "description": "Same segments as the description, limited to 255 characters with site names fitted into the remaining space",
+      "description": "Same segments as the description, limited to 254 characters with site and MCZ names fitted into the remaining space",
       "target": "email_header",
       "value": {
         "type": "joinSegments",
         "separator": " - ",
-        "maxLength": 255,
+        "maxLength": 254,
         "fallback": "S28H Assent",
         "segments": [
           { "value": { "type": "ref", "name": "primarySegment" } },
@@ -421,20 +460,36 @@
           {
             "value": { "type": "ref", "name": "euroSiteNames" },
             "overflow": "fitNames"
+          },
+          {
+            "value": { "type": "ref", "name": "mczName" },
+            "overflow": "fitNames"
           }
         ]
       }
     },
     {
       "id": "sbi",
-      "description": "Omitted when not provided",
+      "description": "SBI from the main SBI question, falling back to the address details page; omitted when neither is provided",
       "target": "SBI",
       "value": {
-        "type": "answer",
-        "question": {
-          "id": "ylXSKE",
-          "text": "What is the Single Business Identifier (SBI) number of where the activities will take place?"
-        },
+        "type": "firstAnswered",
+        "values": [
+          {
+            "type": "answer",
+            "question": {
+              "id": "ylXSKE",
+              "text": "What is the Single Business Identifier (SBI) number of where the activities will take place?"
+            }
+          },
+          {
+            "type": "answer",
+            "question": {
+              "id": "IOetrS",
+              "text": "Single business identifier (SBI)"
+            }
+          }
+        ],
         "transforms": ["toNumber"]
       }
     },
@@ -493,14 +548,26 @@
     },
     {
       "id": "agreement-reference.fallback",
-      "description": "Other schemes (and no scheme) use the optional scheme reference number",
+      "description": "Other schemes use the scheme reference number; the 'another permission' branch uses its own permission reference number (Uureah). Both optional",
       "target": "agreement_reference",
       "value": {
-        "type": "answer",
-        "question": {
-          "id": "WtpFqT",
-          "text": "What is the scheme reference number?"
-        },
+        "type": "firstAnswered",
+        "values": [
+          {
+            "type": "answer",
+            "question": {
+              "id": "WtpFqT",
+              "text": "What is the scheme reference number?"
+            }
+          },
+          {
+            "type": "answer",
+            "question": {
+              "id": "Uureah",
+              "text": "What is the reference number for this permission?"
+            }
+          }
+        ],
         "default": ""
       }
     },

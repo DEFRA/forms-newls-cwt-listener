@@ -2,7 +2,7 @@
 
 This document describes how the `description` and `email_header` output properties are generated for each of the three forms (Advice, Assent, Consent).
 
-The `email_header` property uses identical source data and precedence to the `description` property. The only difference is that `email_header` is truncated to a maximum of **255 characters** (`EMAIL_HEADER_MAX_LENGTH`). When truncation is required:
+The `email_header` property uses identical source data and precedence to the `description` property. The only difference is that `email_header` is truncated to a maximum of **254 characters** (`EMAIL_HEADER_MAX_LENGTH`). When truncation is required:
 
 - If multiple names need to fit, `fitNames()` progressively drops trailing names and appends `" (+N more)"`.
 - If a single segment still overflows, it is truncated and suffixed with `"..."`.
@@ -20,7 +20,7 @@ Source files:
 
 ### `description`
 
-Format: `[detailed_work_type] - [activities] - [site names]` (activities and site names each omitted when not present). When neither activities nor site names apply and the general-topic path was chosen with `xzEslQ = "Something else"`, the `QmIGor` free-text question is appended instead.
+Format: `[detailed_work_type] - [activities] - [site names] - [MCZ name]` (activities, site names and MCZ name each omitted when not present). The MCZ name is only appended on the activity/sites path (see the MCZ-name segment below). When neither activities nor site names apply and the general-topic path was chosen with `xzEslQ = "Something else"`, the `QmIGor` free-text question is appended instead.
 
 `detailed_work_type` is itself derived with its own precedence (NVRbCy → YOwPAJ → xzEslQ). The `detailed_work_type` table is included below for completeness.
 
@@ -72,15 +72,27 @@ Only one of these fields will be present in any given submission (they are path-
 | 5 (General-topic free-text path) | No site names AND no activities AND `xzEslQ = "Something else"` AND `QmIGor` present                                   | **QmIGor** — "What is your question?"                                                         | The free-text question (replaces the site-name suffix)                  |
 | 6 (General-topic default)        | No site names and not the free-text path                                                                               | —                                                                                             | No suffix                                                               |
 
+#### MCZ-name segment
+
+Appended after the site names on the activity/sites path only (the rule guarded by `hasActivity` OR `hasSiteNames`). It is not added on the "Something else" free-text path or the fallback path.
+
+| Precedence | Prerequisites                                   | Driving question(s)                                                                                                                                           | Segment appended                 |
+| ---------- | ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------- |
+| 1          | `ezHrva` answered (truthy) AND `joWQbp` present | **ezHrva** — "Could the planned activities likely affect a Marine Conservation Zone (MCZ)?"; **joWQbp** — "What is the name of the Marine Conservation Zone?" | One MCZ name (after `parseName`) |
+| 2          | MCZ question not answered, or no name given     | —                                                                                                                                                             | No MCZ segment                   |
+
+The effective gate is whether `joWQbp` holds a value — the name page is only shown on the "Yes" branch, so the segment is naturally absent otherwise.
+
 ### `email_header`
 
 Same data and precedence as `description`. Differences:
 
-- Capped at **255 chars**.
+- Capped at **254 chars**.
 - For the activities segment: if `detailed_work_type + activities` leaves insufficient room for site names, the activity text is truncated with `"..."` to make space for the first site name.
 - For site-name suffixes, `fitNames()` trims trailing names and adds `" (+N more)"`.
+- The MCZ name (activity/sites path) is appended after the site names as a `fitNames()` segment, fitted into whatever space remains.
 - For the free-text (`QmIGor`) suffix (no activities or site names), the whole string is truncated with `"..."` if too long.
-- If even `detailed_work_type` alone exceeds 255 chars, it is truncated with `"..."`.
+- If even `detailed_work_type` alone exceeds 254 chars, it is truncated with `"..."`.
 
 ---
 
@@ -88,20 +100,21 @@ Same data and precedence as `description`. Differences:
 
 ### `description`
 
-Format: `[scheme and/or activities] - [SSSI names] - [European site names]`. Empty segments are omitted. Fallback when all segments are empty: `S28H Assent`.
+Format: `[scheme and/or activities] - [SSSI names] - [European site names] - [MCZ name]`. Empty segments are omitted. Fallback when all segments are empty: `S28H Assent`.
 
 #### Primary segment (scheme and/or activities)
 
 Scheme and activities are independent: both are included when both are present. The segment is built by joining (with `, `) the scheme text (if selected) followed by the activities list (if any).
 
-| Source                  | Prerequisites                                          | Driving question(s)                                                                                                                        | Contribution                                                                   |
-| ----------------------- | ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ |
-| Scheme                  | `rTreXu` selected, value ≠ `Other schemes`             | **rTreXu** — "What land management scheme does this notice relate to?"                                                                     | The scheme text verbatim                                                       |
-| Scheme (Other)          | `rTreXu` = `Other schemes` and `aIixRu` provided       | **aIixRu** — "What is the name of the land management scheme?" (shown only when `Other schemes` is selected)                               | The free-text scheme name; replaces the literal `Other schemes` in the segment |
-| Scheme (Other) fallback | `rTreXu` = `Other schemes` and `aIixRu` blank          | **rTreXu** — "What land management scheme does this notice relate to?"                                                                     | The literal text `Other schemes`                                               |
-| Activities 1            | Single-SSSI path: repeater `gzSkgC` populated          | **lGsnXi** — "What activity is planned to be carried out?" (repeater `gzSkgC` "Activities requiring Natural England's assent")             | Unique activities joined by `, `                                               |
-| Activities 2            | Otherwise multi-SSSI path: repeater `QxIzSB` populated | **iNDqRN** — "What activity is planned to be carried out?" (repeater `QxIzSB` "Site name and activities requiring Natural England assent") | Unique activities joined by `, `                                               |
-| Fallback                | No scheme and no activities                            | —                                                                                                                                          | Empty                                                                          |
+| Source                  | Prerequisites                                                                                | Driving question(s)                                                                                                                        | Contribution                                                                                                |
+| ----------------------- | -------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------- |
+| Scheme                  | `rTreXu` selected, value ≠ `Other schemes`                                                   | **rTreXu** — "What land management scheme does this notice relate to?"                                                                     | The scheme text verbatim                                                                                    |
+| Scheme (Other)          | `rTreXu` = `Other schemes` and `aIixRu` provided                                             | **aIixRu** — "What is the name of the land management scheme?" (shown only when `Other schemes` is selected)                               | The free-text scheme name; replaces the literal `Other schemes` in the segment                              |
+| Scheme (Other) fallback | `rTreXu` = `Other schemes` and `aIixRu` blank                                                | **rTreXu** — "What land management scheme does this notice relate to?"                                                                     | The literal text `Other schemes`                                                                            |
+| Permission              | `VacBun` provided (the "…or another permission?" branch, no land management scheme selected) | **VacBun** — "What is the name of the permission?"                                                                                         | The permission name; opens the segment in place of a scheme (mutually exclusive with the scheme rows above) |
+| Activities 1            | Single-SSSI path: repeater `gzSkgC` populated                                                | **lGsnXi** — "What activity is planned to be carried out?" (repeater `gzSkgC` "Activities requiring Natural England's assent")             | Unique activities joined by `, `                                                                            |
+| Activities 2            | Otherwise multi-SSSI path: repeater `QxIzSB` populated                                       | **iNDqRN** — "What activity is planned to be carried out?" (repeater `QxIzSB` "Site name and activities requiring Natural England assent") | Unique activities joined by `, `                                                                            |
+| Fallback                | No scheme and no activities                                                                  | —                                                                                                                                          | Empty                                                                                                       |
 
 #### SSSI-names segment
 
@@ -119,20 +132,30 @@ Scheme and activities are independent: both are included when both are present. 
 | 1          | Repeater `aQYWxD` entries with `IzQfir` present | **IzQfir** — "What is the name of the European site?" (repeater `aQYWxD` "European site affected") | All parsed European site names |
 | 2          | No such entries                                 | —                                                                                                  | Empty                          |
 
+#### MCZ-name segment
+
+| Precedence | Prerequisites                                   | Driving question(s)                                                                                                                                           | Result                           |
+| ---------- | ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------- |
+| 1          | `eaYOCX` answered (truthy) AND `pwSMNt` present | **eaYOCX** — "Could the planned activities likely affect a Marine Conservation Zone (MCZ)?"; **pwSMNt** — "What is the name of the Marine Conservation Zone?" | One MCZ name (after `parseName`) |
+| 2          | MCZ question not answered, or no name given     | —                                                                                                                                                             | Empty                            |
+
+The effective gate is whether `pwSMNt` holds a value — the name page is only shown on the "Yes" branch, so the segment is naturally absent otherwise.
+
 #### Fallback
 
-| Precedence | Prerequisites                                                | Result        |
-| ---------- | ------------------------------------------------------------ | ------------- |
-| Final      | Primary empty AND SSSI names empty AND Euro site names empty | `S28H Assent` |
+| Precedence | Prerequisites                                                                | Result        |
+| ---------- | ---------------------------------------------------------------------------- | ------------- |
+| Final      | Primary empty AND SSSI names empty AND Euro site names empty AND no MCZ name | `S28H Assent` |
 
 ### `email_header`
 
 Same data and precedence as `description`. Difference:
 
-- Total length capped at **255 chars**.
+- Total length capped at **254 chars**.
 - SSSI-names segment is fitted via `fitNames()`, reserving space for at least the first Euro-site name if any are present.
 - Euro-site-names segment is fitted via `fitNames()` with whatever remains.
-- If, after all fitting, the result still overruns 255 chars, it is truncated and suffixed with `"..."`.
+- MCZ-name segment (when present) is fitted via `fitNames()` after the Euro-site names with whatever remains.
+- If, after all fitting, the result still overruns 254 chars, it is truncated and suffixed with `"..."`.
 - Fallback remains `S28H Assent` when all segments are empty.
 
 ---
@@ -141,20 +164,22 @@ Same data and precedence as `description`. Difference:
 
 ### `description`
 
-Format: `[scheme and/or activities] - [SSSI names]`. Empty segments are omitted. Fallback when both segments are empty: `S28E Consent`.
+Format: `[scheme and/or activities] - [SSSI names] - [European site names]`. Empty segments are omitted. Fallback when all segments are empty: `S28E Consent`.
 
 #### Primary segment (scheme and/or activities)
 
 Scheme and activities are independent: both are included when both are present. The segment is built by joining (with `, `) the scheme text (if selected) followed by the activities list (if any).
 
-| Source                  | Prerequisites                                             | Driving question(s)                                                                                                                      | Contribution                                                                   |
-| ----------------------- | --------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
-| Scheme                  | `rTreXu` selected, value ≠ `Other schemes`                | **rTreXu** — "What land management scheme does this notice relate to?"                                                                   | The scheme text verbatim                                                       |
-| Scheme (Other)          | `rTreXu` = `Other schemes` and `aIixRu` provided          | **aIixRu** — "What is the name of the land management scheme?" (shown only when `Other schemes` is selected)                             | The free-text scheme name; replaces the literal `Other schemes` in the segment |
-| Scheme (Other) fallback | `rTreXu` = `Other schemes` and `aIixRu` blank             | **rTreXu** — "What land management scheme does this notice relate to?"                                                                   | The literal text `Other schemes`                                               |
-| Activities 1            | Repeater `iTBHrY` populated (single-SSSI non-scheme path) | **hqsZMS** — "Which activity do you plan to carry out?" (repeater `iTBHrY` "Operations requiring Natural England consent")               | Unique activities joined by `, `                                               |
-| Activities 2            | Otherwise repeater `cwZgSE` populated (multi-SSSI path)   | **BscJLV** — "Which activity do you plan to carry out?" (repeater `cwZgSE` "Site name and operations requiring Natural England consent") | Unique activities joined by `, `                                               |
-| Fallback                | No scheme and no activities                               | —                                                                                                                                        | Empty                                                                          |
+| Source                  | Prerequisites                                                                                              | Driving question(s)                                                                                                                      | Contribution                                                                                                |
+| ----------------------- | ---------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| Scheme                  | `rTreXu` selected, value ≠ `Other schemes`                                                                 | **rTreXu** — "What land management scheme does this notice relate to?"                                                                   | The scheme text verbatim                                                                                    |
+| Scheme (Other)          | `rTreXu` = `Other schemes` and `aIixRu` provided                                                           | **aIixRu** — "What is the name of the land management scheme?" (shown only when `Other schemes` is selected)                             | The free-text scheme name; replaces the literal `Other schemes` in the segment                              |
+| Scheme (Other) fallback | `rTreXu` = `Other schemes` and `aIixRu` blank                                                              | **rTreXu** — "What land management scheme does this notice relate to?"                                                                   | The literal text `Other schemes`                                                                            |
+| Permission              | `VacBun` provided (the "…or another permission?" branch, no land management scheme selected)               | **VacBun** — "What is the name of the permission?"                                                                                       | The permission name; opens the segment in place of a scheme (mutually exclusive with the scheme rows above) |
+| Activities 1            | Repeater `iTBHrY` populated (single-SSSI non-scheme path)                                                  | **hqsZMS** — "Which activity do you plan to carry out?" (repeater `iTBHrY` "Operations requiring Natural England consent")               | Unique activities joined by `, `                                                                            |
+| Activities 2            | Otherwise repeater `cwZgSE` populated (multi-SSSI path)                                                    | **BscJLV** — "Which activity do you plan to carry out?" (repeater `cwZgSE` "Site name and operations requiring Natural England consent") | Unique activities joined by `, `                                                                            |
+| Activities 3 (SFI)      | Otherwise `rTreXu` starts with SFI and `qocAEz` selected (guarded by `isSfiScheme`; ORNEC repeaters empty) | **qocAEz** — "Which SFI action codes involve operations that need Natural England consent?" (page-20 multi-select)                       | Selected action codes joined by `, `                                                                        |
+| Fallback                | No scheme and no activities                                                                                | —                                                                                                                                        | Empty                                                                                                       |
 
 #### SSSI-names segment
 
@@ -165,18 +190,28 @@ Scheme and activities are independent: both are included when both are present. 
 | 3          | `hozdvW` missing and `cwZgSE` empty; repeater `gWZwzI` populated (multi-SSSI scheme path) | **gVlMxz** — "What is the name of the SSSI where activities are planned?" (repeater `gWZwzI` "Sites where you plan to carry out activities") | Parsed SSSI names        |
 | 4          | None present                                                                              | —                                                                                                                                            | Empty                    |
 
+#### European-site-names segment
+
+Collected from the same repeater/field used for the structured `euro_site_info`, but parsed to the human-readable name (mirrors the Assent form).
+
+| Precedence | Prerequisites                                   | Driving question(s)                                                                       | Result                         |
+| ---------- | ----------------------------------------------- | ----------------------------------------------------------------------------------------- | ------------------------------ |
+| 1          | Repeater `hwaByT` entries with `FqfxKM` present | **FqfxKM** — "What is the name of the European site?" (repeater `hwaByT` "European site") | All parsed European site names |
+| 2          | No such entries                                 | —                                                                                         | Empty                          |
+
 #### Fallback
 
-| Precedence | Prerequisites                      | Result         |
-| ---------- | ---------------------------------- | -------------- |
-| Final      | Primary empty AND SSSI names empty | `S28E Consent` |
+| Precedence | Prerequisites                                                | Result         |
+| ---------- | ------------------------------------------------------------ | -------------- |
+| Final      | Primary empty AND SSSI names empty AND Euro site names empty | `S28E Consent` |
 
 ### `email_header`
 
 Same data and precedence as `description`. Differences:
 
-- Capped at **255 chars**.
+- Capped at **254 chars**.
 - If only the primary is present: truncated with `"..."` if too long.
-- If only SSSI names are present: fitted via `fitNames()` into the full 255 chars.
-- If both are present: `primary - ` is the prefix; the SSSI-names list is fitted into the remaining space via `fitNames()` (which adds `" (+N more)"` when dropping names). If nothing fits, the primary alone is truncated to 255 chars.
-- Fallback remains `S28E Consent` when both segments are empty.
+- The SSSI-names list is fitted via `fitNames()` (which adds `" (+N more)"` when dropping names), reserving space for at least the first Euro-site name if any are present.
+- The Euro-site-names list is fitted via `fitNames()` with whatever space remains.
+- If nothing fits after the prefix, the primary alone is truncated to 254 chars; if the whole result still overruns, it is truncated with `"..."`.
+- Fallback remains `S28E Consent` when all segments are empty.

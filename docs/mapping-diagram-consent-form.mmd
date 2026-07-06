@@ -89,23 +89,27 @@ flowchart TD
         AR_Q -->|"CSHT / CSMT /<br />CS Capital Grants"| AR_CS["WZJDQG<br />What's your Countryside<br />Stewardship agreement<br />reference number?"]
         AR_Q -->|"HLS agreement"| AR_HLS["OFiizI<br />What's your HLS<br />agreement reference number?"]
         AR_Q -->|"SFI agreement"| AR_SFI["niVAkO<br />What's your SFI<br />agreement number?"]
-        AR_Q -->|"Not present /<br />other scheme"| AR_Q2{"VacBun present?<br />What is the name<br />of the permission?"}
-        AR_Q2 -->|Yes| AR_VAC["VacBun value"]
-        AR_Q2 -->|No| AR_EMPTY["'' (empty)"]
+        AR_Q -->|"Not present /<br />other scheme /<br />another permission"| AR_Q2{"WtpFqT present?<br />What is the scheme<br />reference number?"}
+        AR_Q2 -->|Yes| AR_WTP["WtpFqT value"]
+        AR_Q2 -->|No| AR_Q3{"Uureah present?<br />Give the reference number<br />for this permission<br />if available"}
+        AR_Q3 -->|Yes| AR_UUR["Uureah value"]
+        AR_Q3 -->|No| AR_EMPTY["'' (empty)"]
     end
     MAIN --> AR_Q
 
     %% ===== email_header =====
-    subgraph OutEmailHeader["email_header (primary segment — scheme and/or activities, plus SSSI names, truncated to 255 chars)"]
-        EH_SCHEME_Q{"rTreXu present?<br />What land management scheme<br />does this notice relate to?"}
-        EH_SCHEME_Q -->|Yes| EH_SCHEME["Scheme text<br />(listed first)"]
+    subgraph OutEmailHeader["email_header (primary segment — scheme and/or activities, plus SSSI names, truncated to 254 chars)"]
+        EH_SCHEME_Q{"Scheme/permission label present?<br />rTreXu (scheme), aIixRu (Other schemes),<br />or VacBun (another permission)"}
+        EH_SCHEME_Q -->|Yes| EH_SCHEME["Scheme or permission text<br />(listed first)"]
         EH_SCHEME_Q -->|No| EH_Q
         EH_SCHEME --> EH_Q
         EH_Q{"Repeater iTBHrY (Activity)<br />has entries?"}
         EH_Q -->|"Yes & hqsZMS present"| EH_SINGLE["Unique hqsZMS values<br />(appended after scheme,<br />comma-joined)"]
         EH_Q -->|No| EH_Q2{"Repeater cwZgSE (Activity)<br />has entries?"}
         EH_Q2 -->|"Yes & BscJLV present"| EH_MULTI["Unique BscJLV values<br />(appended after scheme,<br />comma-joined)"]
-        EH_Q2 -->|No| EH_NOACT["No activities<br />(scheme only, or fallback<br />'S28E Consent' when all segments empty)"]
+        EH_Q2 -->|No| EH_SFI_Q{"rTreXu starts with SFI<br />& qocAEz selected?"}
+        EH_SFI_Q -->|Yes| EH_SFI["qocAEz values<br />(SFI action codes, page 20,<br />appended after scheme,<br />comma-joined)"]
+        EH_SFI_Q -->|No| EH_NOACT["No activities<br />(scheme only, or fallback<br />'S28E Consent' when all segments empty)"]
     end
     MAIN --> EH_SCHEME_Q
     REP --> EH_Q
@@ -120,7 +124,9 @@ flowchart TD
         subgraph SSSI_SINGLE["Single SSSI Path (hozdvW = SSSI ID)"]
             SS_Q{"Repeater iTBHrY (Activity)<br />has entries?"}
             SS_Q -->|Yes| SS_ORNEC["SSSI_id = hozdvW (parsed as integer)<br />coordinates = QKdhfh values<br />(Where do you plan to carry<br />out this activity? easting,northing)<br />joined with ';'<br />ornec = hqsZMS values<br />(Which activity?<br />comma-joined)"]
-            SS_Q -->|No| SS_Q2{"JPohUD present?<br />(Easting/Northing coordinates)"}
+            SS_Q -->|No| SS_SFI_Q{"rTreXu starts with<br />SFI agreement?"}
+            SS_SFI_Q -->|Yes| SS_SFI["SSSI_id = hozdvW (parsed as integer)<br />coordinates = JPohUD<br />(easting,northing)<br />ornec = qocAEz values<br />(SFI action codes, page 20,<br />comma-joined)"]
+            SS_SFI_Q -->|No| SS_Q2{"JPohUD present?<br />(Easting/Northing coordinates)"}
             SS_Q2 -->|Yes| SS_SCHEME["SSSI_id = hozdvW (parsed as integer)<br />coordinates = JPohUD<br />(easting,northing)<br />ornec = ''"]
             SS_Q2 -->|No| SS_EMPTY["SSSI_id = hozdvW (parsed as integer)<br />coordinates = ''<br />ornec = ''"]
         end
@@ -128,7 +134,9 @@ flowchart TD
         subgraph SSSI_MULTI["Multiple SSSI Path"]
             SM_Q{"Repeater cwZgSE (Activity)<br />has entries?"}
             SM_Q -->|Yes| SM_ORNEC["For each unique SSSI<br />(rWrBOK = SSSI ID):<br />SSSI_id = rWrBOK (parsed as integer)<br />coordinates = gjWdrc values<br />(Where on the SSSI?<br />easting,northing joined with ';')<br />ornec = BscJLV values<br />(Which activity? comma-joined)<br />Grouped by SSSI ID"]
-            SM_Q -->|No| SM_Q2{"Repeater gWZwzI (SSSI ID)<br />has entries?"}
+            SM_Q -->|No| SM_SFI_Q{"rTreXu starts with<br />SFI agreement?"}
+            SM_SFI_Q -->|Yes| SM_SFI["For each entry with gVlMxz:<br />SSSI_id = gVlMxz (parsed as integer)<br />coordinates = JPohUD (shared)<br />ornec = qocAEz values<br />(SFI action codes, page 20,<br />comma-joined; same for every SSSI)"]
+            SM_SFI_Q -->|No| SM_Q2{"Repeater gWZwzI (SSSI ID)<br />has entries?"}
             SM_Q2 -->|Yes| SM_SCHEME["For each entry with gVlMxz:<br />SSSI_id = gVlMxz (parsed as integer)<br />coordinates = ''<br />ornec = ''"]
             SM_Q2 -->|No| SM_EMPTY["[] (empty array)"]
         end

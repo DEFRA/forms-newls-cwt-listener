@@ -54,21 +54,22 @@ Determined by field rTreXu ("What land management scheme does this notice relate
 
 ## description
 
-Built from up to three segments joined with `-` (space-dash-space): the primary segment (scheme and/or activities), SSSI names, and European site names. Falls back to `"S28H Assent"` when no segments are available.
+Built from up to four segments joined with `-` (space-dash-space): the primary segment (scheme and/or activities), SSSI names, European site names, and the MCZ name. Falls back to `"S28H Assent"` when no segments are available.
 
-Format: `"{scheme and/or activities} - {SSSI names} - {Euro site names}"`
+Format: `"{scheme and/or activities} - {SSSI names} - {Euro site names} - {MCZ name}"`
 
 ### Primary segment (scheme and/or activities)
 
 Scheme and activities are independent: both are included when both are present, joined with `, ` (scheme first, then the activities). Single SSSI path takes precedence over multiple SSSI path when collecting activities.
 
-| Source                          | Repeater                                                             | Activity field                                         | Contribution                                                                                                   |
-| ------------------------------- | -------------------------------------------------------------------- | ------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------- |
-| Scheme                          | rTreXu ("What land management scheme does this notice relate to?")   | -                                                      | Full scheme text (when value ≠ `Other schemes`)                                                                |
-| Scheme (Other schemes)          | aIixRu ("What is the name of the land management scheme?")           | -                                                      | Used when rTreXu = `Other schemes` and aIixRu is provided; replaces the literal `Other schemes` in the segment |
-| Scheme (Other schemes) fallback | rTreXu ("What land management scheme does this notice relate to?")   | -                                                      | When rTreXu = `Other schemes` and aIixRu is blank, the literal text `Other schemes` is used                    |
-| Single SSSI                     | gzSkgC ("Activities requiring Natural England's assent")             | lGsnXi ("What activity is planned to be carried out?") | Unique activity values comma-joined                                                                            |
-| Multiple SSSI (ORNEC)           | QxIzSB ("Site name and activities requiring Natural England assent") | iNDqRN ("What activity is planned to be carried out?") | Unique activity values comma-joined                                                                            |
+| Source                          | Repeater                                                             | Activity field                                         | Contribution                                                                                                                                                                                |
+| ------------------------------- | -------------------------------------------------------------------- | ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Scheme                          | rTreXu ("What land management scheme does this notice relate to?")   | -                                                      | Full scheme text (when value ≠ `Other schemes`)                                                                                                                                             |
+| Scheme (Other schemes)          | aIixRu ("What is the name of the land management scheme?")           | -                                                      | Used when rTreXu = `Other schemes` and aIixRu is provided; replaces the literal `Other schemes` in the segment                                                                              |
+| Scheme (Other schemes) fallback | rTreXu ("What land management scheme does this notice relate to?")   | -                                                      | When rTreXu = `Other schemes` and aIixRu is blank, the literal text `Other schemes` is used                                                                                                 |
+| Permission (another permission) | VacBun ("What is the name of the permission?")                       | -                                                      | Used on the "…or another permission?" branch (no land management scheme selected); the permission name from VacBun opens the segment (mutually exclusive with the rTreXu/aIixRu rows above) |
+| Single SSSI                     | gzSkgC ("Activities requiring Natural England's assent")             | lGsnXi ("What activity is planned to be carried out?") | Unique activity values comma-joined                                                                                                                                                         |
+| Multiple SSSI (ORNEC)           | QxIzSB ("Site name and activities requiring Natural England assent") | iNDqRN ("What activity is planned to be carried out?") | Unique activity values comma-joined                                                                                                                                                         |
 
 ### SSSI names segment
 
@@ -77,6 +78,10 @@ Collected from: gVlMxz (single SSSI) > hhGvmX repeater [flbYHq] (multiple scheme
 ### European site names segment
 
 Collected from repeater aQYWxD [IzQfir]. Parsed from "ID---Name" format and comma-joined.
+
+### MCZ name segment
+
+Appended when eaYOCX ("Could the planned activities likely affect a Marine Conservation Zone (MCZ)?") is answered (truthy) and a zone name is given in pwSMNt ("What is the name of the Marine Conservation Zone?"). The name is parsed via `parseName`. The pwSMNt name page is only shown on the "Yes" branch, so the trailing segment is naturally absent on the "No" branch (and when no name is given).
 
 ## consulting_body_type
 
@@ -119,25 +124,27 @@ Always from field skdDtj ("What is your email address?").
 
 ## SBI
 
-Single Business Identifier, converted to a number. Sourced from ylXSKE ("What is the Single Business Identifier (SBI) number of where the activities will take place?"), which is mandatory on the new SBI page shown when a land management scheme is selected.
+Single Business Identifier, converted to a number. Uses a `firstAnswered` fallback: the primary source is ylXSKE ("What is the Single Business Identifier (SBI) number of where the activities will take place?"), which is mandatory on the SBI page shown when a land management scheme is selected; the fallback is IOetrS ("Single business identifier (SBI)") on the landowner/occupier address details page. The value is `Number(...)` of whichever is answered first; the field is omitted when neither is provided.
 
-| Condition      | Source field | Output value                      |
-| -------------- | ------------ | --------------------------------- |
-| ylXSKE present | ylXSKE       | `Number(ylXSKE)`                  |
-| ylXSKE not set | -            | `undefined` (omitted from output) |
+| Condition                      | Source field | Output value                      |
+| ------------------------------ | ------------ | --------------------------------- |
+| ylXSKE present                 | ylXSKE       | `Number(ylXSKE)`                  |
+| ylXSKE not set, IOetrS present | IOetrS       | `Number(IOetrS)`                  |
+| Neither present                | -            | `undefined` (omitted from output) |
 
 ## agreement_reference
 
-Determined by the land management scheme selection (rTreXu). When no scheme-specific branch matches, falls back to WtpFqT (the "Other schemes" reference number field) before returning an empty string.
+Determined by the land management scheme selection (rTreXu). When no scheme-specific branch matches, falls back to the first answered of WtpFqT (the "Other schemes" reference number field) then Uureah (the "another permission" branch's reference) before returning an empty string.
 
-| Scheme (rTreXu)                 | Source field                                                                       | Output value                          |
-| ------------------------------- | ---------------------------------------------------------------------------------- | ------------------------------------- |
-| CSHT / CSMT / CS Capital Grants | WZJDQG ("What's your Countryside Stewardship Scheme agreement reference number?")  | Free text reference number            |
-| HLS agreement                   | OFiizI ("What is your Higher Level Stewardship (HLS) agreement reference number?") | Free text reference number            |
-| SFI agreement                   | niVAkO ("What's your Sustainable Farming Incentive (SFI) agreement number?")       | Free text reference number            |
-| Other schemes / any other value | WtpFqT ("What is the scheme reference number?") — fallback                         | Free text reference number (optional) |
-| Not set                         | -                                                                                  | Empty string                          |
-| Scheme set but WtpFqT blank     | -                                                                                  | Empty string                          |
+| Scheme (rTreXu)                          | Source field                                                                       | Output value                          |
+| ---------------------------------------- | ---------------------------------------------------------------------------------- | ------------------------------------- |
+| CSHT / CSMT / CS Capital Grants          | WZJDQG ("What's your Countryside Stewardship Scheme agreement reference number?")  | Free text reference number            |
+| HLS agreement                            | OFiizI ("What is your Higher Level Stewardship (HLS) agreement reference number?") | Free text reference number            |
+| SFI agreement                            | niVAkO ("What's your Sustainable Farming Incentive (SFI) agreement number?")       | Free text reference number            |
+| Other schemes / any other value          | WtpFqT ("What is the scheme reference number?") — fallback                         | Free text reference number (optional) |
+| Another permission branch (WtpFqT blank) | Uureah ("What is the reference number for this permission?") — fallback            | Free text reference number (optional) |
+| Not set                                  | -                                                                                  | Empty string                          |
+| Scheme set but WtpFqT / Uureah blank     | -                                                                                  | Empty string                          |
 
 ## is_contractor_working_for_public_body
 
@@ -212,27 +219,27 @@ This section identifies all scenarios where output fields sent to the University
 
 ### Fields that are always populated
 
-| Field                                   | Guarantee                                                                                                     |
-| --------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
-| `form_type`                             | Hardcoded `"assent"`                                                                                          |
-| `broad_work_type`                       | Hardcoded `"S28H Assent"`                                                                                     |
-| `detailed_work_type`                    | Always resolves (defaults to `"S28H Assent"`)                                                                 |
-| `description`                           | Always resolves — contains activities/scheme, SSSI names, Euro site names; falls back to `"S28H Assent"`      |
-| `email_header`                          | Always resolves — same segments as description (truncated to 255 chars); falls back to `"S28H Assent"`        |
-| `consulting_body`                       | At least one source field (ueDuNl, XAZlxH, cfPoiN, or FyLHmN) is collected as a mandatory field on every path |
-| `customer_name`                         | htlAAq ("What is your first name?") and pPocjH ("What is your last name?") are mandatory fields on all paths  |
-| `customer_email_address`                | skdDtj ("What is your email address?") is a mandatory field on all paths                                      |
-| `consulting_body_type`                  | `"Consultant"` for contractors; vUHwan lookup for public bodies — always resolves                             |
-| `public_body_type`                      | Same as `consulting_body_type`                                                                                |
-| `public_body`                           | Resolved from vUHwan-dependent fields (XAZlxH, cfPoiN, or FyLHmN) — at least one is mandatory on every path   |
-| `is_contractor_working_for_public_body` | Always `"Yes"` or `"No"`                                                                                      |
+| Field                                   | Guarantee                                                                                                                                                                   |
+| --------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `form_type`                             | Hardcoded `"assent"`                                                                                                                                                        |
+| `broad_work_type`                       | Hardcoded `"S28H Assent"`                                                                                                                                                   |
+| `detailed_work_type`                    | Always resolves (defaults to `"S28H Assent"`)                                                                                                                               |
+| `description`                           | Always resolves — contains activities/scheme, SSSI names, Euro site names, MCZ name; falls back to `"S28H Assent"`                                                          |
+| `email_header`                          | Always resolves — same segments as description including the MCZ name (SSSI, Euro site and MCZ names fitted within 254 chars via `fitNames`); falls back to `"S28H Assent"` |
+| `consulting_body`                       | At least one source field (ueDuNl, XAZlxH, cfPoiN, or FyLHmN) is collected as a mandatory field on every path                                                               |
+| `customer_name`                         | htlAAq ("What is your first name?") and pPocjH ("What is your last name?") are mandatory fields on all paths                                                                |
+| `customer_email_address`                | skdDtj ("What is your email address?") is a mandatory field on all paths                                                                                                    |
+| `consulting_body_type`                  | `"Consultant"` for contractors; vUHwan lookup for public bodies — always resolves                                                                                           |
+| `public_body_type`                      | Same as `consulting_body_type`                                                                                                                                              |
+| `public_body`                           | Resolved from vUHwan-dependent fields (XAZlxH, cfPoiN, or FyLHmN) — at least one is mandatory on every path                                                                 |
+| `is_contractor_working_for_public_body` | Always `"Yes"` or `"No"`                                                                                                                                                    |
 
 ### Fields that may be empty strings
 
-| Field                      | Condition producing empty value                                                                                                                                 | Realistic scenario?                                                                               |
-| -------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
-| `agreement_reference`      | Scheme is MTA or not set (no reference field shown and WtpFqT fallback not collected on that path), or scheme is Other schemes and WtpFqT left blank (optional) | **Expected** — MTA has no reference field; Other schemes reference is optional. See Examples 4, 5 |
-| `is_there_a_european_site` | `euro_site_info` array is empty (no European sites listed)                                                                                                      | **Expected** — many submissions don't affect European sites                                       |
+| Field                      | Condition producing empty value                                                                                                                                                                                                       | Realistic scenario?                                                                                                            |
+| -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| `agreement_reference`      | Scheme is MTA or not set (no reference field shown and neither WtpFqT nor Uureah collected on that path), or scheme is Other schemes and WtpFqT left blank, or the "another permission" branch with Uureah left blank (both optional) | **Expected** — MTA has no reference field; the Other-schemes and another-permission references are optional. See Examples 4, 5 |
+| `is_there_a_european_site` | `euro_site_info` array is empty (no European sites listed)                                                                                                                                                                            | **Expected** — many submissions don't affect European sites                                                                    |
 
 **Note:** `description` is always populated — it falls back to `"S28H Assent"` when no activities, scheme text, SSSI names, or European site names are available. On the scheme multi-SSSI path, the description will contain the scheme text and SSSI names even though no activity fields are collected.
 

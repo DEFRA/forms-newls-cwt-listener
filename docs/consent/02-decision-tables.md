@@ -30,34 +30,40 @@ The scheme determines the `detailed_work_type` and which agreement reference fie
 
 ## Decision table: SSSI path routing
 
-| #   | Multiple SSSIs? (lmqMaY)  | Repeater used                                                         | SSSI name field                                                                           | Coordinates field                                                     | Activity field                                      |
-| --- | ------------------------- | --------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- | --------------------------------------------------------------------- | --------------------------------------------------- |
-| P1a | No / not set (non-scheme) | iTBHrY ("Operations requiring Natural England consent")               | hozdvW ("What is the name of the SSSI where you plan to carry out activities?") from main | QKdhfh ("Where do you plan to carry out this activity?") per activity | hqsZMS ("Which activity do you plan to carry out?") |
-| P1b | No / not set (scheme)     | (none)                                                                | hozdvW ("What is the name of the SSSI where you plan to carry out activities?") from main | JPohUD ("Where are the activities taking place?") from main           | (none)                                              |
-| P2a | Yes (non-scheme)          | cwZgSE ("Site name and operations requiring Natural England consent") | rWrBOK ("What is the name of the SSSI where you plan to carry out this activity?")        | gjWdrc ("Where on the SSSI do you plan to carry out this activity?")  | BscJLV ("Which activity do you plan to carry out?") |
-| P2b | Yes (scheme)              | gWZwzI ("Sites where you plan to carry out activities")               | gVlMxz ("What is the name of the SSSI where activities are planned?")                     | (none)                                                                | (none)                                              |
+| #   | Multiple SSSIs? (lmqMaY)  | Repeater used                                                         | SSSI name field                                                                           | Coordinates field                                                     | Activity field                                                                    |
+| --- | ------------------------- | --------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- | --------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
+| P1a | No / not set (non-scheme) | iTBHrY ("Operations requiring Natural England consent")               | hozdvW ("What is the name of the SSSI where you plan to carry out activities?") from main | QKdhfh ("Where do you plan to carry out this activity?") per activity | hqsZMS ("Which activity do you plan to carry out?")                               |
+| P1b | No / not set (scheme)     | (none)                                                                | hozdvW ("What is the name of the SSSI where you plan to carry out activities?") from main | JPohUD ("Where are the activities taking place?") from main           | (none)                                                                            |
+| P1c | No / not set (SFI scheme) | (none)                                                                | hozdvW ("What is the name of the SSSI where you plan to carry out activities?") from main | JPohUD ("Where are the activities taking place?") from main           | qocAEz ("Which SFI action codes…") from main — feeds `ornec`                      |
+| P2a | Yes (non-scheme)          | cwZgSE ("Site name and operations requiring Natural England consent") | rWrBOK ("What is the name of the SSSI where you plan to carry out this activity?")        | gjWdrc ("Where on the SSSI do you plan to carry out this activity?")  | BscJLV ("Which activity do you plan to carry out?")                               |
+| P2b | Yes (scheme)              | gWZwzI ("Sites where you plan to carry out activities")               | gVlMxz ("What is the name of the SSSI where activities are planned?")                     | (none)                                                                | (none)                                                                            |
+| P2c | Yes (SFI scheme)          | gWZwzI ("Sites where you plan to carry out activities")               | gVlMxz ("What is the name of the SSSI where activities are planned?")                     | JPohUD ("Where are the activities taking place?") from main           | qocAEz ("Which SFI action codes…") from main — feeds `ornec`, same for every SSSI |
+
+Rows P1c/P2c (SFI) are evaluated before the generic scheme rows P1b/P2b, so an SFI submission takes the SFI path.
 
 ## Decision table: email_header
 
-Uses the same segments as `description` (scheme and/or activities, plus SSSI names) but truncated to 255 characters. Falls back to `"S28E Consent"`.
+Uses the same segments as `description` (scheme and/or activities, plus SSSI names) but truncated to 254 characters. Falls back to `"S28E Consent"`.
 
-| #   | Condition                                             | Output                                                     |
-| --- | ----------------------------------------------------- | ---------------------------------------------------------- |
-| H1  | Scheme present and activities present                 | Scheme text, then activities comma-joined, plus SSSI names |
-| H2  | Activities present (from iTBHrY or cwZgSE), no scheme | All unique activities comma-joined, plus SSSI names        |
-| H3  | No activities, scheme present (rTreXu)                | Full scheme text, plus SSSI names                          |
-| H4  | No activities, no scheme, SSSI names present          | SSSI names only                                            |
-| H5  | No activities, no scheme, no SSSI names               | `"S28E Consent"`                                           |
+| #   | Condition                                             | Output                                                       |
+| --- | ----------------------------------------------------- | ------------------------------------------------------------ |
+| H1  | Scheme present and activities present                 | Scheme text, then activities comma-joined, plus SSSI names   |
+| H1s | SFI scheme present and action codes present (qocAEz)  | Scheme text, then action codes comma-joined, plus SSSI names |
+| H2  | Activities present (from iTBHrY or cwZgSE), no scheme | All unique activities comma-joined, plus SSSI names          |
+| H3  | No activities, scheme present (rTreXu)                | Full scheme text, plus SSSI names                            |
+| H4  | No activities, no scheme, SSSI names present          | SSSI names only                                              |
+| H5  | No activities, no scheme, no SSSI names               | `"S28E Consent"`                                             |
 
 ## Complete submission scenarios
 
 Combining the above tables, these are the main scenarios that result in a CWT submission:
 
-| Scenario                                       | Identity | Scheme | SSSI path | Description                                                           |
-| ---------------------------------------------- | -------- | ------ | --------- | --------------------------------------------------------------------- |
-| Landowner, CSHT, single SSSI with ORNECs       | Row 1    | S1     | P1a       | Landowner with CS HT scheme, single SSSI with ORNEC activities        |
-| Landowner, CSHT, single SSSI (scheme coords)   | Row 1    | S1     | P1b       | Landowner with CS HT scheme, single SSSI with scheme coordinates only |
-| Occupier, HLS, multiple SSSIs (scheme)         | Row 2    | S4     | P2b       | Land occupier with HLS scheme, multiple SSSIs (scheme repeater)       |
-| Consultant, no scheme, single SSSI with ORNECs | Row 3    | S8     | P1a       | Consultant without scheme, single SSSI with ORNEC activities          |
-| Other, SFI, multiple SSSIs with ORNECs         | Row 4    | S5     | P2a       | Other user with SFI scheme, multiple SSSIs with ORNEC activities      |
-| Landowner, other permission, single SSSI       | Row 1    | S8     | P1b       | Landowner with named permission, single SSSI (no agreement reference) |
+| Scenario                                       | Identity | Scheme | SSSI path | Description                                                                            |
+| ---------------------------------------------- | -------- | ------ | --------- | -------------------------------------------------------------------------------------- |
+| Landowner, CSHT, single SSSI with ORNECs       | Row 1    | S1     | P1a       | Landowner with CS HT scheme, single SSSI with ORNEC activities                         |
+| Landowner, CSHT, single SSSI (scheme coords)   | Row 1    | S1     | P1b       | Landowner with CS HT scheme, single SSSI with scheme coordinates only                  |
+| Occupier, HLS, multiple SSSIs (scheme)         | Row 2    | S4     | P2b       | Land occupier with HLS scheme, multiple SSSIs (scheme repeater)                        |
+| Consultant, no scheme, single SSSI with ORNECs | Row 3    | S8     | P1a       | Consultant without scheme, single SSSI with ORNEC activities                           |
+| Other, SFI, multiple SSSIs (action codes)      | Row 4    | S5     | P2c       | Other user with SFI scheme, multiple SSSIs; `ornec` from page-20 action codes (qocAEz) |
+| Landowner, SFI, single SSSI (action codes)     | Row 1    | S5     | P1c       | Landowner with SFI scheme, single SSSI; `ornec` from page-20 action codes (qocAEz)     |
+| Landowner, other permission, single SSSI       | Row 1    | S8     | P1b       | Landowner with named permission, single SSSI (no agreement reference)                  |

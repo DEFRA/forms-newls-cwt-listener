@@ -351,6 +351,28 @@
           }
         }
       ]
+    },
+    "mczName": {
+      "type": "conditional",
+      "cases": [
+        {
+          "when": {
+            "question": {
+              "id": "ezHrva",
+              "text": "Could the planned activities likely affect a Marine Conservation Zone (MCZ)?"
+            },
+            "operator": "isTruthy"
+          },
+          "value": {
+            "type": "answer",
+            "question": {
+              "id": "joWQbp",
+              "text": "What is the name of the Marine Conservation Zone?"
+            },
+            "transforms": ["parseName"]
+          }
+        }
+      ]
     }
   },
   "rules": [
@@ -523,6 +545,8 @@
           "I have a question about flying drones on or near a protected site": "SSSI - Other",
           "I have a question about designating or de-designating SSSIs": "SSSI - Other",
           "I have a question about the sale of SSSI land": "SSSI - Other",
+          "I have a question about Sustainable Farming Incentive (SFI) and SSSIs": "SFI - Technical query",
+          "I have a question about other land management schemes and SSSIs": "SSSI - Other",
           "Something else": "SSSI - Other"
         }
       }
@@ -534,7 +558,7 @@
     },
     {
       "id": "description.with-activity-or-sites",
-      "description": "Detailed work type, activity free-text and site names, unlimited length",
+      "description": "Detailed work type, activity free-text, site names then MCZ name, unlimited length",
       "target": "description",
       "when": {
         "any": [{ "ref": "hasActivity" }, { "ref": "hasSiteNames" }]
@@ -545,7 +569,8 @@
         "segments": [
           { "value": { "type": "output", "target": "detailed_work_type" } },
           { "value": { "type": "ref", "name": "activity" } },
-          { "value": { "type": "ref", "name": "siteNames" } }
+          { "value": { "type": "ref", "name": "siteNames" } },
+          { "value": { "type": "ref", "name": "mczName" } }
         ]
       }
     },
@@ -856,7 +881,7 @@
     },
     {
       "id": "email-header.with-activity-or-sites",
-      "description": "Same segments as the description, limited to 255 characters with site names fitted into the remaining space",
+      "description": "Same segments as the description, limited to 254 characters with site and MCZ names fitted into the remaining space",
       "target": "email_header",
       "when": {
         "any": [{ "ref": "hasActivity" }, { "ref": "hasSiteNames" }]
@@ -864,12 +889,16 @@
       "value": {
         "type": "joinSegments",
         "separator": " - ",
-        "maxLength": 255,
+        "maxLength": 254,
         "segments": [
           { "value": { "type": "output", "target": "detailed_work_type" } },
           { "value": { "type": "ref", "name": "activity" } },
           {
             "value": { "type": "ref", "name": "siteNames" },
+            "overflow": "fitNames"
+          },
+          {
+            "value": { "type": "ref", "name": "mczName" },
             "overflow": "fitNames"
           }
         ]
@@ -904,7 +933,7 @@
             "question": { "id": "QmIGor", "text": "What is your question?" }
           }
         ],
-        "transforms": [{ "name": "truncate", "maxLength": 255 }]
+        "transforms": [{ "name": "truncate", "maxLength": 254 }]
       }
     },
     {
@@ -913,7 +942,7 @@
       "value": {
         "type": "output",
         "target": "detailed_work_type",
-        "transforms": [{ "name": "truncate", "maxLength": 255 }]
+        "transforms": [{ "name": "truncate", "maxLength": 254 }]
       }
     },
     {
@@ -1148,6 +1177,45 @@
                 "transforms": ["parseSssiId"]
               },
               "coordinates": { "type": "literal", "value": "" }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "sssi-info.question-topic-advice",
+      "description": "Topic-question advice path (pages 45-47): SSSI name + optional coordinates",
+      "target": "SSSI_info",
+      "when": {
+        "question": {
+          "id": "bjblyN",
+          "text": "Which SSSI does your question relate to?"
+        },
+        "operator": "isAnswered"
+      },
+      "value": {
+        "type": "array",
+        "items": [
+          {
+            "type": "object",
+            "properties": {
+              "SSSI_id": {
+                "type": "answer",
+                "question": {
+                  "id": "bjblyN",
+                  "text": "Which SSSI does your question relate to?"
+                },
+                "transforms": ["parseSssiId"]
+              },
+              "coordinates": {
+                "type": "answer",
+                "question": {
+                  "id": "uhYhpV",
+                  "text": "Where does your question relate?"
+                },
+                "transforms": ["formatCoordinates"],
+                "default": ""
+              }
             }
           }
         ]

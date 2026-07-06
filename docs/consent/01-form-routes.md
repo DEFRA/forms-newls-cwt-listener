@@ -31,7 +31,7 @@ Question: "What land management scheme does this notice relate to?"
 | MTA                      | `A Minor and Temporary Adjustments (MTA)`                       | [SSSI selection](#sssi-selection)                          |
 | Other schemes            | `Other schemes`                                                 | [SSSI selection](#sssi-selection)                          |
 
-When no scheme is selected, the form may also have an "other permission" path where VacBun ("What is the name of the permission?") is collected.
+When no scheme is selected, the form may also have an "other permission" path where VacBun ("What is the name of the permission?") and Uureah ("Give the reference number for this permission if available") are collected. VacBun opens the `description`/`email_header` primary segment and Uureah feeds `agreement_reference` (both mapped since W11/W12).
 
 ### CS agreement reference (WZJDQG)
 
@@ -44,6 +44,8 @@ Question: "What's your Higher Level Stewardship agreement reference number?" Fre
 ### SFI agreement reference (niVAkO)
 
 Question: "What's your Sustainable Farming Incentive agreement number?" Free text. Then proceeds to [SSSI selection](#sssi-selection).
+
+The SFI route also has a dedicated action-codes page (page 20): qocAEz ("Which SFI action codes involve operations that need Natural England consent?"), a multi-select checkbox list of ~71 action codes. These action codes are the SFI route's ORNEC source — they feed `SSSI_info[].ornec` and the description/email_header activities segment (see the field mapping matrix), replacing the activity that other routes use.
 
 ---
 
