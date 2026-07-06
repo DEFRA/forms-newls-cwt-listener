@@ -31,7 +31,7 @@ Question: "What land management scheme does this notice relate to?"
 | MTA                      | `A Minor and Temporary Adjustments (MTA)`                       | [SSSI selection](#sssi-selection)                          |
 | Other schemes            | `Other schemes`                                                 | [SSSI selection](#sssi-selection)                          |
 
-When no scheme is selected, the form may also have an "other permission" path where VacBun ("What is the name of the permission?") is collected.
+When no scheme is selected, the form may also have an "other permission" path where VacBun ("What is the name of the permission?") and Uureah ("Give the reference number for this permission if available") are collected. VacBun opens the `description`/`email_header` primary segment and Uureah feeds `agreement_reference` (both mapped since W11/W12).
 
 ### CS agreement reference (WZJDQG)
 

@@ -1,5 +1,14 @@
 # Form Changes
 
+## 2026-07-06 - Mon (DF-1016: 'another permission' branch carried through)
+
+Mapper-only changes (no form-definition edits) that read the "…or another permission?" branch (`yWeYpc`) fields, which the mappings previously ignored. Committed as work items W11 and W12. Both apply to **Consent and Assent** identically.
+
+### Consent & Assent
+
+- **W11 — Permission name opens description/email_header.** The scheme/permission label that starts the `description` and `email_header` primary segment (`schemeLabel`) was sourced only from the land-management-scheme fields (`rTreXu`/`aIixRu`). On the "…or another permission?" branch the permission name is captured in a distinct field, `VacBun` ("What is the name of the permission?"), which no rule read — so those submissions opened with an empty label. A new `schemeLabel` case reads `VacBun` when it is answered. The branch is mutually exclusive with the land-management-scheme fields, so first-match ordering leaves the scheme and empty paths unchanged.
+- **W12 — agreement_reference from the permission reference.** The `agreement-reference.fallback` rule fell back to `WtpFqT` ("What is the scheme reference number?"), which only exists on the land-management-scheme branch, so `agreement_reference` came out empty on the another-permission branch. The fallback is now `firstAnswered[WtpFqT, Uureah]` with an empty default, where `Uureah` is the permission's own reference number (consent: "Give the reference number for this permission if available"; assent: "What is the reference number for this permission?"). `WtpFqT` is listed first so the scheme path is unchanged; both-empty still yields `""`.
+
 ## 2026-07-03 - Fri (DF-1016: consent SFI ORNEC from action codes)
 
 Mapper-only change (no form-definition edits). Committed as work item W6. This was previously parked as "spec pending"; the 11-June requirement (`_tasks/001/more-changes.md`) resolved both open questions — the source is the page-20 action-code checkboxes (`qocAEz`), and the output follows the old ORNEC treatment (selected values comma-joined, feeding the same CWT fields).
