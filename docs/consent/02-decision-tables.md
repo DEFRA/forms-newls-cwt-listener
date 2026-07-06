@@ -43,7 +43,7 @@ Rows P1c/P2c (SFI) are evaluated before the generic scheme rows P1b/P2b, so an S
 
 ## Decision table: email_header
 
-Uses the same segments as `description` (scheme and/or activities, plus SSSI names) but truncated to 255 characters. Falls back to `"S28E Consent"`.
+Uses the same segments as `description` (scheme and/or activities, plus SSSI names) but truncated to 254 characters. Falls back to `"S28E Consent"`.
 
 | #   | Condition                                             | Output                                                       |
 | --- | ----------------------------------------------------- | ------------------------------------------------------------ |

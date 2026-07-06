@@ -39,16 +39,16 @@ Mapper-only changes (no form-definition edits) that carry more of the submitted 
 ### Consent
 
 - **W1 — European site capture.** New output fields `is_there_a_european_site` (`"Yes"` when a site is given, otherwise `""`) and `euro_site_info` (`[{ european_site_id }]`), sourced from the `hwaByT` "European site" repeater / `FqfxKM` field (ids via `parseEuroSiteId`). Mirrors the Assent form.
-- **W1b — European site names in the readable output.** The European site names now also appear in `description` (unlimited) and `email_header` (fitted within 255 characters), parsed from the same `hwaByT` / `FqfxKM` field via `parseName`. Description format is now `[scheme and/or activities] - [SSSI names] - [European site names]`.
+- **W1b — European site names in the readable output.** The European site names now also appear in `description` (unlimited) and `email_header` (fitted within 254 characters), parsed from the same `hwaByT` / `FqfxKM` field via `parseName`. Description format is now `[scheme and/or activities] - [SSSI names] - [European site names]`.
 
 ### Assent
 
 - **W2 — SBI fallback.** The `SBI` output falls back to the address-details SBI question (`IOetrS`) when the main SBI question (`ylXSKE`) is blank (`firstAnswered`); omitted when neither is provided.
-- **W3 — Marine Conservation Zone name.** When the MCZ question (`eaYOCX`) is answered and a zone name is given (`pwSMNt`), the MCZ name is appended to `description` and `email_header` (the latter fitted within 255 characters), parsed via `parseName`. Description format is now `… - [SSSI names] - [European site names] - [MCZ name]`.
+- **W3 — Marine Conservation Zone name.** When the MCZ question (`eaYOCX`) is answered and a zone name is given (`pwSMNt`), the MCZ name is appended to `description` and `email_header` (the latter fitted within 254 characters), parsed via `parseName`. Description format is now `… - [SSSI names] - [European site names] - [MCZ name]`.
 
 ### Advice
 
-- **W4 — Marine Conservation Zone name.** On the activity/sites path, when the MCZ question (`ezHrva`) is answered and a zone name is given (`joWQbp`), the MCZ name is appended to `description` and `email_header` (fitted within 255 characters), parsed via `parseName`. Description format on that path is now `[detailed_work_type] - [activities] - [site names] - [MCZ name]`. Not applied on the "Something else" free-text or fallback paths.
+- **W4 — Marine Conservation Zone name.** On the activity/sites path, when the MCZ question (`ezHrva`) is answered and a zone name is given (`joWQbp`), the MCZ name is appended to `description` and `email_header` (fitted within 254 characters), parsed via `parseName`. Description format on that path is now `[detailed_work_type] - [activities] - [site names] - [MCZ name]`. Not applied on the "Something else" free-text or fallback paths.
 
 ## 2026-04-14 - Tue (later edit: list item value/text alignment)
 

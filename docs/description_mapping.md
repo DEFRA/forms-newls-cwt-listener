@@ -2,7 +2,7 @@
 
 This document describes how the `description` and `email_header` output properties are generated for each of the three forms (Advice, Assent, Consent).
 
-The `email_header` property uses identical source data and precedence to the `description` property. The only difference is that `email_header` is truncated to a maximum of **255 characters** (`EMAIL_HEADER_MAX_LENGTH`). When truncation is required:
+The `email_header` property uses identical source data and precedence to the `description` property. The only difference is that `email_header` is truncated to a maximum of **254 characters** (`EMAIL_HEADER_MAX_LENGTH`). When truncation is required:
 
 - If multiple names need to fit, `fitNames()` progressively drops trailing names and appends `" (+N more)"`.
 - If a single segment still overflows, it is truncated and suffixed with `"..."`.
@@ -87,12 +87,12 @@ The effective gate is whether `joWQbp` holds a value — the name page is only s
 
 Same data and precedence as `description`. Differences:
 
-- Capped at **255 chars**.
+- Capped at **254 chars**.
 - For the activities segment: if `detailed_work_type + activities` leaves insufficient room for site names, the activity text is truncated with `"..."` to make space for the first site name.
 - For site-name suffixes, `fitNames()` trims trailing names and adds `" (+N more)"`.
 - The MCZ name (activity/sites path) is appended after the site names as a `fitNames()` segment, fitted into whatever space remains.
 - For the free-text (`QmIGor`) suffix (no activities or site names), the whole string is truncated with `"..."` if too long.
-- If even `detailed_work_type` alone exceeds 255 chars, it is truncated with `"..."`.
+- If even `detailed_work_type` alone exceeds 254 chars, it is truncated with `"..."`.
 
 ---
 
@@ -150,11 +150,11 @@ The effective gate is whether `pwSMNt` holds a value — the name page is only s
 
 Same data and precedence as `description`. Difference:
 
-- Total length capped at **255 chars**.
+- Total length capped at **254 chars**.
 - SSSI-names segment is fitted via `fitNames()`, reserving space for at least the first Euro-site name if any are present.
 - Euro-site-names segment is fitted via `fitNames()` with whatever remains.
 - MCZ-name segment (when present) is fitted via `fitNames()` after the Euro-site names with whatever remains.
-- If, after all fitting, the result still overruns 255 chars, it is truncated and suffixed with `"..."`.
+- If, after all fitting, the result still overruns 254 chars, it is truncated and suffixed with `"..."`.
 - Fallback remains `S28H Assent` when all segments are empty.
 
 ---
@@ -207,9 +207,9 @@ Collected from the same repeater/field used for the structured `euro_site_info`,
 
 Same data and precedence as `description`. Differences:
 
-- Capped at **255 chars**.
+- Capped at **254 chars**.
 - If only the primary is present: truncated with `"..."` if too long.
 - The SSSI-names list is fitted via `fitNames()` (which adds `" (+N more)"` when dropping names), reserving space for at least the first Euro-site name if any are present.
 - The Euro-site-names list is fitted via `fitNames()` with whatever space remains.
-- If nothing fits after the prefix, the primary alone is truncated to 255 chars; if the whole result still overruns, it is truncated with `"..."`.
+- If nothing fits after the prefix, the primary alone is truncated to 254 chars; if the whole result still overruns, it is truncated with `"..."`.
 - Fallback remains `S28E Consent` when all segments are empty.

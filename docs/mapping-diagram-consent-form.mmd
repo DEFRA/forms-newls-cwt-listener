@@ -96,7 +96,7 @@ flowchart TD
     MAIN --> AR_Q
 
     %% ===== email_header =====
-    subgraph OutEmailHeader["email_header (primary segment — scheme and/or activities, plus SSSI names, truncated to 255 chars)"]
+    subgraph OutEmailHeader["email_header (primary segment — scheme and/or activities, plus SSSI names, truncated to 254 chars)"]
         EH_SCHEME_Q{"rTreXu present?<br />What land management scheme<br />does this notice relate to?"}
         EH_SCHEME_Q -->|Yes| EH_SCHEME["Scheme text<br />(listed first)"]
         EH_SCHEME_Q -->|No| EH_Q

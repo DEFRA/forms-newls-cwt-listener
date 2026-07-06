@@ -881,7 +881,7 @@
     },
     {
       "id": "email-header.with-activity-or-sites",
-      "description": "Same segments as the description, limited to 255 characters with site and MCZ names fitted into the remaining space",
+      "description": "Same segments as the description, limited to 254 characters with site and MCZ names fitted into the remaining space",
       "target": "email_header",
       "when": {
         "any": [{ "ref": "hasActivity" }, { "ref": "hasSiteNames" }]
@@ -889,7 +889,7 @@
       "value": {
         "type": "joinSegments",
         "separator": " - ",
-        "maxLength": 255,
+        "maxLength": 254,
         "segments": [
           { "value": { "type": "output", "target": "detailed_work_type" } },
           { "value": { "type": "ref", "name": "activity" } },
@@ -933,7 +933,7 @@
             "question": { "id": "QmIGor", "text": "What is your question?" }
           }
         ],
-        "transforms": [{ "name": "truncate", "maxLength": 255 }]
+        "transforms": [{ "name": "truncate", "maxLength": 254 }]
       }
     },
     {
@@ -942,7 +942,7 @@
       "value": {
         "type": "output",
         "target": "detailed_work_type",
-        "transforms": [{ "name": "truncate", "maxLength": 255 }]
+        "transforms": [{ "name": "truncate", "maxLength": 254 }]
       }
     },
     {

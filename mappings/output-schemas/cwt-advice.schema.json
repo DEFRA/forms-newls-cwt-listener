@@ -51,7 +51,7 @@
     "email_header": {
       "type": "string",
       "required": true,
-      "description": "Same content as description, limited to 255 characters"
+      "description": "Same content as description, limited to 254 characters"
     },
     "is_contractor_working_for_public_body": {
       "type": "string",

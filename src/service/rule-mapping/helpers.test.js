@@ -119,8 +119,8 @@ describe('helpers', () => {
   })
 
   describe('EMAIL_HEADER_MAX_LENGTH', () => {
-    it('should be 255', () => {
-      expect(EMAIL_HEADER_MAX_LENGTH).toBe(255)
+    it('should be 254', () => {
+      expect(EMAIL_HEADER_MAX_LENGTH).toBe(254)
     })
   })
 

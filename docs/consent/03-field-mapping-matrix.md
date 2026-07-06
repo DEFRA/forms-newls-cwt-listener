@@ -129,9 +129,9 @@ Resolution order:
 
 ## email_header
 
-Uses the same segments as `description` (scheme and/or activities, SSSI names, then European site names) but truncated to 255 characters. Falls back to `"S28E Consent"` when no segments are available.
+Uses the same segments as `description` (scheme and/or activities, SSSI names, then European site names) but truncated to 254 characters. Falls back to `"S28E Consent"` when no segments are available.
 
-Format: `"{scheme and/or activities} - {SSSI names} - {European site names}"` (truncated to 255 characters using the `fitNames` helper, which progressively drops names and appends "(+N more)" when truncation is needed). Both the SSSI names and European site names are fitted via `fitNames` into the remaining space within the 255-character limit.
+Format: `"{scheme and/or activities} - {SSSI names} - {European site names}"` (truncated to 254 characters using the `fitNames` helper, which progressively drops names and appends "(+N more)" when truncation is needed). Both the SSSI names and European site names are fitted via `fitNames` into the remaining space within the 254-character limit.
 
 | Condition                                             | Output value                                               |
 | ----------------------------------------------------- | ---------------------------------------------------------- |

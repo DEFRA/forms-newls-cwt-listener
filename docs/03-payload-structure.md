@@ -180,7 +180,7 @@ Each form's mapping produces a different output structure. All outputs are sent 
   consulting_body_type: "Landowner",       // or "Land occupier", "Consultant", "Other"
   customer_name: "Full name",
   customer_email_address: "email@example.com",
-  email_header: "Activities - SSSI names", // same segments as description, truncated to 255 chars
+  email_header: "Activities - SSSI names", // same segments as description, truncated to 254 chars
   SBI: 123456789,                          // Single Business Identifier (optional)
   agreement_reference: "AG-12345",
   SSSI_info: [

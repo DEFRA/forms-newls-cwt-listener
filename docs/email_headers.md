@@ -2,7 +2,7 @@
 
 ## All Forms
 
-- **Max length:** 255 characters (hard cut-off)
+- **Max length:** 254 characters (hard cut-off)
 - **Format:** Segments joined with `-` separator
 - **Truncation:** When site names exceed available space, names are dropped from the end with `(+N more)` appended. If even a single name doesn't fit, it's truncated with `...`
 
@@ -78,4 +78,4 @@ The primary segment is `[scheme and/or activities]` — both are included when b
 
 - **`parseName(value)`** — Extracts the display name from `ID---Name` format (e.g., `"1005725---Popehouse Moor SSSI"` → `"Popehouse Moor SSSI"`)
 - **`fitNames(names, maxLength)`** — Fits a list of names into available space with `(+N more)` truncation
-- **`EMAIL_HEADER_MAX_LENGTH`** — Constant `255`
+- **`EMAIL_HEADER_MAX_LENGTH`** — Constant `254`

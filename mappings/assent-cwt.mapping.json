@@ -444,12 +444,12 @@
     },
     {
       "id": "email-header",
-      "description": "Same segments as the description, limited to 255 characters with site and MCZ names fitted into the remaining space",
+      "description": "Same segments as the description, limited to 254 characters with site and MCZ names fitted into the remaining space",
       "target": "email_header",
       "value": {
         "type": "joinSegments",
         "separator": " - ",
-        "maxLength": 255,
+        "maxLength": 254,
         "fallback": "S28H Assent",
         "segments": [
           { "value": { "type": "ref", "name": "primarySegment" } },

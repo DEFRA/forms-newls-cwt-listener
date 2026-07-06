@@ -69,7 +69,7 @@ Same precedence as `broad_work_type`, but with finer granularity for general top
 
 ## email_header
 
-Format: `"[detailed_work_type] - [activities] - [site names] - [MCZ name]"` (truncated to 255 characters). Activities, site names and MCZ name are each omitted when not present. The MCZ name is only appended on the activity/sites path (see `description` below); it is absent on the "Something else" and fallback paths. When neither activity nor site names are present and the topic is "Something else", the free-text question is appended instead. When the activity is too long to leave room for the site name(s) or MCZ name, they are fitted into the remaining space (site names then MCZ name), truncated with `"..."` where necessary.
+Format: `"[detailed_work_type] - [activities] - [site names] - [MCZ name]"` (truncated to 254 characters). Activities, site names and MCZ name are each omitted when not present. The MCZ name is only appended on the activity/sites path (see `description` below); it is absent on the "Something else" and fallback paths. When neither activity nor site names are present and the topic is "Something else", the free-text question is appended instead. When the activity is too long to leave room for the site name(s) or MCZ name, they are fitted into the remaining space (site names then MCZ name), truncated with `"..."` where necessary.
 
 ## description
 
@@ -94,7 +94,7 @@ Built from `detailed_work_type`, activities, site names, and (on the activity/si
 
 ### MCZ name segment
 
-When the planned activities may affect a Marine Conservation Zone, a trailing MCZ-name segment is appended to the `description` (and, within the 255-character limit, to the `email_header`). The MCZ pages sit on the activity/sites path, so this segment only ever appears there.
+When the planned activities may affect a Marine Conservation Zone, a trailing MCZ-name segment is appended to the `description` (and, within the 254-character limit, to the `email_header`). The MCZ pages sit on the activity/sites path, so this segment only ever appears there.
 
 | Source field                                                 | When appended                                                                                                                       | Parsing                                        |
 | ------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------- |

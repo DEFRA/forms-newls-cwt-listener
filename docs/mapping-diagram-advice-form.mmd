@@ -127,8 +127,8 @@ flowchart TD
     MAIN --> CEMAIL
 
     %% ===== email_header =====
-    subgraph OutEmailHeader["email_header<br />(max 255 chars)"]
-        EH_DESC["Same logic as description<br />(detailed_work_type + site names)<br />truncated to 255 characters"]
+    subgraph OutEmailHeader["email_header<br />(max 254 chars)"]
+        EH_DESC["Same logic as description<br />(detailed_work_type + site names)<br />truncated to 254 characters"]
     end
     MAIN --> EH_DESC
     REP --> EH_DESC

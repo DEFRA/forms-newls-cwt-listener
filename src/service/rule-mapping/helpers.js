@@ -77,7 +77,7 @@ export function parseName(value) {
 /**
  * Maximum length for the email_header field.
  */
-export const EMAIL_HEADER_MAX_LENGTH = 255
+export const EMAIL_HEADER_MAX_LENGTH = 254
 
 /**
  * Fits a list of names into the available character length.

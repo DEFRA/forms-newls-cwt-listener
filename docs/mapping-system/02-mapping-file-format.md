@@ -327,7 +327,7 @@ declares how the group combines via `aggregate`: `"first"` (default) or
 {
   "type": "joinSegments",
   "separator": " - ",
-  "maxLength": 255, // optional length budget
+  "maxLength": 254, // optional length budget
   "fallback": "S28E Consent", // used when every segment is empty
   "segments": [
     { "value": { "type": "ref", "name": "primarySegment" } },
@@ -341,7 +341,7 @@ Empty segments are dropped. Without `maxLength` segments are joined in full
 `"overflow": "fitNames"` are fitted into the remaining space using the
 `First Name, Second Name (+N more)` convention; if the joined result still
 exceeds the budget it is truncated with `...`. Used for `description`
-(unlimited) and `email_header` (255 characters).
+(unlimited) and `email_header` (254 characters).
 
 ## Transforms
 
