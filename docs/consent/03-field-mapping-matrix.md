@@ -81,13 +81,13 @@ Collected from repeater hwaByT ("European site"), question FqfxKM ("What is the 
 
 Mapped from KTObNK ("What type of customer are you?") via `customerTypeMap`.
 
-| KTObNK value                                                                              | Output value    |
-| ----------------------------------------------------------------------------------------- | --------------- |
-| `An owner of land within a SSSI`                                                          | `Landowner`     |
-| `An occupier of land within a SSSI`                                                       | `Land occupier` |
-| `Someone with permission to work on behalf of an owner or occupier of land within a SSSI` | `Consultant`    |
-| `Somebody else`                                                                           | `Other`         |
-| (not set)                                                                                 | Empty string    |
+| KTObNK value                                                              | Output value    |
+| ------------------------------------------------------------------------- | --------------- |
+| `An owner of land within a SSSI`                                          | `Landowner`     |
+| `An occupier of land within a SSSI`                                       | `Land occupier` |
+| `Someone working on behalf of an owner or occupier of land within a SSSI` | `Consultant`    |
+| `Somebody else`                                                           | `Other`         |
+| (not set)                                                                 | Empty string    |
 
 **Note:** The consent form does not have `consulting_body` or `is_contractor_working_for_public_body` fields in its output, unlike the advice and assent forms.
 
@@ -165,11 +165,11 @@ SSSI ID from hozdvW ("What is the name of the SSSI where you plan to carry out a
 
 Evaluated **before** the generic scheme path so it wins whenever the scheme is SFI. Unlike other scheme paths, `ornec` is populated — from the page-20 SFI action codes rather than an activity.
 
-| Field         | Source                                                                                            | Description                           |
-| ------------- | ------------------------------------------------------------------------------------------------- | ------------------------------------- |
-| `SSSI_id`     | hozdvW ("What is the name of the SSSI where you plan to carry out activities?")                   | Parsed as integer from string value   |
-| `coordinates` | JPohUD ("Where are the activities taking place?") from main                                       | Formatted as `"<easting>,<northing>"` |
-| `ornec`       | qocAEz ("Which SFI action codes involve operations that need Natural England consent?") from main | Selected action codes comma-joined    |
+| Field         | Source                                                                                                    | Description                           |
+| ------------- | --------------------------------------------------------------------------------------------------------- | ------------------------------------- |
+| `SSSI_id`     | hozdvW ("What is the name of the SSSI where you plan to carry out activities?")                           | Parsed as integer from string value   |
+| `coordinates` | JPohUD ("Where are the activities taking place?") from main                                               | Formatted as `"<easting>,<northing>"` |
+| `ornec`       | qocAEz ("Which SFI action codes involve operations that need Natural England consent (ORNEC)?") from main | Selected action codes comma-joined    |
 
 #### Scheme path (no repeater, JPohUD present)
 
@@ -205,7 +205,7 @@ Evaluated **before** the generic scheme path so it wins whenever the scheme is S
 | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
 | `SSSI_id`     | gVlMxz ("What is the name of the SSSI where activities are planned?") from repeater gWZwzI ("Sites where you plan to carry out activities") | Parsed as integer from string value                                           |
 | `coordinates` | JPohUD ("Where are the activities taking place?") from main                                                                                 | Formatted as `"<easting>,<northing>"`, shared across all SSSIs on scheme path |
-| `ornec`       | qocAEz ("Which SFI action codes involve operations that need Natural England consent?") from main                                           | Selected action codes comma-joined, same for every SSSI                       |
+| `ornec`       | qocAEz ("Which SFI action codes involve operations that need Natural England consent (ORNEC)?") from main                                   | Selected action codes comma-joined, same for every SSSI                       |
 
 #### Scheme path (repeater gWZwzI)
 

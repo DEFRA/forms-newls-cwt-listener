@@ -11,4 +11,5 @@ coverage
 .env
 .comparison-store
 *.dgproj
+*.dgproj.user
 _tasks/

@@ -11,7 +11,7 @@
         {
           "id": "0b631d6b-15d6-4fab-8a7b-adcededcf644",
           "type": "Markdown",
-          "content": "You should use this form to give notice of a planned activity on a site of special scientific interest (SSSI) that needs Natural England's consent. \r\n\r\nYour planned activities must be taking place within a SSSI.\r\n\r\nOnly certain individuals can submit a notice. They must be either: \r\n* the land owner\r\n* the land occupier\r\n* someone with the land owner or occupier's permission \r\n\r\nYou can apply for permission for up to 5 land owner or occupiers at a time, if the SSSI and activity is the same. \r\nYou can also apply for permission for activities across more than one SSSI if the land owner or occupier is the same. \r\n\r\nIf you are applying for consent as part of a land management scheme agreement, you will need a Single Business Identifier (SBI) number.\r\n\r\nYou may be asked for proof of permission to submit notice if you are not the owner.\r\n\r\nIf you are a public body or an organisation, known as a Section 28G, you should [apply for assent for your planned activities](https://submit-form-to-defra.service.gov.uk/form/give-notice-and-get-assent-for-a-planned-activity-on-or-near-a-sssi) on a SSSI instead.\r\n \r\n## Check if the activity is an ORNEC\r\n\r\nYou need to give notice for SSSI consent if your planned activities match at least one of the operations requiring Natural England's consent for the relevant SSSI site. These are known as operations requiring Natural England's consent (ORNEC).\r\n\r\nYou can check if an activity is an ORNEC for any given SSSI by using the free [designated sites system](https://designatedsites.naturalengland.org.uk/) website.\r\n\r\nSearch for the relevant SSSI, select 'View details'  then 'View ORNECs'.\r\n\r\n## Applying for consent in relation to Sustainable Farming Incentive (SFI)\r\nIf your SFI agreement includes activities on SSSI land that are listed as operations requiring Natural England's consent (ORNECs), you must obtain consent before carrying out those activities.\r\nYou should only submit a notice for consent after you have submitted your SFI agreement application to the Rural Payments Agency (RPA).\r\n\r\nYou will need to provide:\r\n\r\n* the SFI action codes that include operations requiring consent\r\n* the land parcel numbers where the operations will take place\r\n* details of the ORNECs, including how they will be carried out as part of the SFI action\r\n\r\n## Processing time\r\n\r\nWe will assess your application and contact you as soon as possible if we need more information.\r\n\r\nWe will provide a decision within 4 months of receiving your application. \r\n\r\nYou do not need to submit this notice if you have already applied for another Natural England licence, or have submitted a planning application for the same activity. We will use the information you have already provided.",
+          "content": "You should use this form to give notice of a planned activity on a site of special scientific interest (SSSI) that needs Natural England's consent. \r\n\r\nYour planned activities must be taking place within a SSSI.\r\n\r\nOnly certain individuals can submit a notice. They must be either: \r\n* the land owner\r\n* the land occupier\r\n* someone with the land owner or occupier's permission \r\n\r\nYou can apply for permission for up to 5 land owner or occupiers at a time, if the SSSI and activity is the same. For example, a large-scale activity, such as managing ditches, that is taking place on the same SSSI which is managed by up to 5 different landowner or occupiers. \r\n\r\nYou can also apply for permission for activities across more than one SSSI if the land owner or occupier is the same. \r\n\r\nIf you are applying for consent as part of a land management scheme agreement, you will need a Single Business Identifier (SBI) number.\r\n\r\nYou may be asked for proof of permission to submit notice if you are not the owner.\r\n\r\nIf you are a public body or an organisation, known as a Section 28G, you should [apply for assent for your planned activities](https://submit-form-to-defra.service.gov.uk/form/give-notice-and-get-assent-for-a-planned-activity-on-or-near-a-sssi) on a SSSI instead.\r\n \r\n## Check if the activity is an operations requiring Natural England's consent (ORNEC)\r\n\r\nYou need to give notice for SSSI consent if your planned activities match at least one of the operations requiring Natural England's consent for the relevant SSSI site. These are known as operations requiring Natural England's consent (ORNEC).\r\n\r\nYou can check if an activity is an ORNEC for any given SSSI by using the free [designated sites system](https://designatedsites.naturalengland.org.uk/) website.\r\n\r\nSearch for the relevant SSSI, select 'View details'  then 'View ORNECs'.\r\n\r\n## Applying for consent in relation to Sustainable Farming Incentive (SFI)\r\nIf your SFI agreement includes activities on SSSI land that are listed as operations requiring Natural England's consent (ORNECs), you must obtain consent before carrying out those activities.\r\nOnly submit a notice for consent after you have received an application reference number for your SFI application from the Rural Payments Agency (RPA).\r\n\r\nYou will need to provide:\r\n\r\n* the SFI action codes that include operations requiring consent\r\n* the land parcel numbers where the operations will take place\r\n* details of the ORNECs, including how they will be carried out as part of the SFI action\r\n\r\nThe RPA only needs confirmation from Natural England that it has received the SSSI notice before your agreement can go live.\r\n\r\n## Processing time\r\n\r\nWe will assess your application and contact you as soon as possible if we need more information.\r\n\r\nWe aim to provide consent decisions within 28 working days, but a decision may take up to 4 months on receiving your application. \r\n\r\nYou do not need to submit this notice if you have already applied for another Natural England licence, or have submitted a planning application for the same activity. We will use the information you have already provided.",
           "options": {},
           "schema": {}
         }
@@ -108,7 +108,7 @@
           "title": "Do you have the permission of the land owner or occupier of the SSSI land to submit this notice for consent?",
           "name": "QKPtxi",
           "shortDescription": "Permission to act",
-          "hint": "You may be asked to provide proof of permission",
+          "hint": "You may be asked to provide proof of permission, such as, an agent authorisation form or a copy of an appointment email from the landowner or occupier",
           "options": {
             "required": true
           },
@@ -281,6 +281,30 @@
           "max": 5
         }
       }
+    },
+    {
+      "title": "",
+      "path": "/can-you-briefly-tell-us-what-you-want-to-do",
+      "components": [
+        {
+          "type": "TextField",
+          "title": "Can you briefly tell us what you want to do?",
+          "name": "vzNklt",
+          "shortDescription": "What you want to do",
+          "hint": "For instance, dig a hole or build a fence, in 75 characters or less",
+          "options": {
+            "required": true,
+            "classes": ""
+          },
+          "schema": {
+            "min": 1,
+            "max": 75
+          },
+          "id": "99ec4c6c-e385-49df-8abd-266a2e74c93e"
+        }
+      ],
+      "next": [],
+      "id": "f906f3b7-f933-4ca0-885a-274645a6220c"
     },
     {
       "title": "",
@@ -541,11 +565,11 @@
     },
     {
       "title": "",
-      "path": "/which-sfi-action-codes-involve-operations-that-need-natural-england-consent",
+      "path": "/which-sfi-action-codes-involve-operations-that-need-natural-england-consent-ornec",
       "components": [
         {
           "type": "CheckboxesField",
-          "title": "Which SFI action codes involve operations that need Natural England consent?",
+          "title": "Which SFI action codes involve operations that need Natural England consent (ORNEC)?",
           "name": "qocAEz",
           "shortDescription": "Action codes which need consent",
           "hint": "Select all actions that apply",
@@ -568,7 +592,7 @@
         {
           "id": "bfb134c2-5b9b-43cf-a7cb-efa2893a20ce",
           "type": "Markdown",
-          "content": "Your notice should clearly explain your planned work. You should include:\r\n\r\n* who will do the work\r\n* what work you plan to carry out\r\n* where it will happen\r\n* when it will take place\r\n* how you will do it\r\n\r\nNatural England cannot give consent based on SFI agreement details or action codes alone. You must describe the specific operation in your SSSI notice.\r\n\r\nSFI is an outcome-based scheme. The actions describe aims, not detailed instructions. Referring to SFI guidance or the handbook on its own is not enough for us to assess your notice.\r\n\r\nIf your notice is missing details or is unclear, we may not be able to make a determination. This could delay your SFI payments.\r\n\r\n\r\n## How you will carry out your wildlife on arable or horticultural land actions\r\nAdd practical detail about how your SFI actions will be carried out within the SSSI.\r\n\r\nFor example, include:\r\n\r\n* methods and how often work will take place\r\n* exact locations within the SSSI or parcel\r\n* species included in any seed mix\r\n* habitat creation (such as beetle banks or fallow plots) and how these will be managed\r\n* use of herbicides, insecticides, manure, fertiliser or lime\r\n* cutting, grazing, or cropping activities\r\n* how you will avoid affecting breeding and nesting birds\r\n\r\nIf Natural England give consent, it will only cover the work you describe in this notice. You must include all the activities you plan to carry out.\r\n\r\nYou can provide detail of another wildlife on arable or horticultural land SFI action code on the next page, select 'Add another'.",
+          "content": "Your notice should clearly explain your planned work. You should include:\r\n\r\n* who will do the work\r\n* what work you plan to carry out\r\n* where it will happen\r\n* when it will take place\r\n* how you will do it\r\n\r\nNatural England cannot give consent based on SFI agreement details or action codes alone. You must describe the specific operation in your SSSI notice.\r\n\r\nSFI is an outcome-based scheme. The actions describe aims, not detailed instructions. Referring to SFI guidance or the handbook on its own is not enough for us to assess your notice.\r\n\r\nIf your notice is missing details or is unclear, we may not be able to make a determination. This could delay your SFI payments.\r\n\r\n\r\n## How you will carry out your wildlife on arable or horticultural land actions\r\nAdd practical detail about how your SFI actions will be carried out within the SSSI.\r\n\r\nInclude any information that is relevant to the action you are describing. You do not need to provide details for every item in the list below. You can also include other relevant information.\r\n\r\nFor example:\r\n\r\n* methods and how often work will take place\r\n* exact locations within the SSSI or parcel\r\n* species included in any seed mix\r\n* habitat creation (such as beetle banks or fallow plots) and how these will be managed\r\n* use of herbicides, insecticides, manure, fertiliser or lime\r\n* cutting, grazing, or cropping activities\r\n* how you will avoid affecting breeding and nesting birds\r\n\r\nIf Natural England give consent, it will only cover the work you describe in this notice. You must include all the activities you plan to carry out.\r\n\r\nYou can provide detail of another wildlife on arable or horticultural land SFI action code on the next page, select 'Add another'.",
           "options": {},
           "schema": {}
         },
@@ -577,7 +601,7 @@
           "title": "Which SFI action code are you providing information for?",
           "name": "pbtwKn",
           "shortDescription": "Farmland wildlife SFI action code",
-          "hint": "",
+          "hint": "Select the action code you want to give information about",
           "list": "d4c0e113-1ba7-4397-86dc-562ffe502cee",
           "options": {
             "required": true
@@ -634,7 +658,7 @@
         {
           "id": "89be3717-f74f-4f54-9510-1e812cb6fb65",
           "type": "Markdown",
-          "content": "Your notice should clearly explain your planned work. You should include:\r\n\r\n* who will do the work\r\n* what work you plan to carry out\r\n* where it will happen\r\n* when it will take place\r\n* how you will do it\r\n\r\nNatural England cannot give consent based on SFI agreement details or action codes alone. You must describe the specific operation in your SSSI notice.\r\n\r\nSFI is an outcome-based scheme. The actions describe aims, not detailed instructions. Referring to SFI guidance or the handbook on its own is not enough for us to assess your notice.\r\n\r\nIf your notice is missing details or is unclear, we may not be able to make a determination. This could delay your SFI payments.\r\n\r\n## How you will carry out your buffer strips actions\r\nAdd practical detail about how your SFI actions will be carried out within the SSSI.  \r\nFor example, include:\r\n\r\n* whether buffer or habitat strips will be created or maintained, and how\r\n* where the work will take place in the SSSI\r\n* any grazing, cutting or herbicide use\r\n* any planting or soil movement\r\n* how you will avoid affecting breeding and nesting birds\r\n\r\nIf Natural England give consent, it will only cover the work you describe in this notice. You must include all the activities you plan to carry out.\r\n\r\nYou can provide detail of another buffer strip SFI action code on the next page, select 'Add another'.",
+          "content": "Your notice should clearly explain your planned work. You should include:\r\n\r\n* who will do the work\r\n* what work you plan to carry out\r\n* where it will happen\r\n* when it will take place\r\n* how you will do it\r\n\r\nNatural England cannot give consent based on SFI agreement details or action codes alone. You must describe the specific operation in your SSSI notice.\r\n\r\nSFI is an outcome-based scheme. The actions describe aims, not detailed instructions. Referring to SFI guidance or the handbook on its own is not enough for us to assess your notice.\r\n\r\nIf your notice is missing details or is unclear, we may not be able to make a determination. This could delay your SFI payments.\r\n\r\n## How you will carry out your buffer strips actions\r\nAdd practical detail about how your SFI actions will be carried out within the SSSI.  \r\n\r\nInclude any information that is relevant to the action you are describing. You do not need to provide details for every item in the list below. You can also include other relevant information.\r\n\r\nFor example:\r\n\r\n* whether buffer or habitat strips will be created or maintained, and how\r\n* where the work will take place in the SSSI\r\n* any grazing, cutting or herbicide use\r\n* any planting or soil movement\r\n* how you will avoid affecting breeding and nesting birds\r\n\r\nIf Natural England give consent, it will only cover the work you describe in this notice. You must include all the activities you plan to carry out.\r\n\r\nYou can provide detail of another buffer strip SFI action code on the next page, select 'Add another'.",
           "options": {},
           "schema": {}
         },
@@ -643,12 +667,12 @@
           "title": "Which SFI action code are you providing information for?",
           "name": "lEWaUc",
           "shortDescription": "Buffer strips SFI action code",
-          "hint": "",
+          "hint": "Select the action code you want to give information about",
+          "list": "94d47774-7d69-49f6-963a-4d4a48711700",
           "options": {
             "required": true
           },
           "schema": {},
-          "list": "94d47774-7d69-49f6-963a-4d4a48711700",
           "id": "c46feece-bbae-4cde-b601-bf107912ae30"
         },
         {
@@ -698,23 +722,23 @@
       "path": "/boundary",
       "components": [
         {
+          "id": "6a6c0c86-5cd5-44a6-8565-26726fcb2c00",
           "type": "Markdown",
-          "content": "Your notice should clearly explain your planned work. You should include:\r\n\r\n* who will do the work\r\n* what work you plan to carry out\r\n* where it will happen\r\n* when it will take place\r\n* how you will do it\r\n\r\nNatural England cannot give consent based on SFI agreement details or action codes alone. You must describe the specific operation in your SSSI notice.\r\n\r\nSFI is an outcome-based scheme. The actions describe aims, not detailed instructions. Referring to SFI guidance or the handbook on its own is not enough for us to assess your notice.\r\n\r\nIf your notice is missing details or is unclear, we may not be able to make a determination. This could delay your SFI payments.\r\n\r\n## How you will carry out your boundary actions\r\nAdd practical detail about how your SFI actions will be carried out within the SSSI.\r\nFor example, include:\r\n\r\n* where the work will take place in the SSSI\r\n* any use of vehicles within the SSSI\r\n* how often, when, and how any cutting will take place\r\n* any planned wall repairs\r\n* whether materials will be stored on the SSSI\r\n* how you will avoid affecting breeding and nesting birds\r\n\r\nIf Natural England give consent, it will only cover the work you describe in this notice. You must include all the activities you plan to carry out.\r\n\r\nYou can provide detail of another boundary SFI action code on the next page, select 'Add another'.",
+          "content": "Your notice should clearly explain your planned work. You should include:\r\n\r\n* who will do the work\r\n* what work you plan to carry out\r\n* where it will happen\r\n* when it will take place\r\n* how you will do it\r\n\r\nNatural England cannot give consent based on SFI agreement details or action codes alone. You must describe the specific operation in your SSSI notice.\r\n\r\nSFI is an outcome-based scheme. The actions describe aims, not detailed instructions. Referring to SFI guidance or the handbook on its own is not enough for us to assess your notice.\r\n\r\nIf your notice is missing details or is unclear, we may not be able to make a determination. This could delay your SFI payments.\r\n\r\n## How you will carry out your boundary actions\r\nAdd practical detail about how your SFI actions will be carried out within the SSSI.\r\n\r\nInclude any information that is relevant to the action you are describing. You do not need to provide details for every item in the list below. You can also include other relevant information.\r\n\r\nFor example:\r\n\r\n* where the work will take place in the SSSI\r\n* any use of vehicles within the SSSI\r\n* how often, when, and how any cutting will take place\r\n* any planned wall repairs\r\n* whether materials will be stored on the SSSI\r\n* how you will avoid affecting breeding and nesting birds\r\n\r\nIf Natural England give consent, it will only cover the work you describe in this notice. You must include all the activities you plan to carry out.\r\n\r\nYou can provide detail of another boundary SFI action code on the next page, select 'Add another'.",
           "options": {},
-          "schema": {},
-          "id": "6a6c0c86-5cd5-44a6-8565-26726fcb2c00"
+          "schema": {}
         },
         {
           "type": "SelectField",
           "title": "Which SFI action code are you providing information for?",
           "name": "zHfcpZ",
           "shortDescription": "Boundary SFI action code",
-          "hint": "",
+          "hint": "Select the action code you want to give information about",
+          "list": "54440937-e8ad-4c95-9a59-78908b0fde54",
           "options": {
             "required": true
           },
           "schema": {},
-          "list": "54440937-e8ad-4c95-9a59-78908b0fde54",
           "id": "f102c63f-cda2-4f90-8927-c6fd1dfb0d76"
         },
         {
@@ -764,23 +788,23 @@
       "path": "/heritage",
       "components": [
         {
+          "id": "141c5f60-aeca-4845-9fdd-6dea6c7fe720",
           "type": "Markdown",
-          "content": "Your notice should clearly explain your planned work. You should include:\r\n\r\n* who will do the work\r\n* what work you plan to carry out\r\n* where it will happen\r\n* when it will take place\r\n* how you will do it\r\n\r\nNatural England cannot give consent based on SFI agreement details or action codes alone. You must describe the specific operation in your SSSI notice.\r\n\r\nSFI is an outcome-based scheme. The actions describe aims, not detailed instructions. Referring to SFI guidance or the handbook on its own is not enough for us to assess your notice.\r\n\r\nIf your notice is missing details or is unclear, we may not be able to make a determination. This could delay your SFI payments.\r\n\r\n## How you will carry out your heritage actions\r\nAdd practical detail about how your SFI actions will be carried out within the SSSI.\r\nFor example, include:\r\n\r\n* where the work will take place in the SSSI\r\n* any use of vehicles within the SSSI\r\n* any maintenance to farm or forestry buildings\r\n* whether materials will be stored on the SSSI\r\n* how you will consider wildlife\r\n* any grass or vegetation management\r\n* any removal of trees or vegetation, such as scrub, bracken or invasive weeds\r\n\r\nIf Natural England give consent, it will only cover the work you describe in this notice. You must include all the activities you plan to carry out.\r\n\r\nYou can provide detail of another heritage SFI action code on the next page, select 'Add another'.",
+          "content": "Your notice should clearly explain your planned work. You should include:\r\n\r\n* who will do the work\r\n* what work you plan to carry out\r\n* where it will happen\r\n* when it will take place\r\n* how you will do it\r\n\r\nNatural England cannot give consent based on SFI agreement details or action codes alone. You must describe the specific operation in your SSSI notice.\r\n\r\nSFI is an outcome-based scheme. The actions describe aims, not detailed instructions. Referring to SFI guidance or the handbook on its own is not enough for us to assess your notice.\r\n\r\nIf your notice is missing details or is unclear, we may not be able to make a determination. This could delay your SFI payments.\r\n\r\n## How you will carry out your heritage actions\r\nAdd practical detail about how your SFI actions will be carried out within the SSSI.\r\n\r\nInclude any information that is relevant to the action you are describing. You do not need to provide details for every item in the list below. You can also include other relevant information.\r\n\r\nFor example:\r\n\r\n* where the work will take place in the SSSI\r\n* any use of vehicles within the SSSI\r\n* any maintenance to farm or forestry buildings\r\n* whether materials will be stored on the SSSI\r\n* how you will consider wildlife\r\n* any grass or vegetation management\r\n* any removal of trees or vegetation, such as scrub, bracken or invasive weeds\r\n\r\nIf Natural England give consent, it will only cover the work you describe in this notice. You must include all the activities you plan to carry out.\r\n\r\nYou can provide detail of another heritage SFI action code on the next page, select 'Add another'.",
           "options": {},
-          "schema": {},
-          "id": "141c5f60-aeca-4845-9fdd-6dea6c7fe720"
+          "schema": {}
         },
         {
           "type": "SelectField",
           "title": "Which SFI action code are you providing information for?",
           "name": "mwKoKU",
           "shortDescription": "Heritage SFI action code",
-          "hint": "",
+          "hint": "Select the action code you want to give information about",
+          "list": "6ee460fd-ede8-4af1-a6dd-f9fe99148bc0",
           "options": {
             "required": true
           },
           "schema": {},
-          "list": "6ee460fd-ede8-4af1-a6dd-f9fe99148bc0",
           "id": "f7f31a59-739d-4746-98c8-9c816a56f28b"
         },
         {
@@ -832,7 +856,7 @@
         {
           "id": "68907559-447a-44c7-9fe6-34ce0a8f759f",
           "type": "Markdown",
-          "content": "Your notice should clearly explain your planned work. You should include:\r\n\r\n* who will do the work\r\n* what work you plan to carry out\r\n* where it will happen\r\n* when it will take place\r\n* how you will do it\r\n\r\nNatural England cannot give consent based on SFI agreement details or action codes alone. You must describe the specific operation in your SSSI notice.\r\n\r\nSFI is an outcome-based scheme. The actions describe aims, not detailed instructions. Referring to SFI guidance or the handbook on its own is not enough for us to assess your notice.\r\n\r\nIf your notice is missing details or is unclear, we may not be able to make a determination. This could delay your SFI payments.\r\n\r\n## How you will carry out your integrated pest management actions\r\nAdd practical detail about how your SFI actions will be carried out within the SSSI.\r\nFor example, include:\r\n\r\n* whether companion crops, grass margins, blocks or inâ€‘field strips will be created or maintained, and how\r\n* the type and species in any seed mix\r\n* any cutting or grazing\r\n* any use of fertiliser, manure, herbicides, fungicides or plant growth regulators, including application rates\r\n\r\nIf Natural England give consent, it will only cover the work you describe in this notice. You must include all the activities you plan to carry out.\r\n\r\nYou can provide detail of another integrated pest management SFI action code on the next page, select 'Add another'.",
+          "content": "Your notice should clearly explain your planned work. You should include:\r\n\r\n* who will do the work\r\n* what work you plan to carry out\r\n* where it will happen\r\n* when it will take place\r\n* how you will do it\r\n\r\nNatural England cannot give consent based on SFI agreement details or action codes alone. You must describe the specific operation in your SSSI notice.\r\n\r\nSFI is an outcome-based scheme. The actions describe aims, not detailed instructions. Referring to SFI guidance or the handbook on its own is not enough for us to assess your notice.\r\n\r\nIf your notice is missing details or is unclear, we may not be able to make a determination. This could delay your SFI payments.\r\n\r\n## How you will carry out your integrated pest management actions\r\nAdd practical detail about how your SFI actions will be carried out within the SSSI.\r\n\r\nInclude any information that is relevant to the action you are describing. You do not need to provide details for every item in the list below. You can also include other relevant information.\r\n\r\nFor example:\r\n\r\n* whether companion crops, grass margins, blocks or inâ€‘field strips will be created or maintained, and how\r\n* the type and species in any seed mix\r\n* any cutting or grazing\r\n* any use of fertiliser, manure, herbicides, fungicides or plant growth regulators, including application rates\r\n\r\nIf Natural England give consent, it will only cover the work you describe in this notice. You must include all the activities you plan to carry out.\r\n\r\nYou can provide detail of another integrated pest management SFI action code on the next page, select 'Add another'.",
           "options": {},
           "schema": {}
         },
@@ -841,12 +865,12 @@
           "title": "Which SFI action code are you providing information for?",
           "name": "KxsqKA",
           "shortDescription": "Integrated pest management SFI action code",
-          "hint": "",
+          "hint": "Select the action code you want to give information about",
+          "list": "0a73ef18-32f0-4a08-85d7-8cf7c847d3c0",
           "options": {
             "required": true
           },
           "schema": {},
-          "list": "0a73ef18-32f0-4a08-85d7-8cf7c847d3c0",
           "id": "6e8d0fee-3743-41a8-9a56-4c7542814e43"
         },
         {
@@ -898,7 +922,7 @@
         {
           "id": "997c71c5-ede4-4638-8e4a-1b11a8d513de",
           "type": "Markdown",
-          "content": "Your notice should clearly explain your planned work. You should include:\r\n\r\n* who will do the work\r\n* what work you plan to carry out\r\n* where it will happen\r\n* when it will take place\r\n* how you will do it\r\n\r\nNatural England cannot give consent based on SFI agreement details or action codes alone. You must describe the specific operation in your SSSI notice.\r\n\r\nSFI is an outcome-based scheme. The actions describe aims, not detailed instructions. Referring to SFI guidance or the handbook on its own is not enough for us to assess your notice.\r\n\r\nIf your notice is missing details or is unclear, we may not be able to make a determination. This could delay your SFI payments.\r\n\r\n## How you will carry out your wildlife and habitats on grassland actions\r\nAdd practical detail about how your SFI actions will be carried out within the SSSI.\r\nFor example, include:\r\n\r\n* any cutting or grazing, including cutting methods and grazing type, density and timing\r\n* any supplementary feeding\r\n* any use of fertiliser, manure or herbicides, including application rates\r\n* how you will avoid affecting breeding and nesting birds\r\n\r\nIf Natural England give consent, it will only cover the work you describe in this notice. You must include all the activities you plan to carry out.\r\n\r\nYou can provide detail of another wildlife and habitats on grassland SFI action code on the next page, select 'Add another'.",
+          "content": "Your notice should clearly explain your planned work. You should include:\r\n\r\n* who will do the work\r\n* what work you plan to carry out\r\n* where it will happen\r\n* when it will take place\r\n* how you will do it\r\n\r\nNatural England cannot give consent based on SFI agreement details or action codes alone. You must describe the specific operation in your SSSI notice.\r\n\r\nSFI is an outcome-based scheme. The actions describe aims, not detailed instructions. Referring to SFI guidance or the handbook on its own is not enough for us to assess your notice.\r\n\r\nIf your notice is missing details or is unclear, we may not be able to make a determination. This could delay your SFI payments.\r\n\r\n## How you will carry out your wildlife and habitats on grassland actions\r\nAdd practical detail about how your SFI actions will be carried out within the SSSI.\r\n\r\nInclude any information that is relevant to the action you are describing. You do not need to provide details for every item in the list below. You can also include other relevant information.\r\n\r\nFor example:\r\n\r\n* any cutting or grazing, including cutting methods and grazing type, density and timing\r\n* any supplementary feeding\r\n* any use of fertiliser, manure or herbicides, including application rates\r\n* how you will avoid affecting breeding and nesting birds\r\n\r\nIf Natural England give consent, it will only cover the work you describe in this notice. You must include all the activities you plan to carry out.\r\n\r\nYou can provide detail of another wildlife and habitats on grassland SFI action code on the next page, select 'Add another'.",
           "options": {},
           "schema": {}
         },
@@ -907,12 +931,12 @@
           "title": "Which SFI action code are you providing information for?",
           "name": "hOYlsQ",
           "shortDescription": "Wildlife and habitats on grassland SFI action code",
-          "hint": "",
+          "hint": "Select the action code you want to give information about",
+          "list": "9f1a5709-cb36-47d8-8db5-60aa1830aa9a",
           "options": {
             "required": true
           },
           "schema": {},
-          "list": "9f1a5709-cb36-47d8-8db5-60aa1830aa9a",
           "id": "9c6ac4a2-7134-4f85-b11e-3518b673e840"
         },
         {
@@ -962,18 +986,18 @@
       "path": "/moorland",
       "components": [
         {
+          "id": "b58db8e7-5b06-4f55-9620-2733c803f554",
           "type": "Markdown",
-          "content": "Your notice should clearly explain your planned work. You should include:\r\n\r\n* who will do the work\r\n* what work you plan to carry out\r\n* where it will happen\r\n* when it will take place\r\n* how you will do it\r\n\r\nNatural England cannot give consent based on SFI agreement details or action codes alone. You must describe the specific operation in your SSSI notice.\r\n\r\nSFI is an outcome-based scheme. The actions describe aims, not detailed instructions. Referring to SFI guidance or the handbook on its own is not enough for us to assess your notice.\r\n\r\nIf your notice is missing details or is unclear, we may not be able to make a determination. This could delay your SFI payments.\r\n\r\n## How you will carry out your moorland actions\r\nAdd practical detail about how your SFI actions will be carried out within the SSSI.\r\nFor example, include:\r\n\r\n* stocking details, such as stock type, numbers (minimum and maximum) and grazing periods\r\n* stocking calendars, if used\r\n* the location of any mineral licks\r\n* how you will manage livestock, including shepherding methods (such as herding, vehicle use or temporary fencing)\r\n\r\nIf Natural England give consent, it will only cover the work you describe in this notice. You must include all the activities you plan to carry out.\r\n\r\nYou can provide detail of another moorland SFI action code on the next page, select 'Add another'.",
+          "content": "Your notice should clearly explain your planned work. You should include:\r\n\r\n* who will do the work\r\n* what work you plan to carry out\r\n* where it will happen\r\n* when it will take place\r\n* how you will do it\r\n\r\nNatural England cannot give consent based on SFI agreement details or action codes alone. You must describe the specific operation in your SSSI notice.\r\n\r\nSFI is an outcome-based scheme. The actions describe aims, not detailed instructions. Referring to SFI guidance or the handbook on its own is not enough for us to assess your notice.\r\n\r\nIf your notice is missing details or is unclear, we may not be able to make a determination. This could delay your SFI payments.\r\n\r\n## How you will carry out your moorland actions\r\nAdd practical detail about how your SFI actions will be carried out within the SSSI.\r\n\r\nInclude any information that is relevant to the action you are describing. You do not need to provide details for every item in the list below. You can also include other relevant information.\r\n\r\nFor example:\r\n\r\n* stocking details, such as stock type, numbers (minimum and maximum) and grazing periods\r\n* stocking calendars, if used\r\n* the location of any mineral licks\r\n* how you will manage livestock, including shepherding methods (such as herding, vehicle use or temporary fencing)\r\n\r\nIf Natural England give consent, it will only cover the work you describe in this notice. You must include all the activities you plan to carry out.\r\n\r\nYou can provide detail of another moorland SFI action code on the next page, select 'Add another'.",
           "options": {},
-          "schema": {},
-          "id": "b58db8e7-5b06-4f55-9620-2733c803f554"
+          "schema": {}
         },
         {
           "type": "SelectField",
           "title": "Which SFI action code are you providing information for?",
           "name": "ekgxQR",
           "shortDescription": "Moorland SFI action code",
-          "hint": "",
+          "hint": "Select the action code you want to give information about",
           "list": "c5e9169d-50a4-42b4-8f32-4dace8cecc56",
           "options": {
             "required": true
@@ -1030,7 +1054,7 @@
         {
           "id": "2728c0ed-4f1c-4cfb-ae9d-1469501b31b5",
           "type": "Markdown",
-          "content": "Your notice should clearly explain your planned work. You should include:\r\n\r\n* who will do the work\r\n* what work you plan to carry out\r\n* where it will happen\r\n* when it will take place\r\n* how you will do it\r\n\r\nNatural England cannot give consent based on SFI agreement details or action codes alone. You must describe the specific operation in your SSSI notice.\r\n\r\nSFI is an outcome-based scheme. The actions describe aims, not detailed instructions. Referring to SFI guidance or the handbook on its own is not enough for us to assess your notice.\r\n\r\nIf your notice is missing details or is unclear, we may not be able to make a determination. This could delay your SFI payments.\r\n\r\n## How you will carry out your nutrient management actions\r\nAdd practical detail about how your SFI actions will be carried out within the SSSI.\r\nFor example, include:\r\n\r\n* whether legumes will be created or maintained, and how\r\n* how they will be established, including any mechanical operations\r\n* the type and species of legumes or seed used\r\n* any cutting or use of herbicides\r\n\r\nIf Natural England give consent, it will only cover the work you describe in this notice. You must include all the activities you plan to carry out.\r\n\r\nYou can provide detail of another nutrient management SFI action code on the next page, select 'Add another'.",
+          "content": "Your notice should clearly explain your planned work. You should include:\r\n\r\n* who will do the work\r\n* what work you plan to carry out\r\n* where it will happen\r\n* when it will take place\r\n* how you will do it\r\n\r\nNatural England cannot give consent based on SFI agreement details or action codes alone. You must describe the specific operation in your SSSI notice.\r\n\r\nSFI is an outcome-based scheme. The actions describe aims, not detailed instructions. Referring to SFI guidance or the handbook on its own is not enough for us to assess your notice.\r\n\r\nIf your notice is missing details or is unclear, we may not be able to make a determination. This could delay your SFI payments.\r\n\r\n## How you will carry out your nutrient management actions\r\nAdd practical detail about how your SFI actions will be carried out within the SSSI.\r\n\r\nInclude any information that is relevant to the action you are describing. You do not need to provide details for every item in the list below. You can also include other relevant information.\r\n\r\nFor example:\r\n\r\n* whether legumes will be created or maintained, and how\r\n* how they will be established, including any mechanical operations\r\n* the type and species of legumes or seed used\r\n* any cutting or use of herbicides\r\n\r\nIf Natural England give consent, it will only cover the work you describe in this notice. You must include all the activities you plan to carry out.\r\n\r\nYou can provide detail of another nutrient management SFI action code on the next page, select 'Add another'.",
           "options": {},
           "schema": {}
         },
@@ -1039,12 +1063,12 @@
           "title": "Which SFI action code are you providing information for?",
           "name": "KKMZAJ",
           "shortDescription": "Nutrient management SFI action code",
-          "hint": "",
+          "hint": "Select the action code you want to give information about",
+          "list": "02a0b08b-f792-41cb-a64a-709dafef5251",
           "options": {
             "required": true
           },
           "schema": {},
-          "list": "02a0b08b-f792-41cb-a64a-709dafef5251",
           "id": "bb7a14ec-0043-446e-abe7-3e3e6a1b1dd6"
         },
         {
@@ -1094,18 +1118,18 @@
       "path": "/organic-farming",
       "components": [
         {
+          "id": "1bf92514-d248-4323-a973-edbd4c6939d2",
           "type": "Markdown",
-          "content": "Your notice should clearly explain your planned work. You should include:\r\n\r\n* who will do the work\r\n* what work you plan to carry out\r\n* where it will happen\r\n* when it will take place\r\n* how you will do it\r\n\r\nNatural England cannot give consent based on SFI agreement details or action codes alone. You must describe the specific operation in your SSSI notice.\r\n\r\nSFI is an outcome-based scheme. The actions describe aims, not detailed instructions. Referring to SFI guidance or the handbook on its own is not enough for us to assess your notice.\r\n\r\nIf your notice is missing details or is unclear, we may not be able to make a determination. This could delay your SFI payments.\r\n\r\n## How you will carry out your organic farming actions\r\nAdd practical detail about how your SFI actions will be carried out within the SSSI.\r\nFor example, include:\r\n\r\n* any cutting or grazing\r\n* how land will be converted, established or managed\r\n* any tree protection or management work\r\n* any other relevant activities from your organic conversion plan that apply to this SSSI\r\n\r\nIf Natural England give consent, it will only cover the work you describe in this notice. You must include all the activities you plan to carry out.\r\n\r\nYou can provide detail of another organic farming SFI action code on the next page, select 'Add another'.",
+          "content": "Your notice should clearly explain your planned work. You should include:\r\n\r\n* who will do the work\r\n* what work you plan to carry out\r\n* where it will happen\r\n* when it will take place\r\n* how you will do it\r\n\r\nNatural England cannot give consent based on SFI agreement details or action codes alone. You must describe the specific operation in your SSSI notice.\r\n\r\nSFI is an outcome-based scheme. The actions describe aims, not detailed instructions. Referring to SFI guidance or the handbook on its own is not enough for us to assess your notice.\r\n\r\nIf your notice is missing details or is unclear, we may not be able to make a determination. This could delay your SFI payments.\r\n\r\n## How you will carry out your organic farming actions\r\nAdd practical detail about how your SFI actions will be carried out within the SSSI.\r\n\r\nInclude any information that is relevant to the action you are describing. You do not need to provide details for every item in the list below. You can also include other relevant information.\r\n\r\nFor example:\r\n\r\n* any cutting or grazing\r\n* how land will be converted, established or managed\r\n* any tree protection or management work\r\n* any other relevant activities from your organic conversion plan that apply to this SSSI\r\n\r\nIf Natural England give consent, it will only cover the work you describe in this notice. You must include all the activities you plan to carry out.\r\n\r\nYou can provide detail of another organic farming SFI action code on the next page, select 'Add another'.",
           "options": {},
-          "schema": {},
-          "id": "1bf92514-d248-4323-a973-edbd4c6939d2"
+          "schema": {}
         },
         {
           "type": "SelectField",
           "title": "Which SFI action code are you providing information for?",
           "name": "jLIjhV",
           "shortDescription": "Organic farming SFI action code",
-          "hint": "",
+          "hint": "Select the action code you want to give information about",
           "list": "890134a0-83b1-4952-92ee-eaa3d67a53e5",
           "options": {
             "required": true
@@ -1162,7 +1186,7 @@
         {
           "id": "27976ca2-0b07-449f-a25c-ac7de98b7488",
           "type": "Markdown",
-          "content": "Your notice should clearly explain your planned work. You should include:\r\n\r\n* who will do the work\r\n* what work you plan to carry out\r\n* where it will happen\r\n* when it will take place\r\n* how you will do it\r\n\r\nNatural England cannot give consent based on SFI agreement details or action codes alone. You must describe the specific operation in your SSSI notice.\r\n\r\nSFI is an outcome-based scheme. The actions describe aims, not detailed instructions. Referring to SFI guidance or the handbook on its own is not enough for us to assess your notice.\r\n\r\nIf your notice is missing details or is unclear, we may not be able to make a determination. This could delay your SFI payments.\r\n\r\n## How you will carry out your precision farming actions\r\nAdd practical detail about how your SFI actions will be carried out within the SSSI.\r\nFor example, include:\r\n\r\n* any nutrient applications, including the type and application rate\r\n* any use of lime or herbicides\r\n* any vehicle use or mechanical operations\r\n\r\nIf Natural England give consent, it will only cover the work you describe in this notice. You must include all the activities you plan to carry out.\r\n\r\nYou can provide detail of another precision farming SFI action code on the next page, select 'Add another'.",
+          "content": "Your notice should clearly explain your planned work. You should include:\r\n\r\n* who will do the work\r\n* what work you plan to carry out\r\n* where it will happen\r\n* when it will take place\r\n* how you will do it\r\n\r\nNatural England cannot give consent based on SFI agreement details or action codes alone. You must describe the specific operation in your SSSI notice.\r\n\r\nSFI is an outcome-based scheme. The actions describe aims, not detailed instructions. Referring to SFI guidance or the handbook on its own is not enough for us to assess your notice.\r\n\r\nIf your notice is missing details or is unclear, we may not be able to make a determination. This could delay your SFI payments.\r\n\r\n## How you will carry out your precision farming actions\r\nAdd practical detail about how your SFI actions will be carried out within the SSSI.\r\n\r\nInclude any information that is relevant to the action you are describing. You do not need to provide details for every item in the list below. You can also include other relevant information.\r\n\r\nFor example:\r\n\r\n* any nutrient applications, including the type and application rate\r\n* any use of lime or herbicides\r\n* any vehicle use or mechanical operations\r\n\r\nIf Natural England give consent, it will only cover the work you describe in this notice. You must include all the activities you plan to carry out.\r\n\r\nYou can provide detail of another precision farming SFI action code on the next page, select 'Add another'.",
           "options": {},
           "schema": {}
         },
@@ -1171,12 +1195,12 @@
           "title": "Which SFI action code are you providing information for?",
           "name": "PtnWiM",
           "shortDescription": "Precision farming SFI action code",
-          "hint": "",
+          "hint": "Select the action code you want to give information about",
+          "list": "0ce1d44d-fdc0-4ddb-abef-62f7993c1425",
           "options": {
             "required": true
           },
           "schema": {},
-          "list": "0ce1d44d-fdc0-4ddb-abef-62f7993c1425",
           "id": "be662ecb-6525-405e-bea4-47d06f3ce1b8"
         },
         {
@@ -1228,7 +1252,7 @@
         {
           "id": "1645bda5-2dbf-4906-84fa-d04556e1e31f",
           "type": "Markdown",
-          "content": "Your notice should clearly explain your planned work. You should include:\r\n\r\n* who will do the work\r\n* what work you plan to carry out\r\n* where it will happen\r\n* when it will take place\r\n* how you will do it\r\n\r\nNatural England cannot give consent based on SFI agreement details or action codes alone. You must describe the specific operation in your SSSI notice.\r\n\r\nSFI is an outcome-based scheme. The actions describe aims, not detailed instructions. Referring to SFI guidance or the handbook on its own is not enough for us to assess your notice.\r\n\r\nIf your notice is missing details or is unclear, we may not be able to make a determination. This could delay your SFI payments.\r\n\r\n## How you will carry out your soil health actions\r\nAdd practical detail about how your SFI actions will be carried out within the SSSI.\r\nFor example, include:\r\n\r\n* whether cover crops will be created or maintained, and how\r\n* how they will be established (for example, drilling methods)\r\n* the type and species in any seed mix\r\n* any cutting or grazing\r\n* any use of fertiliser or manure\r\n* any subsoiling, mole draining or other mechanical operations\r\n\r\n\r\nIf Natural England give consent, it will only cover the work you describe in this notice. You must include all the activities you plan to carry out.\r\n\r\nYou can provide detail of another soil health SFI action code on the next page, select 'Add another'.",
+          "content": "Your notice should clearly explain your planned work. You should include:\r\n\r\n* who will do the work\r\n* what work you plan to carry out\r\n* where it will happen\r\n* when it will take place\r\n* how you will do it\r\n\r\nNatural England cannot give consent based on SFI agreement details or action codes alone. You must describe the specific operation in your SSSI notice.\r\n\r\nSFI is an outcome-based scheme. The actions describe aims, not detailed instructions. Referring to SFI guidance or the handbook on its own is not enough for us to assess your notice.\r\n\r\nIf your notice is missing details or is unclear, we may not be able to make a determination. This could delay your SFI payments.\r\n\r\n## How you will carry out your soil health actions\r\nAdd practical detail about how your SFI actions will be carried out within the SSSI.\r\n\r\nInclude any information that is relevant to the action you are describing. You do not need to provide details for every item in the list below. You can also include other relevant information.\r\n\r\nFor example:\r\n\r\n* whether cover crops will be created or maintained, and how\r\n* how they will be established (for example, drilling methods)\r\n* the type and species in any seed mix\r\n* any cutting or grazing\r\n* any use of fertiliser or manure\r\n* any subsoiling, mole draining or other mechanical operations\r\n\r\n\r\nIf Natural England give consent, it will only cover the work you describe in this notice. You must include all the activities you plan to carry out.\r\n\r\nYou can provide detail of another soil health SFI action code on the next page, select 'Add another'.",
           "options": {},
           "schema": {}
         },
@@ -1237,12 +1261,12 @@
           "title": "Which SFI action code are you providing information for?",
           "name": "PPbvTw",
           "shortDescription": "Soil health SFI action code",
-          "hint": "",
+          "hint": "Select the action code you want to give information about",
+          "list": "5a66f612-fdc3-420f-a1ed-e1ee7ad78278",
           "options": {
             "required": true
           },
           "schema": {},
-          "list": "5a66f612-fdc3-420f-a1ed-e1ee7ad78278",
           "id": "3f8c01f6-18af-40e8-8b70-e538955c63f1"
         },
         {
@@ -1292,23 +1316,23 @@
       "path": "/species-recovery-and-management",
       "components": [
         {
+          "id": "3fc6cb23-a43c-4179-859b-9308f25c18a9",
           "type": "Markdown",
-          "content": "Your notice should clearly explain your planned work. You should include:\r\n\r\n* who will do the work\r\n* what work you plan to carry out\r\n* where it will happen\r\n* when it will take place\r\n* how you will do it\r\n\r\nNatural England cannot give consent based on SFI agreement details or action codes alone. You must describe the specific operation in your SSSI notice.\r\n\r\nSFI is an outcome-based scheme. The actions describe aims, not detailed instructions. Referring to SFI guidance or the handbook on its own is not enough for us to assess your notice.\r\n\r\nIf your notice is missing details or is unclear, we may not be able to make a determination. This could delay your SFI payments.\r\n\r\n## How you will carry out your species recovery and management actions\r\nAdd practical detail about how your SFI actions will be carried out within the SSSI.\r\nFor example, include:\r\n\r\n* stocking details, such as stock type and minimum and maximum numbers\r\n* stocking calendars or grazing periods\r\n\r\nIf Natural England give consent, it will only cover the work you describe in this notice. You must include all the activities you plan to carry out.\r\n\r\nYou can provide detail of another species recovery and management SFI action code on the next page, select 'Add another'.",
+          "content": "Your notice should clearly explain your planned work. You should include:\r\n\r\n* who will do the work\r\n* what work you plan to carry out\r\n* where it will happen\r\n* when it will take place\r\n* how you will do it\r\n\r\nNatural England cannot give consent based on SFI agreement details or action codes alone. You must describe the specific operation in your SSSI notice.\r\n\r\nSFI is an outcome-based scheme. The actions describe aims, not detailed instructions. Referring to SFI guidance or the handbook on its own is not enough for us to assess your notice.\r\n\r\nIf your notice is missing details or is unclear, we may not be able to make a determination. This could delay your SFI payments.\r\n\r\n## How you will carry out your species recovery and management actions\r\nAdd practical detail about how your SFI actions will be carried out within the SSSI.\r\n\r\nInclude any information that is relevant to the action you are describing. You do not need to provide details for every item in the list below. You can also include other relevant information.\r\n\r\nFor example:\r\n\r\n* stocking details, such as stock type and minimum and maximum numbers\r\n* stocking calendars or grazing periods\r\n\r\nIf Natural England give consent, it will only cover the work you describe in this notice. You must include all the activities you plan to carry out.\r\n\r\nYou can provide detail of another species recovery and management SFI action code on the next page, select 'Add another'.",
           "options": {},
-          "schema": {},
-          "id": "3fc6cb23-a43c-4179-859b-9308f25c18a9"
+          "schema": {}
         },
         {
           "type": "SelectField",
           "title": "Which SFI action code are you providing information for?",
           "name": "PpwABv",
           "shortDescription": "Species recovery and management SFI action code",
-          "hint": "",
+          "hint": "Select the action code you want to give information about",
+          "list": "4003b24f-c933-4fdb-8d7c-a4af5e8d8473",
           "options": {
             "required": true
           },
           "schema": {},
-          "list": "4003b24f-c933-4fdb-8d7c-a4af5e8d8473",
           "id": "486b55e6-8eb5-4693-b630-a45da147bbe3"
         },
         {
@@ -1360,7 +1384,7 @@
         {
           "id": "66f090f2-49c6-47b4-9b65-74be6f5b07a5",
           "type": "Markdown",
-          "content": "Your notice should clearly explain your planned work. You should include:\r\n\r\n* who will do the work\r\n* what work you plan to carry out\r\n* where it will happen\r\n* when it will take place\r\n* how you will do it\r\n\r\nNatural England cannot give consent based on SFI agreement details or action codes alone. You must describe the specific operation in your SSSI notice.\r\n\r\nSFI is an outcome-based scheme. The actions describe aims, not detailed instructions. Referring to SFI guidance or the handbook on its own is not enough for us to assess your notice.\r\n\r\nIf your notice is missing details or is unclear, we may not be able to make a determination. This could delay your SFI payments.\r\n\r\n## How you will carry out your waterbodies actions\r\nAdd practical detail about how your SFI actions will be carried out within the SSSI.\r\nFor example, include:\r\n\r\n* whether grass strips or swards will be created or maintained, and how\r\n* any cutting or grazing\r\n* any use of mineral blocks\r\n* any use of fertiliser, manure or herbicides\r\n* the type and species in any seed mix\r\n* how you will avoid affecting breeding and nesting birds\r\n\r\nIf Natural England give consent, it will only cover the work you describe in this notice. You must include all the activities you plan to carry out.\r\n\r\nYou can provide detail of another waterbodies SFI action code on the next page, select 'Add another'.",
+          "content": "Your notice should clearly explain your planned work. You should include:\r\n\r\n* who will do the work\r\n* what work you plan to carry out\r\n* where it will happen\r\n* when it will take place\r\n* how you will do it\r\n\r\nNatural England cannot give consent based on SFI agreement details or action codes alone. You must describe the specific operation in your SSSI notice.\r\n\r\nSFI is an outcome-based scheme. The actions describe aims, not detailed instructions. Referring to SFI guidance or the handbook on its own is not enough for us to assess your notice.\r\n\r\nIf your notice is missing details or is unclear, we may not be able to make a determination. This could delay your SFI payments.\r\n\r\n## How you will carry out your waterbodies actions\r\nAdd practical detail about how your SFI actions will be carried out within the SSSI.\r\n\r\nInclude any information that is relevant to the action you are describing. You do not need to provide details for every item in the list below. You can also include other relevant information.\r\n\r\nFor example:\r\n\r\n* whether grass strips or swards will be created or maintained, and how\r\n* any cutting or grazing\r\n* any use of mineral blocks\r\n* any use of fertiliser, manure or herbicides\r\n* the type and species in any seed mix\r\n* how you will avoid affecting breeding and nesting birds\r\n\r\nIf Natural England give consent, it will only cover the work you describe in this notice. You must include all the activities you plan to carry out.\r\n\r\nYou can provide detail of another waterbodies SFI action code on the next page, select 'Add another'.",
           "options": {},
           "schema": {}
         },
@@ -1369,12 +1393,12 @@
           "title": "Which SFI action code are you providing information for?",
           "name": "Ebkghe",
           "shortDescription": "Waterbodies SFI action code",
-          "hint": "",
+          "hint": "Select the action code you want to give information about",
+          "list": "4fa62b6c-6832-4f8f-871f-be1ada5c1816",
           "options": {
             "required": true
           },
           "schema": {},
-          "list": "4fa62b6c-6832-4f8f-871f-be1ada5c1816",
           "id": "7b1c8d4f-6504-45c2-b848-0dc005d849f3"
         },
         {
@@ -1426,7 +1450,7 @@
         {
           "id": "1895b140-421a-4b5b-801e-77cbe8132921",
           "type": "Markdown",
-          "content": "* WBD1 Manage ponds \r\n* WBD2 Manage ditches\r\n\r\nThese actions cannot be carried out on SSSI land. Confirm they will not take place within, or affect, the SSSI.",
+          "content": "* WBD1 Manage ponds \r\n* WBD2 Manage ditches\r\n\r\nThese actions are not eligible for funding on SSSI land under scheme rules.\r\n\r\nIf they are included on SSSI land, they may be removed from your agreement or your funding may be reduced.\r\n\r\nIf you are unsure whether the land falls within the SSSI boundary, contact Natural England before continuing.\r\n\r\nConfirm they will not take place within the boundary of the SSSI.",
           "options": {},
           "schema": {}
         },
@@ -1435,7 +1459,7 @@
           "title": "Confirmation",
           "name": "IROvUL",
           "shortDescription": "Waterbodies SFI action confirmation",
-          "content": "By selecting 'I understand and agree', you confirm these actions will not take place within or affect the SSSI.",
+          "content": "By selecting 'I understand and agree', I confirm these actions will not take place within the boundary of the SSSI.",
           "options": {
             "required": true
           },
@@ -1454,7 +1478,7 @@
         {
           "id": "e7427d6c-7a73-4712-b924-0bc65f7c3692",
           "type": "Markdown",
-          "content": "* CSAM3 Herbal leys\r\n\r\nThis action cannot be carried out on SSSI land. Confirm it will not take place within, or affect, the SSSI.",
+          "content": "* CSAM3 Herbal leys\r\n\r\nThis action is not eligible for funding on SSSI land under scheme rules.\r\n\r\nIf they are included on SSSI land, they may be removed from your agreement or your funding may be reduced.\r\n\r\nIf you are unsure whether the land falls within the SSSI boundary, contact Natural England before continuing.\r\n\r\nConfirm they will not take place within the boundary of the SSSI.",
           "options": {},
           "schema": {}
         },
@@ -1463,7 +1487,7 @@
           "title": "Confirmation",
           "name": "CBWmoV",
           "shortDescription": "Soil health SFI action confirmation",
-          "content": "By selecting 'I understand and agree', you confirm these actions will not take place within or affect the SSSI.",
+          "content": "By selecting 'I understand and agree', I confirm these actions will not take place within the boundary of the SSSI.",
           "options": {
             "required": true
           },
@@ -1482,7 +1506,7 @@
         {
           "id": "395645b2-db1d-46f8-ba29-a74e9d45bc8c",
           "type": "Markdown",
-          "content": "* SCR1 Create scrub and open habitat mosaics\r\n* SCR2 Manage scrub and open habitat mosaics\r\n\r\nThese actions cannot be carried out on SSSI land. Confirm they will not take place within, or affect, the SSSI.",
+          "content": "* SCR1 Create scrub and open habitat mosaics\r\n* SCR2 Manage scrub and open habitat mosaics\r\n\r\nThese actions are not eligible for funding on SSSI land under scheme rules.\r\n\r\nIf they are included on SSSI land, they may be removed from your agreement or your funding may be reduced.\r\n\r\nIf you are unsure whether the land falls within the SSSI boundary, contact Natural England before continuing.\r\n\r\nConfirm they will not take place within the boundary of the SSSI.",
           "options": {},
           "schema": {}
         },
@@ -1491,7 +1515,7 @@
           "title": "Confirmation",
           "name": "joKiPd",
           "shortDescription": "Wildlife and habitats on grassland SFI action confirmation",
-          "content": "By selecting 'I understand and agree', you confirm these actions will not take place within or affect the SSSI.",
+          "content": "By selecting 'I understand and agree', I confirm these actions will not take place within the boundary of the SSSI.",
           "options": {
             "required": true
           },
@@ -1510,7 +1534,7 @@
         {
           "id": "32aeab17-1d4c-4766-9971-f98c39f15bed",
           "type": "Markdown",
-          "content": "* AGF1 Maintain very low density in-field agroforestry on less sensitive land\r\n* AGF2 Maintain low density in-field agroforestry on less sensitive land\r\n\r\nThese actions cannot be carried out on SSSI land. Confirm they will not take place within, or affect, the SSSI.",
+          "content": "* AGF1 Maintain very low density in-field agroforestry on less sensitive land\r\n* AGF2 Maintain low density in-field agroforestry on less sensitive land\r\n\r\nThese actions are not eligible for funding on SSSI land under scheme rules.\r\n\r\nIf they are included on SSSI land, they may be removed from your agreement or your funding may be reduced.\r\n\r\nIf you are unsure whether the land falls within the SSSI boundary, contact Natural England before continuing.\r\n\r\nConfirm they will not take place within the boundary of the SSSI.",
           "options": {},
           "schema": {}
         },
@@ -1520,7 +1544,7 @@
           "name": "jCFbFW",
           "shortDescription": "Agroforestry SFI action confirmation",
           "list": "2ed54455-d466-4c82-8a70-be5f16dcd7cc",
-          "content": "By selecting 'I understand and agree', you confirm these actions will not take place within or affect the SSSI.",
+          "content": "By selecting 'I understand and agree', I confirm these actions will not take place within the boundary of the SSSI.",
           "options": {
             "required": true
           },
@@ -1541,7 +1565,7 @@
           "title": "Is there anything else Natural England needs to know in relation to this consent notice?",
           "name": "QPnwCv",
           "shortDescription": "Other related information",
-          "hint": "For example, prior SSSI consent notices or site management statements",
+          "hint": "For example, prior SSSI consent notices, site management statements or ineligible actions on SSSI land",
           "options": {
             "required": false,
             "classes": ""
@@ -1563,7 +1587,7 @@
           "title": "Confirmation of other SFI actions",
           "name": "UZErZW",
           "shortDescription": "Confirmation of consent required",
-          "content": "By selecting 'I understand and agree', you confirm that no other operations linked to your SFI agreement need Natural England consent.",
+          "content": "By selecting 'I understand and agree', I confirm that no other operations linked to my SFI agreement need Natural England consent.",
           "options": {
             "required": true
           },
@@ -1697,9 +1721,10 @@
           "title": "What is the name of the permission?",
           "name": "VacBun",
           "shortDescription": "Name of other related permission",
-          "hint": "This includes any other permission, licence, consent, notice or non-land management scheme that the planned activities are related to. This might be from Natural England or another regulator.",
+          "hint": "This includes any other permission, licence, consent, notice or non-land management scheme that the planned activities are related to. This might be from Natural England or another regulator",
           "options": {
-            "required": true
+            "required": true,
+            "classes": ""
           },
           "schema": {},
           "id": "d8e794f2-8aa4-4660-8710-0d891871ac01"
@@ -1722,8 +1747,8 @@
       "condition": "492a9145-537f-4603-8480-24bb22566966"
     },
     {
-      "title": "Operations requiring Natural England consent",
-      "path": "/operations-requiring-natural-england-consent",
+      "title": "Operations requiring Natural England consent (ORNEC)",
+      "path": "/operations-requiring-natural-england-consent-ornec",
       "components": [
         {
           "id": "cc0a0806-a023-4f36-ab2a-470d02f05d44",
@@ -1915,8 +1940,8 @@
       "condition": "c0835a6e-bce1-48e5-85ad-a9ff0d8f5ad4"
     },
     {
-      "title": "Site name and operations requiring Natural England consent",
-      "path": "/site-name-and-operations-requiring-natural-england-consent",
+      "title": "Site name and operations requiring Natural England consent (ORNEC)",
+      "path": "/site-name-and-operations-requiring-natural-england-consent-ornec",
       "components": [
         {
           "id": "f3047846-66c8-4d6c-973a-dc67d3a53da1",
@@ -2151,7 +2176,7 @@
           "title": "Do you have a land management scheme agreement start and end date?",
           "name": "tsNZgB",
           "shortDescription": "Scheme dates known",
-          "hint": "",
+          "hint": "You may not know these dates yet. If you do not have them, select No.",
           "options": {
             "required": true
           },
@@ -2204,7 +2229,7 @@
         {
           "id": "dc4de3e7-1d22-4ecb-a501-f5c703882dba",
           "type": "Markdown",
-          "content": "You have selected that your land management scheme agreement does not yet have a known start or end date. If this is not correct, select 'back' to add the land management scheme agreement dates to your notice submission.\r\n\r\nOn this basis, you are submitting a notice for SSSI consent for the duration of your land management scheme agreement.",
+          "content": "You have selected that your land management scheme agreement does not yet have a known start or end date. If this is not correct, select Back in your browser to add the land management scheme agreement dates to your notice submission.\r\n\r\nOn this basis, you are submitting a notice for SSSI consent for the duration of your land management scheme agreement.",
           "options": {},
           "schema": {}
         },
@@ -2484,7 +2509,7 @@
         {
           "id": "1bfc056e-93e3-4429-9188-0f86ed035286",
           "type": "Markdown",
-          "content": "This is the name of the person completing this notice",
+          "content": "This is the name of the person completing this notice.",
           "options": {},
           "schema": {}
         },
@@ -2565,7 +2590,7 @@
           "title": "What's your address?",
           "name": "BxtAEA",
           "shortDescription": "Your address",
-          "hint": "This is the postal address in relation to this consent notice",
+          "hint": "",
           "options": {
             "required": true,
             "usePostcodeLookup": true
@@ -2602,15 +2627,22 @@
       "id": "41306a23-c865-4801-882b-8a60593e40b4"
     },
     {
-      "title": "",
-      "path": "/declaration",
+      "title": "Before you submit",
+      "path": "/before-you-submit",
       "components": [
+        {
+          "type": "Markdown",
+          "content": "It is your responsibility to obtain all necessary permissions required to undertake the operations lawfully. If your land management scheme does not proceed, you will require Natural England consent if you wish to carry out any operations requiring Natural England's consent (ORNEC) on the land. \r\n\r\nYou may face enforcement action from other authorities or parties if you carry out the work without permission.",
+          "options": {},
+          "schema": {},
+          "id": "3aa5b149-3d31-40ad-9663-42314adb09c1"
+        },
         {
           "type": "DeclarationField",
           "title": "Declaration",
           "name": "czwvwC",
           "shortDescription": "Declaration",
-          "content": "It is your responsibility to obtain all necessary permissions required to undertake the operations lawfully. If your land management scheme does not proceed, you will require Natural England consent if you wish to carry out any ORNECs on the land. \r\n\r\nYou may face enforcement action from other authorities or parties if you carry out the work without permission.\r\n\r\n\r\nBy ticking 'I understand and agree', you are declaring that:\r\n\r\n* you are notifying Natural England about your proposal to cause, carry out, or permit operations within a Site of Special Scientific Interest (SSSI), and that,\r\n* this notice is in line with Section 28E (1)(a) of the Wildlife and Countryside Act 1981 (as amended)\r\n* you have read and understood the [privacy notice](https://www.gov.uk/government/publications/natural-england-privacy-notices/site-of-special-scientific-interest-notification-privacy-notice)",
+          "content": "By ticking 'I understand and agree', I  declare that:\r\n\r\n* I am notifying Natural England about the proposal to cause, carry out, or permit operations within a Site of Special Scientific Interest (SSSI), and that,\r\n* this notice is in line with Section 28E (1)(a) of the Wildlife and Countryside Act 1981 (as amended)\r\n* I have read and understood the [privacy notice](https://www.gov.uk/government/publications/natural-england-privacy-notices/site-of-special-scientific-interest-notification-privacy-notice)",
           "options": {
             "required": true
           },
@@ -2638,7 +2670,9 @@
           "componentId": "83aecc6b-701e-47cb-a8d1-299235f1195f",
           "operator": "is",
           "value": {
-            "itemId": "274dd0de-b244-4e72-ad67-9ca166498deb",
+            "itemId": [
+              "274dd0de-b244-4e72-ad67-9ca166498deb"
+            ],
             "listId": "bd0dc11c-0a37-4da8-87ce-c7a39e944f91"
           },
           "type": "ListItemRef"
@@ -2654,7 +2688,9 @@
           "componentId": "83aecc6b-701e-47cb-a8d1-299235f1195f",
           "operator": "is",
           "value": {
-            "itemId": "bf85f9b7-3e30-4741-906c-f4654fac006e",
+            "itemId": [
+              "bf85f9b7-3e30-4741-906c-f4654fac006e"
+            ],
             "listId": "bd0dc11c-0a37-4da8-87ce-c7a39e944f91"
           },
           "type": "ListItemRef"
@@ -2670,7 +2706,9 @@
           "componentId": "429b9a69-375d-461c-8e16-c5f0332ec5e8",
           "operator": "is",
           "value": {
-            "itemId": "2b4c61e8-1811-454d-a694-b8574131306b",
+            "itemId": [
+              "2b4c61e8-1811-454d-a694-b8574131306b"
+            ],
             "listId": "0bb55cac-1fde-4a61-baeb-ce3b5fb22444"
           },
           "type": "ListItemRef"
@@ -2693,7 +2731,9 @@
           "componentId": "429b9a69-375d-461c-8e16-c5f0332ec5e8",
           "operator": "is",
           "value": {
-            "itemId": "3ac48a62-f8e8-42a5-bca4-756648d2d804",
+            "itemId": [
+              "3ac48a62-f8e8-42a5-bca4-756648d2d804"
+            ],
             "listId": "0bb55cac-1fde-4a61-baeb-ce3b5fb22444"
           },
           "type": "ListItemRef"
@@ -2731,7 +2771,9 @@
           "componentId": "4b86d746-c8c5-473d-9482-22592b485ffb",
           "operator": "is",
           "value": {
-            "itemId": "6d4725f0-11c4-4784-bb5b-bb7269a3fbf1",
+            "itemId": [
+              "6d4725f0-11c4-4784-bb5b-bb7269a3fbf1"
+            ],
             "listId": "50f82240-f0aa-491f-91f3-988c7fdc0654"
           },
           "type": "ListItemRef"
@@ -2747,7 +2789,9 @@
           "componentId": "5f2af0e1-fe55-45da-a864-8949df843875",
           "operator": "is",
           "value": {
-            "itemId": "0761a49b-46ab-4b0f-8fd7-a7d058a6fe09",
+            "itemId": [
+              "0761a49b-46ab-4b0f-8fd7-a7d058a6fe09"
+            ],
             "listId": "a7c919c6-9cbc-4454-85ca-a3cf85b03c76"
           },
           "type": "ListItemRef"
@@ -2757,7 +2801,9 @@
           "componentId": "5f2af0e1-fe55-45da-a864-8949df843875",
           "operator": "is",
           "value": {
-            "itemId": "da073c65-937b-4010-bc0b-615bcc01b647",
+            "itemId": [
+              "da073c65-937b-4010-bc0b-615bcc01b647"
+            ],
             "listId": "a7c919c6-9cbc-4454-85ca-a3cf85b03c76"
           },
           "type": "ListItemRef"
@@ -2767,7 +2813,9 @@
           "componentId": "5f2af0e1-fe55-45da-a864-8949df843875",
           "operator": "is",
           "value": {
-            "itemId": "ad5ad78c-093e-4000-bb6b-e291f2499a2c",
+            "itemId": [
+              "ad5ad78c-093e-4000-bb6b-e291f2499a2c"
+            ],
             "listId": "a7c919c6-9cbc-4454-85ca-a3cf85b03c76"
           },
           "type": "ListItemRef"
@@ -2784,7 +2832,9 @@
           "componentId": "5f2af0e1-fe55-45da-a864-8949df843875",
           "operator": "is",
           "value": {
-            "itemId": "fca8a83b-6035-47d5-8ac1-a7a6f16506d0",
+            "itemId": [
+              "fca8a83b-6035-47d5-8ac1-a7a6f16506d0"
+            ],
             "listId": "a7c919c6-9cbc-4454-85ca-a3cf85b03c76"
           },
           "type": "ListItemRef"
@@ -2800,7 +2850,9 @@
           "componentId": "5f2af0e1-fe55-45da-a864-8949df843875",
           "operator": "is",
           "value": {
-            "itemId": "c03869c1-9fb3-44d9-89b6-8a024ce84121",
+            "itemId": [
+              "c03869c1-9fb3-44d9-89b6-8a024ce84121"
+            ],
             "listId": "a7c919c6-9cbc-4454-85ca-a3cf85b03c76"
           },
           "type": "ListItemRef"
@@ -2816,7 +2868,9 @@
           "componentId": "5f2af0e1-fe55-45da-a864-8949df843875",
           "operator": "is",
           "value": {
-            "itemId": "0761a49b-46ab-4b0f-8fd7-a7d058a6fe09",
+            "itemId": [
+              "0761a49b-46ab-4b0f-8fd7-a7d058a6fe09"
+            ],
             "listId": "a7c919c6-9cbc-4454-85ca-a3cf85b03c76"
           },
           "type": "ListItemRef"
@@ -2826,7 +2880,9 @@
           "componentId": "5f2af0e1-fe55-45da-a864-8949df843875",
           "operator": "is",
           "value": {
-            "itemId": "da073c65-937b-4010-bc0b-615bcc01b647",
+            "itemId": [
+              "da073c65-937b-4010-bc0b-615bcc01b647"
+            ],
             "listId": "a7c919c6-9cbc-4454-85ca-a3cf85b03c76"
           },
           "type": "ListItemRef"
@@ -2836,7 +2892,9 @@
           "componentId": "5f2af0e1-fe55-45da-a864-8949df843875",
           "operator": "is",
           "value": {
-            "itemId": "fca8a83b-6035-47d5-8ac1-a7a6f16506d0",
+            "itemId": [
+              "fca8a83b-6035-47d5-8ac1-a7a6f16506d0"
+            ],
             "listId": "a7c919c6-9cbc-4454-85ca-a3cf85b03c76"
           },
           "type": "ListItemRef"
@@ -2853,7 +2911,9 @@
           "componentId": "5f2af0e1-fe55-45da-a864-8949df843875",
           "operator": "is",
           "value": {
-            "itemId": "663f8854-7955-4fca-88e8-4beb94a02d41",
+            "itemId": [
+              "663f8854-7955-4fca-88e8-4beb94a02d41"
+            ],
             "listId": "a7c919c6-9cbc-4454-85ca-a3cf85b03c76"
           },
           "type": "ListItemRef"
@@ -2869,7 +2929,9 @@
           "componentId": "4b86d746-c8c5-473d-9482-22592b485ffb",
           "operator": "is",
           "value": {
-            "itemId": "be821654-2807-4f23-8b40-03327b240dab",
+            "itemId": [
+              "be821654-2807-4f23-8b40-03327b240dab"
+            ],
             "listId": "50f82240-f0aa-491f-91f3-988c7fdc0654"
           },
           "type": "ListItemRef"
@@ -2885,7 +2947,9 @@
           "componentId": "5f2af0e1-fe55-45da-a864-8949df843875",
           "operator": "is",
           "value": {
-            "itemId": "6cace240-3c1b-436c-a6cc-0645024ece02",
+            "itemId": [
+              "6cace240-3c1b-436c-a6cc-0645024ece02"
+            ],
             "listId": "a7c919c6-9cbc-4454-85ca-a3cf85b03c76"
           },
           "type": "ListItemRef"
@@ -2901,7 +2965,9 @@
           "componentId": "4b86d746-c8c5-473d-9482-22592b485ffb",
           "operator": "is",
           "value": {
-            "itemId": "962c79c2-d232-4ea6-b551-ac3275f60d5d",
+            "itemId": [
+              "962c79c2-d232-4ea6-b551-ac3275f60d5d"
+            ],
             "listId": "50f82240-f0aa-491f-91f3-988c7fdc0654"
           },
           "type": "ListItemRef"
@@ -2911,7 +2977,9 @@
           "componentId": "4b86d746-c8c5-473d-9482-22592b485ffb",
           "operator": "is",
           "value": {
-            "itemId": "be821654-2807-4f23-8b40-03327b240dab",
+            "itemId": [
+              "be821654-2807-4f23-8b40-03327b240dab"
+            ],
             "listId": "50f82240-f0aa-491f-91f3-988c7fdc0654"
           },
           "type": "ListItemRef"
@@ -2921,7 +2989,9 @@
           "componentId": "5f2af0e1-fe55-45da-a864-8949df843875",
           "operator": "is",
           "value": {
-            "itemId": "6cace240-3c1b-436c-a6cc-0645024ece02",
+            "itemId": [
+              "6cace240-3c1b-436c-a6cc-0645024ece02"
+            ],
             "listId": "a7c919c6-9cbc-4454-85ca-a3cf85b03c76"
           },
           "type": "ListItemRef"
@@ -2931,7 +3001,9 @@
           "componentId": "5f2af0e1-fe55-45da-a864-8949df843875",
           "operator": "is",
           "value": {
-            "itemId": "ad5ad78c-093e-4000-bb6b-e291f2499a2c",
+            "itemId": [
+              "ad5ad78c-093e-4000-bb6b-e291f2499a2c"
+            ],
             "listId": "a7c919c6-9cbc-4454-85ca-a3cf85b03c76"
           },
           "type": "ListItemRef"
@@ -2948,7 +3020,9 @@
           "componentId": "4dddba77-609b-4a82-a0d6-4652d932f21d",
           "operator": "is not",
           "value": {
-            "itemId": "002dbec7-4440-4d71-ad27-66b77c34e1f6",
+            "itemId": [
+              "002dbec7-4440-4d71-ad27-66b77c34e1f6"
+            ],
             "listId": "6d958da2-d659-4ef8-991f-36cf6e486b37"
           },
           "type": "ListItemRef"
@@ -3005,7 +3079,9 @@
           "componentId": "5f2af0e1-fe55-45da-a864-8949df843875",
           "operator": "is",
           "value": {
-            "itemId": "0761a49b-46ab-4b0f-8fd7-a7d058a6fe09",
+            "itemId": [
+              "0761a49b-46ab-4b0f-8fd7-a7d058a6fe09"
+            ],
             "listId": "a7c919c6-9cbc-4454-85ca-a3cf85b03c76"
           },
           "type": "ListItemRef"
@@ -3015,7 +3091,9 @@
           "componentId": "5f2af0e1-fe55-45da-a864-8949df843875",
           "operator": "is",
           "value": {
-            "itemId": "da073c65-937b-4010-bc0b-615bcc01b647",
+            "itemId": [
+              "da073c65-937b-4010-bc0b-615bcc01b647"
+            ],
             "listId": "a7c919c6-9cbc-4454-85ca-a3cf85b03c76"
           },
           "type": "ListItemRef"
@@ -3025,7 +3103,9 @@
           "componentId": "5f2af0e1-fe55-45da-a864-8949df843875",
           "operator": "is",
           "value": {
-            "itemId": "fca8a83b-6035-47d5-8ac1-a7a6f16506d0",
+            "itemId": [
+              "fca8a83b-6035-47d5-8ac1-a7a6f16506d0"
+            ],
             "listId": "a7c919c6-9cbc-4454-85ca-a3cf85b03c76"
           },
           "type": "ListItemRef"
@@ -3035,7 +3115,9 @@
           "componentId": "5f2af0e1-fe55-45da-a864-8949df843875",
           "operator": "is",
           "value": {
-            "itemId": "663f8854-7955-4fca-88e8-4beb94a02d41",
+            "itemId": [
+              "663f8854-7955-4fca-88e8-4beb94a02d41"
+            ],
             "listId": "a7c919c6-9cbc-4454-85ca-a3cf85b03c76"
           },
           "type": "ListItemRef"
@@ -3149,7 +3231,9 @@
           "componentId": "5f2af0e1-fe55-45da-a864-8949df843875",
           "operator": "is",
           "value": {
-            "itemId": "ad5ad78c-093e-4000-bb6b-e291f2499a2c",
+            "itemId": [
+              "ad5ad78c-093e-4000-bb6b-e291f2499a2c"
+            ],
             "listId": "a7c919c6-9cbc-4454-85ca-a3cf85b03c76"
           },
           "type": "ListItemRef"
@@ -3159,7 +3243,9 @@
           "componentId": "5f2af0e1-fe55-45da-a864-8949df843875",
           "operator": "is",
           "value": {
-            "itemId": "c03869c1-9fb3-44d9-89b6-8a024ce84121",
+            "itemId": [
+              "c03869c1-9fb3-44d9-89b6-8a024ce84121"
+            ],
             "listId": "a7c919c6-9cbc-4454-85ca-a3cf85b03c76"
           },
           "type": "ListItemRef"
@@ -3191,7 +3277,9 @@
           "componentId": "4b86d746-c8c5-473d-9482-22592b485ffb",
           "operator": "is",
           "value": {
-            "itemId": "be821654-2807-4f23-8b40-03327b240dab",
+            "itemId": [
+              "be821654-2807-4f23-8b40-03327b240dab"
+            ],
             "listId": "50f82240-f0aa-491f-91f3-988c7fdc0654"
           },
           "type": "ListItemRef"
@@ -3201,7 +3289,9 @@
           "componentId": "4b86d746-c8c5-473d-9482-22592b485ffb",
           "operator": "is",
           "value": {
-            "itemId": "962c79c2-d232-4ea6-b551-ac3275f60d5d",
+            "itemId": [
+              "962c79c2-d232-4ea6-b551-ac3275f60d5d"
+            ],
             "listId": "50f82240-f0aa-491f-91f3-988c7fdc0654"
           },
           "type": "ListItemRef"
@@ -3211,7 +3301,9 @@
           "componentId": "5f2af0e1-fe55-45da-a864-8949df843875",
           "operator": "is",
           "value": {
-            "itemId": "6cace240-3c1b-436c-a6cc-0645024ece02",
+            "itemId": [
+              "6cace240-3c1b-436c-a6cc-0645024ece02"
+            ],
             "listId": "a7c919c6-9cbc-4454-85ca-a3cf85b03c76"
           },
           "type": "ListItemRef"
@@ -3228,7 +3320,9 @@
           "componentId": "5f2af0e1-fe55-45da-a864-8949df843875",
           "operator": "is",
           "value": {
-            "itemId": "0761a49b-46ab-4b0f-8fd7-a7d058a6fe09",
+            "itemId": [
+              "0761a49b-46ab-4b0f-8fd7-a7d058a6fe09"
+            ],
             "listId": "a7c919c6-9cbc-4454-85ca-a3cf85b03c76"
           },
           "type": "ListItemRef"
@@ -3238,7 +3332,9 @@
           "componentId": "5f2af0e1-fe55-45da-a864-8949df843875",
           "operator": "is",
           "value": {
-            "itemId": "da073c65-937b-4010-bc0b-615bcc01b647",
+            "itemId": [
+              "da073c65-937b-4010-bc0b-615bcc01b647"
+            ],
             "listId": "a7c919c6-9cbc-4454-85ca-a3cf85b03c76"
           },
           "type": "ListItemRef"
@@ -3248,7 +3344,9 @@
           "componentId": "5f2af0e1-fe55-45da-a864-8949df843875",
           "operator": "is",
           "value": {
-            "itemId": "ad5ad78c-093e-4000-bb6b-e291f2499a2c",
+            "itemId": [
+              "ad5ad78c-093e-4000-bb6b-e291f2499a2c"
+            ],
             "listId": "a7c919c6-9cbc-4454-85ca-a3cf85b03c76"
           },
           "type": "ListItemRef"
@@ -3258,7 +3356,9 @@
           "componentId": "5f2af0e1-fe55-45da-a864-8949df843875",
           "operator": "is",
           "value": {
-            "itemId": "fca8a83b-6035-47d5-8ac1-a7a6f16506d0",
+            "itemId": [
+              "fca8a83b-6035-47d5-8ac1-a7a6f16506d0"
+            ],
             "listId": "a7c919c6-9cbc-4454-85ca-a3cf85b03c76"
           },
           "type": "ListItemRef"
@@ -3268,7 +3368,9 @@
           "componentId": "5f2af0e1-fe55-45da-a864-8949df843875",
           "operator": "is",
           "value": {
-            "itemId": "c03869c1-9fb3-44d9-89b6-8a024ce84121",
+            "itemId": [
+              "c03869c1-9fb3-44d9-89b6-8a024ce84121"
+            ],
             "listId": "a7c919c6-9cbc-4454-85ca-a3cf85b03c76"
           },
           "type": "ListItemRef"
@@ -3278,7 +3380,9 @@
           "componentId": "5f2af0e1-fe55-45da-a864-8949df843875",
           "operator": "is",
           "value": {
-            "itemId": "663f8854-7955-4fca-88e8-4beb94a02d41",
+            "itemId": [
+              "663f8854-7955-4fca-88e8-4beb94a02d41"
+            ],
             "listId": "a7c919c6-9cbc-4454-85ca-a3cf85b03c76"
           },
           "type": "ListItemRef"
@@ -3295,7 +3399,9 @@
           "componentId": "de066b0a-4dd8-4609-b8c5-38fd48e44071",
           "operator": "is",
           "value": {
-            "itemId": "6770f093-a57a-4252-a6f0-49a6f703b2d8",
+            "itemId": [
+              "6770f093-a57a-4252-a6f0-49a6f703b2d8"
+            ],
             "listId": "b90a1dc9-26d7-4861-8b7f-7fffa4d1a1ba"
           },
           "type": "ListItemRef"
@@ -3326,7 +3432,9 @@
           "componentId": "d80c6cba-e47e-4c84-abc3-8d61a76e5885",
           "operator": "contains",
           "value": {
-            "itemId": "970c62e1-eb93-40c0-99fc-0acbd3665de2",
+            "itemId": [
+              "970c62e1-eb93-40c0-99fc-0acbd3665de2"
+            ],
             "listId": "02470640-a340-45bd-83be-4b337f025aff"
           },
           "type": "ListItemRef"
@@ -3336,7 +3444,9 @@
           "componentId": "d80c6cba-e47e-4c84-abc3-8d61a76e5885",
           "operator": "contains",
           "value": {
-            "itemId": "d326b524-868c-418a-8c88-1bf471696fc3",
+            "itemId": [
+              "d326b524-868c-418a-8c88-1bf471696fc3"
+            ],
             "listId": "02470640-a340-45bd-83be-4b337f025aff"
           },
           "type": "ListItemRef"
@@ -3353,7 +3463,9 @@
           "componentId": "d80c6cba-e47e-4c84-abc3-8d61a76e5885",
           "operator": "contains",
           "value": {
-            "itemId": "3536387f-b703-4f85-9836-b66c865d8fa7",
+            "itemId": [
+              "3536387f-b703-4f85-9836-b66c865d8fa7"
+            ],
             "listId": "02470640-a340-45bd-83be-4b337f025aff"
           },
           "type": "ListItemRef"
@@ -3363,7 +3475,9 @@
           "componentId": "d80c6cba-e47e-4c84-abc3-8d61a76e5885",
           "operator": "contains",
           "value": {
-            "itemId": "e697cd00-cc12-41ed-a2da-5a7c9599856e",
+            "itemId": [
+              "e697cd00-cc12-41ed-a2da-5a7c9599856e"
+            ],
             "listId": "02470640-a340-45bd-83be-4b337f025aff"
           },
           "type": "ListItemRef"
@@ -3373,7 +3487,9 @@
           "componentId": "d80c6cba-e47e-4c84-abc3-8d61a76e5885",
           "operator": "contains",
           "value": {
-            "itemId": "2a4dab2d-f542-4955-b59b-30d40230f594",
+            "itemId": [
+              "2a4dab2d-f542-4955-b59b-30d40230f594"
+            ],
             "listId": "02470640-a340-45bd-83be-4b337f025aff"
           },
           "type": "ListItemRef"
@@ -3390,7 +3506,9 @@
           "componentId": "d80c6cba-e47e-4c84-abc3-8d61a76e5885",
           "operator": "contains",
           "value": {
-            "itemId": "151bb5c5-4be1-4510-bdba-1228185649dc",
+            "itemId": [
+              "151bb5c5-4be1-4510-bdba-1228185649dc"
+            ],
             "listId": "02470640-a340-45bd-83be-4b337f025aff"
           },
           "type": "ListItemRef"
@@ -3400,7 +3518,9 @@
           "componentId": "d80c6cba-e47e-4c84-abc3-8d61a76e5885",
           "operator": "contains",
           "value": {
-            "itemId": "dd1af18d-7e84-469a-aaba-ab1e0cc1f5e0",
+            "itemId": [
+              "dd1af18d-7e84-469a-aaba-ab1e0cc1f5e0"
+            ],
             "listId": "02470640-a340-45bd-83be-4b337f025aff"
           },
           "type": "ListItemRef"
@@ -3410,7 +3530,9 @@
           "componentId": "d80c6cba-e47e-4c84-abc3-8d61a76e5885",
           "operator": "contains",
           "value": {
-            "itemId": "84ca13db-636c-45f5-b014-651002b14961",
+            "itemId": [
+              "84ca13db-636c-45f5-b014-651002b14961"
+            ],
             "listId": "02470640-a340-45bd-83be-4b337f025aff"
           },
           "type": "ListItemRef"
@@ -3420,7 +3542,9 @@
           "componentId": "d80c6cba-e47e-4c84-abc3-8d61a76e5885",
           "operator": "contains",
           "value": {
-            "itemId": "e6c88b46-b407-4674-aa54-4a58c0c8fe8f",
+            "itemId": [
+              "e6c88b46-b407-4674-aa54-4a58c0c8fe8f"
+            ],
             "listId": "02470640-a340-45bd-83be-4b337f025aff"
           },
           "type": "ListItemRef"
@@ -3437,7 +3561,9 @@
           "componentId": "d80c6cba-e47e-4c84-abc3-8d61a76e5885",
           "operator": "contains",
           "value": {
-            "itemId": "7f224923-434c-43b9-ad72-7d8f482c56a6",
+            "itemId": [
+              "7f224923-434c-43b9-ad72-7d8f482c56a6"
+            ],
             "listId": "02470640-a340-45bd-83be-4b337f025aff"
           },
           "type": "ListItemRef"
@@ -3447,7 +3573,9 @@
           "componentId": "d80c6cba-e47e-4c84-abc3-8d61a76e5885",
           "operator": "contains",
           "value": {
-            "itemId": "92a415a7-613e-484d-89cb-7e8fe6f91d66",
+            "itemId": [
+              "92a415a7-613e-484d-89cb-7e8fe6f91d66"
+            ],
             "listId": "02470640-a340-45bd-83be-4b337f025aff"
           },
           "type": "ListItemRef"
@@ -3464,7 +3592,9 @@
           "componentId": "d80c6cba-e47e-4c84-abc3-8d61a76e5885",
           "operator": "contains",
           "value": {
-            "itemId": "bfe58272-81e5-40a4-aff9-b71b34f62ee8",
+            "itemId": [
+              "bfe58272-81e5-40a4-aff9-b71b34f62ee8"
+            ],
             "listId": "02470640-a340-45bd-83be-4b337f025aff"
           },
           "type": "ListItemRef"
@@ -3474,7 +3604,9 @@
           "componentId": "d80c6cba-e47e-4c84-abc3-8d61a76e5885",
           "operator": "contains",
           "value": {
-            "itemId": "d9e437c8-3c12-4d5e-a40b-954727e11368",
+            "itemId": [
+              "d9e437c8-3c12-4d5e-a40b-954727e11368"
+            ],
             "listId": "02470640-a340-45bd-83be-4b337f025aff"
           },
           "type": "ListItemRef"
@@ -3484,7 +3616,9 @@
           "componentId": "d80c6cba-e47e-4c84-abc3-8d61a76e5885",
           "operator": "contains",
           "value": {
-            "itemId": "7bf8e8ea-4991-4946-9ced-82add1e8b8ad",
+            "itemId": [
+              "7bf8e8ea-4991-4946-9ced-82add1e8b8ad"
+            ],
             "listId": "02470640-a340-45bd-83be-4b337f025aff"
           },
           "type": "ListItemRef"
@@ -3501,7 +3635,9 @@
           "componentId": "d80c6cba-e47e-4c84-abc3-8d61a76e5885",
           "operator": "contains",
           "value": {
-            "itemId": "213e301d-344a-41a1-8274-8ced00397700",
+            "itemId": [
+              "213e301d-344a-41a1-8274-8ced00397700"
+            ],
             "listId": "02470640-a340-45bd-83be-4b337f025aff"
           },
           "type": "ListItemRef"
@@ -3511,7 +3647,9 @@
           "componentId": "d80c6cba-e47e-4c84-abc3-8d61a76e5885",
           "operator": "contains",
           "value": {
-            "itemId": "e8841baa-08bc-48c6-bb01-900783242d71",
+            "itemId": [
+              "e8841baa-08bc-48c6-bb01-900783242d71"
+            ],
             "listId": "02470640-a340-45bd-83be-4b337f025aff"
           },
           "type": "ListItemRef"
@@ -3521,7 +3659,9 @@
           "componentId": "d80c6cba-e47e-4c84-abc3-8d61a76e5885",
           "operator": "contains",
           "value": {
-            "itemId": "51100e05-0aa3-47c8-9022-86639824a682",
+            "itemId": [
+              "51100e05-0aa3-47c8-9022-86639824a682"
+            ],
             "listId": "02470640-a340-45bd-83be-4b337f025aff"
           },
           "type": "ListItemRef"
@@ -3531,7 +3671,9 @@
           "componentId": "d80c6cba-e47e-4c84-abc3-8d61a76e5885",
           "operator": "contains",
           "value": {
-            "itemId": "2702068b-655b-47e2-bf5d-be6cf5afc952",
+            "itemId": [
+              "2702068b-655b-47e2-bf5d-be6cf5afc952"
+            ],
             "listId": "02470640-a340-45bd-83be-4b337f025aff"
           },
           "type": "ListItemRef"
@@ -3541,7 +3683,9 @@
           "componentId": "d80c6cba-e47e-4c84-abc3-8d61a76e5885",
           "operator": "contains",
           "value": {
-            "itemId": "97c7a327-cff7-4561-b1d7-4bc400592afd",
+            "itemId": [
+              "97c7a327-cff7-4561-b1d7-4bc400592afd"
+            ],
             "listId": "02470640-a340-45bd-83be-4b337f025aff"
           },
           "type": "ListItemRef"
@@ -3551,7 +3695,9 @@
           "componentId": "d80c6cba-e47e-4c84-abc3-8d61a76e5885",
           "operator": "contains",
           "value": {
-            "itemId": "f2580478-2e34-4656-b4e4-dc2fbc4676ee",
+            "itemId": [
+              "f2580478-2e34-4656-b4e4-dc2fbc4676ee"
+            ],
             "listId": "02470640-a340-45bd-83be-4b337f025aff"
           },
           "type": "ListItemRef"
@@ -3561,7 +3707,9 @@
           "componentId": "d80c6cba-e47e-4c84-abc3-8d61a76e5885",
           "operator": "contains",
           "value": {
-            "itemId": "ef961d8e-7703-4c08-9235-ce5af2cf0516",
+            "itemId": [
+              "ef961d8e-7703-4c08-9235-ce5af2cf0516"
+            ],
             "listId": "02470640-a340-45bd-83be-4b337f025aff"
           },
           "type": "ListItemRef"
@@ -3578,7 +3726,9 @@
           "componentId": "d80c6cba-e47e-4c84-abc3-8d61a76e5885",
           "operator": "contains",
           "value": {
-            "itemId": "dc13cf14-886b-4829-968b-b2171d3d6b69",
+            "itemId": [
+              "dc13cf14-886b-4829-968b-b2171d3d6b69"
+            ],
             "listId": "02470640-a340-45bd-83be-4b337f025aff"
           },
           "type": "ListItemRef"
@@ -3588,7 +3738,9 @@
           "componentId": "d80c6cba-e47e-4c84-abc3-8d61a76e5885",
           "operator": "contains",
           "value": {
-            "itemId": "deb3de5c-318c-4449-baa1-5f10e5a63a46",
+            "itemId": [
+              "deb3de5c-318c-4449-baa1-5f10e5a63a46"
+            ],
             "listId": "02470640-a340-45bd-83be-4b337f025aff"
           },
           "type": "ListItemRef"
@@ -3598,7 +3750,9 @@
           "componentId": "d80c6cba-e47e-4c84-abc3-8d61a76e5885",
           "operator": "contains",
           "value": {
-            "itemId": "8d7f2eea-14bc-4a5b-904c-d8f10bc700e2",
+            "itemId": [
+              "8d7f2eea-14bc-4a5b-904c-d8f10bc700e2"
+            ],
             "listId": "02470640-a340-45bd-83be-4b337f025aff"
           },
           "type": "ListItemRef"
@@ -3608,7 +3762,9 @@
           "componentId": "d80c6cba-e47e-4c84-abc3-8d61a76e5885",
           "operator": "contains",
           "value": {
-            "itemId": "6c917b83-bfa6-4e12-befc-9cccf69802dc",
+            "itemId": [
+              "6c917b83-bfa6-4e12-befc-9cccf69802dc"
+            ],
             "listId": "02470640-a340-45bd-83be-4b337f025aff"
           },
           "type": "ListItemRef"
@@ -3618,7 +3774,9 @@
           "componentId": "d80c6cba-e47e-4c84-abc3-8d61a76e5885",
           "operator": "contains",
           "value": {
-            "itemId": "f33a08d6-5628-469f-a81d-e3718437e949",
+            "itemId": [
+              "f33a08d6-5628-469f-a81d-e3718437e949"
+            ],
             "listId": "02470640-a340-45bd-83be-4b337f025aff"
           },
           "type": "ListItemRef"
@@ -3628,7 +3786,9 @@
           "componentId": "d80c6cba-e47e-4c84-abc3-8d61a76e5885",
           "operator": "contains",
           "value": {
-            "itemId": "49940db7-7839-4456-be50-55d896cf88db",
+            "itemId": [
+              "49940db7-7839-4456-be50-55d896cf88db"
+            ],
             "listId": "02470640-a340-45bd-83be-4b337f025aff"
           },
           "type": "ListItemRef"
@@ -3638,7 +3798,9 @@
           "componentId": "d80c6cba-e47e-4c84-abc3-8d61a76e5885",
           "operator": "contains",
           "value": {
-            "itemId": "4fbfaf5f-f8ec-410d-88cb-2d71c3f4c0b2",
+            "itemId": [
+              "4fbfaf5f-f8ec-410d-88cb-2d71c3f4c0b2"
+            ],
             "listId": "02470640-a340-45bd-83be-4b337f025aff"
           },
           "type": "ListItemRef"
@@ -3648,7 +3810,9 @@
           "componentId": "d80c6cba-e47e-4c84-abc3-8d61a76e5885",
           "operator": "contains",
           "value": {
-            "itemId": "d745c578-75fd-471d-a75f-5b2a6800d14f",
+            "itemId": [
+              "d745c578-75fd-471d-a75f-5b2a6800d14f"
+            ],
             "listId": "02470640-a340-45bd-83be-4b337f025aff"
           },
           "type": "ListItemRef"
@@ -3658,7 +3822,9 @@
           "componentId": "d80c6cba-e47e-4c84-abc3-8d61a76e5885",
           "operator": "contains",
           "value": {
-            "itemId": "65cd0f08-6787-4815-95ed-96b6b254f7a0",
+            "itemId": [
+              "65cd0f08-6787-4815-95ed-96b6b254f7a0"
+            ],
             "listId": "02470640-a340-45bd-83be-4b337f025aff"
           },
           "type": "ListItemRef"
@@ -3668,7 +3834,9 @@
           "componentId": "d80c6cba-e47e-4c84-abc3-8d61a76e5885",
           "operator": "contains",
           "value": {
-            "itemId": "114dcc71-6604-4f93-b056-7ab948d3b1b2",
+            "itemId": [
+              "114dcc71-6604-4f93-b056-7ab948d3b1b2"
+            ],
             "listId": "02470640-a340-45bd-83be-4b337f025aff"
           },
           "type": "ListItemRef"
@@ -3678,7 +3846,9 @@
           "componentId": "d80c6cba-e47e-4c84-abc3-8d61a76e5885",
           "operator": "contains",
           "value": {
-            "itemId": "56e1eaaf-7dfa-492c-8453-fba86a9f42e1",
+            "itemId": [
+              "56e1eaaf-7dfa-492c-8453-fba86a9f42e1"
+            ],
             "listId": "02470640-a340-45bd-83be-4b337f025aff"
           },
           "type": "ListItemRef"
@@ -3688,7 +3858,9 @@
           "componentId": "d80c6cba-e47e-4c84-abc3-8d61a76e5885",
           "operator": "contains",
           "value": {
-            "itemId": "d8dfb99a-c03b-4471-a3e0-2b0104af727c",
+            "itemId": [
+              "d8dfb99a-c03b-4471-a3e0-2b0104af727c"
+            ],
             "listId": "02470640-a340-45bd-83be-4b337f025aff"
           },
           "type": "ListItemRef"
@@ -3698,7 +3870,9 @@
           "componentId": "d80c6cba-e47e-4c84-abc3-8d61a76e5885",
           "operator": "contains",
           "value": {
-            "itemId": "a07b33ce-7bb2-4250-8801-a2d71b2c99b7",
+            "itemId": [
+              "a07b33ce-7bb2-4250-8801-a2d71b2c99b7"
+            ],
             "listId": "02470640-a340-45bd-83be-4b337f025aff"
           },
           "type": "ListItemRef"
@@ -3715,7 +3889,9 @@
           "componentId": "d80c6cba-e47e-4c84-abc3-8d61a76e5885",
           "operator": "contains",
           "value": {
-            "itemId": "1217a703-0890-44ce-9eeb-6094af75d3ee",
+            "itemId": [
+              "1217a703-0890-44ce-9eeb-6094af75d3ee"
+            ],
             "listId": "02470640-a340-45bd-83be-4b337f025aff"
           },
           "type": "ListItemRef"
@@ -3725,7 +3901,9 @@
           "componentId": "d80c6cba-e47e-4c84-abc3-8d61a76e5885",
           "operator": "contains",
           "value": {
-            "itemId": "f6d799ec-fd41-40b2-8ca0-d36b862c8361",
+            "itemId": [
+              "f6d799ec-fd41-40b2-8ca0-d36b862c8361"
+            ],
             "listId": "02470640-a340-45bd-83be-4b337f025aff"
           },
           "type": "ListItemRef"
@@ -3742,7 +3920,9 @@
           "componentId": "d80c6cba-e47e-4c84-abc3-8d61a76e5885",
           "operator": "contains",
           "value": {
-            "itemId": "1f9666c3-dc1e-485b-afb7-637401e610df",
+            "itemId": [
+              "1f9666c3-dc1e-485b-afb7-637401e610df"
+            ],
             "listId": "02470640-a340-45bd-83be-4b337f025aff"
           },
           "type": "ListItemRef"
@@ -3752,7 +3932,9 @@
           "componentId": "d80c6cba-e47e-4c84-abc3-8d61a76e5885",
           "operator": "contains",
           "value": {
-            "itemId": "c43139a1-bd49-4920-8d74-4b99df77474f",
+            "itemId": [
+              "c43139a1-bd49-4920-8d74-4b99df77474f"
+            ],
             "listId": "02470640-a340-45bd-83be-4b337f025aff"
           },
           "type": "ListItemRef"
@@ -3762,7 +3944,9 @@
           "componentId": "d80c6cba-e47e-4c84-abc3-8d61a76e5885",
           "operator": "contains",
           "value": {
-            "itemId": "f402f0db-1536-48cb-9bf0-22a1328f2420",
+            "itemId": [
+              "f402f0db-1536-48cb-9bf0-22a1328f2420"
+            ],
             "listId": "02470640-a340-45bd-83be-4b337f025aff"
           },
           "type": "ListItemRef"
@@ -3772,7 +3956,9 @@
           "componentId": "d80c6cba-e47e-4c84-abc3-8d61a76e5885",
           "operator": "contains",
           "value": {
-            "itemId": "cc09d9f0-611d-456f-b778-1358095a2b19",
+            "itemId": [
+              "cc09d9f0-611d-456f-b778-1358095a2b19"
+            ],
             "listId": "02470640-a340-45bd-83be-4b337f025aff"
           },
           "type": "ListItemRef"
@@ -3782,7 +3968,9 @@
           "componentId": "d80c6cba-e47e-4c84-abc3-8d61a76e5885",
           "operator": "contains",
           "value": {
-            "itemId": "e9b8f5b0-7e73-4305-acf8-83343797143a",
+            "itemId": [
+              "e9b8f5b0-7e73-4305-acf8-83343797143a"
+            ],
             "listId": "02470640-a340-45bd-83be-4b337f025aff"
           },
           "type": "ListItemRef"
@@ -3792,7 +3980,9 @@
           "componentId": "d80c6cba-e47e-4c84-abc3-8d61a76e5885",
           "operator": "contains",
           "value": {
-            "itemId": "d4467802-9a8a-483c-a6e1-de913cadc2b5",
+            "itemId": [
+              "d4467802-9a8a-483c-a6e1-de913cadc2b5"
+            ],
             "listId": "02470640-a340-45bd-83be-4b337f025aff"
           },
           "type": "ListItemRef"
@@ -3802,7 +3992,9 @@
           "componentId": "d80c6cba-e47e-4c84-abc3-8d61a76e5885",
           "operator": "contains",
           "value": {
-            "itemId": "a0711148-2c0e-4bbc-9eb7-499fca47813a",
+            "itemId": [
+              "a0711148-2c0e-4bbc-9eb7-499fca47813a"
+            ],
             "listId": "02470640-a340-45bd-83be-4b337f025aff"
           },
           "type": "ListItemRef"
@@ -3819,7 +4011,9 @@
           "componentId": "d80c6cba-e47e-4c84-abc3-8d61a76e5885",
           "operator": "contains",
           "value": {
-            "itemId": "49493cc4-a137-4057-8a95-c56264ed73bf",
+            "itemId": [
+              "49493cc4-a137-4057-8a95-c56264ed73bf"
+            ],
             "listId": "02470640-a340-45bd-83be-4b337f025aff"
           },
           "type": "ListItemRef"
@@ -3829,7 +4023,9 @@
           "componentId": "d80c6cba-e47e-4c84-abc3-8d61a76e5885",
           "operator": "contains",
           "value": {
-            "itemId": "57056642-ae07-4509-9b6b-b48c328f0584",
+            "itemId": [
+              "57056642-ae07-4509-9b6b-b48c328f0584"
+            ],
             "listId": "02470640-a340-45bd-83be-4b337f025aff"
           },
           "type": "ListItemRef"
@@ -3846,7 +4042,9 @@
           "componentId": "d80c6cba-e47e-4c84-abc3-8d61a76e5885",
           "operator": "contains",
           "value": {
-            "itemId": "ef8c384f-a3a1-40f4-9ec3-9bf7728e9faa",
+            "itemId": [
+              "ef8c384f-a3a1-40f4-9ec3-9bf7728e9faa"
+            ],
             "listId": "02470640-a340-45bd-83be-4b337f025aff"
           },
           "type": "ListItemRef"
@@ -3856,7 +4054,9 @@
           "componentId": "d80c6cba-e47e-4c84-abc3-8d61a76e5885",
           "operator": "contains",
           "value": {
-            "itemId": "ca1aa612-d653-4f82-b44b-eac690e95ef5",
+            "itemId": [
+              "ca1aa612-d653-4f82-b44b-eac690e95ef5"
+            ],
             "listId": "02470640-a340-45bd-83be-4b337f025aff"
           },
           "type": "ListItemRef"
@@ -3866,7 +4066,9 @@
           "componentId": "d80c6cba-e47e-4c84-abc3-8d61a76e5885",
           "operator": "contains",
           "value": {
-            "itemId": "3443196e-40f4-49a3-96fe-a3113cbad147",
+            "itemId": [
+              "3443196e-40f4-49a3-96fe-a3113cbad147"
+            ],
             "listId": "02470640-a340-45bd-83be-4b337f025aff"
           },
           "type": "ListItemRef"
@@ -3876,7 +4078,9 @@
           "componentId": "d80c6cba-e47e-4c84-abc3-8d61a76e5885",
           "operator": "contains",
           "value": {
-            "itemId": "de3eb9d6-ec3d-46af-af3a-85a891dd39eb",
+            "itemId": [
+              "de3eb9d6-ec3d-46af-af3a-85a891dd39eb"
+            ],
             "listId": "02470640-a340-45bd-83be-4b337f025aff"
           },
           "type": "ListItemRef"
@@ -3886,7 +4090,9 @@
           "componentId": "d80c6cba-e47e-4c84-abc3-8d61a76e5885",
           "operator": "contains",
           "value": {
-            "itemId": "fdece977-9b00-432e-a750-4ab96cb9f191",
+            "itemId": [
+              "fdece977-9b00-432e-a750-4ab96cb9f191"
+            ],
             "listId": "02470640-a340-45bd-83be-4b337f025aff"
           },
           "type": "ListItemRef"
@@ -3896,7 +4102,9 @@
           "componentId": "d80c6cba-e47e-4c84-abc3-8d61a76e5885",
           "operator": "contains",
           "value": {
-            "itemId": "de62e6bc-be1b-4427-9b8f-f3cbce064fd1",
+            "itemId": [
+              "de62e6bc-be1b-4427-9b8f-f3cbce064fd1"
+            ],
             "listId": "02470640-a340-45bd-83be-4b337f025aff"
           },
           "type": "ListItemRef"
@@ -3906,7 +4114,9 @@
           "componentId": "d80c6cba-e47e-4c84-abc3-8d61a76e5885",
           "operator": "contains",
           "value": {
-            "itemId": "25fa0f6b-a4b3-4105-820c-925c23016c3f",
+            "itemId": [
+              "25fa0f6b-a4b3-4105-820c-925c23016c3f"
+            ],
             "listId": "02470640-a340-45bd-83be-4b337f025aff"
           },
           "type": "ListItemRef"
@@ -3916,7 +4126,9 @@
           "componentId": "d80c6cba-e47e-4c84-abc3-8d61a76e5885",
           "operator": "contains",
           "value": {
-            "itemId": "262cd371-c662-4b10-8adf-5a889f29b43a",
+            "itemId": [
+              "262cd371-c662-4b10-8adf-5a889f29b43a"
+            ],
             "listId": "02470640-a340-45bd-83be-4b337f025aff"
           },
           "type": "ListItemRef"
@@ -3926,7 +4138,9 @@
           "componentId": "d80c6cba-e47e-4c84-abc3-8d61a76e5885",
           "operator": "contains",
           "value": {
-            "itemId": "a14a601c-88f2-4080-a6e0-4501f72fd45a",
+            "itemId": [
+              "a14a601c-88f2-4080-a6e0-4501f72fd45a"
+            ],
             "listId": "02470640-a340-45bd-83be-4b337f025aff"
           },
           "type": "ListItemRef"
@@ -3936,7 +4150,9 @@
           "componentId": "d80c6cba-e47e-4c84-abc3-8d61a76e5885",
           "operator": "contains",
           "value": {
-            "itemId": "82d2ce23-f99a-46d8-befe-cc97bb25949c",
+            "itemId": [
+              "82d2ce23-f99a-46d8-befe-cc97bb25949c"
+            ],
             "listId": "02470640-a340-45bd-83be-4b337f025aff"
           },
           "type": "ListItemRef"
@@ -3946,7 +4162,9 @@
           "componentId": "d80c6cba-e47e-4c84-abc3-8d61a76e5885",
           "operator": "contains",
           "value": {
-            "itemId": "cd7f56a8-fead-4649-a164-2a76d7c7bd52",
+            "itemId": [
+              "cd7f56a8-fead-4649-a164-2a76d7c7bd52"
+            ],
             "listId": "02470640-a340-45bd-83be-4b337f025aff"
           },
           "type": "ListItemRef"
@@ -3963,7 +4181,9 @@
           "componentId": "d80c6cba-e47e-4c84-abc3-8d61a76e5885",
           "operator": "contains",
           "value": {
-            "itemId": "0ca0ccde-9e51-4e37-950b-f7414e09fd54",
+            "itemId": [
+              "0ca0ccde-9e51-4e37-950b-f7414e09fd54"
+            ],
             "listId": "02470640-a340-45bd-83be-4b337f025aff"
           },
           "type": "ListItemRef"
@@ -3973,7 +4193,9 @@
           "componentId": "d80c6cba-e47e-4c84-abc3-8d61a76e5885",
           "operator": "contains",
           "value": {
-            "itemId": "34349b15-3917-45a5-a59a-a454f59b37dd",
+            "itemId": [
+              "34349b15-3917-45a5-a59a-a454f59b37dd"
+            ],
             "listId": "02470640-a340-45bd-83be-4b337f025aff"
           },
           "type": "ListItemRef"
@@ -3983,7 +4205,9 @@
           "componentId": "d80c6cba-e47e-4c84-abc3-8d61a76e5885",
           "operator": "contains",
           "value": {
-            "itemId": "d257a1d2-dcba-471f-8bd2-41b53473f4e1",
+            "itemId": [
+              "d257a1d2-dcba-471f-8bd2-41b53473f4e1"
+            ],
             "listId": "02470640-a340-45bd-83be-4b337f025aff"
           },
           "type": "ListItemRef"
@@ -4000,7 +4224,9 @@
           "componentId": "d80c6cba-e47e-4c84-abc3-8d61a76e5885",
           "operator": "contains",
           "value": {
-            "itemId": "656bf720-9f19-48c8-ad6e-4411b5d54994",
+            "itemId": [
+              "656bf720-9f19-48c8-ad6e-4411b5d54994"
+            ],
             "listId": "02470640-a340-45bd-83be-4b337f025aff"
           },
           "type": "ListItemRef"
@@ -4016,7 +4242,9 @@
           "componentId": "d80c6cba-e47e-4c84-abc3-8d61a76e5885",
           "operator": "contains",
           "value": {
-            "itemId": "26218d14-d7dc-4d25-ab0e-ae6d143e3c9e",
+            "itemId": [
+              "26218d14-d7dc-4d25-ab0e-ae6d143e3c9e"
+            ],
             "listId": "02470640-a340-45bd-83be-4b337f025aff"
           },
           "type": "ListItemRef"
@@ -4026,7 +4254,9 @@
           "componentId": "d80c6cba-e47e-4c84-abc3-8d61a76e5885",
           "operator": "contains",
           "value": {
-            "itemId": "5216b523-2be7-43e8-b833-153e20549320",
+            "itemId": [
+              "5216b523-2be7-43e8-b833-153e20549320"
+            ],
             "listId": "02470640-a340-45bd-83be-4b337f025aff"
           },
           "type": "ListItemRef"
@@ -4036,7 +4266,9 @@
           "componentId": "d80c6cba-e47e-4c84-abc3-8d61a76e5885",
           "operator": "contains",
           "value": {
-            "itemId": "7d091bb2-3624-4bf2-98f9-8ba2733bcfe2",
+            "itemId": [
+              "7d091bb2-3624-4bf2-98f9-8ba2733bcfe2"
+            ],
             "listId": "02470640-a340-45bd-83be-4b337f025aff"
           },
           "type": "ListItemRef"
@@ -4053,7 +4285,9 @@
           "componentId": "d80c6cba-e47e-4c84-abc3-8d61a76e5885",
           "operator": "contains",
           "value": {
-            "itemId": "4a8116e9-a818-4e48-8591-92b4f6b7b711",
+            "itemId": [
+              "4a8116e9-a818-4e48-8591-92b4f6b7b711"
+            ],
             "listId": "02470640-a340-45bd-83be-4b337f025aff"
           },
           "type": "ListItemRef"
@@ -4063,7 +4297,9 @@
           "componentId": "d80c6cba-e47e-4c84-abc3-8d61a76e5885",
           "operator": "contains",
           "value": {
-            "itemId": "f1843362-14e7-454f-92d5-9fff0edf99c8",
+            "itemId": [
+              "f1843362-14e7-454f-92d5-9fff0edf99c8"
+            ],
             "listId": "02470640-a340-45bd-83be-4b337f025aff"
           },
           "type": "ListItemRef"
@@ -4080,7 +4316,9 @@
           "componentId": "d80c6cba-e47e-4c84-abc3-8d61a76e5885",
           "operator": "contains",
           "value": {
-            "itemId": "004c9eee-4ff7-4a15-a8d2-bb0078281cf6",
+            "itemId": [
+              "004c9eee-4ff7-4a15-a8d2-bb0078281cf6"
+            ],
             "listId": "02470640-a340-45bd-83be-4b337f025aff"
           },
           "type": "ListItemRef"
@@ -4090,7 +4328,9 @@
           "componentId": "d80c6cba-e47e-4c84-abc3-8d61a76e5885",
           "operator": "contains",
           "value": {
-            "itemId": "78491213-78a4-4b71-945c-0f5436fd0712",
+            "itemId": [
+              "78491213-78a4-4b71-945c-0f5436fd0712"
+            ],
             "listId": "02470640-a340-45bd-83be-4b337f025aff"
           },
           "type": "ListItemRef"
@@ -4107,7 +4347,9 @@
           "componentId": "d80c6cba-e47e-4c84-abc3-8d61a76e5885",
           "operator": "contains",
           "value": {
-            "itemId": "9ee52079-9c58-4f07-a15c-7de10f6ffbff",
+            "itemId": [
+              "9ee52079-9c58-4f07-a15c-7de10f6ffbff"
+            ],
             "listId": "02470640-a340-45bd-83be-4b337f025aff"
           },
           "type": "ListItemRef"
@@ -4117,7 +4359,9 @@
           "componentId": "d80c6cba-e47e-4c84-abc3-8d61a76e5885",
           "operator": "contains",
           "value": {
-            "itemId": "ec865eae-4009-43d0-81c8-f311e6d5117a",
+            "itemId": [
+              "ec865eae-4009-43d0-81c8-f311e6d5117a"
+            ],
             "listId": "02470640-a340-45bd-83be-4b337f025aff"
           },
           "type": "ListItemRef"
@@ -4127,7 +4371,9 @@
           "componentId": "d80c6cba-e47e-4c84-abc3-8d61a76e5885",
           "operator": "contains",
           "value": {
-            "itemId": "836b29fd-d295-4b36-8626-e35485775a87",
+            "itemId": [
+              "836b29fd-d295-4b36-8626-e35485775a87"
+            ],
             "listId": "02470640-a340-45bd-83be-4b337f025aff"
           },
           "type": "ListItemRef"
@@ -4137,7 +4383,9 @@
           "componentId": "d80c6cba-e47e-4c84-abc3-8d61a76e5885",
           "operator": "contains",
           "value": {
-            "itemId": "41e522b2-fc0d-4425-9e4e-a77fd8be430f",
+            "itemId": [
+              "41e522b2-fc0d-4425-9e4e-a77fd8be430f"
+            ],
             "listId": "02470640-a340-45bd-83be-4b337f025aff"
           },
           "type": "ListItemRef"
@@ -4236,11 +4484,11 @@
         },
         {
           "id": "3ac48a62-f8e8-42a5-bca4-756648d2d804",
-          "text": "Someone with permission to work on behalf of an owner or occupier of land within a SSSI",
-          "value": "Someone with permission to work on behalf of an owner or occupier of land within a SSSI",
+          "text": "Someone working on behalf of an owner or occupier of land within a SSSI",
+          "value": "Someone working on behalf of an owner or occupier of land within a SSSI",
           "hint": {
             "text": "For example, a land agent",
-            "id": "fda574c3-32e9-4d13-997a-28e4e55abed3"
+            "id": "d0773592-bd6a-4152-970e-c4601f75181f"
           }
         },
         {
@@ -111054,8 +111302,8 @@
   },
   "metadata": {
     "$$__formVersion": {
-      "versionNumber": 1031,
-      "createdAt": "2026-06-12T09:03:55.039Z"
+      "versionNumber": 1196,
+      "createdAt": "2026-07-09T10:58:06.151Z"
     }
   }
 }

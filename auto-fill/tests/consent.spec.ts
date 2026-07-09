@@ -456,7 +456,7 @@ test.describe("Consent Form", () => {
     // Customer type – permission
     await page
       .getByRole("radio", {
-        name: "Someone with permission to work on behalf of an owner or occupier",
+        name: "Someone working on behalf of an owner or occupier",
       })
       .check();
     await page.getByRole("button", { name: "Continue" }).click();
