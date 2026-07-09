@@ -162,7 +162,7 @@
                 "type": "answer",
                 "question": {
                   "id": "qocAEz",
-                  "text": "Which SFI action codes involve operations that need Natural England consent?"
+                  "text": "Which SFI action codes involve operations that need Natural England consent (ORNEC)?"
                 }
               }
             }
@@ -307,7 +307,7 @@
         "table": {
           "An owner of land within a SSSI": "Landowner",
           "An occupier of land within a SSSI": "Land occupier",
-          "Someone with permission to work on behalf of an owner or occupier of land within a SSSI": "Consultant",
+          "Someone working on behalf of an owner or occupier of land within a SSSI": "Consultant",
           "Somebody else": "Other"
         }
       }
@@ -568,7 +568,7 @@
                 "type": "answer",
                 "question": {
                   "id": "qocAEz",
-                  "text": "Which SFI action codes involve operations that need Natural England consent?"
+                  "text": "Which SFI action codes involve operations that need Natural England consent (ORNEC)?"
                 },
                 "transforms": [{ "name": "join", "separator": ", " }],
                 "default": ""
@@ -722,7 +722,7 @@
             "scope": "main",
             "question": {
               "id": "qocAEz",
-              "text": "Which SFI action codes involve operations that need Natural England consent?"
+              "text": "Which SFI action codes involve operations that need Natural England consent (ORNEC)?"
             },
             "transforms": [{ "name": "join", "separator": ", " }],
             "default": ""

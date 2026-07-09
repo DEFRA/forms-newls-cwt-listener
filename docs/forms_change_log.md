@@ -1,5 +1,14 @@
 # Form Changes
 
+## 2026-07-09 - Thu (DF-1016: consent form definition refresh — customer type wording)
+
+Consent, assent and advice form definitions updated. The only change affecting existing mappings was on the **Consent** form; the assent and advice edits (a new free-text "what you want to do / enquire about" page, `qocAEz` title suffix, and condition `itemId` array wrapping) introduced no mapping gaps. Verified with `npm run mapping:gaps:all`.
+
+### Consent
+
+- **W14 — Customer-type option reworded.** The `KTObNK` ("What type of customer are you?") consultant option text changed from "Someone with permission to work on behalf of an owner or occupier of land within a SSSI" back to "Someone working on behalf of an owner or occupier of land within a SSSI" (reverting the 2026-04-14 alignment). The `consulting-body-type.from-customer-type` lookup keyed on the old text; because it is `required: true`, a consultant's submission threw "Lookup has no mapping … marked as required" instead of producing `Consultant`. The lookup key is updated to the new option text; the other three options are unchanged. The matching auto-fill selector (`auto-fill/tests/consent.spec.ts`) was updated too.
+- **W15 — `qocAEz` title suffix.** The SFI action-codes question title gained a "(ORNEC)" suffix ("Which SFI action codes involve operations that need Natural England consent (ORNEC)?"). Answers resolve by question id, so this is a documentation-only sync — the `text` placeholders in the mapping and docs were refreshed to match (no behaviour change).
+
 ## 2026-07-06 - Mon (DF-1016: 'another permission' branch carried through)
 
 Mapper-only changes (no form-definition edits) that read the "…or another permission?" branch (`yWeYpc`) fields, which the mappings previously ignored. Committed as work items W11 and W12. Both apply to **Consent and Assent** identically.

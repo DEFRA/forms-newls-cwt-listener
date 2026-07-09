@@ -11,7 +11,7 @@
         {
           "id": "0b631d6b-15d6-4fab-8a7b-adcededcf644",
           "type": "Markdown",
-          "content": "You should use this form to submit a notice of proposal (assent) to Natural England to undertake activities on or near protected sites, that you have already screened as part of your Section 28G duties. You cannot use this form to report emergency works or works that have already started. \r\n\r\nCheck your activities are likely to cause damage before completing this form. If your activities are deemed to likely cause damage to the notified features of a European site, you must carry out a habitats regulations assessment (HRA), and seek Natural England advice, if applicable. If you have a HRA, be prepared to upload this as part of your notice. If the activities could affect a marine conservation zone (MCZ), you should upload a marine conservation zone assessment as part of this notice.\r\n\r\nPersons who have been contracted by public bodies, known as S28G authorities, may complete this form on their behalf where they have been officially appointed to act. You may need to provide proof of this permission. \r\nIf you are applying for assent as part of a land management scheme agreement, you will need a Single Business Identifier (SBI) number.\r\n\r\n\r\n## To help assess the impacts of your activities\r\nUse the [designated sites view system](https://designatedsites.naturalengland.org.uk/) to find out which habitats and species are of special scientific interest, and which activities are likely to damage them. \r\n\r\nSearch for the relevant SSSI, select 'View details' then 'View ORNECs'.",
+          "content": "You should use this form to submit a notice of proposal (assent) to Natural England to undertake activities on or near protected sites, that you have already screened as part of your Section 28G duties. You cannot use this form to report emergency works or works that have already started. \r\n\r\nCheck your activities are likely to cause damage before completing this form. If your activities are deemed to likely cause damage to the notified features of a European site, you must carry out a habitats regulations assessment (HRA), and seek Natural England advice, if applicable. If you have a HRA, be prepared to upload this as part of your notice. If the activities could affect a marine conservation zone (MCZ), you should upload a marine conservation zone assessment as part of this notice.\r\n\r\nPersons who have been contracted by public bodies, known as S28G authorities, may complete this form on their behalf where they have been officially appointed to act. You may need to provide proof of this permission.\r\n \r\nIf you are applying for assent as part of a land management scheme agreement, you will need a Single Business Identifier (SBI) number.\r\n\r\n\r\n## To help assess the impacts of your activities\r\nUse the [designated sites view system](https://designatedsites.naturalengland.org.uk/) to find out which habitats and species are of special scientific interest, and which activities are likely to damage them. \r\n\r\nSearch for the relevant SSSI, select 'View details' then 'View ORNECs'.",
           "options": {},
           "schema": {}
         }
@@ -48,7 +48,7 @@
         {
           "id": "e3495e87-3037-4f64-aec1-5b2ad7f9fe43",
           "type": "Markdown",
-          "content": "This form only provides a submission route to assent proposals for activities from public bodies on protected sites.\r\n\r\n### For supplementary forestry operations consent\r\n[Use the form available on GOV.UK to submit a supplementary notice of forestry operations within a site of special scientific importance](https://www.gov.uk/government/publications/supplementary-notice-of-operations-within-an-sssi) and follow the instructions for submission.\r\n\r\n\r\n### For notice of consent \r\n[Use this form to submit a notice of proposal to cause, carry out or permit an operation requiring Natural England's consent on an SSSI](https://submit-form-to-defra.service.gov.uk/form/give-notice-and-get-consent-for-a-planned-activity-on-a-sssi).",
+          "content": "This form only provides a submission route to assent proposals for activities from public bodies on protected sites.\r\n\r\n## For supplementary forestry operations consent\r\n[Use the form available on GOV.UK to submit a supplementary notice of forestry operations within a site of special scientific importance](https://www.gov.uk/government/publications/supplementary-notice-of-operations-within-an-sssi) and follow the instructions for submission.\r\n\r\n\r\n## For notice of consent \r\n[Use this form to submit a notice of proposal to cause, carry out or permit an operation requiring Natural England's consent on an SSSI](https://submit-form-to-defra.service.gov.uk/form/give-notice-and-get-consent-for-a-planned-activity-on-a-sssi).",
           "options": {},
           "schema": {}
         }
@@ -56,6 +56,30 @@
       "next": [],
       "id": "3c7d8d2b-5ca5-447c-a14a-3397588cd585",
       "condition": "3df23eeb-e667-41ce-aedf-3eb0ad872d93"
+    },
+    {
+      "title": "",
+      "path": "/can-you-briefly-tell-us-what-you-want-to-do",
+      "components": [
+        {
+          "type": "TextField",
+          "title": "Can you briefly tell us what you want to do?",
+          "name": "SRNUyT",
+          "shortDescription": "What you want to do",
+          "hint": "For instance, dig a hole or build a fence, in 75 characters or less",
+          "options": {
+            "required": true,
+            "classes": ""
+          },
+          "schema": {
+            "min": 1,
+            "max": 75
+          },
+          "id": "1e4336b3-4c11-4396-bada-297a4e04dabf"
+        }
+      ],
+      "next": [],
+      "id": "b4a77f41-a2ac-4ac4-bda2-031db1c5bc85"
     },
     {
       "title": "Effects on European sites",
@@ -91,7 +115,7 @@
         {
           "id": "bf98e334-1954-480e-924f-0f4f9e5429b6",
           "type": "Markdown",
-          "content": "You should include in your notice each European (EU) site affected by the works proposed. You can add the name of the other European sites by clicking 'add another EU site' on the next page. For each EU site named, you will need to complete a Habitats Regulation Assessment (HRA) and upload those details as part of this notice.",
+          "content": "You should include in your notice each European (EU) site affected by the works proposed. You can add the name of the other European sites by clicking 'Add another EU site' on the next page. \r\n\r\nFor each EU site named, you will need to complete a Habitats Regulation Assessment (HRA) and upload those details as part of this notice.",
           "options": {},
           "schema": {}
         },
@@ -1777,7 +1801,9 @@
           "componentId": "83aecc6b-701e-47cb-a8d1-299235f1195f",
           "operator": "is",
           "value": {
-            "itemId": "274dd0de-b244-4e72-ad67-9ca166498deb",
+            "itemId": [
+              "274dd0de-b244-4e72-ad67-9ca166498deb"
+            ],
             "listId": "bd0dc11c-0a37-4da8-87ce-c7a39e944f91"
           },
           "type": "ListItemRef"
@@ -1806,7 +1832,9 @@
           "componentId": "4b86d746-c8c5-473d-9482-22592b485ffb",
           "operator": "is",
           "value": {
-            "itemId": "6d4725f0-11c4-4784-bb5b-bb7269a3fbf1",
+            "itemId": [
+              "6d4725f0-11c4-4784-bb5b-bb7269a3fbf1"
+            ],
             "listId": "50f82240-f0aa-491f-91f3-988c7fdc0654"
           },
           "type": "ListItemRef"
@@ -1822,7 +1850,9 @@
           "componentId": "5f2af0e1-fe55-45da-a864-8949df843875",
           "operator": "is",
           "value": {
-            "itemId": "0761a49b-46ab-4b0f-8fd7-a7d058a6fe09",
+            "itemId": [
+              "0761a49b-46ab-4b0f-8fd7-a7d058a6fe09"
+            ],
             "listId": "a7c919c6-9cbc-4454-85ca-a3cf85b03c76"
           },
           "type": "ListItemRef"
@@ -1832,7 +1862,9 @@
           "componentId": "5f2af0e1-fe55-45da-a864-8949df843875",
           "operator": "is",
           "value": {
-            "itemId": "da073c65-937b-4010-bc0b-615bcc01b647",
+            "itemId": [
+              "da073c65-937b-4010-bc0b-615bcc01b647"
+            ],
             "listId": "a7c919c6-9cbc-4454-85ca-a3cf85b03c76"
           },
           "type": "ListItemRef"
@@ -1842,7 +1874,9 @@
           "componentId": "5f2af0e1-fe55-45da-a864-8949df843875",
           "operator": "is",
           "value": {
-            "itemId": "ad5ad78c-093e-4000-bb6b-e291f2499a2c",
+            "itemId": [
+              "ad5ad78c-093e-4000-bb6b-e291f2499a2c"
+            ],
             "listId": "a7c919c6-9cbc-4454-85ca-a3cf85b03c76"
           },
           "type": "ListItemRef"
@@ -1859,7 +1893,9 @@
           "componentId": "5f2af0e1-fe55-45da-a864-8949df843875",
           "operator": "is",
           "value": {
-            "itemId": "fca8a83b-6035-47d5-8ac1-a7a6f16506d0",
+            "itemId": [
+              "fca8a83b-6035-47d5-8ac1-a7a6f16506d0"
+            ],
             "listId": "a7c919c6-9cbc-4454-85ca-a3cf85b03c76"
           },
           "type": "ListItemRef"
@@ -1875,7 +1911,9 @@
           "componentId": "5f2af0e1-fe55-45da-a864-8949df843875",
           "operator": "is",
           "value": {
-            "itemId": "c03869c1-9fb3-44d9-89b6-8a024ce84121",
+            "itemId": [
+              "c03869c1-9fb3-44d9-89b6-8a024ce84121"
+            ],
             "listId": "a7c919c6-9cbc-4454-85ca-a3cf85b03c76"
           },
           "type": "ListItemRef"
@@ -1891,7 +1929,9 @@
           "componentId": "5f2af0e1-fe55-45da-a864-8949df843875",
           "operator": "is",
           "value": {
-            "itemId": "0761a49b-46ab-4b0f-8fd7-a7d058a6fe09",
+            "itemId": [
+              "0761a49b-46ab-4b0f-8fd7-a7d058a6fe09"
+            ],
             "listId": "a7c919c6-9cbc-4454-85ca-a3cf85b03c76"
           },
           "type": "ListItemRef"
@@ -1901,7 +1941,9 @@
           "componentId": "5f2af0e1-fe55-45da-a864-8949df843875",
           "operator": "is",
           "value": {
-            "itemId": "da073c65-937b-4010-bc0b-615bcc01b647",
+            "itemId": [
+              "da073c65-937b-4010-bc0b-615bcc01b647"
+            ],
             "listId": "a7c919c6-9cbc-4454-85ca-a3cf85b03c76"
           },
           "type": "ListItemRef"
@@ -1911,7 +1953,9 @@
           "componentId": "5f2af0e1-fe55-45da-a864-8949df843875",
           "operator": "is",
           "value": {
-            "itemId": "ad5ad78c-093e-4000-bb6b-e291f2499a2c",
+            "itemId": [
+              "ad5ad78c-093e-4000-bb6b-e291f2499a2c"
+            ],
             "listId": "a7c919c6-9cbc-4454-85ca-a3cf85b03c76"
           },
           "type": "ListItemRef"
@@ -1921,7 +1965,9 @@
           "componentId": "5f2af0e1-fe55-45da-a864-8949df843875",
           "operator": "is",
           "value": {
-            "itemId": "fca8a83b-6035-47d5-8ac1-a7a6f16506d0",
+            "itemId": [
+              "fca8a83b-6035-47d5-8ac1-a7a6f16506d0"
+            ],
             "listId": "a7c919c6-9cbc-4454-85ca-a3cf85b03c76"
           },
           "type": "ListItemRef"
@@ -1938,7 +1984,9 @@
           "componentId": "5f2af0e1-fe55-45da-a864-8949df843875",
           "operator": "is",
           "value": {
-            "itemId": "663f8854-7955-4fca-88e8-4beb94a02d41",
+            "itemId": [
+              "663f8854-7955-4fca-88e8-4beb94a02d41"
+            ],
             "listId": "a7c919c6-9cbc-4454-85ca-a3cf85b03c76"
           },
           "type": "ListItemRef"
@@ -1954,7 +2002,9 @@
           "componentId": "4b86d746-c8c5-473d-9482-22592b485ffb",
           "operator": "is",
           "value": {
-            "itemId": "be821654-2807-4f23-8b40-03327b240dab",
+            "itemId": [
+              "be821654-2807-4f23-8b40-03327b240dab"
+            ],
             "listId": "50f82240-f0aa-491f-91f3-988c7fdc0654"
           },
           "type": "ListItemRef"
@@ -1970,7 +2020,9 @@
           "componentId": "5f2af0e1-fe55-45da-a864-8949df843875",
           "operator": "is",
           "value": {
-            "itemId": "6cace240-3c1b-436c-a6cc-0645024ece02",
+            "itemId": [
+              "6cace240-3c1b-436c-a6cc-0645024ece02"
+            ],
             "listId": "a7c919c6-9cbc-4454-85ca-a3cf85b03c76"
           },
           "type": "ListItemRef"
@@ -1986,7 +2038,9 @@
           "componentId": "4b86d746-c8c5-473d-9482-22592b485ffb",
           "operator": "is",
           "value": {
-            "itemId": "962c79c2-d232-4ea6-b551-ac3275f60d5d",
+            "itemId": [
+              "962c79c2-d232-4ea6-b551-ac3275f60d5d"
+            ],
             "listId": "50f82240-f0aa-491f-91f3-988c7fdc0654"
           },
           "type": "ListItemRef"
@@ -1996,7 +2050,9 @@
           "componentId": "4b86d746-c8c5-473d-9482-22592b485ffb",
           "operator": "is",
           "value": {
-            "itemId": "be821654-2807-4f23-8b40-03327b240dab",
+            "itemId": [
+              "be821654-2807-4f23-8b40-03327b240dab"
+            ],
             "listId": "50f82240-f0aa-491f-91f3-988c7fdc0654"
           },
           "type": "ListItemRef"
@@ -2006,7 +2062,9 @@
           "componentId": "5f2af0e1-fe55-45da-a864-8949df843875",
           "operator": "is",
           "value": {
-            "itemId": "c03869c1-9fb3-44d9-89b6-8a024ce84121",
+            "itemId": [
+              "c03869c1-9fb3-44d9-89b6-8a024ce84121"
+            ],
             "listId": "a7c919c6-9cbc-4454-85ca-a3cf85b03c76"
           },
           "type": "ListItemRef"
@@ -2016,7 +2074,9 @@
           "componentId": "5f2af0e1-fe55-45da-a864-8949df843875",
           "operator": "is",
           "value": {
-            "itemId": "6cace240-3c1b-436c-a6cc-0645024ece02",
+            "itemId": [
+              "6cace240-3c1b-436c-a6cc-0645024ece02"
+            ],
             "listId": "a7c919c6-9cbc-4454-85ca-a3cf85b03c76"
           },
           "type": "ListItemRef"
@@ -2026,7 +2086,9 @@
           "componentId": "5f2af0e1-fe55-45da-a864-8949df843875",
           "operator": "is",
           "value": {
-            "itemId": "ad5ad78c-093e-4000-bb6b-e291f2499a2c",
+            "itemId": [
+              "ad5ad78c-093e-4000-bb6b-e291f2499a2c"
+            ],
             "listId": "a7c919c6-9cbc-4454-85ca-a3cf85b03c76"
           },
           "type": "ListItemRef"
@@ -2043,7 +2105,9 @@
           "componentId": "4dddba77-609b-4a82-a0d6-4652d932f21d",
           "operator": "is not",
           "value": {
-            "itemId": "002dbec7-4440-4d71-ad27-66b77c34e1f6",
+            "itemId": [
+              "002dbec7-4440-4d71-ad27-66b77c34e1f6"
+            ],
             "listId": "6d958da2-d659-4ef8-991f-36cf6e486b37"
           },
           "type": "ListItemRef"
@@ -2059,7 +2123,9 @@
           "componentId": "83aecc6b-701e-47cb-a8d1-299235f1195f",
           "operator": "is",
           "value": {
-            "itemId": "8622bea6-84df-462a-a698-19d9611b1b59",
+            "itemId": [
+              "8622bea6-84df-462a-a698-19d9611b1b59"
+            ],
             "listId": "bd0dc11c-0a37-4da8-87ce-c7a39e944f91"
           },
           "type": "ListItemRef"
@@ -2114,7 +2180,9 @@
           "componentId": "429b9a69-375d-461c-8e16-c5f0332ec5e8",
           "operator": "is",
           "value": {
-            "itemId": "3ac48a62-f8e8-42a5-bca4-756648d2d804",
+            "itemId": [
+              "3ac48a62-f8e8-42a5-bca4-756648d2d804"
+            ],
             "listId": "0bb55cac-1fde-4a61-baeb-ce3b5fb22444"
           },
           "type": "ListItemRef"
@@ -2130,7 +2198,9 @@
           "componentId": "eb4f9990-61b7-4d6d-b075-03a26729cc52",
           "operator": "is",
           "value": {
-            "itemId": "c3330eba-6b56-472c-890d-1e6cc323910e",
+            "itemId": [
+              "c3330eba-6b56-472c-890d-1e6cc323910e"
+            ],
             "listId": "51812f67-f00f-434c-9537-e7640e46ddba"
           },
           "type": "ListItemRef"
@@ -2146,7 +2216,9 @@
           "componentId": "eb4f9990-61b7-4d6d-b075-03a26729cc52",
           "operator": "is not",
           "value": {
-            "itemId": "c3330eba-6b56-472c-890d-1e6cc323910e",
+            "itemId": [
+              "c3330eba-6b56-472c-890d-1e6cc323910e"
+            ],
             "listId": "51812f67-f00f-434c-9537-e7640e46ddba"
           },
           "type": "ListItemRef"
@@ -2162,7 +2234,9 @@
           "componentId": "0fbd8cd4-b174-4cd1-86dd-c68437d85512",
           "operator": "is",
           "value": {
-            "itemId": "94241866-a8ef-4c5a-b626-8d8b7e2b1039",
+            "itemId": [
+              "94241866-a8ef-4c5a-b626-8d8b7e2b1039"
+            ],
             "listId": "b8e54645-aeed-4c16-82e7-058ed39b442c"
           },
           "type": "ListItemRef"
@@ -2225,7 +2299,9 @@
           "componentId": "83aecc6b-701e-47cb-a8d1-299235f1195f",
           "operator": "is not",
           "value": {
-            "itemId": "bf85f9b7-3e30-4741-906c-f4654fac006e",
+            "itemId": [
+              "bf85f9b7-3e30-4741-906c-f4654fac006e"
+            ],
             "listId": "bd0dc11c-0a37-4da8-87ce-c7a39e944f91"
           },
           "type": "ListItemRef"
@@ -2262,7 +2338,9 @@
           "componentId": "5ebd3978-a763-407b-ad4e-87b4efa62745",
           "operator": "is",
           "value": {
-            "itemId": "e3d30428-47f1-4993-9610-a084a1a76a53",
+            "itemId": [
+              "e3d30428-47f1-4993-9610-a084a1a76a53"
+            ],
             "listId": "7f7122fa-3633-485f-ab14-aac550fbd95d"
           },
           "type": "ListItemRef"
@@ -2291,7 +2369,9 @@
           "componentId": "5f2af0e1-fe55-45da-a864-8949df843875",
           "operator": "is",
           "value": {
-            "itemId": "0761a49b-46ab-4b0f-8fd7-a7d058a6fe09",
+            "itemId": [
+              "0761a49b-46ab-4b0f-8fd7-a7d058a6fe09"
+            ],
             "listId": "a7c919c6-9cbc-4454-85ca-a3cf85b03c76"
           },
           "type": "ListItemRef"
@@ -2301,7 +2381,9 @@
           "componentId": "5f2af0e1-fe55-45da-a864-8949df843875",
           "operator": "is",
           "value": {
-            "itemId": "da073c65-937b-4010-bc0b-615bcc01b647",
+            "itemId": [
+              "da073c65-937b-4010-bc0b-615bcc01b647"
+            ],
             "listId": "a7c919c6-9cbc-4454-85ca-a3cf85b03c76"
           },
           "type": "ListItemRef"
@@ -2311,7 +2393,9 @@
           "componentId": "5f2af0e1-fe55-45da-a864-8949df843875",
           "operator": "is",
           "value": {
-            "itemId": "fca8a83b-6035-47d5-8ac1-a7a6f16506d0",
+            "itemId": [
+              "fca8a83b-6035-47d5-8ac1-a7a6f16506d0"
+            ],
             "listId": "a7c919c6-9cbc-4454-85ca-a3cf85b03c76"
           },
           "type": "ListItemRef"
@@ -2321,7 +2405,9 @@
           "componentId": "5f2af0e1-fe55-45da-a864-8949df843875",
           "operator": "is",
           "value": {
-            "itemId": "663f8854-7955-4fca-88e8-4beb94a02d41",
+            "itemId": [
+              "663f8854-7955-4fca-88e8-4beb94a02d41"
+            ],
             "listId": "a7c919c6-9cbc-4454-85ca-a3cf85b03c76"
           },
           "type": "ListItemRef"
@@ -2435,7 +2521,9 @@
           "componentId": "3613e1a5-0087-4cad-a0d3-9fab13f172d4",
           "operator": "is",
           "value": {
-            "itemId": "73c8ce35-a4f1-4682-adac-39daad57eca8",
+            "itemId": [
+              "73c8ce35-a4f1-4682-adac-39daad57eca8"
+            ],
             "listId": "1e609233-1394-4257-995b-5d744692fb56"
           },
           "type": "ListItemRef"
@@ -2451,7 +2539,9 @@
           "componentId": "5f2af0e1-fe55-45da-a864-8949df843875",
           "operator": "is",
           "value": {
-            "itemId": "0761a49b-46ab-4b0f-8fd7-a7d058a6fe09",
+            "itemId": [
+              "0761a49b-46ab-4b0f-8fd7-a7d058a6fe09"
+            ],
             "listId": "a7c919c6-9cbc-4454-85ca-a3cf85b03c76"
           },
           "type": "ListItemRef"
@@ -2461,7 +2551,9 @@
           "componentId": "5f2af0e1-fe55-45da-a864-8949df843875",
           "operator": "is",
           "value": {
-            "itemId": "da073c65-937b-4010-bc0b-615bcc01b647",
+            "itemId": [
+              "da073c65-937b-4010-bc0b-615bcc01b647"
+            ],
             "listId": "a7c919c6-9cbc-4454-85ca-a3cf85b03c76"
           },
           "type": "ListItemRef"
@@ -2471,7 +2563,9 @@
           "componentId": "5f2af0e1-fe55-45da-a864-8949df843875",
           "operator": "is",
           "value": {
-            "itemId": "ad5ad78c-093e-4000-bb6b-e291f2499a2c",
+            "itemId": [
+              "ad5ad78c-093e-4000-bb6b-e291f2499a2c"
+            ],
             "listId": "a7c919c6-9cbc-4454-85ca-a3cf85b03c76"
           },
           "type": "ListItemRef"
@@ -2481,7 +2575,9 @@
           "componentId": "5f2af0e1-fe55-45da-a864-8949df843875",
           "operator": "is",
           "value": {
-            "itemId": "fca8a83b-6035-47d5-8ac1-a7a6f16506d0",
+            "itemId": [
+              "fca8a83b-6035-47d5-8ac1-a7a6f16506d0"
+            ],
             "listId": "a7c919c6-9cbc-4454-85ca-a3cf85b03c76"
           },
           "type": "ListItemRef"
@@ -2491,7 +2587,9 @@
           "componentId": "5f2af0e1-fe55-45da-a864-8949df843875",
           "operator": "is",
           "value": {
-            "itemId": "c03869c1-9fb3-44d9-89b6-8a024ce84121",
+            "itemId": [
+              "c03869c1-9fb3-44d9-89b6-8a024ce84121"
+            ],
             "listId": "a7c919c6-9cbc-4454-85ca-a3cf85b03c76"
           },
           "type": "ListItemRef"
@@ -2501,7 +2599,9 @@
           "componentId": "5f2af0e1-fe55-45da-a864-8949df843875",
           "operator": "is",
           "value": {
-            "itemId": "663f8854-7955-4fca-88e8-4beb94a02d41",
+            "itemId": [
+              "663f8854-7955-4fca-88e8-4beb94a02d41"
+            ],
             "listId": "a7c919c6-9cbc-4454-85ca-a3cf85b03c76"
           },
           "type": "ListItemRef"
@@ -2518,7 +2618,9 @@
           "componentId": "5f2af0e1-fe55-45da-a864-8949df843875",
           "operator": "is",
           "value": {
-            "itemId": "c03869c1-9fb3-44d9-89b6-8a024ce84121",
+            "itemId": [
+              "c03869c1-9fb3-44d9-89b6-8a024ce84121"
+            ],
             "listId": "a7c919c6-9cbc-4454-85ca-a3cf85b03c76"
           },
           "type": "ListItemRef"
@@ -2528,7 +2630,9 @@
           "componentId": "5f2af0e1-fe55-45da-a864-8949df843875",
           "operator": "is",
           "value": {
-            "itemId": "ad5ad78c-093e-4000-bb6b-e291f2499a2c",
+            "itemId": [
+              "ad5ad78c-093e-4000-bb6b-e291f2499a2c"
+            ],
             "listId": "a7c919c6-9cbc-4454-85ca-a3cf85b03c76"
           },
           "type": "ListItemRef"
@@ -2560,7 +2664,9 @@
           "componentId": "4b86d746-c8c5-473d-9482-22592b485ffb",
           "operator": "is",
           "value": {
-            "itemId": "be821654-2807-4f23-8b40-03327b240dab",
+            "itemId": [
+              "be821654-2807-4f23-8b40-03327b240dab"
+            ],
             "listId": "50f82240-f0aa-491f-91f3-988c7fdc0654"
           },
           "type": "ListItemRef"
@@ -2570,7 +2676,9 @@
           "componentId": "4b86d746-c8c5-473d-9482-22592b485ffb",
           "operator": "is",
           "value": {
-            "itemId": "962c79c2-d232-4ea6-b551-ac3275f60d5d",
+            "itemId": [
+              "962c79c2-d232-4ea6-b551-ac3275f60d5d"
+            ],
             "listId": "50f82240-f0aa-491f-91f3-988c7fdc0654"
           },
           "type": "ListItemRef"
@@ -2580,7 +2688,9 @@
           "componentId": "5f2af0e1-fe55-45da-a864-8949df843875",
           "operator": "is",
           "value": {
-            "itemId": "6cace240-3c1b-436c-a6cc-0645024ece02",
+            "itemId": [
+              "6cace240-3c1b-436c-a6cc-0645024ece02"
+            ],
             "listId": "a7c919c6-9cbc-4454-85ca-a3cf85b03c76"
           },
           "type": "ListItemRef"
@@ -2623,7 +2733,9 @@
           "componentId": "5f2af0e1-fe55-45da-a864-8949df843875",
           "operator": "is",
           "value": {
-            "itemId": "0761a49b-46ab-4b0f-8fd7-a7d058a6fe09",
+            "itemId": [
+              "0761a49b-46ab-4b0f-8fd7-a7d058a6fe09"
+            ],
             "listId": "a7c919c6-9cbc-4454-85ca-a3cf85b03c76"
           },
           "type": "ListItemRef"
@@ -93614,8 +93726,8 @@
   },
   "metadata": {
     "$$__formVersion": {
-      "versionNumber": 853,
-      "createdAt": "2026-06-10T12:44:14.122Z"
+      "versionNumber": 861,
+      "createdAt": "2026-07-06T16:08:55.872Z"
     }
   }
 }
