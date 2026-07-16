@@ -978,6 +978,34 @@
       "value": { "type": "literal", "value": "Government Agency" }
     },
     {
+      "id": "public-body-type.public-body-or-organisation",
+      "description": "Transforms this value to CWT specific dropdown entry of 'Applicant'",
+      "target": "public_body_type",
+      "when": {
+        "question": {
+          "id": "PBmxNM",
+          "text": "Who are you working on behalf of?"
+        },
+        "operator": "equals",
+        "value": "Public body or organisation"
+      },
+      "value": { "type": "literal", "value": "Applicant" }
+    },
+    {
+      "id": "public-body-type.none-of-the-above",
+      "description": "Transforms this value to CWT specific dropdown entry of 'Other'",
+      "target": "public_body_type",
+      "when": {
+        "question": {
+          "id": "PBmxNM",
+          "text": "Who are you working on behalf of?"
+        },
+        "operator": "equals",
+        "value": "None of the above"
+      },
+      "value": { "type": "literal", "value": "Other" }
+    },
+    {
       "id": "public-body-type.working-on-behalf-of",
       "target": "public_body_type",
       "when": {

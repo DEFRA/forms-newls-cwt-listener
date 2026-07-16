@@ -145,6 +145,8 @@ flowchart TD
     subgraph OutPublicBody["public_body_type & public_body<br />(only populated when PBmxNM is present)"]
         PBT_Q{"PBmxNM value<br />Who are you working<br />on behalf of?"}
         PBT_Q -->|"'Government agency'"| PBT_GOV["public_body_type =<br />'Government Agency'"]
+        PBT_Q -->|"'Public body or organisation'"| PBT_APP["public_body_type =<br />'Applicant'"]
+        PBT_Q -->|"'None of the above'"| PBT_OTH["public_body_type =<br />'Other'"]
         PBT_Q -->|Other| PBT_PASS["public_body_type =<br />PBmxNM value"]
 
         PB_Q{"PBmxNM value"}

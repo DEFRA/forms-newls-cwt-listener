@@ -490,7 +490,7 @@ Each example shows the form submission data (input) and the expected CWT output 
   "customer_email_address": "emma@wildlife-consulting.co.uk",
   "email_header": "Standalone HRA Reg 63 - Solent Maritime Ramsar, Portsmouth Harbour Ramsar",
   "is_contractor_working_for_public_body": "Yes",
-  "public_body_type": "Public body or organisation",
+  "public_body_type": "Applicant",
   "public_body": "National Trust",
   "is_there_a_european_site": "Yes",
   "SSSI_info": [

@@ -154,6 +154,8 @@ Resolved from multiple conditional fields. The "effective type" is either PBmxNM
 | Condition                                                                        | Source                             | Output value                      |
 | -------------------------------------------------------------------------------- | ---------------------------------- | --------------------------------- |
 | PBmxNM ("Working on behalf of") = `Government agency`                            | PBmxNM ("Working on behalf of")    | `Government Agency` (capitalised) |
+| PBmxNM ("Working on behalf of") = `Public body or organisation`                  | PBmxNM ("Working on behalf of")    | `Applicant`                       |
+| PBmxNM ("Working on behalf of") = `None of the above`                            | PBmxNM ("Working on behalf of")    | `Other`                           |
 | PBmxNM ("Working on behalf of") = any other value                                | PBmxNM ("Working on behalf of")    | PBmxNM value as-is                |
 | PBmxNM ("Working on behalf of") is empty, teEzOl ("Representation category") set | teEzOl ("Representation category") | teEzOl value as-is                |
 | Neither set                                                                      | -                                  | Empty string                      |
