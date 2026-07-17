@@ -22,6 +22,6 @@ export const jsonFormDataHandler = {
   },
 
   authHeaders(apiKey) {
-    return { 'api-key': apiKey ?? '' }
+    return apiKey ? { 'api-key': apiKey } : {}
   }
 }

@@ -12,6 +12,13 @@ import { config } from '../config.js'
 const logger = createLogger()
 
 /**
+ * The most payloads that may be in flight to the destination at any one time.
+ * Caps the fan-out in {@link sendRequiringAny} so a heavily expanded submission
+ * cannot open an unbounded number of concurrent requests.
+ */
+const MAX_SIMULTANEOUS_REQUESTS = 5
+
+/**
  * @typedef {import('@defra/forms-engine-plugin/engine/types.d.ts').FormAdapterSubmissionMessage} FormAdapterSubmissionMessage
  * @typedef {import('./rule-mapping/types.js').MappingDefinition} MappingDefinition
  * @typedef {import('./rule-mapping/types.js').DeliverySuccessMode} DeliverySuccessMode
@@ -69,6 +76,43 @@ async function sendRequiringAll(payloads, send) {
 }
 
 /**
+ * Runs `task` over every item like `Promise.allSettled`, but with no more than
+ * `limit` tasks in flight at once. Results are returned in the same order as
+ * `items`, regardless of the order in which the tasks settle.
+ * @template T
+ * @param {T[]} items
+ * @param {(item: T) => Promise<void>} task
+ * @param {number} limit
+ * @returns {Promise<PromiseSettledResult<void>[]>}
+ */
+async function settleWithLimit(items, task, limit) {
+  /** @type {PromiseSettledResult<void>[]} */
+  const results = new Array(items.length)
+  let next = 0
+
+  async function worker() {
+    while (next < items.length) {
+      const index = next++
+      try {
+        results[index] = {
+          status: 'fulfilled',
+          value: await task(items[index])
+        }
+      } catch (reason) {
+        results[index] = { status: 'rejected', reason }
+      }
+    }
+  }
+
+  const workers = Array.from({ length: Math.min(limit, items.length) }, () =>
+    worker()
+  )
+  await Promise.all(workers)
+
+  return results
+}
+
+/**
  * Sends every payload, requiring only one to succeed.
  *
  * Every payload is attempted regardless of earlier failures, since each one
@@ -82,8 +126,10 @@ async function sendRequiringAll(payloads, send) {
  * @returns {Promise<void>}
  */
 async function sendRequiringAny(payloads, send, referenceNumber) {
-  const results = await Promise.allSettled(
-    payloads.map((payload) => send(payload))
+  const results = await settleWithLimit(
+    payloads,
+    (payload) => send(payload),
+    MAX_SIMULTANEOUS_REQUESTS
   )
 
   /** @type {PromiseRejectedResult[]} */
@@ -101,15 +147,13 @@ async function sendRequiringAny(payloads, send, referenceNumber) {
     )
   }
 
-  const lost = results
-    .map((result, index) => ({ result, payload: payloads[index] }))
-    .filter(({ result }) => result.status === 'rejected')
-    .map(({ payload }) => JSON.stringify(payload))
+  const reasons = failed
+    .map((result) => getErrorMessage(result.reason))
     .join(', ')
 
   logger.error(
     `${failed.length} of ${payloads.length} submissions failed for ${referenceNumber} and will not be retried. ` +
-      `Lost payloads: ${lost}`
+      `Reasons: ${reasons}`
   )
 }
 

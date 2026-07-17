@@ -123,7 +123,7 @@ const expansionSchema = Joi.object({
   id: Joi.string().required(),
   description: Joi.string(),
   repeater: questionRefSchema.required(),
-  filterAnswered: Joi.string(),
+  filterAnswered: questionRefSchema,
   deliverySuccessMode: Joi.string()
     .valid(...Object.values(DELIVERY_SUCCESS_MODE))
     .default(DEFAULT_DELIVERY_SUCCESS_MODE),

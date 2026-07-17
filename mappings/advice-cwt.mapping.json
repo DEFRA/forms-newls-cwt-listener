@@ -1121,7 +1121,10 @@
       "value": {
         "type": "arrayFromRepeater",
         "repeater": { "id": "*", "text": "Any repeater" },
-        "filterAnswered": "Avdzxa",
+        "filterAnswered": {
+          "id": "Avdzxa",
+          "text": "What is the name of SSSI where the activities will cause impacts?"
+        },
         "item": {
           "SSSI_id": {
             "type": "answer",
@@ -1262,7 +1265,10 @@
       "value": {
         "type": "arrayFromRepeater",
         "repeater": { "id": "TJuSNf", "text": "European site" },
-        "filterAnswered": "rtuWky",
+        "filterAnswered": {
+          "id": "rtuWky",
+          "text": "What is the name of the European site?"
+        },
         "item": {
           "european_site_id": {
             "type": "answer",

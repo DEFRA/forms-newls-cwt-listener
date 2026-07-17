@@ -301,7 +301,7 @@ Object properties resolving to `undefined` are omitted from the item.
 {
   "type": "arrayFromRepeater",
   "repeater": { "id": "cwZgSE", "text": "…" },
-  "filterAnswered": "rWrBOK", // skip entries missing this answer
+  "filterAnswered": { "id": "rWrBOK", "text": "…" }, // skip entries missing this answer
   "groupBy": { "id": "rWrBOK", "text": "…" }, // optional grouping
   "item": {
     "SSSI_id": {
@@ -400,7 +400,7 @@ grid of payloads.
     "id": "represented-bodies", // unique identifier, used in error messages
     "description": "…", // optional
     "repeater": { "id": "bDGQoL", "text": "Land owner or occupier details" },
-    "filterAnswered": "BKoVeV", // optional: skip entries missing this answer
+    "filterAnswered": { "id": "BKoVeV", "text": "…" }, // optional: skip entries missing this answer
     "deliverySuccessMode": "any", // "all" (default) | "any"
     "targets": {
       // output property → value expression, resolved against each entry

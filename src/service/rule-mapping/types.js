@@ -89,7 +89,8 @@
  * - "literal": a constant value ("value")
  * - "meta": a value from the submission metadata ("path", e.g. "referenceNumber")
  * - "answer": a question answer ("question", optional "scope": "main" | "item")
- * - "output": a previously computed output target value ("target")
+ * - "output": a previously computed output target value ("target"); only valid
+ *   during rule evaluation, not inside "expand.targets"
  * - "ref": a named value declared in the mapping file's "definitions" map ("name")
  * - "lookup": maps an input value through a table ("input", "table",
  *   optional "match": "exact" | "startsWith", "passthrough", "required")
@@ -211,7 +212,7 @@ export const DEFAULT_DELIVERY_SUCCESS_MODE = DELIVERY_SUCCESS_MODE.ALL
  * @property {string} id - Identifier for the expansion, used in error messages
  * @property {string} [description] - Human-readable description
  * @property {RepeaterRef} repeater - The repeater to expand over
- * @property {string} [filterAnswered] - Question id that must be answered for an
+ * @property {QuestionRef} [filterAnswered] - Question that must be answered for an
  *   entry to produce a payload; blank entries are skipped
  * @property {DeliverySuccessMode} [deliverySuccessMode] - Defaults to "all"
  * @property {Record<string, ValueExpression>} targets - Output targets to overlay

@@ -734,7 +734,10 @@
           "id": "hhGvmX",
           "text": "Sites where you plan to carry out activities"
         },
-        "filterAnswered": "flbYHq",
+        "filterAnswered": {
+          "id": "flbYHq",
+          "text": "What is the name of the SSSI where activities are planned?"
+        },
         "item": {
           "SSSI_id": {
             "type": "answer",
@@ -765,7 +768,10 @@
           "id": "QxIzSB",
           "text": "Site name and activities requiring Natural England assent"
         },
-        "filterAnswered": "wRGnMW",
+        "filterAnswered": {
+          "id": "wRGnMW",
+          "text": "What is the name of the SSSI where you plan to carry out this activity?"
+        },
         "groupBy": {
           "id": "wRGnMW",
           "text": "What is the name of the SSSI where you plan to carry out this activity?"
@@ -805,7 +811,10 @@
       "value": {
         "type": "arrayFromRepeater",
         "repeater": { "id": "aQYWxD", "text": "European site affected" },
-        "filterAnswered": "IzQfir",
+        "filterAnswered": {
+          "id": "IzQfir",
+          "text": "What is the name of the European site?"
+        },
         "item": {
           "european_site_id": {
             "type": "answer",
