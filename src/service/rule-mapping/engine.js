@@ -104,7 +104,7 @@ export function resolveExpansion(mapping, message) {
 
   let entries = readEntries(expansion.repeater, context)
   if (filterAnswered) {
-    entries = entries.filter((entry) => !isEmpty(entry[filterAnswered]))
+    entries = entries.filter((entry) => !isEmpty(entry[filterAnswered.id]))
   }
 
   return entries.map((entry, index) => {

@@ -697,7 +697,10 @@
           "id": "gWZwzI",
           "text": "Sites where you plan to carry out activities"
         },
-        "filterAnswered": "gVlMxz",
+        "filterAnswered": {
+          "id": "gVlMxz",
+          "text": "What is the name of the SSSI where activities are planned?"
+        },
         "item": {
           "SSSI_id": {
             "type": "answer",
@@ -747,7 +750,10 @@
           "id": "gWZwzI",
           "text": "Sites where you plan to carry out activities"
         },
-        "filterAnswered": "gVlMxz",
+        "filterAnswered": {
+          "id": "gVlMxz",
+          "text": "What is the name of the SSSI where activities are planned?"
+        },
         "item": {
           "SSSI_id": {
             "type": "answer",
@@ -800,7 +806,10 @@
       "value": {
         "type": "arrayFromRepeater",
         "repeater": { "id": "hwaByT", "text": "European site" },
-        "filterAnswered": "FqfxKM",
+        "filterAnswered": {
+          "id": "FqfxKM",
+          "text": "What is the name of the European site?"
+        },
         "item": {
           "european_site_id": {
             "type": "answer",
@@ -818,7 +827,10 @@
     "id": "represented-bodies",
     "description": "A notice may name up to 5 land owners/occupiers. CWT wants one submission per body, so each entry becomes its own payload, identical but for the represented body. All payloads share the notice's DF_reference_number; CWT handles that.",
     "repeater": { "id": "bDGQoL", "text": "Land owner or occupier details" },
-    "filterAnswered": "BKoVeV",
+    "filterAnswered": {
+      "id": "BKoVeV",
+      "text": "Are these the contact details of the landowner or the occupier?"
+    },
     "deliverySuccessMode": "any",
     "targets": {
       "represented_body_type": {

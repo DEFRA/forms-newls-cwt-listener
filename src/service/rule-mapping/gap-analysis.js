@@ -206,6 +206,7 @@ export function collectMappingReferences(mapping) {
     const question = readRef(record, 'question')
     const repeater = readRef(record, 'repeater')
     const groupBy = readRef(record, 'groupBy')
+    const filterAnswered = readRef(record, 'filterAnswered')
 
     if (question?.id) {
       refs.push({
@@ -222,11 +223,11 @@ export function collectMappingReferences(mapping) {
         text: repeater.text,
         location
       })
-      if (typeof record.filterAnswered === 'string') {
+      if (filterAnswered?.id) {
         refs.push({
           kind: 'question',
-          id: record.filterAnswered,
-          text: undefined,
+          id: filterAnswered.id,
+          text: filterAnswered.text,
           location: `${location}.filterAnswered`
         })
       }

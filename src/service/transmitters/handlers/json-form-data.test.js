@@ -20,7 +20,9 @@ describe('jsonFormDataHandler', () => {
     })
   })
 
-  it('sends an empty api-key when none is configured', () => {
-    expect(jsonFormDataHandler.authHeaders(null)).toEqual({ 'api-key': '' })
+  it('omits the api-key header when none is configured', () => {
+    expect(jsonFormDataHandler.authHeaders(null)).toEqual({})
+    expect(jsonFormDataHandler.authHeaders('')).toEqual({})
+    expect(jsonFormDataHandler.authHeaders(undefined)).toEqual({})
   })
 })

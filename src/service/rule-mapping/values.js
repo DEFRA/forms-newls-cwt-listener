@@ -310,14 +310,14 @@ function resolveArrayFromRepeater(expression, context) {
   const itemProperties = /** @type {Record<string, ItemValueExpression>} */ (
     expression.item
   )
-  const filterAnswered = /** @type {string | undefined} */ (
+  const filterAnswered = /** @type {QuestionRef | undefined} */ (
     expression.filterAnswered
   )
   const groupBy = /** @type {QuestionRef | undefined} */ (expression.groupBy)
 
   let entries = readEntries(repeater, context)
   if (filterAnswered) {
-    entries = entries.filter((entry) => !isEmpty(entry[filterAnswered]))
+    entries = entries.filter((entry) => !isEmpty(entry[filterAnswered.id]))
   }
 
   /** @type {Array<Record<string, unknown>>} */
@@ -462,6 +462,12 @@ export function resolveValue(expression, context) {
       break
     case 'output': {
       const target = /** @type {string} */ (expression.target)
+      if (context.itemIndex !== undefined) {
+        throw new Error(
+          `"output" is not available inside "expand.targets" (target "${target}") - ` +
+            'expansion targets cannot read the base payload'
+        )
+      }
       if (!Object.hasOwn(context.output, target)) {
         throw new Error(
           `Output target "${target}" has not been computed yet - ` +

@@ -8,6 +8,7 @@ import {
 const logger = createLogger()
 
 const SERVICE_UNAVAILABLE = 503
+const HEALTH_CHECK_TIMEOUT_MS = 5000
 
 /**
  * @typedef {import('../service/transmitters/destination-config.js').DestinationSettings} DestinationSettings
@@ -24,7 +25,8 @@ async function checkDestination(destination) {
   try {
     const response = await fetch(/** @type {string} */ (healthCheckUrl), {
       method: 'GET',
-      headers: handler.authHeaders(destination.apiKey)
+      headers: handler.authHeaders(destination.apiKey),
+      signal: AbortSignal.timeout(HEALTH_CHECK_TIMEOUT_MS)
     })
 
     if (!response.ok) {

@@ -85,7 +85,8 @@ describe('Health route', () => {
         'http://example.com/health-check',
         expect.objectContaining({
           method: 'GET',
-          headers: { 'api-key': 'test-api-key' }
+          headers: { 'api-key': 'test-api-key' },
+          signal: expect.any(AbortSignal)
         })
       )
       expect(response.statusCode).toEqual(okStatusCode)

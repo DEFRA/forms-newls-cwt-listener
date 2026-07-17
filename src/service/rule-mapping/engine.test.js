@@ -408,7 +408,7 @@ describe('mapWithRules', () => {
           {
             type: 'arrayFromRepeater',
             repeater: { id: 'r1' },
-            filterAnswered: 'a',
+            filterAnswered: { id: 'a' },
             item: {
               id: { type: 'answer', question: { id: 'a' } },
               note: { type: 'answer', question: { id: 'b' }, default: '' }
@@ -639,7 +639,7 @@ describe('resolveExpansion', () => {
 
   it('skips entries where the filterAnswered question is blank', () => {
     const mapping = buildMapping(baseRules, {
-      expand: buildExpansion({ filterAnswered: 'type' })
+      expand: buildExpansion({ filterAnswered: { id: 'type' } })
     })
     const message = buildMessage(
       {},
@@ -723,7 +723,7 @@ describe('resolveExpansion', () => {
   it('counts entries left after filtering, not before', () => {
     const mapping = buildMapping(baseRules, {
       expand: buildExpansion({
-        filterAnswered: 'type',
+        filterAnswered: { id: 'type' },
         targets: { submission_count: { type: 'expansionCount' } }
       })
     })
@@ -745,6 +745,19 @@ describe('resolveExpansion', () => {
 
     expect(() => mapWithRules(mapping, buildMessage({}))).toThrow(
       '"expansionIndex" is only available inside "expand.targets"'
+    )
+  })
+
+  it('rejects an output expression used inside expand.targets', () => {
+    const mapping = buildMapping(baseRules, {
+      expand: buildExpansion({
+        targets: { body_type: { type: 'output', target: 'body_type' } }
+      })
+    })
+    const message = buildMessage({}, { people: [{ type: 'a' }] })
+
+    expect(() => resolveExpansion(mapping, message)).toThrow(
+      '"output" is not available inside "expand.targets"'
     )
   })
 

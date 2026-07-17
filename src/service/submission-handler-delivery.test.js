@@ -164,7 +164,7 @@ describe('delivery success modes', () => {
       await expect(handleFormSubmission(threePeople)).resolves.toBeUndefined()
     })
 
-    it('logs the lost payloads as errors, since nothing else records them', async () => {
+    it('logs the failure reasons as errors, since nothing else records them', async () => {
       vi.mocked(send)
         .mockRejectedValueOnce(new Error('CWT down'))
         .mockResolvedValueOnce(undefined)
@@ -176,7 +176,7 @@ describe('delivery success modes', () => {
         expect.stringContaining('1 of 3 submissions failed for 111-222-333')
       )
       expect(mockLogger.error).toHaveBeenCalledWith(
-        expect.stringContaining('"body":"Jane"')
+        expect.stringContaining('Reasons: CWT down')
       )
     })
 
