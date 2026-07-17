@@ -38,7 +38,7 @@ Every submission includes an applicant identity. The identity determines which q
 | 28  | Other                    | Land occupier                 | -                       | -                     | -                        | -                    | -                          | Non-S28G via other                 |
 | 29  | Other                    | None of the above             | -                       | -                     | -                        | -                    | -                          | Non-S28G via other                 |
 
-**S28G bodies** (rows 1-8, 12-17, 21-26) see the [S28G advice type page](#advice-type-routing). **Non-S28G** (rows 9-11, 18-20, 27-29) go directly to [topic selection](#topic-selection-routing). **FC direct** (row 1) and **FC via consultant/other** (rows 12, 21) see the FC-specific advice type page.
+**S28G bodies** (rows 1-8, 12-17, 21-26) see the [S28G advice type page](#decision-table-advice-type-routing). **Non-S28G** (rows 9-11, 18-20, 27-29) go directly to [topic selection](#topic-selection-xzeslq---non-s28g-users--something-else-from-above). **FC direct** (row 1) and **FC via consultant/other** (rows 12, 21) see the FC-specific advice type page.
 
 ## Decision table: Advice type routing
 

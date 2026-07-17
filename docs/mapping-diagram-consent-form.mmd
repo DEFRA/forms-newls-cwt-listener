@@ -65,6 +65,14 @@ flowchart TD
     end
     MAIN --> CBT_Q
 
+    %% ===== represented body (payload expansion) =====
+    subgraph OutRepresentedBody["represented_body_* (one payload per entry)"]
+        RB_Q{"bDGQoL repeater<br />Land owner or occupier details<br />entries with BKoVeV answered?<br />(reached when KTObNK is<br />'working on behalf of', or<br />'Somebody else' + HoRNDl = Yes)"}
+        RB_Q -->|"None"| RB_EMPTY["1 payload:<br />represented_body_type omitted<br />represented_body_name omitted<br />(both optional)"]
+        RB_Q -->|"n entries (max 5)"| RB_EXPAND["n payloads, one per entry,<br />identical but for:<br />represented_body_type = BKoVeV<br />represented_body_name = '{qmxPye} {ajJUTo}'<br />All share DF_reference_number"]
+    end
+    REP --> RB_Q
+
     %% ===== customer fields =====
     subgraph OutCustomer["Customer Fields"]
         CN["customer_name =<br />'{htlAAq} {pPocjH}'.trim()<br />First name + Last name"]
@@ -152,6 +160,8 @@ flowchart TD
         O3["detailed_work_type"]
         O4["description"]
         O5["consulting_body_type"]
+        O5a["represented_body_type"]
+        O5b["represented_body_name"]
         O6["customer_name"]
         O7["customer_email_address"]
         O8["SBI"]

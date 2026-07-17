@@ -8,14 +8,14 @@ The first decision point is "What type of customer are you?" which determines th
 
 | Customer type                                      | Value                                         | Next step                                                                 |
 | -------------------------------------------------- | --------------------------------------------- | ------------------------------------------------------------------------- |
-| A public body                                      | `A public body`                               | [Which category describes the public body?](#public-body-category-vuHwan) |
+| A public body                                      | `A public body`                               | [Which category describes the public body?](#public-body-category-vuhwan) |
 | An organisation working on behalf of a public body | `Somebody working on behalf of a public body` | [Organisation name](#organisation-name-uedunl)                            |
 
 ## Organisation name (ueDuNl)
 
 Shown when customer type is **An organisation working on behalf of a public body**. Question: "What is the name of your organisation?"
 
-Autocomplete from a list of organisations. If "Other" is selected, the user is taken to a free text field (Xszriq - "Other organisation name"). Then proceeds to [Public body category](#public-body-category-vuHwan).
+Autocomplete from a list of organisations. If "Other" is selected, the user is taken to a free text field (Xszriq - "Other organisation name"). Then proceeds to [Public body category](#public-body-category-vuhwan).
 
 ## Public body category (vUHwan)
 
@@ -33,15 +33,15 @@ Shown on **all paths** (no condition). Page question: "Which category best descr
 
 ## Local authority selection (XAZlxH)
 
-Question: "Which local authority are you representing?" Autocomplete from local authorities. Then proceeds to [Land management scheme](#land-management-scheme-rtreXu).
+Question: "Which local authority are you representing?" Autocomplete from local authorities. Then proceeds to [Land management scheme](#land-management-scheme-rtrexu).
 
 ## Public body selection (cfPoiN)
 
-Question: "Which public body are you representing?" Autocomplete from public bodies. If "Other" is selected, user proceeds to [Other public body free text](#other-public-body-free-text-fylhmn). Otherwise proceeds to [Land management scheme](#land-management-scheme-rtreXu).
+Question: "Which public body are you representing?" Autocomplete from public bodies. If "Other" is selected, user proceeds to [Other public body free text](#other-public-body-free-text-fylhmn). Otherwise proceeds to [Land management scheme](#land-management-scheme-rtrexu).
 
 ## Other public body free text (FyLHmN)
 
-Question: "Which public body are you representing?" Free text input. Then proceeds to [Land management scheme](#land-management-scheme-rtreXu).
+Question: "Which public body are you representing?" Free text input. Then proceeds to [Land management scheme](#land-management-scheme-rtrexu).
 
 ---
 
@@ -97,7 +97,7 @@ graph TD
 2. **Activities repeater** (gzSkgC): "Activities requiring Natural England's assent"
    - lGsnXi: "What activity is planned to be carried out?"
    - uqfCOY: "Where do you plan to carry out this activity?" (easting/northing coordinates)
-3. Proceeds to [European site question](#european-site-question-xydydud)
+3. Proceeds to [European site question](#european-site-question-xydyud)
 
 ### Multiple SSSI path
 

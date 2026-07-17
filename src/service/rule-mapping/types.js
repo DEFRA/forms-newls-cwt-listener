@@ -144,8 +144,9 @@
  * Where the mapped payload is sent.
  * @typedef {object} Destination
  * @property {'rest'} type - The destination kind (only "rest" is currently supported)
- * @property {string} name - The destination name, resolved via the destination
- *   registry (e.g. "universityApi", configured through existing service config)
+ * @property {string} name - Selects the destination's settings - address,
+ *   credential, handler and retry policy - from the service config's
+ *   "destinations" block (e.g. "universityApi")
  */
 
 /**
@@ -163,6 +164,58 @@
  * @property {Record<string, ValueExpression>} [definitions] - Named value expressions
  *   referencable with { "type": "ref", "name": name } inside rule values
  * @property {MappingRule[]} rules - The mapping rules, evaluated in order
+ * @property {Expansion} [expand] - Fans the mapped payload out into one submission
+ *   per repeater entry. At most one per mapping
+ */
+
+/**
+ * How many of an expanded submission's payloads must reach the destination for
+ * the source message to count as handled (and so be deleted from the queue).
+ *
+ * "all": every payload must succeed. A failure leaves the message on the queue,
+ * so redelivery re-sends the whole set - payloads that already landed are
+ * duplicated in the destination system.
+ *
+ * "any": one payload succeeding is enough. Nothing is duplicated, but the
+ * payloads that failed are lost - the message is deleted and nothing retries
+ * them.
+ * @typedef {'all' | 'any'} DeliverySuccessMode
+ */
+
+/**
+ * The delivery success modes, keyed by name.
+ * @type {Readonly<Record<'ALL' | 'ANY', DeliverySuccessMode>>}
+ */
+export const DELIVERY_SUCCESS_MODE = Object.freeze({
+  ALL: 'all',
+  ANY: 'any'
+})
+
+/**
+ * The mode applied to an expansion that does not name one.
+ * @type {DeliverySuccessMode}
+ */
+export const DEFAULT_DELIVERY_SUCCESS_MODE = DELIVERY_SUCCESS_MODE.ALL
+
+/**
+ * Fans a single mapped payload out into one submission per repeater entry.
+ *
+ * The base payload is produced by the rules as normal; each repeater entry then
+ * contributes an overlay of `targets` that is merged over it. The target value
+ * expressions are evaluated once per entry, with that entry in scope as the
+ * current item, so "answer" expressions read the entry's answers first.
+ *
+ * When the repeater has no entries the base payload is sent unchanged, which is
+ * what the targets' ordinary fallback rules exist for.
+ * @typedef {object} Expansion
+ * @property {string} id - Identifier for the expansion, used in error messages
+ * @property {string} [description] - Human-readable description
+ * @property {RepeaterRef} repeater - The repeater to expand over
+ * @property {string} [filterAnswered] - Question id that must be answered for an
+ *   entry to produce a payload; blank entries are skipped
+ * @property {DeliverySuccessMode} [deliverySuccessMode] - Defaults to "all"
+ * @property {Record<string, ValueExpression>} targets - Output targets to overlay
+ *   on the base payload, evaluated once per entry
  */
 
 /**
@@ -193,6 +246,6 @@
  * @property {MappingDefinition} mapping - The mapping definition being executed
  * @property {Record<string, unknown>} output - Output values computed so far (for "output" expressions)
  * @property {Record<string, unknown>} [item] - The current repeater entry (inside "arrayFromRepeater")
+ * @property {number} [itemIndex] - 1-based position of the current entry (inside an expansion)
+ * @property {number} [itemCount] - Total entries being expanded (inside an expansion)
  */
-
-export default {}

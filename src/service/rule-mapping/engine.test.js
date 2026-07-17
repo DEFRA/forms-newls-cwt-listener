@@ -1,5 +1,5 @@
 import { buildFormAdapterSubmissionMessage } from '../__stubs__/event-builders.js'
-import { mapWithRules } from './engine.js'
+import { mapWithRules, resolveExpansion } from './engine.js'
 import { applyTransforms, knownTransformNames } from './transforms.js'
 import { isEmpty } from './is-empty.js'
 
@@ -565,5 +565,217 @@ describe('isEmpty', () => {
     expect(isEmpty(0)).toBe(false)
     expect(isEmpty(false)).toBe(false)
     expect(isEmpty({})).toBe(false)
+  })
+})
+
+describe('resolveExpansion', () => {
+  /** @type {import('./types.js').MappingRule[]} */
+  const baseRules = [
+    {
+      id: 'body-type.fallback',
+      target: 'body_type',
+      value: { type: 'literal', value: '' }
+    }
+  ]
+
+  /**
+   * @param {Partial<import('./types.js').Expansion>} [overrides]
+   * @returns {import('./types.js').Expansion}
+   */
+  function buildExpansion(overrides = {}) {
+    return {
+      id: 'bodies',
+      repeater: { id: 'people', text: 'People' },
+      targets: {
+        body_type: { type: 'answer', question: { id: 'type', text: 'Type' } },
+        body_name: { type: 'answer', question: { id: 'name', text: 'Name' } }
+      },
+      ...overrides
+    }
+  }
+
+  it('returns no overlays when the mapping declares no expansion', () => {
+    const mapping = buildMapping(baseRules)
+    expect(resolveExpansion(mapping, buildMessage({}))).toEqual([])
+  })
+
+  it('returns no overlays when the repeater has no entries, leaving the base payload to stand alone', () => {
+    const mapping = buildMapping(baseRules, { expand: buildExpansion() })
+    const message = buildMessage({})
+
+    expect(resolveExpansion(mapping, message)).toEqual([])
+    expect(mapWithRules(mapping, message)).toEqual({ body_type: '' })
+  })
+
+  it('returns one overlay per repeater entry', () => {
+    const mapping = buildMapping(baseRules, { expand: buildExpansion() })
+    const message = buildMessage(
+      {},
+      {
+        people: [
+          { type: 'Landowner', name: 'Jane' },
+          { type: 'Land occupier', name: 'Raj' }
+        ]
+      }
+    )
+
+    expect(resolveExpansion(mapping, message)).toEqual([
+      { body_type: 'Landowner', body_name: 'Jane' },
+      { body_type: 'Land occupier', body_name: 'Raj' }
+    ])
+  })
+
+  it('reads the entry in preference to a main answer of the same question id', () => {
+    const mapping = buildMapping(baseRules, { expand: buildExpansion() })
+    const message = buildMessage(
+      { type: 'from main', name: 'from main' },
+      { people: [{ type: 'Landowner', name: 'Jane' }] }
+    )
+
+    expect(resolveExpansion(mapping, message)).toEqual([
+      { body_type: 'Landowner', body_name: 'Jane' }
+    ])
+  })
+
+  it('skips entries where the filterAnswered question is blank', () => {
+    const mapping = buildMapping(baseRules, {
+      expand: buildExpansion({ filterAnswered: 'type' })
+    })
+    const message = buildMessage(
+      {},
+      {
+        people: [
+          { type: 'Landowner', name: 'Jane' },
+          { type: '', name: 'Blank' },
+          { name: 'Missing' },
+          { type: 'Land occupier', name: 'Raj' }
+        ]
+      }
+    )
+
+    expect(resolveExpansion(mapping, message)).toEqual([
+      { body_type: 'Landowner', body_name: 'Jane' },
+      { body_type: 'Land occupier', body_name: 'Raj' }
+    ])
+  })
+
+  it('omits targets that resolve to undefined', () => {
+    const mapping = buildMapping(baseRules, { expand: buildExpansion() })
+    const message = buildMessage({}, { people: [{ type: 'Landowner' }] })
+
+    expect(resolveExpansion(mapping, message)).toEqual([
+      { body_type: 'Landowner' }
+    ])
+  })
+
+  it('supports the whole value expression vocabulary in targets', () => {
+    const mapping = buildMapping(baseRules, {
+      expand: buildExpansion({
+        targets: {
+          body_name: {
+            type: 'concat',
+            separator: ' ',
+            skipEmpty: true,
+            parts: [
+              { type: 'answer', question: { id: 'first', text: 'First' } },
+              { type: 'answer', question: { id: 'last', text: 'Last' } }
+            ]
+          },
+          body_type: {
+            type: 'lookup',
+            input: { type: 'answer', question: { id: 'type', text: 'Type' } },
+            table: { owner: 'Landowner' }
+          }
+        }
+      })
+    })
+    const message = buildMessage(
+      {},
+      { people: [{ first: 'Jane', last: 'Smith', type: 'owner' }] }
+    )
+
+    expect(resolveExpansion(mapping, message)).toEqual([
+      { body_name: 'Jane Smith', body_type: 'Landowner' }
+    ])
+  })
+
+  it('exposes the 1-based position and total via expansionIndex and expansionCount', () => {
+    const mapping = buildMapping(baseRules, {
+      expand: buildExpansion({
+        targets: {
+          submission_index: { type: 'expansionIndex' },
+          submission_count: { type: 'expansionCount' }
+        }
+      })
+    })
+    const message = buildMessage(
+      {},
+      { people: [{ type: 'a' }, { type: 'b' }, { type: 'c' }] }
+    )
+
+    expect(resolveExpansion(mapping, message)).toEqual([
+      { submission_index: 1, submission_count: 3 },
+      { submission_index: 2, submission_count: 3 },
+      { submission_index: 3, submission_count: 3 }
+    ])
+  })
+
+  it('counts entries left after filtering, not before', () => {
+    const mapping = buildMapping(baseRules, {
+      expand: buildExpansion({
+        filterAnswered: 'type',
+        targets: { submission_count: { type: 'expansionCount' } }
+      })
+    })
+    const message = buildMessage(
+      {},
+      { people: [{ type: 'a' }, { type: '' }, { type: 'c' }] }
+    )
+
+    expect(resolveExpansion(mapping, message)).toEqual([
+      { submission_count: 2 },
+      { submission_count: 2 }
+    ])
+  })
+
+  it('rejects expansionIndex used outside an expansion', () => {
+    const mapping = buildMapping([
+      { id: 'idx', target: 'idx', value: { type: 'expansionIndex' } }
+    ])
+
+    expect(() => mapWithRules(mapping, buildMessage({}))).toThrow(
+      '"expansionIndex" is only available inside "expand.targets"'
+    )
+  })
+
+  it('names the expansion, target and entry when a target fails', () => {
+    const mapping = buildMapping(baseRules, {
+      expand: buildExpansion({
+        targets: { body_type: { type: 'ref', name: 'missing' } }
+      })
+    })
+    const message = buildMessage({}, { people: [{ type: 'a' }, { type: 'b' }] })
+
+    expect(() => resolveExpansion(mapping, message)).toThrow(
+      'Mapping "test-mapping" expansion "bodies" target "body_type" failed for entry 1: Unknown value definition "missing"'
+    )
+  })
+
+  it('expands over every repeater when the id is "*"', () => {
+    const mapping = buildMapping(baseRules, {
+      expand: buildExpansion({ repeater: { id: '*', text: 'All' } })
+    })
+    const message = buildMessage(
+      {},
+      {
+        owners: [{ type: 'Landowner' }],
+        occupiers: [{ type: 'Land occupier' }]
+      }
+    )
+
+    expect(resolveExpansion(mapping, message)).toEqual([
+      { body_type: 'Landowner' },
+      { body_type: 'Land occupier' }
+    ])
   })
 })

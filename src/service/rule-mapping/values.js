@@ -57,11 +57,28 @@ function readAnswer(question, context, scope) {
  * @param {MappingContext} context
  * @returns {Array<Record<string, unknown>>}
  */
-function readEntries(repeater, context) {
+export function readEntries(repeater, context) {
   if (repeater.id === '*') {
     return Object.values(context.repeaters).flat()
   }
   return context.repeaters[repeater.id] ?? []
+}
+
+/**
+ * Reads the current entry's position within an expansion. Only an expansion
+ * puts these on the context, so an absent value means the expression was used
+ * outside "expand.targets".
+ * @param {MappingContext} context
+ * @param {'itemIndex' | 'itemCount'} property
+ * @param {string} type - The expression type, for the error message
+ * @returns {number}
+ */
+function readExpansionPosition(context, property, type) {
+  const value = context[property]
+  if (value === undefined) {
+    throw new Error(`"${type}" is only available inside "expand.targets"`)
+  }
+  return value
 }
 
 /**
@@ -491,6 +508,12 @@ export function resolveValue(expression, context) {
       break
     case 'joinSegments':
       raw = resolveJoinSegments(expression, context)
+      break
+    case 'expansionIndex':
+      raw = readExpansionPosition(context, 'itemIndex', expression.type)
+      break
+    case 'expansionCount':
+      raw = readExpansionPosition(context, 'itemCount', expression.type)
       break
     default:
       throw new Error(`Unknown value expression type "${expression.type}"`)

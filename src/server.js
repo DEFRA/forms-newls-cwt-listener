@@ -9,6 +9,7 @@ import { pulse } from './common/helpers/pulse.js'
 import { requestTracing } from './common/helpers/request-tracing.js'
 import { createLogger } from './common/helpers/logging/logger.js'
 import { describeProxyInfo } from './common/helpers/proxy/proxy-info.js'
+import { checkDestinationsAreConfigured } from './service/rule-mapping/destinations.js'
 import { runTask } from './tasks/receive-messages.js'
 
 const logger = createLogger()
@@ -18,6 +19,15 @@ const numberOfCoroutines = config.get('numberOfConcurrentPollingCoroutines')
 
 async function createServer() {
   logger.info(`Startup outbound ${describeProxyInfo()}`)
+
+  // Skipped under test for the same reason config.validate() is: the suite runs
+  // without the deployed environment's destination settings.
+  if (!config.get('isTest')) {
+    const { mappingsDir } = /** @type {{ mappingsDir: string }} */ (
+      config.get('mappingEngine')
+    )
+    checkDestinationsAreConfigured(mappingsDir)
+  }
 
   const server = Hapi.server({
     host: /** @type {string} */ (config.get('host')),

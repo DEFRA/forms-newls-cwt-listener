@@ -112,6 +112,8 @@ File upload metadata (references, not binary content).
 
 Each form's mapping produces a different output structure. All outputs are sent as JSON POST requests to the downstream API.
 
+A submission normally produces one payload. The **consent** form is the exception: a notice can name several land owners or occupiers, and CWT wants one submission each, so those submissions fan out into one payload per named body — see [Consent form output](#consent-form-output) below.
+
 ### Advice form output
 
 ```javascript
@@ -178,6 +180,8 @@ Each form's mapping produces a different output structure. All outputs are sent 
   detailed_work_type: "S28E Consent CS HT", // or "S28E Consent CS MT", "S28E Consent HLS extension", etc.
   description: "Activities - SSSI names",
   consulting_body_type: "Landowner",       // or "Land occupier", "Consultant", "Other"
+  represented_body_type: "Landowner",      // or "Land occupier" (optional, omitted when no body is named)
+  represented_body_name: "Jane Smith",     // optional, omitted when no body is named
   customer_name: "Full name",
   customer_email_address: "email@example.com",
   email_header: "Activities - SSSI names", // same segments as description, truncated to 254 chars
@@ -188,6 +192,20 @@ Each form's mapping produces a different output structure. All outputs are sent 
   ]
 }
 ```
+
+#### One consent submission, several payloads
+
+`consulting_body_type` describes the **submitter**. `represented_body_type` and `represented_body_name` describe a land owner or occupier the submitter is acting for — which a consultant, or someone submitting as "somebody else", can name up to five of on one notice.
+
+CWT models each represented body as its own submission, so the consent mapping [expands](mapping-system/02-mapping-file-format.md#payload-expansion) those entries: it sends one payload per named body, every payload identical except for `represented_body_type` and `represented_body_name`. All of them carry the same `DF_reference_number` — CWT handles the repetition, and it is what ties the payloads back to the one notice the user submitted.
+
+| Land owners/occupiers named | Payloads sent                                                                                                             |
+| --------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| None                        | 1, omitting `represented_body_type` and `represented_body_name` — both are optional, and only the expansion produces them |
+| One                         | 1, with both properties populated                                                                                         |
+| _n_                         | _n_, differing only in those two properties                                                                               |
+
+The consent mapping sets `deliverySuccessMode: "any"`: the message counts as handled if at least one payload lands, so a partial failure is logged rather than redelivering the whole notice and duplicating the bodies that already arrived. Individual sends retry transient errors first — see [02-architecture.md](02-architecture.md).
 
 ### Common fields across all output types
 

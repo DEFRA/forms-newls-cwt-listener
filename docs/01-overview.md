@@ -16,16 +16,18 @@ The service currently handles three Natural England protected sites consultation
 2. **Validate** - Each message is validated against the Defra Forms submission schema
 3. **Route** - The submission is matched to a mapping file using the form ID from the message metadata
 4. **Transform** - The rule-based engine applies the mapping file's rules to restructure the submission data into a standardised output format
-5. **Transmit** - The transformed data is sent as a JSON POST request to the downstream API
-6. **Delete** - Successfully processed messages are deleted from the queue
-7. **Retry** - Failed messages remain in the queue and are retried after the visibility timeout
+5. **Expand** - If the mapping declares an `expand` block, the result is fanned out into one payload per entry of a repeater; otherwise there is a single payload
+6. **Transmit** - Each payload is sent as a JSON POST request to the downstream API, retrying transient errors with back-off
+7. **Delete** - Successfully processed messages are deleted from the queue
+8. **Retry** - Failed messages remain in the queue and are retried after the visibility timeout
 
 ## Key features
 
 - **Declarative mapping** - Each form type has a JSON mapping file that describes how its fields are transformed into the correct output format; the engine is form-agnostic
+- **Payload expansion** - A mapping can declare that one submission fans out into several API submissions, one per repeater entry — the NEWLS Consent form uses this to send CWT one submission per land owner or occupier named on a notice
 - **Sequential processing** - Messages are processed one at a time within each polling coroutine
 - **Configurable concurrency** - Multiple polling coroutines can run in parallel for higher throughput
-- **Automatic retry** - Failed messages remain in the queue and are retried based on SQS visibility timeout configuration
+- **Automatic retry** - Individual API calls retry transient errors with exponential back-off; failed messages then remain in the queue and are retried based on SQS visibility timeout configuration
 - **Schema validation** - All incoming messages are validated against the Defra Forms submission schema before processing
 - **Health check endpoint** - Exposes `/health` for container orchestration and load balancer probes
 

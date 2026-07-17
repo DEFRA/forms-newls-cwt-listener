@@ -813,5 +813,37 @@
         }
       }
     }
-  ]
+  ],
+  "expand": {
+    "id": "represented-bodies",
+    "description": "A notice may name up to 5 land owners/occupiers. CWT wants one submission per body, so each entry becomes its own payload, identical but for the represented body. All payloads share the notice's DF_reference_number; CWT handles that.",
+    "repeater": { "id": "bDGQoL", "text": "Land owner or occupier details" },
+    "filterAnswered": "BKoVeV",
+    "deliverySuccessMode": "any",
+    "targets": {
+      "represented_body_type": {
+        "type": "answer",
+        "question": {
+          "id": "BKoVeV",
+          "text": "Are these the contact details of the landowner or the occupier?"
+        },
+        "default": ""
+      },
+      "represented_body_name": {
+        "type": "concat",
+        "separator": " ",
+        "skipEmpty": true,
+        "parts": [
+          {
+            "type": "answer",
+            "question": { "id": "qmxPye", "text": "First name" }
+          },
+          {
+            "type": "answer",
+            "question": { "id": "ajJUTo", "text": "Last name" }
+          }
+        ]
+      }
+    }
+  }
 }
