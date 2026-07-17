@@ -10,6 +10,10 @@
 import Joi from 'joi'
 
 import { knownTransformNames } from './transforms.js'
+import {
+  DEFAULT_DELIVERY_SUCCESS_MODE,
+  DELIVERY_SUCCESS_MODE
+} from './types.js'
 
 const VALUE_EXPRESSION_TYPES = [
   'literal',
@@ -25,7 +29,9 @@ const VALUE_EXPRESSION_TYPES = [
   'object',
   'array',
   'arrayFromRepeater',
-  'joinSegments'
+  'joinSegments',
+  'expansionIndex',
+  'expansionCount'
 ]
 
 const questionRefSchema = Joi.object({
@@ -108,6 +114,25 @@ const ruleSchema = Joi.object({
   value: valueExpressionSchema.required()
 })
 
+/**
+ * The expansion is an object rather than a list of rules: a mapping may fan out
+ * on at most one repeater, and an object makes a second expansion
+ * unrepresentable instead of a runtime check.
+ */
+const expansionSchema = Joi.object({
+  id: Joi.string().required(),
+  description: Joi.string(),
+  repeater: questionRefSchema.required(),
+  filterAnswered: Joi.string(),
+  deliverySuccessMode: Joi.string()
+    .valid(...Object.values(DELIVERY_SUCCESS_MODE))
+    .default(DEFAULT_DELIVERY_SUCCESS_MODE),
+  targets: Joi.object()
+    .pattern(Joi.string(), valueExpressionSchema)
+    .min(1)
+    .required()
+})
+
 export const mappingDefinitionSchema = Joi.object({
   id: Joi.string().required(),
   name: Joi.string().required(),
@@ -120,7 +145,8 @@ export const mappingDefinitionSchema = Joi.object({
   }).required(),
   conditions: Joi.object().pattern(Joi.string(), conditionSchema),
   definitions: Joi.object().pattern(Joi.string(), valueExpressionSchema),
-  rules: Joi.array().items(ruleSchema).min(1).required()
+  rules: Joi.array().items(ruleSchema).min(1).required(),
+  expand: expansionSchema
 }).shared(conditionSchema)
 
 /**

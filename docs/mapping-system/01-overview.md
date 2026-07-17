@@ -18,24 +18,24 @@ than in code:
 SQS submission message
         │
         ▼
-submission-handler ──► rules engine ──► transmit payload to the
+submission-handler ──► rules engine ──► transmit payload(s) to the
                                         destination named in the mapping
 ```
 
 Modules under `src/service/rule-mapping/`:
 
-| Module              | Responsibility                                                                         |
-| ------------------- | -------------------------------------------------------------------------------------- |
-| `engine.js`         | Applies a mapping definition's rules to a submission message                           |
-| `conditions.js`     | Evaluates rule conditions (`when`) against answers and repeaters                       |
-| `values.js`         | Resolves value expressions (answers, lookups, arrays, segments, …)                     |
-| `transforms.js`     | Named transform pipeline (`parseName`, `formatCoordinates`, …)                         |
-| `helpers.js`        | Pure value-parsing primitives shared by the transforms and value resolver              |
-| `registry.js`       | Loads, validates and indexes the mapping files by form id                              |
-| `mapping-schema.js` | Joi structural validation of mapping files                                             |
-| `destinations.js`   | Resolves a mapping's `destination` to a sender (currently the University/CWT REST API) |
-| `gap-analysis.js`   | Cross-checks mapping + form definition + output schema (used by the CLI)               |
-| `types.js`          | JSDoc type definitions for all of the above                                            |
+| Module              | Responsibility                                                                                                          |
+| ------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| `engine.js`         | Applies a mapping definition's rules to a submission message, and resolves its `expand` block into per-payload overlays |
+| `conditions.js`     | Evaluates rule conditions (`when`) against answers and repeaters                                                        |
+| `values.js`         | Resolves value expressions (answers, lookups, arrays, segments, …)                                                      |
+| `transforms.js`     | Named transform pipeline (`parseName`, `formatCoordinates`, …)                                                          |
+| `helpers.js`        | Pure value-parsing primitives shared by the transforms and value resolver                                               |
+| `registry.js`       | Loads, validates and indexes the mapping files by form id                                                               |
+| `mapping-schema.js` | Joi structural validation of mapping files                                                                              |
+| `destinations.js`   | Resolves a mapping's `destination` to a sender (currently the University/CWT REST API)                                  |
+| `gap-analysis.js`   | Cross-checks mapping + form definition + output schema (used by the CLI)                                                |
+| `types.js`          | JSDoc type definitions for all of the above                                                                             |
 
 ## How a submission is mapped
 
@@ -50,7 +50,13 @@ Modules under `src/service/rule-mapping/`:
    apply) when it resolves to `undefined` — e.g. an unanswered question with
    no `default`. Targets where every rule falls through are omitted from the
    payload (this is how optional outputs such as `SBI` are omitted).
-4. The payload is sent to the destination named in the mapping file.
+4. If the mapping declares an `expand` block, the payload is fanned out into
+   one payload per entry of the named repeater, each overriding a few
+   properties (this is how one consent notice becomes one CWT submission per
+   land owner or occupier). Without `expand` — the usual case — there is
+   exactly one payload.
+5. Each payload is sent to the destination named in the mapping file, retrying
+   transient failures with back-off.
 
 ## Validation story
 

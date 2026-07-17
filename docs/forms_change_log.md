@@ -1,5 +1,21 @@
 # Form Changes
 
+## 2026-07-16 - Thu (DF-1016: consent represented body — one CWT submission per land owner/occupier)
+
+Mapper-only change (no form-definition edits), plus the engine capability it needed. Committed as work item W10. Applies to **Consent** only.
+
+### Consent
+
+- **W10 — `represented_body_type` and `represented_body_name`.** Two new CWT output fields naming the land owner or occupier a submitter is acting **for**. They are new dedicated targets, **not** the `consulting_body_type`/`consulting_body` pair the advice and assent forms use — `consulting_body_type` and its `KTObNK` lookup are untouched, and still describe the submitter themselves.
+  - Source: the `bDGQoL` ("Land owner or occupier details") repeater, reached when `KTObNK` is "Someone working on behalf of an owner or occupier…" (directly), or "Somebody else" who answers `Yes` to `HoRNDl` ("Do you know the details of the owner or occupier?"). Both branches converge on `/land-owner-or-occupier-details`.
+  - `represented_body_type` ← `BKoVeV` ("Are these the contact details of the landowner or the occupier?"), whose options (`Landowner`, `Land occupier`) already match CWT's values, so no lookup is needed. `represented_body_name` ← `qmxPye` ("First name") + `ajJUTo` ("Last name"), space-joined.
+  - Both fields are **optional** in the output schema, and no ordinary rule produces them — only the expansion does. In the (majority) case where the submitter is the owner/occupier themselves and the page is never reached, they are therefore omitted from the payload rather than sent empty.
+- **W10 — one submission per represented body.** The repeater allows up to 5 bodies and CWT models each as its own submission, so the mapping fans out: 0 entries → 1 payload as before; 1 entry → 1 payload with the fields populated; _n_ entries → _n_ payloads differing only in those two fields. All share the notice's `DF_reference_number` (CWT handles the repetition).
+  - This needed a new engine capability: a mapping may declare one optional `expand` block, documented in [mapping-system/02-mapping-file-format.md](mapping-system/02-mapping-file-format.md#payload-expansion). Mappings without one — advice and assent — are entirely unaffected, still producing exactly one payload.
+  - Entries with no `BKoVeV` answer are filtered out (`filterAnswered`), since a user can reach the repeater page and leave it blank; the submission then falls back to a single payload with both fields omitted.
+  - Consent sets `deliverySuccessMode: "any"`: the message is deleted once at least one payload is accepted, and any that failed are logged as errors. The alternative (`all`, the default for new mappings) would redeliver the whole notice and duplicate the bodies that already arrived, since a message has no per-payload checkpoint. If every payload fails, both modes fail the message.
+  - Each individual send now retries transient errors (5xx, 429, network) with exponential back-off and jitter before it counts as failed, so a blip never reaches that decision. Configured with `UNIVERSITY_API_RETRY_*`; applies to every form, not just consent.
+
 ## 2026-07-09 - Thu (DF-1016: consent form definition refresh — customer type wording)
 
 Consent, assent and advice form definitions updated. The only change affecting existing mappings was on the **Consent** form; the assent and advice edits (a new free-text "what you want to do / enquire about" page, `qocAEz` title suffix, and condition `itemId` array wrapping) introduced no mapping gaps. Verified with `npm run mapping:gaps:all`.

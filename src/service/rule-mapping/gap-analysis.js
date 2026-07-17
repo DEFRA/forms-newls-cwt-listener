@@ -293,6 +293,9 @@ export function collectMappingReferences(mapping) {
   walk(mapping.conditions ?? {}, 'conditions')
   walk(mapping.definitions ?? {}, 'definitions')
   mapping.rules.forEach((rule) => walk(rule, `rule "${rule.id}"`))
+  if (mapping.expand) {
+    walk(mapping.expand, `expansion "${mapping.expand.id}"`)
+  }
 
   return { refs, lookups, comparisons }
 }
@@ -354,12 +357,19 @@ export function isTotalExpression(expression, mapping) {
 function checkPropertyCoverage(propertyName, property, mapping, findings) {
   const rules = mapping.rules.filter((rule) => rule.target === propertyName)
 
+  const isExpansionTarget = Object.hasOwn(
+    mapping.expand?.targets ?? {},
+    propertyName
+  )
+
   if (rules.length === 0) {
     if (property.required) {
       findings.push({
         severity: 'error',
-        code: 'missing-target',
-        message: `Required output property "${propertyName}" has no mapping rules`
+        code: isExpansionTarget ? 'expansion-target-only' : 'missing-target',
+        message: isExpansionTarget
+          ? `Required output property "${propertyName}" is only produced by expansion "${mapping.expand?.id}", so it is omitted when the repeater has no entries; add a fallback rule for that case`
+          : `Required output property "${propertyName}" has no mapping rules`
       })
     }
     return

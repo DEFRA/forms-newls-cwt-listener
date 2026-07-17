@@ -397,3 +397,138 @@ describe('analyseMappingGaps', () => {
     }
   })
 })
+
+describe('analyseMappingGaps: expansions', () => {
+  /** @type {import('./types.js').OutputSchema} */
+  const outputSchema = {
+    properties: {
+      pet_output: { type: 'string', required: true }
+    }
+  }
+
+  /**
+   * @param {Partial<import('./types.js').Expansion>} [overrides]
+   * @returns {import('./types.js').Expansion}
+   */
+  function buildExpansion(overrides = {}) {
+    return {
+      id: 'pets',
+      repeater: { id: 'petsRepeater', text: 'Pet' },
+      targets: {
+        pet_output: { type: 'answer', question: { id: 'petName' } }
+      },
+      ...overrides
+    }
+  }
+
+  /**
+   * @param {import('./types.js').MappingDefinition} mapping
+   */
+  function analyse(mapping) {
+    return analyseMappingGaps({ mapping, formDefinition, outputSchema })
+  }
+
+  it('flags a required property produced only by an expansion, which is omitted when the repeater is empty', () => {
+    const findings = analyse(buildMapping({ expand: buildExpansion() }))
+
+    expect(findings).toContainEqual(
+      expect.objectContaining({
+        severity: 'error',
+        code: 'expansion-target-only',
+        message: expect.stringContaining(
+          'is only produced by expansion "pets", so it is omitted when the repeater has no entries'
+        )
+      })
+    )
+  })
+
+  it('accepts an expansion target that also has a fallback rule', () => {
+    const findings = analyse(
+      buildMapping({
+        rules: [
+          {
+            id: 'pet.fallback',
+            target: 'pet_output',
+            value: { type: 'literal', value: '' }
+          }
+        ],
+        expand: buildExpansion()
+      })
+    )
+
+    expect(findings.filter((finding) => finding.severity === 'error')).toEqual(
+      []
+    )
+  })
+
+  it('reports a question id in an expansion target that the form does not have', () => {
+    const findings = analyse(
+      buildMapping({
+        rules: [
+          {
+            id: 'pet.fallback',
+            target: 'pet_output',
+            value: { type: 'literal', value: '' }
+          }
+        ],
+        expand: buildExpansion({
+          targets: { pet_output: { type: 'answer', question: { id: 'nope' } } }
+        })
+      })
+    )
+
+    expect(findings).toContainEqual(
+      expect.objectContaining({
+        severity: 'error',
+        code: 'unknown-question',
+        message: expect.stringContaining(
+          'Question "nope" (no text) referenced at expansion "pets".targets.pet_output does not exist'
+        )
+      })
+    )
+  })
+
+  it('reports a repeater the form does not have', () => {
+    const findings = analyse(
+      buildMapping({
+        rules: [
+          {
+            id: 'pet.fallback',
+            target: 'pet_output',
+            value: { type: 'literal', value: '' }
+          }
+        ],
+        expand: buildExpansion({ repeater: { id: 'nope' } })
+      })
+    )
+
+    expect(findings).toContainEqual(
+      expect.objectContaining({
+        severity: 'error',
+        code: 'unknown-repeater',
+        message: expect.stringContaining(
+          'Repeater "nope" (no text) referenced at expansion "pets" does not exist'
+        )
+      })
+    )
+  })
+
+  it('counts an expansion question as used, not as an unmapped question', () => {
+    const findings = analyse(
+      buildMapping({
+        rules: [
+          {
+            id: 'pet.fallback',
+            target: 'pet_output',
+            value: { type: 'literal', value: '' }
+          }
+        ],
+        expand: buildExpansion()
+      })
+    )
+
+    expect(
+      findings.filter((finding) => finding.message.includes('petName'))
+    ).toEqual([])
+  })
+})

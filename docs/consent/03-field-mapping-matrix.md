@@ -6,22 +6,24 @@ Source: [mappings/consent-cwt.mapping.json](../../mappings/consent-cwt.mapping.j
 
 ## Output field reference
 
-| Output field               | Type             | Always present?            |
-| -------------------------- | ---------------- | -------------------------- |
-| `form_type`                | `"consent"`      | Yes                        |
-| `DF_reference_number`      | string           | Yes                        |
-| `broad_work_type`          | `"S28E Consent"` | Yes                        |
-| `detailed_work_type`       | string           | Yes                        |
-| `description`              | string           | Yes                        |
-| `consulting_body_type`     | string           | Yes                        |
-| `customer_name`            | string           | Yes                        |
-| `customer_email_address`   | string           | Yes                        |
-| `SBI`                      | number           | When SBI field has a value |
-| `agreement_reference`      | string           | Yes                        |
-| `email_header`             | string           | Yes                        |
-| `SSSI_info`                | array            | Yes (may be empty)         |
-| `is_there_a_european_site` | `"Yes"` / `""`   | Yes                        |
-| `euro_site_info`           | array            | Yes (may be empty)         |
+| Output field               | Type             | Always present?                 |
+| -------------------------- | ---------------- | ------------------------------- |
+| `form_type`                | `"consent"`      | Yes                             |
+| `DF_reference_number`      | string           | Yes                             |
+| `broad_work_type`          | `"S28E Consent"` | Yes                             |
+| `detailed_work_type`       | string           | Yes                             |
+| `description`              | string           | Yes                             |
+| `consulting_body_type`     | string           | Yes                             |
+| `represented_body_type`    | string           | When an owner/occupier is named |
+| `represented_body_name`    | string           | When an owner/occupier is named |
+| `customer_name`            | string           | Yes                             |
+| `customer_email_address`   | string           | Yes                             |
+| `SBI`                      | number           | When SBI field has a value      |
+| `agreement_reference`      | string           | Yes                             |
+| `email_header`             | string           | Yes                             |
+| `SSSI_info`                | array            | Yes (may be empty)              |
+| `is_there_a_european_site` | `"Yes"` / `""`   | Yes                             |
+| `euro_site_info`           | array            | Yes (may be empty)              |
 
 ---
 
@@ -90,6 +92,43 @@ Mapped from KTObNK ("What type of customer are you?") via `customerTypeMap`.
 | (not set)                                                                 | Empty string    |
 
 **Note:** The consent form does not have `consulting_body` or `is_contractor_working_for_public_body` fields in its output, unlike the advice and assent forms.
+
+## represented_body_type and represented_body_name
+
+These describe a land owner or occupier the submitter is acting **for**, and are the only two fields that differ between the payloads of one submission — see [one submission, several payloads](#one-submission-several-payloads) below. They are separate from `consulting_body_type`, which describes the submitter themselves; the two are unrelated fields with unrelated sources, despite the similar names.
+
+The form only collects them when the submitter is not the owner/occupier. Two answers to KTObNK ("What type of customer are you?") lead to the `/land-owner-or-occupier-details` page:
+
+| KTObNK value                                                              | Route to owner/occupier details                                                             |
+| ------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| `Someone working on behalf of an owner or occupier of land within a SSSI` | Directly                                                                                    |
+| `Somebody else`                                                           | Via HoRNDl ("Do you know the details of the owner or occupier?") — only when answered `Yes` |
+| `An owner of land within a SSSI` / `An occupier of land within a SSSI`    | Never — the submitter **is** the body, so both fields are omitted                           |
+
+The page is a repeater (bDGQoL, "Land owner or occupier details", min 1 / max 5), so a notice can name up to five bodies.
+
+| Output field            | Source                                                                                                                  |
+| ----------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| `represented_body_type` | BKoVeV ("Are these the contact details of the landowner or the occupier?") — `Landowner` or `Land occupier`, used as-is |
+| `represented_body_name` | qmxPye ("First name") and ajJUTo ("Last name") from the same entry, joined with a space                                 |
+
+Entries with no answer to BKoVeV are ignored — a user can reach the page and leave it blank.
+
+Both fields are **optional** in the output schema and no ordinary rule produces them: only the expansion does. So when no entry survives, they are absent from the payload rather than present and empty.
+
+## One submission, several payloads
+
+CWT models each represented body as its own submission, so the consent mapping declares an `expand` block ([format reference](../mapping-system/02-mapping-file-format.md#payload-expansion)) over the bDGQoL repeater. Every other field in this document is computed once and repeated identically across the payloads.
+
+| Entries in bDGQoL (with BKoVeV answered)                     | Payloads sent to CWT                                                       |
+| ------------------------------------------------------------ | -------------------------------------------------------------------------- |
+| 0 (owner/occupier submitting themselves, or page left blank) | 1, with both represented body fields omitted                               |
+| 1                                                            | 1, with both fields populated                                              |
+| _n_ (up to 5)                                                | _n_, differing only in `represented_body_type` and `represented_body_name` |
+
+All payloads of one submission share its `DF_reference_number` — CWT handles that, and it is what identifies them as one notice.
+
+The mapping sets `deliverySuccessMode: "any"`, so the submission counts as delivered once at least one payload is accepted; any that fail are logged as errors rather than redelivering the notice and duplicating the bodies that already arrived. Each payload's send retries transient errors (5xx, 429, network) with back-off before it counts as failed.
 
 ## customer_name
 
@@ -247,11 +286,12 @@ This section identifies all scenarios where output fields sent to the University
 
 ### Fields that may be empty strings or undefined
 
-| Field                 | Condition producing empty/undefined value                                                                                                                                                                                                                                                                                       | Realistic scenario?                                                                                                                                          |
-| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `SBI`                 | Neither rkIHYS ("What is the Single Business Identifier (SBI) number of where the activities will take place?") nor VLUhzR ("Single business identifier (SBI)", address details page) present — field is `undefined` (omitted from output)                                                                                      | **Expected** — some customer types (e.g. Consultant, Somebody else) may not have SBI shown. See Example 3                                                    |
-| `agreement_reference` | No scheme match AND no WtpFqT ("What is the scheme reference number?") value AND no Uureah ("Give the reference number for this permission if available") value (WtpFqT is only shown on the "Other schemes" path, Uureah only on the "another permission" branch); or scheme is Other schemes and WtpFqT left blank (optional) | **Expected** — users without a scheme or reference get empty reference; both the Other-schemes and another-permission references are optional. See Example 3 |
-| `email_header`        | No ORNEC activities — iTBHrY ("Operations requiring Natural England consent") / cwZgSE ("Site name and operations requiring Natural England consent") empty — AND no land management scheme rTreXu ("What land management scheme does this notice relate to?") not set — AND no SSSI names                                      | Falls back to `"S28E Consent"` rather than empty string. See Example 6                                                                                       |
+| Field                                             | Condition producing empty/undefined value                                                                                                                                                                                                                                                                                       | Realistic scenario?                                                                                                                                                           |
+| ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `SBI`                                             | Neither rkIHYS ("What is the Single Business Identifier (SBI) number of where the activities will take place?") nor VLUhzR ("Single business identifier (SBI)", address details page) present — field is `undefined` (omitted from output)                                                                                      | **Expected** — some customer types (e.g. Consultant, Somebody else) may not have SBI shown. See Example 3                                                                     |
+| `agreement_reference`                             | No scheme match AND no WtpFqT ("What is the scheme reference number?") value AND no Uureah ("Give the reference number for this permission if available") value (WtpFqT is only shown on the "Other schemes" path, Uureah only on the "another permission" branch); or scheme is Other schemes and WtpFqT left blank (optional) | **Expected** — users without a scheme or reference get empty reference; both the Other-schemes and another-permission references are optional. See Example 3                  |
+| `represented_body_type` / `represented_body_name` | The submitter is the owner or occupier themselves (KTObNK is `An owner…` / `An occupier…`), or is `Somebody else` who answered `No` to HoRNDl ("Do you know the details of the owner or occupier?"), so bDGQoL ("Land owner or occupier details") is never reached; or the page is reached and left blank                       | **Expected** — there is no represented body to name. Both are optional and only the expansion produces them, so they are omitted from the output and a single payload is sent |
+| `email_header`                                    | No ORNEC activities — iTBHrY ("Operations requiring Natural England consent") / cwZgSE ("Site name and operations requiring Natural England consent") empty — AND no land management scheme rTreXu ("What land management scheme does this notice relate to?") not set — AND no SSSI names                                      | Falls back to `"S28E Consent"` rather than empty string. See Example 6                                                                                                        |
 
 ### Fields with empty sub-properties in SSSI_info entries
 

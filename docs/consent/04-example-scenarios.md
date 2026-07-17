@@ -2,6 +2,8 @@
 
 Each example shows the form submission data (input) and the expected CWT output (result). These can be used as test fixtures.
 
+Most submissions produce one payload. A consent notice that names land owners or occupiers produces [one payload per body](03-field-mapping-matrix.md#one-submission-several-payloads) — Example 7 shows that. The examples that name none omit `represented_body_type` and `represented_body_name` entirely, as shown: in 1, 2, 4 and 6 the submitter is the owner or occupier, so the form never asks; in 5 they are "Somebody else" who does not know the details (`HoRNDl` = `false`).
+
 ---
 
 ## Example 1: Landowner with CSHT scheme, single SSSI with ORNEC activities
@@ -118,9 +120,9 @@ Each example shows the form submission data (input) and the expected CWT output 
 
 ---
 
-## Example 3: Consultant, no scheme, single SSSI with ORNEC activities
+## Example 3: Consultant naming one owner, no scheme, single SSSI with ORNEC activities
 
-**Scenario:** A consultant working on behalf of an owner/occupier, no land management scheme, single SSSI with ORNEC activities.
+**Scenario:** A consultant working on behalf of an owner/occupier, no land management scheme, single SSSI with ORNEC activities. Because the customer type is "Someone working on behalf of…", the form asks for the owner/occupier's details (repeater `bDGQoL`), and the one entry populates the represented body fields on a single payload.
 
 ### Input
 
@@ -141,6 +143,13 @@ Each example shows the form submission data (input) and the expected CWT output 
           "hqsZMS": "Tree surgery",
           "QKdhfh": { "easting": 541200, "northing": 198400 }
         }
+      ],
+      "bDGQoL": [
+        {
+          "BKoVeV": "Landowner",
+          "qmxPye": "Jane",
+          "ajJUTo": "Smith"
+        }
       ]
     }
   }
@@ -156,6 +165,8 @@ Each example shows the form submission data (input) and the expected CWT output 
   "detailed_work_type": "S28E Consent",
   "description": "Tree surgery - Epping Forest SSSI",
   "consulting_body_type": "Consultant",
+  "represented_body_type": "Landowner",
+  "represented_body_name": "Jane Smith",
   "customer_name": "Emma Ecology",
   "customer_email_address": "emma@ecologyconsulting.co.uk",
   "agreement_reference": "",
@@ -256,6 +267,7 @@ Each example shows the form submission data (input) and the expected CWT output 
   "data": {
     "main": {
       "KTObNK": "Somebody else",
+      "HoRNDl": false,
       "rTreXu": "A Countryside Stewardship Mid Tier (CSMT) agreement extension",
       "WZJDQG": "CS-MT-99876",
       "rkIHYS": "444555666",
@@ -363,13 +375,97 @@ Each example shows the form submission data (input) and the expected CWT output 
 
 ---
 
+## Example 7: Consultant naming three owners/occupiers — one submission, three payloads
+
+**Scenario:** A consultant submits one notice naming three land owners/occupiers on the `bDGQoL` repeater. CWT wants one submission per body, so the mapping's `expand` block sends **three payloads**, identical except for `represented_body_type` and `represented_body_name`. All three share the notice's `DF_reference_number`.
+
+Note the difference between the two body fields: `consulting_body_type` is `Consultant` on every payload (that describes Emma, who submitted), while `represented_body_type` varies (that describes who each payload is about).
+
+### Input
+
+```json
+{
+  "meta": {
+    "referenceNumber": "1A5-F72-704"
+  },
+  "data": {
+    "main": {
+      "KTObNK": "Someone working on behalf of an owner or occupier of land within a SSSI",
+      "hozdvW": "1000456---Epping Forest SSSI",
+      "lmqMaY": false,
+      "htlAAq": "Emma",
+      "pPocjH": "Ecology",
+      "skdDtj": "emma@ecologyconsulting.co.uk"
+    },
+    "repeaters": {
+      "iTBHrY": [
+        {
+          "hqsZMS": "Tree surgery",
+          "QKdhfh": { "easting": 541200, "northing": 198400 }
+        }
+      ],
+      "bDGQoL": [
+        { "BKoVeV": "Landowner", "qmxPye": "Jane", "ajJUTo": "Smith" },
+        { "BKoVeV": "Land occupier", "qmxPye": "Raj", "ajJUTo": "Patel" },
+        { "BKoVeV": "Landowner", "qmxPye": "Sam", "ajJUTo": "Okafor" }
+      ]
+    }
+  }
+}
+```
+
+### Expected output — three payloads
+
+```json
+[
+  {
+    "form_type": "consent",
+    "DF_reference_number": "1A5-F72-704",
+    "broad_work_type": "S28E Consent",
+    "detailed_work_type": "S28E Consent",
+    "description": "Tree surgery - Epping Forest SSSI",
+    "consulting_body_type": "Consultant",
+    "represented_body_type": "Landowner",
+    "represented_body_name": "Jane Smith",
+    "customer_name": "Emma Ecology",
+    "customer_email_address": "emma@ecologyconsulting.co.uk",
+    "agreement_reference": "",
+    "email_header": "Tree surgery - Epping Forest SSSI",
+    "SSSI_info": [
+      {
+        "SSSI_id": 1000456,
+        "coordinates": "541200,198400",
+        "ornec": "Tree surgery"
+      }
+    ]
+  },
+  {
+    "…": "identical to the payload above, except:",
+    "represented_body_type": "Land occupier",
+    "represented_body_name": "Raj Patel"
+  },
+  {
+    "…": "identical to the payload above, except:",
+    "represented_body_type": "Landowner",
+    "represented_body_name": "Sam Okafor"
+  }
+]
+```
+
+Because the mapping sets `deliverySuccessMode: "any"`, the submission is treated as delivered once at least one of the three is accepted; any that fail (after their own back-off retries) are logged as errors rather than redelivering the notice and duplicating the bodies that already arrived.
+
+Had the consultant named no one — or reached the page and left it blank — a **single** payload would be sent, omitting `represented_body_type` and `represented_body_name` altogether, as in Examples 1–6.
+
+---
+
 ## Scenario coverage summary
 
 | #   | Identity type | Scheme           | SSSI path               | Key features tested                                                                                                                    |
 | --- | ------------- | ---------------- | ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
 | 1   | Landowner     | CSHT             | Single SSSI (ORNEC)     | CS agreement ref, SBI (rkIHYS), ORNEC activities with coordinates, email_header from activities + SSSI                                 |
 | 2   | Land occupier | HLS              | Single SSSI (scheme)    | HLS ref, scheme coordinates (JPohUD), email_header from scheme + SSSI, no ORNEC                                                        |
-| 3   | Consultant    | None             | Single SSSI (ORNEC)     | No scheme, no SBI, ORNEC activity, default detailed_work_type                                                                          |
+| 3   | Consultant    | None             | Single SSSI (ORNEC)     | No scheme, no SBI, ORNEC activity, default detailed_work_type, one represented body on a single payload                                |
 | 4   | Landowner     | SFI              | Multiple SSSIs (ORNEC)  | SFI ref, SBI (VLUhzR fallback), multi SSSI grouped by name, coordinates + ORNECs per SSSI                                              |
 | 5   | Other         | CSMT             | Multiple SSSIs (scheme) | Scheme repeater with shared JPohUD coordinates, email_header from scheme + SSSIs, description comma-joined                             |
 | 6   | Landowner     | Other permission | Single SSSI (ORNEC)     | Permission name (VacBun) opens description/email_header; agreement_reference from Uureah (blank here), ORNEC activity with coordinates |
+| 7   | Consultant    | None             | Single SSSI (ORNEC)     | Three represented bodies fan out into three payloads sharing one DF_reference_number; `deliverySuccessMode: "any"`                     |

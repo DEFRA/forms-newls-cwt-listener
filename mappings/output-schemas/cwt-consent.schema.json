@@ -34,6 +34,16 @@
       "required": true,
       "description": "CWT consulting body type derived from the customer type"
     },
+    "represented_body_type": {
+      "type": "string",
+      "required": false,
+      "description": "Type of the person/body the customer is acting for (Landowner or Land occupier). Omitted when no owner/occupier details were given. One submission is sent per owner/occupier, so this holds a single value rather than a list"
+    },
+    "represented_body_name": {
+      "type": "string",
+      "required": false,
+      "description": "Name of the person/body the customer is acting for. Omitted when no owner/occupier details were given"
+    },
     "customer_name": {
       "type": "string",
       "required": true,

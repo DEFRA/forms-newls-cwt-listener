@@ -41,10 +41,17 @@ sequenceDiagram
             Handler->>Handler: Select mapping by form ID
             Handler->>Engine: Apply mapping rules
             Engine->>Handler: Return structured output
-            Handler->>Transmitter: send(transformedData)
-            Transmitter->>API: POST JSON payload
-            API->>Transmitter: 200 OK
-            Transmitter->>Handler: Success
+            Handler->>Engine: Resolve expansion (if the mapping declares one)
+            Engine->>Handler: Return one overlay per repeater entry
+            Handler->>Handler: Build payloads (base, or one per overlay)
+
+            loop For each payload
+                Handler->>Transmitter: send(payload)
+                Transmitter->>API: POST payload
+                API->>Transmitter: 200 OK
+                Transmitter->>Handler: Success
+            end
+
             Handler->>Listener: Complete
             Listener->>Queue: Delete message
         end
@@ -62,17 +69,27 @@ graph TD
     D --> F[submissionHandler.handleFormSubmission]
     F --> G[findMappingForForm - select mapping by form ID]
     G --> H[mapWithRules - apply mapping rules]
-    H --> K[submissionTransmitter.send]
-    K --> L[POST to Downstream API]
+    H --> I[resolveExpansion - one overlay per repeater entry]
+    I --> J[buildPayloads - base payload, or one per overlay]
+    J --> K[submissionTransmitter.send - once per payload]
+    K --> L[POST to Downstream API, retrying transient errors]
     D --> M[deleteEventMessage]
 
     style F fill:#f9f,stroke:#333,stroke-width:2px
     style G fill:#fcf,stroke:#333,stroke-width:2px
     style H fill:#fcf,stroke:#333,stroke-width:2px
+    style I fill:#fcf,stroke:#333,stroke-width:2px
+    style J fill:#fcf,stroke:#333,stroke-width:2px
     style K fill:#fcf,stroke:#333,stroke-width:2px
 ```
 
 The submission handler selects the mapping file whose `formIds` contains the form ID in the message metadata, then the rule-based engine applies that mapping's rules to transform the raw submission data into a structured output format, which is sent to the downstream API by the submission transmitter.
+
+## One message, one or more payloads
+
+A submission usually produces exactly one payload. A mapping file may declare an `expand` block, which fans the submission out into one payload per entry of a named repeater — the NEWLS Consent form uses this to send CWT one submission per land owner or occupier named on a notice. See [payload expansion](mapping-system/02-mapping-file-format.md#payload-expansion) for the format.
+
+Bcause a message is only deleted from the queue once **the handler** resolves, a partial failure has no per-payload checkpoint to resume from: redelivering re-sends the payloads that already succeeded. Each mapping picks its success mode with `deliverySuccessMode` — `all` (default) fails the message if any of the multiple payloads failed to be received, accepting duplicates on redelivery (due to reprocessing of the queue); `any` succeeds if at least one payload lands, accepting that the rest are lost and logged as errors. If every payload fails, both modes fail the message.
 
 ## Processing guarantees
 
@@ -90,11 +107,40 @@ Messages are processed in **approximate** FIFO order but this is not guaranteed.
 
 ### Retry behaviour
 
-Failed messages automatically retry based on the SQS queue configuration:
+There are two layers of retry: a fine-grained one around each API call, and the queue's own redelivery.
+
+#### Send retries (per payload)
+
+Each POST to the downstream API is retried with exponential back-off and jitter before the send is considered failed, so a transient blip never costs a whole message. Only errors that could plausibly succeed on a retry are retried:
+
+| Outcome                       | Retried? | Why                                                                    |
+| ----------------------------- | -------- | ---------------------------------------------------------------------- |
+| Network error (DNS, reset, …) | Yes      | Nothing reached the API                                                |
+| `5xx`                         | Yes      | The API failed, not the payload                                        |
+| `429`                         | Yes      | Rate limited — back-off is exactly the right response                  |
+| `4xx` (400, 401, …)           | No       | The payload or credentials are wrong; it fails the same way every time |
+
+Configured with:
+
+| Variable                                | Default | Meaning                             |
+| --------------------------------------- | ------- | ----------------------------------- |
+| `UNIVERSITY_API_RETRY_MAX_ATTEMPTS`     | `3`     | Total attempts, including the first |
+| `UNIVERSITY_API_RETRY_INITIAL_DELAY_MS` | `500`   | Delay before the second attempt     |
+| `UNIVERSITY_API_RETRY_MAX_DELAY_MS`     | `10000` | Ceiling on the back-off             |
+
+Each delay doubles up to the ceiling, then has jitter applied (a random 50–100% of the computed delay) so that concurrent payloads and instances do not retry in lockstep. Keep the queue visibility timeout comfortably above the worst-case total: attempts × payloads × delays.
+
+The retry helper is `src/lib/retry.js`; the transmitter classifies which errors are transient.
+
+#### Message redelivery (per message)
+
+Once the retries are exhausted, the failure surfaces to the handler and the message is left in the queue:
 
 - **Visibility timeout** - Messages become available again after the timeout period
 - **Max receives** - After N failed attempts, messages move to a dead letter queue
 - **Redrive policy** - Configure your dead letter queue settings
+
+For an expanded submission, redelivery re-sends every payload — see the `deliverySuccessMode` note above.
 
 ## Visibility timeout
 
@@ -145,8 +191,8 @@ graph TD
     G --> H{Mapping success?}
     H -->|No| I[Log error]
     I --> D
-    H -->|Yes| J[POST to API]
-    J --> K{API success?}
+    H -->|Yes| J[POST each payload to API, retrying transient errors]
+    J --> K{Enough payloads succeeded for deliverySuccessMode?}
     K -->|Yes| L[Delete from queue]
     K -->|No| M[Log error]
     M --> D
@@ -154,3 +200,5 @@ graph TD
 ```
 
 Failed messages remain in the queue and retry automatically. Configure a dead letter queue to capture messages that fail repeatedly.
+
+For an unexpanded submission there is a single payload, so "enough payloads succeeded" simply means the send succeeded, under either mode.

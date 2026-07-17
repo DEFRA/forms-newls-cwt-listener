@@ -23,7 +23,10 @@ where that payload is sent.
   },
   "rules": [
     /* the mapping rules, evaluated in order */
-  ]
+  ],
+  "expand": {
+    /* optional: fan one submission out into several payloads */
+  }
 }
 ```
 
@@ -34,6 +37,7 @@ where that payload is sent.
   `{ "type": "rest", "name": "universityApi" }` exists (the CWT REST API,
   configured via `UNIVERSITY_API_URL`/`UNIVERSITY_API_KEY`). New destinations
   are registered in code once and then available to every mapping file.
+- `expand` — optional; see [Payload expansion](#payload-expansion) below.
 
 ## Rules
 
@@ -343,6 +347,19 @@ Empty segments are dropped. Without `maxLength` segments are joined in full
 exceeds the budget it is truncated with `...`. Used for `description`
 (unlimited) and `email_header` (254 characters).
 
+### `expansionIndex` and `expansionCount` — position within a fan-out
+
+```json
+{ "type": "expansionIndex" }
+{ "type": "expansionCount" }
+```
+
+`expansionIndex` is the 1-based position of the payload being built;
+`expansionCount` is the total number of payloads. Both are only valid inside
+`expand.targets` (see [Payload expansion](#payload-expansion)) and throw
+anywhere else. They let a payload declare "2 of 3" if a destination ever needs
+it; no mapping uses them today.
+
 ## Transforms
 
 A transform is either a name or an object with a `name` and options. Scalar
@@ -363,6 +380,97 @@ transforms apply element-wise to arrays.
 
 The parsing primitives live in `src/service/rule-mapping/helpers.js` and are
 shared by the transform pipeline and the value resolver.
+
+## Payload expansion
+
+Normally one submission produces one payload. A mapping's optional `expand`
+block changes that: it turns the entries of **one** repeater into **one payload
+per entry**, each identical except for the properties the expansion overrides.
+This exists because a single form submission can describe several things the
+destination models separately — consent's "a notice may name up to 5 land
+owners or occupiers, and CWT wants one submission per body".
+
+A mapping may declare **at most one** `expand` (it is an object, not an array),
+which keeps the fan-out one-dimensional: a submission can never expand into a
+grid of payloads.
+
+```jsonc
+{
+  "expand": {
+    "id": "represented-bodies", // unique identifier, used in error messages
+    "description": "…", // optional
+    "repeater": { "id": "bDGQoL", "text": "Land owner or occupier details" },
+    "filterAnswered": "BKoVeV", // optional: skip entries missing this answer
+    "deliverySuccessMode": "any", // "all" (default) | "any"
+    "targets": {
+      // output property → value expression, resolved against each entry
+      "represented_body_type": {
+        "type": "answer",
+        "question": { "id": "BKoVeV", "text": "…" },
+        "default": ""
+      }
+    }
+  }
+}
+```
+
+### How it evaluates
+
+1. The rules run once, producing a **base payload**, exactly as they would
+   without an expansion.
+2. The expansion's repeater entries are read and, if `filterAnswered` is set,
+   entries with no answer to that question are dropped (a user can reach a
+   repeater page and leave it blank).
+3. Each surviving entry produces an **overlay**: the `targets` map resolved
+   against that entry. Inside `targets`, `answer` expressions read the current
+   entry first and fall back to the main answers, the same scoping
+   `arrayFromRepeater` items use — so `"scope": "main"` and `"scope": "item"`
+   work here too.
+4. Each overlay is merged over the base payload, producing one payload per
+   entry, which are then sent independently.
+
+The entry count decides the outcome:
+
+| Repeater entries (after `filterAnswered`) | Payloads sent                                                      |
+| ----------------------------------------- | ------------------------------------------------------------------ |
+| 0                                         | 1 — the base payload, unchanged                                    |
+| 1                                         | 1 — the base payload with the expansion's targets populated        |
+| _n_ > 1                                   | _n_ — identical payloads differing only in the expansion's targets |
+
+Because the base payload is sent unchanged when there are no entries, an
+expansion target is **absent** from that payload unless an ordinary rule also
+produces it. Which of the two you want depends on the output schema:
+
+- **Optional property** — nothing more to do. With no entries the property is
+  simply omitted, which is what consent's `represented_body_type` and
+  `represented_body_name` do: a notice naming no land owner or occupier sends
+  a payload without them, rather than one carrying empty strings.
+- **Required property** — add an unconditional fallback rule (typically
+  `{ "type": "literal", "value": "" }`). The expansion supplies the value when
+  there is an entry; the rule supplies it when there is not. Gap detection
+  enforces this, reporting `expansion-target-only` if the fallback is missing —
+  see [04-gap-detection.md](04-gap-detection.md).
+
+### Delivery success mode
+
+Expansion turns one message into several API calls, which can partly fail. The
+message is only deleted from the queue once the handler resolves, so a thrown
+error means SQS redelivers the **whole** submission and every payload is sent
+again. `deliverySuccessMode` chooses which risk to take:
+
+| Mode              | Sends                                       | Succeeds when           | Failure means                                                                                                           |
+| ----------------- | ------------------------------------------- | ----------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| `all` _(default)_ | sequentially, stopping at the first failure | every payload succeeded | the message is redelivered and the payloads that already succeeded are **sent again** — the destination sees duplicates |
+| `any`             | concurrently, always attempting all         | at least one succeeded  | the failed payloads are **lost** (logged as errors, since nothing else records them); the message is not redelivered    |
+
+There is no third option: with one message covering several payloads and no
+per-payload checkpoint, a partial failure must either duplicate or drop.
+`all` is the default because it matches the pre-expansion behaviour. If every
+payload fails, both modes throw, so nothing is ever silently dropped.
+
+Before either mode gives up, each individual send is retried with exponential
+back-off on transient errors (5xx, 429, network failures), so a blip does not
+reach this decision at all. See [../02-architecture.md](../02-architecture.md).
 
 ## Worked example
 

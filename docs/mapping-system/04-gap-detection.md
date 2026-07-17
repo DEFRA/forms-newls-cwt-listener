@@ -32,18 +32,19 @@ check).
 
 ## Checks
 
-| Code                          | Severity | Meaning                                                                                                                                                                       |
-| ----------------------------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `unknown-question`            | error    | The mapping references a question id that does not exist anywhere in the form definition                                                                                      |
-| `unknown-repeater`            | error    | The mapping references a repeater id that is not a RepeatPageController page in the form                                                                                      |
-| `question-text-drift`         | warning  | The mapping's human-readable `text` placeholder no longer matches the question title in the form — the form may have changed since the mapping was written                    |
-| `unmatchable-condition-value` | warning  | A condition compares a list-based question (radios, autocomplete, …) with a value that is not one of its selectable options, so it can never match                            |
-| `stale-lookup-key`            | warning  | A lookup table key matches no selectable option of its input question                                                                                                         |
-| `unmapped-answer-option`      | warning  | A selectable answer option is not covered by a lookup table (and the lookup has no `passthrough`), so submissions choosing it fall through                                    |
-| `missing-target`              | error    | A required output property has no rules at all                                                                                                                                |
-| `no-guaranteed-rule`          | warning  | A required output property has only conditional rules, or an unconditional rule whose value can resolve to nothing — the property may be omitted for some answer combinations |
-| `missing-item-property`       | error    | An array-building rule does not produce a required item property declared by the output schema                                                                                |
-| `const-mismatch`              | error    | An unconditional literal rule sets a different value than the output schema's declared `const`                                                                                |
+| Code                          | Severity | Meaning                                                                                                                                                                           |
+| ----------------------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `unknown-question`            | error    | The mapping references a question id that does not exist anywhere in the form definition                                                                                          |
+| `unknown-repeater`            | error    | The mapping references a repeater id that is not a RepeatPageController page in the form                                                                                          |
+| `question-text-drift`         | warning  | The mapping's human-readable `text` placeholder no longer matches the question title in the form — the form may have changed since the mapping was written                        |
+| `unmatchable-condition-value` | warning  | A condition compares a list-based question (radios, autocomplete, …) with a value that is not one of its selectable options, so it can never match                                |
+| `stale-lookup-key`            | warning  | A lookup table key matches no selectable option of its input question                                                                                                             |
+| `unmapped-answer-option`      | warning  | A selectable answer option is not covered by a lookup table (and the lookup has no `passthrough`), so submissions choosing it fall through                                        |
+| `missing-target`              | error    | A required output property has no rules at all                                                                                                                                    |
+| `expansion-target-only`       | error    | A required output property is only produced by the mapping's `expand` targets — so it is missing whenever the expanded repeater has no entries and the base payload is sent as-is |
+| `no-guaranteed-rule`          | warning  | A required output property has only conditional rules, or an unconditional rule whose value can resolve to nothing — the property may be omitted for some answer combinations     |
+| `missing-item-property`       | error    | An array-building rule does not produce a required item property declared by the output schema                                                                                    |
+| `const-mismatch`              | error    | An unconditional literal rule sets a different value than the output schema's declared `const`                                                                                    |
 
 ## How required-output coverage is decided
 
@@ -63,6 +64,14 @@ branching, so a set of conditional rules that genuinely covers every form
 path is still reported as `no-guaranteed-rule`. The fix is normally to end
 each target's rules with an unconditional fallback rule, which is also the
 clearest way to read the mapping.
+
+An `expand` target does **not** count towards coverage. Expansion overlays only
+exist when the expanded repeater has entries; with none, the base payload is
+sent as it stands, so a property produced solely by the expansion would simply
+be absent. A required expansion target therefore also needs an ordinary
+fallback rule, and gap detection reports `expansion-target-only` when it has
+none. The tool checks the expansion's question, repeater and `text` references
+too, so drift there is caught like anywhere else.
 
 ## Interpreting the current warnings
 

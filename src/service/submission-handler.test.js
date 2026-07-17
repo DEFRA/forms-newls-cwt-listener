@@ -35,9 +35,10 @@ const { send } = await import('./transmitters/submission-transmitter.js')
  * Builds a minimal form submission message for testing.
  * @param {string} formId
  * @param {Record<string, unknown>} [mainData]
+ * @param {Record<string, Array<Record<string, unknown>>>} [repeaters]
  * @returns {import('@defra/forms-engine-plugin/engine/types.d.ts').FormAdapterSubmissionMessage}
  */
-function buildSubmissionMessage(formId, mainData = {}) {
+function buildSubmissionMessage(formId, mainData = {}, repeaters = {}) {
   return /** @type {any} */ ({
     messageId: 'test-message-id',
     meta: {
@@ -48,7 +49,7 @@ function buildSubmissionMessage(formId, mainData = {}) {
     },
     data: {
       main: mainData,
-      repeaters: {},
+      repeaters,
       files: {}
     }
   })
@@ -71,6 +72,7 @@ describe('submission-handler', () => {
 
     expect(send).toHaveBeenCalledTimes(1)
     expect(send).toHaveBeenCalledWith(
+      'universityApi',
       expect.objectContaining({ form_type: 'advice' })
     )
   })
@@ -86,6 +88,7 @@ describe('submission-handler', () => {
 
     expect(send).toHaveBeenCalledTimes(1)
     expect(send).toHaveBeenCalledWith(
+      'universityApi',
       expect.objectContaining({ form_type: 'assent' })
     )
   })
@@ -101,6 +104,7 @@ describe('submission-handler', () => {
 
     expect(send).toHaveBeenCalledTimes(1)
     expect(send).toHaveBeenCalledWith(
+      'universityApi',
       expect.objectContaining({
         form_type: 'consent',
         DF_reference_number: '111-222-333',
@@ -123,5 +127,146 @@ describe('submission-handler', () => {
     await handleFormSubmission(undefined)
 
     expect(send).not.toHaveBeenCalled()
+  })
+
+  describe('consent represented body expansion', () => {
+    const owner = {
+      BKoVeV: 'Landowner',
+      qmxPye: 'Jane',
+      ajJUTo: 'Smith'
+    }
+    const occupier = {
+      BKoVeV: 'Land occupier',
+      qmxPye: 'Raj',
+      ajJUTo: 'Patel'
+    }
+
+    it('should send one payload omitting the represented body fields when no owner/occupier details were given', async () => {
+      await handleFormSubmission(buildSubmissionMessage(CONSENT_FORM_ID))
+
+      expect(send).toHaveBeenCalledTimes(1)
+
+      // Both fields are optional: with no entry to expand, only the expansion
+      // would have produced them, so they are absent rather than empty
+      const [, payload] = vi.mocked(send).mock.calls[0]
+      expect(payload).not.toHaveProperty('represented_body_type')
+      expect(payload).not.toHaveProperty('represented_body_name')
+    })
+
+    it('should omit the represented body fields when every entry is filtered out', async () => {
+      await handleFormSubmission(
+        buildSubmissionMessage(
+          CONSENT_FORM_ID,
+          {},
+          { bDGQoL: [{ qmxPye: 'No', ajJUTo: 'Type' }] }
+        )
+      )
+
+      expect(send).toHaveBeenCalledTimes(1)
+
+      const [, payload] = vi.mocked(send).mock.calls[0]
+      expect(payload).not.toHaveProperty('represented_body_type')
+      expect(payload).not.toHaveProperty('represented_body_name')
+    })
+
+    it('should send one populated payload for a single owner/occupier', async () => {
+      await handleFormSubmission(
+        buildSubmissionMessage(CONSENT_FORM_ID, {}, { bDGQoL: [owner] })
+      )
+
+      expect(send).toHaveBeenCalledTimes(1)
+      expect(send).toHaveBeenCalledWith(
+        'universityApi',
+        expect.objectContaining({
+          represented_body_type: 'Landowner',
+          represented_body_name: 'Jane Smith'
+        })
+      )
+    })
+
+    it('should send one payload per owner/occupier, differing only in the represented body', async () => {
+      await handleFormSubmission(
+        buildSubmissionMessage(
+          CONSENT_FORM_ID,
+          { KTObNK: 'An owner of land within a SSSI' },
+          { bDGQoL: [owner, occupier] }
+        )
+      )
+
+      expect(send).toHaveBeenCalledTimes(2)
+
+      const [, first] = vi.mocked(send).mock.calls[0]
+      const [, second] = vi.mocked(send).mock.calls[1]
+
+      expect(first).toMatchObject({
+        represented_body_type: 'Landowner',
+        represented_body_name: 'Jane Smith',
+        DF_reference_number: '111-222-333'
+      })
+      expect(second).toMatchObject({
+        represented_body_type: 'Land occupier',
+        represented_body_name: 'Raj Patel',
+        DF_reference_number: '111-222-333'
+      })
+
+      // Everything but the represented body is shared, reference number included
+      const differing = Object.keys(first).filter(
+        (key) =>
+          JSON.stringify(first[key]) !==
+          JSON.stringify(/** @type {any} */ (second)[key])
+      )
+      expect(differing).toEqual([
+        'represented_body_type',
+        'represented_body_name'
+      ])
+    })
+
+    it('should skip entries with no landowner/occupier answer', async () => {
+      await handleFormSubmission(
+        buildSubmissionMessage(
+          CONSENT_FORM_ID,
+          {},
+          { bDGQoL: [owner, { qmxPye: 'No', ajJUTo: 'Type' }] }
+        )
+      )
+
+      expect(send).toHaveBeenCalledTimes(1)
+      expect(send).toHaveBeenCalledWith(
+        'universityApi',
+        expect.objectContaining({ represented_body_name: 'Jane Smith' })
+      )
+    })
+
+    it('should resolve when only some payloads fail, since consent delivers on "any"', async () => {
+      vi.mocked(send)
+        .mockRejectedValueOnce(new Error('CWT down'))
+        .mockResolvedValueOnce(undefined)
+
+      await expect(
+        handleFormSubmission(
+          buildSubmissionMessage(
+            CONSENT_FORM_ID,
+            {},
+            { bDGQoL: [owner, occupier] }
+          )
+        )
+      ).resolves.toBeUndefined()
+
+      expect(send).toHaveBeenCalledTimes(2)
+    })
+
+    it('should throw when every payload fails, so the message is retried', async () => {
+      vi.mocked(send).mockRejectedValue(new Error('CWT down'))
+
+      await expect(
+        handleFormSubmission(
+          buildSubmissionMessage(
+            CONSENT_FORM_ID,
+            {},
+            { bDGQoL: [owner, occupier] }
+          )
+        )
+      ).rejects.toThrow('All 2 submissions failed for 111-222-333: CWT down')
+    })
   })
 })

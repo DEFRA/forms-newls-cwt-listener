@@ -3,6 +3,8 @@ import 'dotenv/config'
 import convict from 'convict'
 import convictFormatWithValidator from 'convict-format-with-validator'
 
+import { knownHandlerNames } from './service/transmitters/handlers/index.js'
+
 convict.addFormats(convictFormatWithValidator)
 
 const isProduction = process.env.NODE_ENV === 'production'
@@ -10,6 +12,75 @@ const isDev = process.env.NODE_ENV !== 'production'
 const isTest = process.env.NODE_ENV === 'test'
 
 const DEFAULT_MESSAGE_TIMEOUT = 30
+
+const DEFAULT_RETRY_MAX_ATTEMPTS = 3
+const DEFAULT_RETRY_INITIAL_DELAY_MS = 500
+const DEFAULT_RETRY_MAX_DELAY_MS = 10000
+
+/**
+ * Builds the config block for a destination that mapping files may name in
+ * their "destination". Each destination brings its own address, credential and
+ * handler, and can override the shared back-off defaults through its own
+ * environment variables.
+ * @param {{ envPrefix: string, handler: string }} options - The destination's
+ *   environment variable prefix, and the handler that encodes its requests
+ * @returns {convict.Schema<unknown>}
+ */
+function destination({ envPrefix, handler }) {
+  return {
+    url: {
+      doc: 'URL to send mapped payloads to',
+      format: String,
+      default: null,
+      env: `${envPrefix}_URL`
+    },
+    apiKey: {
+      doc: 'API key for the destination - ensure it has a trailing slash',
+      format: String,
+      nullable: true,
+      default: null,
+      env: `${envPrefix}_KEY`
+    },
+    healthCheckUrl: {
+      doc: 'Health check URL for the destination',
+      format: String,
+      nullable: true,
+      default: null,
+      env: `${envPrefix}_HEALTH_CHECK_URL`
+    },
+    handler: {
+      doc: 'Encodes and authenticates requests to this destination. Which handler an API needs is a property of that API, so this is deliberately not settable by environment',
+      format: knownHandlerNames(),
+      default: handler
+    },
+
+    /**
+     * Back-off retry for individual sends. Absorbs transient errors before they
+     * reach the queue-level retry, which is costly once a submission fans out
+     * into several payloads.
+     */
+    retry: {
+      maxAttempts: {
+        doc: 'Attempts per send, including the first. 1 disables retrying',
+        format: 'int',
+        default: DEFAULT_RETRY_MAX_ATTEMPTS,
+        env: `${envPrefix}_RETRY_MAX_ATTEMPTS`
+      },
+      initialDelayMs: {
+        doc: 'Delay before the second attempt, doubling each attempt thereafter',
+        format: 'int',
+        default: DEFAULT_RETRY_INITIAL_DELAY_MS,
+        env: `${envPrefix}_RETRY_INITIAL_DELAY_MS`
+      },
+      maxDelayMs: {
+        doc: 'Ceiling for any single back-off delay',
+        format: 'int',
+        default: DEFAULT_RETRY_MAX_DELAY_MS,
+        env: `${envPrefix}_RETRY_MAX_DELAY_MS`
+      }
+    }
+  }
+}
 
 const config = convict({
   serviceVersion: {
@@ -123,25 +194,16 @@ const config = convict({
     default: null,
     env: 'MANAGER_URL'
   },
-  universityApiUrl: {
-    doc: 'URL to call the target API',
-    format: String,
-    default: null,
-    env: 'UNIVERSITY_API_URL'
-  },
-  universityApiKey: {
-    doc: 'API key for University API - ensure it has a trailing slash',
-    format: String,
-    nullable: true,
-    default: null,
-    env: 'UNIVERSITY_API_KEY'
-  },
-  universityApiHealthCheckUrl: {
-    doc: 'Health check URL for the University API',
-    format: String,
-    nullable: true,
-    default: null,
-    env: 'UNIVERSITY_API_HEALTH_CHECK_URL'
+  /**
+   * Destinations a mapping file can send to, keyed by the name it uses in its
+   * "destination". Every destination named by a mapping file must appear here;
+   * this is checked against the mapping files on startup.
+   */
+  destinations: {
+    universityApi: destination({
+      envPrefix: 'UNIVERSITY_API',
+      handler: 'jsonFormData'
+    })
   },
 
   /**

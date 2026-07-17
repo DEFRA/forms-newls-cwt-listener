@@ -6,17 +6,17 @@ This document describes the different routes a user can take through the advice 
 
 The first decision point is "Which category best describes who is making this application?" which determines the user's identity path.
 
-| Category                 | Value                      | Next step                                                                                    |
-| ------------------------ | -------------------------- | -------------------------------------------------------------------------------------------- |
-| Consultant               | `Consultant`               | [Who are you working on behalf of?](#working-on-behalf-of-pbmxnm)                            |
-| Government Agency        | `Government Agency`        | [Which government agency?](#government-agency-path)                                          |
-| Harbour authority        | `Harbour authority`        | [Which public body?](#public-body-path)                                                      |
-| Landowner                | `Landowner`                | [Topic selection](#topic-selection-xzeslq) or [Advice type (S28G)](#advice-type-s28g-yowpaj) |
-| Land occupier            | `Land occupier`            | [Topic selection](#topic-selection-xzeslq) or [Advice type (S28G)](#advice-type-s28g-yowpaj) |
-| Member of public         | `Member of public`         | [Topic selection](#topic-selection-xzeslq)                                                   |
-| Other                    | `Other`                    | [Who are you working on behalf of?](#working-on-behalf-of-pbmxnm)                            |
-| Local Planning Authority | `Local Planning Authority` | [Which local authority?](#local-authority-path)                                              |
-| Utility provider         | `Utility provider`         | [Which public body?](#public-body-path)                                                      |
+| Category                 | Value                      | Next step                                                                                         |
+| ------------------------ | -------------------------- | ------------------------------------------------------------------------------------------------- |
+| Consultant               | `Consultant`               | [Who are you working on behalf of?](#working-on-behalf-of-pbmxnm)                                 |
+| Government Agency        | `Government Agency`        | [Which government agency?](#government-agency-path)                                               |
+| Harbour authority        | `Harbour authority`        | [Which public body?](#public-body-path)                                                           |
+| Landowner                | `Landowner`                | [Topic selection](#topic-selection-xzeslq) or [Advice type (S28G)](#advice-type-s28g-path-yowpaj) |
+| Land occupier            | `Land occupier`            | [Topic selection](#topic-selection-xzeslq) or [Advice type (S28G)](#advice-type-s28g-path-yowpaj) |
+| Member of public         | `Member of public`         | [Topic selection](#topic-selection-xzeslq)                                                        |
+| Other                    | `Other`                    | [Who are you working on behalf of?](#working-on-behalf-of-pbmxnm)                                 |
+| Local Planning Authority | `Local Planning Authority` | [Which local authority?](#local-authority-path)                                                   |
+| Utility provider         | `Utility provider`         | [Which public body?](#public-body-path)                                                           |
 
 ## Working on behalf of (PBmxNM)
 
@@ -27,33 +27,33 @@ Shown only when category is **Consultant** or **Other**. The user selects who th
 | Government agency           | `Government agency`           | [Which government agency?](#government-agency-path) |
 | Local Planning Authority    | `Local Planning Authority`    | [Which local authority?](#local-authority-path)     |
 | Public body or organisation | `Public body or organisation` | [Which public body?](#public-body-path)             |
-| Landowner                   | `Landowner`                   | [Advice type (S28G)](#advice-type-s28g-yowpaj)      |
-| Land occupier               | `Land occupier`               | [Advice type (S28G)](#advice-type-s28g-yowpaj)      |
-| None of the above           | `None of the above`           | [Advice type (S28G)](#advice-type-s28g-yowpaj)      |
+| Landowner                   | `Landowner`                   | [Advice type (S28G)](#advice-type-s28g-path-yowpaj) |
+| Land occupier               | `Land occupier`               | [Advice type (S28G)](#advice-type-s28g-path-yowpaj) |
+| None of the above           | `None of the above`           | [Advice type (S28G)](#advice-type-s28g-path-yowpaj) |
 
 ## Government agency path
 
 ### Which government agency? (PvUZyQ)
 
-| Agency                  | Next step                                                                                                    |
-| ----------------------- | ------------------------------------------------------------------------------------------------------------ |
-| Forestry Commission     | [What type of advice? (FC path)](#advice-type-fc-nvrbcy)                                                     |
-| Environment Agency      | [Advice type (S28G)](#advice-type-s28g-yowpaj)                                                               |
-| Other government agency | [Tell us which agency (hOsLRu)](#other-agency-free-text) then [Advice type (S28G)](#advice-type-s28g-yowpaj) |
+| Agency                  | Next step                                                                                                         |
+| ----------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| Forestry Commission     | [What type of advice? (FC path)](#advice-type-forestry-commission-path-nvrbcy)                                    |
+| Environment Agency      | [Advice type (S28G)](#advice-type-s28g-path-yowpaj)                                                               |
+| Other government agency | [Tell us which agency (hOsLRu)](#other-agency-free-text) then [Advice type (S28G)](#advice-type-s28g-path-yowpaj) |
 
 ### Other agency free text
 
-Page: `/tell-us-which-government-agency-you-work-for` (field: hOsLRu). Free text input, then proceeds to [Advice type (S28G)](#advice-type-s28g-yowpaj).
+Page: `/tell-us-which-government-agency-you-work-for` (field: hOsLRu). Free text input, then proceeds to [Advice type (S28G)](#advice-type-s28g-path-yowpaj).
 
 ## Local authority path
 
-Page: `/which-local-authority-do-you-work-for` (field: YouDQP). Autocomplete from 327 local authorities, then proceeds to [Advice type (S28G)](#advice-type-s28g-yowpaj).
+Page: `/which-local-authority-do-you-work-for` (field: YouDQP). Autocomplete from 327 local authorities, then proceeds to [Advice type (S28G)](#advice-type-s28g-path-yowpaj).
 
 ## Public body path
 
 ### Which public body? (HiTHQX)
 
-Autocomplete from 157 public bodies. If "Other" is selected, the user is taken to `/which-public-body-are-you-representing` (field: OYxtmu) for free text input. Then proceeds to [Advice type (S28G)](#advice-type-s28g-yowpaj).
+Autocomplete from 157 public bodies. If "Other" is selected, the user is taken to `/which-public-body-are-you-representing` (field: OYxtmu) for free text input. Then proceeds to [Advice type (S28G)](#advice-type-s28g-path-yowpaj).
 
 ---
 
