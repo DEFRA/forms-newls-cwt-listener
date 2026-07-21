@@ -831,7 +831,7 @@
       "id": "BKoVeV",
       "text": "Are these the contact details of the landowner or the occupier?"
     },
-    "deliverySuccessMode": "any",
+    "deliverySuccessMode": "all",
     "targets": {
       "represented_body_type": {
         "type": "answer",

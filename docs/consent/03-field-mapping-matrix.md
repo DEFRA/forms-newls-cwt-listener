@@ -128,7 +128,7 @@ CWT models each represented body as its own submission, so the consent mapping d
 
 All payloads of one submission share its `DF_reference_number` — CWT handles that, and it is what identifies them as one notice.
 
-The mapping sets `deliverySuccessMode: "any"`, so the submission counts as delivered once at least one payload is accepted; any that fail are logged as errors rather than redelivering the notice and duplicating the bodies that already arrived. Each payload's send retries transient errors (5xx, 429, network) with back-off before it counts as failed.
+The mapping sets `deliverySuccessMode: "all"`, so the submission counts as delivered only once every payload is accepted; if any fails the notice is redelivered, duplicating the bodies that already arrived rather than silently losing the one that did not. Each payload's send retries transient errors (5xx, 429, network) with back-off before it counts as failed.
 
 ## customer_name
 

@@ -58,6 +58,9 @@ function buildSubmissionMessage(formId, mainData = {}, repeaters = {}) {
 describe('submission-handler', () => {
   beforeEach(() => {
     vi.clearAllMocks()
+    // clearAllMocks leaves queued *Once implementations in place; reset so a
+    // test that stops early cannot leak an unconsumed value into the next one
+    vi.mocked(send).mockReset()
   })
 
   it('should handle advice form submission', async () => {
@@ -237,25 +240,7 @@ describe('submission-handler', () => {
       )
     })
 
-    it('should resolve when only some payloads fail, since consent delivers on "any"', async () => {
-      vi.mocked(send)
-        .mockRejectedValueOnce(new Error('CWT down'))
-        .mockResolvedValueOnce(undefined)
-
-      await expect(
-        handleFormSubmission(
-          buildSubmissionMessage(
-            CONSENT_FORM_ID,
-            {},
-            { bDGQoL: [owner, occupier] }
-          )
-        )
-      ).resolves.toBeUndefined()
-
-      expect(send).toHaveBeenCalledTimes(2)
-    })
-
-    it('should throw when every payload fails, so the message is retried', async () => {
+    it('should throw and stop at the first failing payload, since consent delivers on "all"', async () => {
       vi.mocked(send).mockRejectedValue(new Error('CWT down'))
 
       await expect(
@@ -266,7 +251,29 @@ describe('submission-handler', () => {
             { bDGQoL: [owner, occupier] }
           )
         )
-      ).rejects.toThrow('All 2 submissions failed for 111-222-333: CWT down')
+      ).rejects.toThrow('CWT down')
+
+      // Stops at the first failure rather than sending the second payload: the
+      // whole set is re-sent on redelivery
+      expect(send).toHaveBeenCalledTimes(1)
+    })
+
+    it('should throw when a later payload fails after an earlier one landed, so the message is retried', async () => {
+      vi.mocked(send)
+        .mockResolvedValueOnce(undefined)
+        .mockRejectedValueOnce(new Error('CWT down'))
+
+      await expect(
+        handleFormSubmission(
+          buildSubmissionMessage(
+            CONSENT_FORM_ID,
+            {},
+            { bDGQoL: [owner, occupier] }
+          )
+        )
+      ).rejects.toThrow('CWT down')
+
+      expect(send).toHaveBeenCalledTimes(2)
     })
   })
 })

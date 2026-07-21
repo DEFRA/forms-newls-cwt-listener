@@ -1,5 +1,13 @@
 # Form Changes
 
+## 2026-07-21 - Tue (DF-1109: consent represented body — switch to `deliverySuccessMode: "all"`)
+
+Mapper-only change. Applies to **Consent** only.
+
+### Consent
+
+- **Consent now sets `deliverySuccessMode: "all"`** (previously `"any"`, set under W10 below — that decision is now superseded). Every expanded payload must land for the message to count as handled: if any one fails, the whole notice is redelivered rather than deleted. This accepts that the bodies which already arrived are duplicated on redelivery — a message has no per-payload checkpoint — in exchange for never silently losing a represented body, which the previous `"any"` mode did (failed payloads were only logged). If every payload fails, both modes fail the message either way. Each individual send still retries transient errors first, so a blip never reaches this decision.
+
 ## 2026-07-16 - Thu (DF-1016: consent represented body — one CWT submission per land owner/occupier)
 
 Mapper-only change (no form-definition edits), plus the engine capability it needed. Committed as work item W10. Applies to **Consent** only.

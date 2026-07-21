@@ -205,7 +205,7 @@ CWT models each represented body as its own submission, so the consent mapping [
 | One                         | 1, with both properties populated                                                                                         |
 | _n_                         | _n_, differing only in those two properties                                                                               |
 
-The consent mapping sets `deliverySuccessMode: "any"`: the message counts as handled if at least one payload lands, so a partial failure is logged rather than redelivering the whole notice and duplicating the bodies that already arrived. Individual sends retry transient errors first — see [02-architecture.md](02-architecture.md).
+The consent mapping sets `deliverySuccessMode: "all"`: every payload must land for the message to count as handled, so if any one fails the whole notice is redelivered — accepting that the bodies which already arrived are duplicated, since a message has no per-payload checkpoint. Individual sends retry transient errors first — see [02-architecture.md](02-architecture.md).
 
 ### Common fields across all output types
 

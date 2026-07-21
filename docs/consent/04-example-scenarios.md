@@ -452,7 +452,7 @@ Note the difference between the two body fields: `consulting_body_type` is `Cons
 ]
 ```
 
-Because the mapping sets `deliverySuccessMode: "any"`, the submission is treated as delivered once at least one of the three is accepted; any that fail (after their own back-off retries) are logged as errors rather than redelivering the notice and duplicating the bodies that already arrived.
+Because the mapping sets `deliverySuccessMode: "all"`, the submission is treated as delivered only once all three are accepted; if any fails (after its own back-off retries) the notice is redelivered, duplicating the bodies that already arrived rather than silently losing the one that did not.
 
 Had the consultant named no one — or reached the page and left it blank — a **single** payload would be sent, omitting `represented_body_type` and `represented_body_name` altogether, as in Examples 1–6.
 
@@ -468,4 +468,4 @@ Had the consultant named no one — or reached the page and left it blank — a 
 | 4   | Landowner     | SFI              | Multiple SSSIs (ORNEC)  | SFI ref, SBI (VLUhzR fallback), multi SSSI grouped by name, coordinates + ORNECs per SSSI                                              |
 | 5   | Other         | CSMT             | Multiple SSSIs (scheme) | Scheme repeater with shared JPohUD coordinates, email_header from scheme + SSSIs, description comma-joined                             |
 | 6   | Landowner     | Other permission | Single SSSI (ORNEC)     | Permission name (VacBun) opens description/email_header; agreement_reference from Uureah (blank here), ORNEC activity with coordinates |
-| 7   | Consultant    | None             | Single SSSI (ORNEC)     | Three represented bodies fan out into three payloads sharing one DF_reference_number; `deliverySuccessMode: "any"`                     |
+| 7   | Consultant    | None             | Single SSSI (ORNEC)     | Three represented bodies fan out into three payloads sharing one DF_reference_number; `deliverySuccessMode: "all"`                     |
