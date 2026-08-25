@@ -19,9 +19,15 @@ import { FileUploadField } from '@defra/forms-engine-plugin/engine/components/Fi
  * This is a higher order function that creates a mapper from the FormModel, FormAdapterSubmissionMessage and repeaterName
  * @param {FormModel} model
  * @param {FormAdapterSubmissionMessage} formSubmissionMessage
+ * @param {Translator} translator - translate content to a different language if necessary
  * @param {Page} [page]
  */
-function handleComponent(model, formSubmissionMessage, page = undefined) {
+function handleComponent(
+  model,
+  formSubmissionMessage,
+  translator,
+  page = undefined
+) {
   return function (
     /** @type {import('@defra/forms-model').ComponentDef} */ component
   ) {
@@ -56,12 +62,15 @@ function handleComponent(model, formSubmissionMessage, page = undefined) {
       const repeaters = formSubmissionMessage.data.repeaters[repeaterName]
       data = repeaters.map((repeaterField) => repeaterField[fieldName])
       text = repeaters.map((repeaterField) =>
-        field.getDisplayStringFromFormValue(repeaterField[fieldName])
+        field.getDisplayStringFromFormValue(
+          repeaterField[fieldName],
+          translator
+        )
       )
       type = ControllerType.Repeat
     } else {
       const formValue = formSubmissionMessage.data.main[fieldName]
-      text = field.getDisplayStringFromFormValue(formValue)
+      text = field.getDisplayStringFromFormValue(formValue, translator)
       data = formValue
     }
 
@@ -90,6 +99,9 @@ export function formatter(formSubmissionMessage, formDefinition) {
    */
   const model = new FormModel(formDefinition, { basePath: '' }, {})
 
+  // Default to English
+  const translator = model.createTranslator()
+
   /**
    * We're going to iterate over the pages in the definition, and then the components to return the
    * data in order
@@ -109,7 +121,7 @@ export function formatter(formSubmissionMessage, formDefinition) {
         const { title } = page.repeat.options
 
         const data = components.map(
-          handleComponent(model, formSubmissionMessage, page)
+          handleComponent(model, formSubmissionMessage, translator, page)
         )
 
         return [
@@ -123,7 +135,9 @@ export function formatter(formSubmissionMessage, formDefinition) {
         ]
       }
 
-      return components.map(handleComponent(model, formSubmissionMessage))
+      return components.map(
+        handleComponent(model, formSubmissionMessage, translator)
+      )
     }
   )
 
