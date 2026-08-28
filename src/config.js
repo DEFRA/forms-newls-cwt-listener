@@ -194,30 +194,32 @@ const config = convict({
     default: null,
     env: 'MANAGER_URL'
   },
+  /**@type {SchemaObj<string>} */
   oidcJwksUri: {
     doc: 'The URI that defines the OIDC json web key set',
     format: String,
-    default:
-      'https://login.microsoftonline.com/770a2450-0227-4c62-90c7-4e38537f1102/discovery/v2.0/keys',
+    default: null,
     env: 'OIDC_JWKS_URI'
   },
+  /**@type {SchemaObj<string>} */
   oidcVerifyAud: {
     doc: 'The audience used for verifying the OIDC JWT',
     format: String,
-    default: 'ec32e5c5-75fa-460a-a359-e3e5a4a8f10e',
+    default: null,
     env: 'OIDC_VERIFY_AUD'
   },
+  /**@type {SchemaObj<string>} */
   oidcVerifyIss: {
     doc: 'The issuer used for verifying the OIDC JWT',
     format: String,
-    default:
-      'https://login.microsoftonline.com/770a2450-0227-4c62-90c7-4e38537f1102/v2.0',
+    default: null,
     env: 'OIDC_VERIFY_ISS'
   },
+  /**@type {SchemaObj<string>} */
   entitlementUrl: {
     doc: 'Forms entitlements API URL',
     format: String,
-    default: 'http://localhost:3004',
+    default: null,
     env: 'ENTITLEMENT_URL'
   },
   /**
@@ -302,3 +304,7 @@ if (!isTest) {
 }
 
 export { config }
+
+/**
+ * @import { SchemaObj } from 'convict'
+ */
