@@ -55,6 +55,7 @@ AWS_REGION=eu-west-2
 AWS_ACCESS_KEY_ID=dummy
 AWS_SECRET_ACCESS_KEY=dummy
 EVENTS_SQS_QUEUE_URL=http://sqs.eu-west-2.127.0.0.1:4566/000000000000/forms_adaptor_events
+EVENTS_SQS_DLQ_ARN=arn:aws:sqs:eu-west-2:000000000000:forms_adaptor_events-deadletter
 RECEIVE_MESSAGE_TIMEOUT_MS=5000
 MANAGER_URL=http://localhost:3001
 DESIGNER_URL=http://localhost:3000
@@ -99,19 +100,24 @@ npm start
 
 ### Environment variables
 
-| Variable                          | Description                                     | Default     |
-| :-------------------------------- | :---------------------------------------------- | :---------- |
-| `UNIVERSITY_API_URL`              | URL of the CWT API endpoint                     | —           |
-| `UNIVERSITY_API_KEY`              | API key for authenticating with the CWT API     | —           |
-| `UNIVERSITY_API_HEALTH_CHECK_URL` | Health check URL for the CWT API                | —           |
-| `MAPPINGS_DIR`                    | Directory containing the `*.mapping.json` files | `mappings`  |
-| `EVENTS_SQS_QUEUE_URL`            | SQS queue URL for form submission events        | —           |
-| `SQS_ENDPOINT`                    | SQS endpoint override (for local development)   | —           |
-| `AWS_REGION`                      | AWS region                                      | `eu-west-2` |
-| `RECEIVE_MESSAGE_TIMEOUT_MS`      | Wait time between polls in milliseconds         | `30000`     |
-| `SQS_MAX_NUMBER_OF_MESSAGES`      | Max messages to receive at once (max 10)        | `10`        |
-| `SQS_VISIBILITY_TIMEOUT`          | Seconds a message is hidden after retrieval     | `30`        |
-| `CONCURRENT_COROUTINES`           | Number of concurrent polling coroutines         | `1`         |
+| Variable                          | Description                                                               | Default                 |
+| :-------------------------------- | :------------------------------------------------------------------------ | :---------------------- |
+| `UNIVERSITY_API_URL`              | URL of the CWT API endpoint                                               | —                       |
+| `UNIVERSITY_API_KEY`              | API key for authenticating with the CWT API                               | —                       |
+| `UNIVERSITY_API_HEALTH_CHECK_URL` | Health check URL for the CWT API                                          | —                       |
+| `MAPPINGS_DIR`                    | Directory containing the `*.mapping.json` files                           | `mappings`              |
+| `EVENTS_SQS_QUEUE_URL`            | SQS queue URL for form submission events                                  | —                       |
+| `EVENTS_SQS_DLQ_ARN`              | ARN of the dead-letter queue, used for redrive                            | —                       |
+| `SQS_ENDPOINT`                    | SQS endpoint override (for local development)                             | —                       |
+| `AWS_REGION`                      | AWS region                                                                | `eu-west-2`             |
+| `RECEIVE_MESSAGE_TIMEOUT_MS`      | Wait time between polls in milliseconds                                   | `30000`                 |
+| `SQS_MAX_NUMBER_OF_MESSAGES`      | Max messages to receive at once (max 10)                                  | `10`                    |
+| `SQS_VISIBILITY_TIMEOUT`          | Seconds a message is hidden after retrieval                               | `30`                    |
+| `CONCURRENT_COROUTINES`           | Number of concurrent polling coroutines                                   | `1`                     |
+| `ENTITLEMENT_URL`                 | Forms entitlements API URL, resolves the scopes of admin endpoint callers | `http://localhost:3004` |
+| `OIDC_JWKS_URI`                   | OIDC JSON web key set URI                                                 | Defra tenant            |
+| `OIDC_VERIFY_AUD`                 | Audience for verifying the OIDC JWT                                       | Defra tenant            |
+| `OIDC_VERIFY_ISS`                 | Issuer for verifying the OIDC JWT                                         | Defra tenant            |
 
 ### SQS queue configuration
 
@@ -134,9 +140,16 @@ Mapping behaviour is declared in the JSON mapping files under `mappings/`; see t
 
 ## API endpoints
 
-| Endpoint       | Description                                                                                                       |
-| :------------- | :---------------------------------------------------------------------------------------------------------------- |
-| `GET: /health` | Health check — also verifies the target CWT API is reachable when `UNIVERSITY_API_HEALTH_CHECK_URL` is configured |
+| Endpoint                                       | Description                                                                                                       |
+| :--------------------------------------------- | :---------------------------------------------------------------------------------------------------------------- |
+| `GET: /health`                                 | Health check — also verifies the target CWT API is reachable when `UNIVERSITY_API_HEALTH_CHECK_URL` is configured |
+| `GET: /admin/deadletter/view`                  | List the messages currently on the dead-letter queue                                                              |
+| `GET: /admin/deadletter/view/{messageId}`      | Fetch one dead-letter queue message by its SQS message id                                                         |
+| `POST: /admin/deadletter/redrive`              | Move all dead-letter queue messages back to the main queue                                                        |
+| `POST: /admin/deadletter/resubmit/{messageId}` | Send the supplied `{ "messageJson": … }` body to the main queue as a new message                                  |
+| `DELETE: /admin/deadletter/{messageId}`        | Delete one message from the dead-letter queue                                                                     |
+
+The `/admin/deadletter` endpoints require an Azure OIDC bearer token whose user holds the `dead-letter-queues` scope in the entitlements API. The `view`, `view/{messageId}` and `DELETE` endpoints accept optional `visibilityTimeout` and `waitTimeSeconds` query parameters (both default to 3 seconds).
 
 ## Docker
 

@@ -1,3 +1,4 @@
+import admin from '../routes/admin.js'
 import { health } from '../routes/health.js'
 
 /**
@@ -10,7 +11,7 @@ const router = {
       /** @type {import('@hapi/hapi').Server} */ server,
       /** @type {unknown} */ _options
     ) => {
-      server.route([health])
+      server.route([health, ...admin])
     }
   }
 }

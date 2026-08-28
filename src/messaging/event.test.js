@@ -2,12 +2,22 @@ import { vi, describe, it, expect } from 'vitest'
 import {
   DeleteMessageCommand,
   ReceiveMessageCommand,
-  SQSClient
+  SQSClient,
+  SendMessageCommand,
+  StartMessageMoveTaskCommand
 } from '@aws-sdk/client-sqs'
 import { mockClient } from 'aws-sdk-client-mock'
 import { toHaveReceivedCommandWith } from 'aws-sdk-client-mock-vitest'
 
-import { deleteEventMessage, receiveEventMessages } from './event.js'
+import {
+  deleteDlqMessage,
+  deleteEventMessage,
+  getDlqMessage,
+  receiveDlqMessages,
+  receiveEventMessages,
+  redriveDlqMessages,
+  resubmitDlqMessage
+} from './event.js'
 
 expect.extend({ toHaveReceivedCommandWith })
 vi.mock('../common/helpers/logging/logger.js')
@@ -52,8 +62,147 @@ describe('event', () => {
       })
     })
   })
+
+  describe('receiveDlqMessages', () => {
+    it('should receive dead-letter queue messages', async () => {
+      const receivedMessage = {
+        Messages: [messageStub]
+      }
+
+      snsMock.on(ReceiveMessageCommand).resolves(receivedMessage)
+      await receiveDlqMessages(2, 1)
+      expect(snsMock).toHaveReceivedCommandWith(ReceiveMessageCommand, {
+        QueueUrl: expect.any(String),
+        VisibilityTimeout: 2,
+        WaitTimeSeconds: 1
+      })
+    })
+
+    it('should receive dead-letter queue messages with default settings', async () => {
+      const receivedMessage = {
+        Messages: [messageStub]
+      }
+
+      snsMock.on(ReceiveMessageCommand).resolves(receivedMessage)
+      await receiveDlqMessages()
+      expect(snsMock).toHaveReceivedCommandWith(ReceiveMessageCommand, {
+        QueueUrl: expect.any(String),
+        VisibilityTimeout: 3,
+        WaitTimeSeconds: 3
+      })
+    })
+  })
+
+  describe('redriveDlqMessages', () => {
+    it('should redrive dead-letter queue messages', async () => {
+      /**
+       * @type {StartMessageMoveTaskCommandOutput}
+       */
+      const redriveResult = {
+        TaskHandle: '123',
+        $metadata: {}
+      }
+
+      snsMock.on(StartMessageMoveTaskCommand).resolves(redriveResult)
+      await redriveDlqMessages()
+      expect(snsMock).toHaveReceivedCommandWith(StartMessageMoveTaskCommand, {
+        SourceArn: expect.any(String)
+      })
+    })
+  })
+
+  describe('deleteDlqMessage', () => {
+    it('should delete event message', async () => {
+      const receivedMessage = {
+        Messages: [messageStub, messageStub, messageStub]
+      }
+
+      snsMock.on(ReceiveMessageCommand).resolves(receivedMessage)
+      await deleteDlqMessage(messageStub.MessageId, 2, 1)
+      expect(snsMock).toHaveReceivedCommandWith(ReceiveMessageCommand, {
+        QueueUrl: expect.any(String),
+        MaxNumberOfMessages: 10,
+        VisibilityTimeout: 2,
+        WaitTimeSeconds: 1
+      })
+      expect(snsMock).toHaveReceivedCommandWith(DeleteMessageCommand, {
+        QueueUrl: expect.any(String),
+        ReceiptHandle: receiptHandle
+      })
+    })
+
+    it('should delete event message with default values', async () => {
+      const receivedMessage = {
+        Messages: [messageStub, messageStub, messageStub]
+      }
+
+      snsMock.on(ReceiveMessageCommand).resolves(receivedMessage)
+      await deleteDlqMessage(messageStub.MessageId)
+      expect(snsMock).toHaveReceivedCommandWith(ReceiveMessageCommand, {
+        QueueUrl: expect.any(String),
+        MaxNumberOfMessages: 10,
+        VisibilityTimeout: 3,
+        WaitTimeSeconds: 3
+      })
+      expect(snsMock).toHaveReceivedCommandWith(DeleteMessageCommand, {
+        QueueUrl: expect.any(String),
+        ReceiptHandle: receiptHandle
+      })
+    })
+
+    it('should throw if message not found after max attempts', async () => {
+      const receivedMessage = {
+        Messages: []
+      }
+
+      snsMock.on(ReceiveMessageCommand).resolves(receivedMessage)
+      await expect(() =>
+        deleteDlqMessage(messageStub.MessageId, 0, 0)
+      ).rejects.toThrow(
+        'Message with id 31cb6fff-8317-412e-8488-308d099034c4 not found in cwt-listener DLQ after 7 attempts'
+      )
+    }, 10000)
+  })
+
+  describe('resubmitDlqMessage', () => {
+    it('should resubmit message to main queue', async () => {
+      const sendMessage = {
+        MessageId: '12345'
+      }
+
+      snsMock.on(SendMessageCommand).resolves(sendMessage)
+      await resubmitDlqMessage(messageStub.MessageId, messageStub.Body)
+      expect(snsMock).toHaveReceivedCommandWith(SendMessageCommand, {
+        QueueUrl: expect.any(String),
+        MessageBody: messageStub.Body
+      })
+    })
+
+    it('should throw if resubmit fails', async () => {
+      snsMock.on(SendMessageCommand).rejects('bad SQS command')
+      await expect(() =>
+        resubmitDlqMessage(messageStub.MessageId, messageStub.Body)
+      ).rejects.toThrow('bad SQS command')
+    })
+  })
+
+  describe('getDlqMessage', () => {
+    it('should receive dead-letter queue message with default timing values', async () => {
+      const receivedMessage = {
+        Messages: [messageStub]
+      }
+
+      snsMock.on(ReceiveMessageCommand).resolves(receivedMessage)
+      await getDlqMessage(messageId)
+      expect(snsMock).toHaveReceivedCommandWith(ReceiveMessageCommand, {
+        QueueUrl: expect.any(String),
+        VisibilityTimeout: 3,
+        WaitTimeSeconds: 3
+      })
+    })
+  })
 })
 
 /**
- * @import { DeleteMessageCommandOutput } from '@aws-sdk/client-sqs'
+ * @import { DeleteMessageCommandOutput, StartMessageMoveTaskCommandOutput } from '@aws-sdk/client-sqs'
  */

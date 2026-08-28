@@ -194,6 +194,34 @@ const config = convict({
     default: null,
     env: 'MANAGER_URL'
   },
+  /**@type {SchemaObj<string>} */
+  oidcJwksUri: {
+    doc: 'The URI that defines the OIDC json web key set',
+    format: String,
+    default: null,
+    env: 'OIDC_JWKS_URI'
+  },
+  /**@type {SchemaObj<string>} */
+  oidcVerifyAud: {
+    doc: 'The audience used for verifying the OIDC JWT',
+    format: String,
+    default: null,
+    env: 'OIDC_VERIFY_AUD'
+  },
+  /**@type {SchemaObj<string>} */
+  oidcVerifyIss: {
+    doc: 'The issuer used for verifying the OIDC JWT',
+    format: String,
+    default: null,
+    env: 'OIDC_VERIFY_ISS'
+  },
+  /**@type {SchemaObj<string>} */
+  entitlementUrl: {
+    doc: 'Forms entitlements API URL',
+    format: String,
+    default: null,
+    env: 'ENTITLEMENT_URL'
+  },
   /**
    * Destinations a mapping file can send to, keyed by the name it uses in its
    * "destination". Every destination named by a mapping file must appear here;
@@ -257,6 +285,12 @@ const config = convict({
     default: 30,
     env: 'SQS_VISIBILITY_TIMEOUT'
   },
+  sqsEventsDlqArn: {
+    doc: 'SQS deadletter queue ARN',
+    format: String,
+    default: '',
+    env: 'EVENTS_SQS_DLQ_ARN'
+  },
   numberOfConcurrentPollingCoroutines: {
     doc: 'The number of concurrent polling coroutines - to enable higher throughput',
     format: Number,
@@ -270,3 +304,7 @@ if (!isTest) {
 }
 
 export { config }
+
+/**
+ * @import { SchemaObj } from 'convict'
+ */

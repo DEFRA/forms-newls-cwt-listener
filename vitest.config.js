@@ -1,6 +1,7 @@
 import { defineConfig, configDefaults } from 'vitest/config'
+import { loadEnv } from 'vite'
 
-export default defineConfig({
+export default defineConfig((config) => ({
   test: {
     globals: true,
     environment: 'node',
@@ -13,6 +14,7 @@ export default defineConfig({
       include: ['src/**'],
       exclude: [...configDefaults.exclude, 'coverage']
     },
-    setupFiles: ['.vite/setup-files.js']
+    setupFiles: ['.vite/setup-files.js'],
+    env: loadEnv(config.mode, process.cwd(), '')
   }
-})
+}))
