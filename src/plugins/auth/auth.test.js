@@ -1,17 +1,4 @@
-const { mockActualTestErrorFn, mockActualTestWarnFn, mockActualTestInfoFn } =
-  vi.hoisted(() => ({
-    mockActualTestErrorFn: vi.fn(),
-    mockActualTestWarnFn: vi.fn(),
-    mockActualTestInfoFn: vi.fn()
-  }))
-
-vi.mock('../../common/helpers/logging/logger.js', () => ({
-  createLogger: () => ({
-    error: mockActualTestErrorFn,
-    warn: mockActualTestWarnFn,
-    info: mockActualTestInfoFn
-  })
-}))
+vi.mock('../../common/helpers/logging/logger.js')
 
 vi.mock('../../config.js', () => ({
   config: {
@@ -41,6 +28,8 @@ describe('auth plugin', () => {
   let validateFn
   /** @type {Jwt} */
   let Jwt
+  /** @type {any} */
+  let mockLogger
 
   const server = {
     register: vi.fn().mockResolvedValue(undefined),
@@ -53,6 +42,9 @@ describe('auth plugin', () => {
   beforeEach(async () => {
     vi.resetModules()
     vi.clearAllMocks()
+
+    const loggerModule = await import('../../common/helpers/logging/logger.js')
+    mockLogger = loggerModule.createLogger()
 
     const jwtModule = await import('@hapi/jwt')
     Jwt = /** @type {Jwt} */ (jwtModule.default)
@@ -108,7 +100,7 @@ describe('auth plugin', () => {
       })
       const result = await validateFn(artifacts)
       expect(result).toEqual({ isValid: false })
-      expect(mockActualTestInfoFn).toHaveBeenCalledWith(
+      expect(mockLogger.info).toHaveBeenCalledWith(
         '[authMissingUser] Auth: Missing user from token payload.'
       )
     })
@@ -123,7 +115,7 @@ describe('auth plugin', () => {
       })
       const result = await validateFn(artifacts)
       expect(result).toEqual({ isValid: false })
-      expect(mockActualTestInfoFn).toHaveBeenCalledWith(
+      expect(mockLogger.info).toHaveBeenCalledWith(
         '[authMissingOID] Auth: User OID is missing in token payload.'
       )
     })
@@ -152,7 +144,7 @@ describe('auth plugin', () => {
   describe('validate function with entitlements API enabled', () => {
     /** @type {ValidateFn} */
     let validateFn
-    /** @type {import('vitest').MockedFunction<(oid: string, authToken?: string) => Promise<string[]>>} */
+    /** @type {GetUserScopesMock} */
     let getUserScopes
 
     beforeEach(async () => {
@@ -172,10 +164,9 @@ describe('auth plugin', () => {
 
       const entitlementsModule =
         await import('../../service/entitlements/service.js')
-      getUserScopes =
-        /** @type {import('vitest').MockedFunction<(oid: string, authToken?: string) => Promise<string[]>>} */ (
-          entitlementsModule.getUserScopes
-        )
+      getUserScopes = /** @type {GetUserScopesMock} */ (
+        entitlementsModule.getUserScopes
+      )
 
       const authModule = await import('./index.js')
       const auth = authModule.auth
@@ -303,10 +294,14 @@ describe('auth plugin', () => {
  * @typedef {(artifacts: Artifacts<UserCredentials>) => Promise<{ isValid: boolean, credentials?: any }>} ValidateFn
  */
 /**
- * @typedef {import('vitest').Mocked<JwtTypeDefinition>} Jwt
+ * @typedef {Mocked<JwtTypeDefinition>} Jwt
+ */
+/**
+ * @typedef {MockedFunction<(oid: string, authToken?: string) => Promise<string[]>>} GetUserScopesMock
  */
 
 /**
+ * @import { Mocked, MockedFunction } from 'vitest'
  * @import { UserCredentials } from '@hapi/hapi'
  * @import { Artifacts } from './types.js'
  * @import * as AuthModuleDefinitionStar from './index.js'

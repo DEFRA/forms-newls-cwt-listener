@@ -2,11 +2,7 @@ import Boom from '@hapi/boom'
 
 describe('entitlements service', () => {
   /** @type {any} */
-  const mockLogger = {
-    info: vi.fn(),
-    warn: vi.fn(),
-    error: vi.fn()
-  }
+  let mockLogger
 
   /** @type {(oid: string, authToken?: string) => Promise<string[]>} */
   let getUserScopes
@@ -36,9 +32,10 @@ describe('entitlements service', () => {
         })
       }
     }))
-    vi.doMock('../../common/helpers/logging/logger.js', () => ({
-      createLogger: () => mockLogger
-    }))
+    vi.doMock('../../common/helpers/logging/logger.js')
+
+    const loggerModule = await import('../../common/helpers/logging/logger.js')
+    mockLogger = loggerModule.createLogger()
 
     const fetchModule = await import('../../lib/fetch.js')
     getJson = /** @type {any} */ (fetchModule.getJson)

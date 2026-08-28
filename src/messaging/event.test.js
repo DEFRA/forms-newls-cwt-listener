@@ -20,13 +20,7 @@ import {
 } from './event.js'
 
 expect.extend({ toHaveReceivedCommandWith })
-vi.mock('../common/helpers/logging/logger.js', () => ({
-  createLogger: () => ({
-    error: vi.fn(),
-    warn: vi.fn(),
-    info: vi.fn()
-  })
-}))
+vi.mock('../common/helpers/logging/logger.js')
 
 describe('event', () => {
   const snsMock = mockClient(SQSClient)
