@@ -50,6 +50,9 @@ async function checkDestination(destination) {
 const health = {
   method: 'GET',
   path: '/health',
+  options: {
+    auth: false
+  },
   handler: async (_request, h) => {
     const destinations = getConfiguredDestinationNames()
       .map(getDestinationSettings)

@@ -194,6 +194,32 @@ const config = convict({
     default: null,
     env: 'MANAGER_URL'
   },
+  oidcJwksUri: {
+    doc: 'The URI that defines the OIDC json web key set',
+    format: String,
+    default:
+      'https://login.microsoftonline.com/770a2450-0227-4c62-90c7-4e38537f1102/discovery/v2.0/keys',
+    env: 'OIDC_JWKS_URI'
+  },
+  oidcVerifyAud: {
+    doc: 'The audience used for verifying the OIDC JWT',
+    format: String,
+    default: 'ec32e5c5-75fa-460a-a359-e3e5a4a8f10e',
+    env: 'OIDC_VERIFY_AUD'
+  },
+  oidcVerifyIss: {
+    doc: 'The issuer used for verifying the OIDC JWT',
+    format: String,
+    default:
+      'https://login.microsoftonline.com/770a2450-0227-4c62-90c7-4e38537f1102/v2.0',
+    env: 'OIDC_VERIFY_ISS'
+  },
+  entitlementUrl: {
+    doc: 'Forms entitlements API URL',
+    format: String,
+    default: 'http://localhost:3004',
+    env: 'ENTITLEMENT_URL'
+  },
   /**
    * Destinations a mapping file can send to, keyed by the name it uses in its
    * "destination". Every destination named by a mapping file must appear here;
@@ -256,6 +282,12 @@ const config = convict({
     format: Number,
     default: 30,
     env: 'SQS_VISIBILITY_TIMEOUT'
+  },
+  sqsEventsDlqArn: {
+    doc: 'SQS deadletter queue ARN',
+    format: String,
+    default: '',
+    env: 'EVENTS_SQS_DLQ_ARN'
   },
   numberOfConcurrentPollingCoroutines: {
     doc: 'The number of concurrent polling coroutines - to enable higher throughput',

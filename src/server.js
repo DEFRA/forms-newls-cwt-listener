@@ -2,6 +2,7 @@ import Hapi from '@hapi/hapi'
 import { secureContext } from '@defra/hapi-secure-context'
 
 import { config } from './config.js'
+import { auth } from './plugins/auth/index.js'
 import { router } from './plugins/router.js'
 import { requestLogger } from './common/helpers/logging/request-logger.js'
 import { failAction } from './common/helpers/fail-action.js'
@@ -33,6 +34,9 @@ async function createServer() {
     host: /** @type {string} */ (config.get('host')),
     port: /** @type {number} */ (config.get('port')),
     routes: {
+      auth: {
+        mode: 'required'
+      },
       validate: {
         options: {
           abortEarly: false
@@ -60,12 +64,14 @@ async function createServer() {
   // requestTracing - trace header logging and propagation
   // secureContext  - loads CA certificates from environment config
   // pulse          - provides shutdown handlers
+  // auth           - Azure OIDC JWT strategy, the default for all routes
   // router         - routes used in the app
   await server.register([
     requestLogger,
     requestTracing,
     secureContext,
     pulse,
+    auth,
     router
   ])
 
