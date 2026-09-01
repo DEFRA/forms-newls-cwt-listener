@@ -1,5 +1,7 @@
 import Hapi from '@hapi/hapi'
+import Wreck from '@hapi/wreck'
 import { secureContext } from '@defra/hapi-secure-context'
+import { ProxyAgent } from 'proxy-agent'
 
 import { config } from './config.js'
 import { auth } from './plugins/auth/index.js'
@@ -14,6 +16,14 @@ import { checkDestinationsAreConfigured } from './service/rule-mapping/destinati
 import { runTask } from './tasks/receive-messages.js'
 
 const logger = createLogger()
+
+const proxyAgent = new ProxyAgent()
+
+Wreck.agents = {
+  https: proxyAgent,
+  http: proxyAgent,
+  httpsAllowUnauthorized: proxyAgent
+}
 
 /** @type {number} */
 const numberOfCoroutines = config.get('numberOfConcurrentPollingCoroutines')

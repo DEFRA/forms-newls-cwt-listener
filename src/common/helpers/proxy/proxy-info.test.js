@@ -57,13 +57,13 @@ describe('getProxyInfo', () => {
     })
   })
 
-  test('is not enabled when a proxy URL is set but NODE_USE_ENV_PROXY is not', () => {
+  test('is enabled from the proxy URL alone, independently of NODE_USE_ENV_PROXY', () => {
     process.env.HTTPS_PROXY = 'http://localhost:3128'
 
     const info = getProxyInfo()
 
     expect(info.useEnvProxy).toBe(false)
-    expect(info.enabled).toBe(false)
+    expect(info.enabled).toBe(true)
     expect(info.port).toBe(3128)
   })
 
