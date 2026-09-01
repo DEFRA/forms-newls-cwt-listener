@@ -59,8 +59,6 @@ function parseProxyUrl(proxyUrl) {
 /**
  * @typedef {object} ProxyInfo
  * @property {boolean} useEnvProxy - Whether NODE_USE_ENV_PROXY is enabled
- * @property {boolean} enabled - Whether a proxy URL is configured, so Wreck
- *   routes outbound requests through it
  * @property {number | null} port - The proxy port, or null if not configured
  * @property {'Yes' | 'No'} isExpectedHost - Whether the proxy host is the
  *   expected local host (i.e. localhost / loopback)
@@ -88,7 +86,6 @@ export function getProxyInfo() {
 
   return {
     useEnvProxy,
-    enabled: proxy !== null,
     port: proxy?.port ?? null,
     isExpectedHost:
       proxy !== null && EXPECTED_PROXY_HOSTS.includes(proxy.host)
@@ -106,8 +103,7 @@ export function describeProxyInfo() {
   const info = getProxyInfo()
 
   return (
-    `proxy enabled=${info.enabled}, ` +
-    `port=${info.port ?? 'n/a'}, ` +
+    `proxy port=${info.port ?? 'n/a'}, ` +
     `expectedHost=${info.isExpectedHost}, ` +
     `exclusions=${info.exclusionsCount}, ` +
     `useEnvProxy=${info.useEnvProxy}`
