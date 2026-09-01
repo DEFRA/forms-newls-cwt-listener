@@ -1,8 +1,8 @@
 /**
- * Proxy configuration is no longer set up in code. When NODE_USE_ENV_PROXY is
- * enabled, Node's built-in `fetch` automatically routes outbound requests via
- * the proxy described by the standard HTTPS_PROXY / HTTP_PROXY / NO_PROXY
- * environment variables.
+ * Outbound traffic leaves via the proxy described by the standard HTTPS_PROXY /
+ * HTTP_PROXY / NO_PROXY environment variables. Wreck reaches it through the
+ * proxy agent assigned in server.js, and Node's built-in `fetch` reaches it
+ * when NODE_USE_ENV_PROXY is enabled.
  *
  * These helpers produce a non-sensitive summary of that configuration so it can
  * be logged at startup and before remote calls, without exposing the proxy
@@ -59,8 +59,6 @@ function parseProxyUrl(proxyUrl) {
 /**
  * @typedef {object} ProxyInfo
  * @property {boolean} useEnvProxy - Whether NODE_USE_ENV_PROXY is enabled
- * @property {boolean} enabled - Whether fetch will route via a proxy (env proxy
- *   enabled AND a proxy URL is configured)
  * @property {number | null} port - The proxy port, or null if not configured
  * @property {'Yes' | 'No'} isExpectedHost - Whether the proxy host is the
  *   expected local host (i.e. localhost / loopback)
@@ -68,8 +66,7 @@ function parseProxyUrl(proxyUrl) {
  */
 
 /**
- * Builds a non-sensitive summary of the outbound proxy configuration that
- * Node's built-in `fetch` will use.
+ * Builds a non-sensitive summary of the outbound proxy configuration.
  * @returns {ProxyInfo}
  */
 export function getProxyInfo() {
@@ -89,7 +86,6 @@ export function getProxyInfo() {
 
   return {
     useEnvProxy,
-    enabled: useEnvProxy && proxy !== null,
     port: proxy?.port ?? null,
     isExpectedHost:
       proxy !== null && EXPECTED_PROXY_HOSTS.includes(proxy.host)
@@ -107,8 +103,7 @@ export function describeProxyInfo() {
   const info = getProxyInfo()
 
   return (
-    `proxy enabled=${info.enabled}, ` +
-    `port=${info.port ?? 'n/a'}, ` +
+    `proxy port=${info.port ?? 'n/a'}, ` +
     `expectedHost=${info.isExpectedHost}, ` +
     `exclusions=${info.exclusionsCount}, ` +
     `useEnvProxy=${info.useEnvProxy}`

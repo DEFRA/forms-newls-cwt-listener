@@ -35,7 +35,6 @@ describe('getProxyInfo', () => {
   test('reports proxy disabled when no environment variables are set', () => {
     expect(getProxyInfo()).toEqual({
       useEnvProxy: false,
-      enabled: false,
       port: null,
       isExpectedHost: 'No',
       exclusionsCount: 0
@@ -50,30 +49,27 @@ describe('getProxyInfo', () => {
 
     expect(getProxyInfo()).toEqual({
       useEnvProxy: true,
-      enabled: true,
       port: 3128,
       isExpectedHost: 'Yes',
       exclusionsCount: 3
     })
   })
 
-  test('is not enabled when a proxy URL is set but NODE_USE_ENV_PROXY is not', () => {
+  test('reports the proxy port when NODE_USE_ENV_PROXY is not set', () => {
     process.env.HTTPS_PROXY = 'http://localhost:3128'
 
     const info = getProxyInfo()
 
     expect(info.useEnvProxy).toBe(false)
-    expect(info.enabled).toBe(false)
     expect(info.port).toBe(3128)
   })
 
-  test('is not enabled when NODE_USE_ENV_PROXY is set but no proxy URL is configured', () => {
+  test('reports no port when NODE_USE_ENV_PROXY is set but no proxy URL is configured', () => {
     process.env.NODE_USE_ENV_PROXY = '1'
 
     const info = getProxyInfo()
 
     expect(info.useEnvProxy).toBe(true)
-    expect(info.enabled).toBe(false)
     expect(info.port).toBeNull()
   })
 
@@ -128,10 +124,7 @@ describe('getProxyInfo', () => {
     process.env.NODE_USE_ENV_PROXY = '1'
     process.env.HTTPS_PROXY = 'not-a-url'
 
-    const info = getProxyInfo()
-
-    expect(info.enabled).toBe(false)
-    expect(info.port).toBeNull()
+    expect(getProxyInfo().port).toBeNull()
   })
 
   describe('describeProxyInfo', () => {
@@ -141,13 +134,13 @@ describe('getProxyInfo', () => {
       process.env.NO_PROXY = 'a.example.com,b.example.com'
 
       expect(describeProxyInfo()).toBe(
-        'proxy enabled=true, port=3128, expectedHost=Yes, exclusions=2, useEnvProxy=true'
+        'proxy port=3128, expectedHost=Yes, exclusions=2, useEnvProxy=true'
       )
     })
 
     test('renders the port as n/a when no proxy is configured', () => {
       expect(describeProxyInfo()).toBe(
-        'proxy enabled=false, port=n/a, expectedHost=No, exclusions=0, useEnvProxy=false'
+        'proxy port=n/a, expectedHost=No, exclusions=0, useEnvProxy=false'
       )
     })
   })
