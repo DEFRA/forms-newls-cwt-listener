@@ -5,6 +5,8 @@ import {
   StartMessageMoveTaskCommand
 } from '@aws-sdk/client-sqs'
 
+import { getMessageAttributes } from '@defra/forms-common'
+
 import { config } from '../config.js'
 import { createLogger } from '../common/helpers/logging/logger.js'
 import { sqsClient } from './sqs.js'
@@ -34,7 +36,8 @@ const DEFAULT_WAIT_TIME_IN_SECS = 3
 const input = {
   QueueUrl: queueUrl,
   MaxNumberOfMessages: maxNumberOfMessages,
-  VisibilityTimeout: pollingVisibilityTimeout
+  VisibilityTimeout: pollingVisibilityTimeout,
+  MessageAttributeNames: ['All']
 }
 
 /**
@@ -58,7 +61,8 @@ export function receiveDlqMessages(
     QueueUrl: deadLetterQueueUrl,
     MaxNumberOfMessages: 10,
     VisibilityTimeout: visibilityTimeout,
-    WaitTimeSeconds: waitTimeSeconds
+    WaitTimeSeconds: waitTimeSeconds,
+    MessageAttributeNames: ['All']
   })
   return sqsClient.send(command)
 }
@@ -122,7 +126,9 @@ export function redriveDlqMessages() {
 }
 
 /**
- * Submit the specified message to the main queue
+ * Submit the specified message to the main queue. The new message keeps the
+ * message attributes (including the log context) of the dead-letter queue
+ * message, or takes the current log context when that message is not found.
  * @param {string} messageId
  * @param {string} messageJson
  */
@@ -132,9 +138,13 @@ export async function resubmitDlqMessage(messageId, messageJson) {
       `[DLQ] Submitting new message in place of message id ${messageId}`
     )
 
+    // A visibility timeout of 0 leaves the message visible, ready to be deleted
+    const originalMessage = await getDlqMessage(messageId, 0)
+
     const command = new SendMessageCommand({
       QueueUrl: queueUrl,
-      MessageBody: messageJson
+      MessageBody: messageJson,
+      MessageAttributes: originalMessage?.MessageAttributes ?? getMessageAttributes()
     })
     const sendResult = await sqsClient.send(command)
     logger.info(

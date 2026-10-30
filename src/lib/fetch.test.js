@@ -1,3 +1,9 @@
+import {
+  REFERENCE_NUMBER_HEADER,
+  SESSION_ID_HEADER,
+  createLogContext,
+  runWithLogContext
+} from '@defra/forms-common'
 import Boom from '@hapi/boom'
 import Wreck from '@hapi/wreck'
 
@@ -30,6 +36,68 @@ describe('fetch utilities', () => {
       )
       expect(vi.mocked(Wreck.read)).toHaveBeenCalledWith(mockResponse, {})
     })
+
+    it('should send the correlation ID of the log context', async () => {
+      /** @type {any} */
+      const mockResponse = { statusCode: 200, headers: {} }
+      const context = createLogContext({ correlationId: 'correlation-id' })
+
+      vi.mocked(Wreck.request).mockResolvedValue(mockResponse)
+      vi.mocked(Wreck.read).mockResolvedValue({})
+
+      const url = new URL('http://example.com/api')
+      await runWithLogContext(context, () =>
+        request('get', url, { headers: { accept: 'application/json' } })
+      )
+
+      expect(vi.mocked(Wreck.request)).toHaveBeenCalledWith(
+        'get',
+        'http://example.com/api',
+        {
+          headers: {
+            accept: 'application/json',
+            'x-cdp-request-id': 'correlation-id'
+          }
+        }
+      )
+    })
+
+    it.each([
+      {
+        url: 'http://localhost:3001/forms/123',
+        logContextHeaders: {
+          [SESSION_ID_HEADER]: 'session-id',
+          [REFERENCE_NUMBER_HEADER]: 'reference-number'
+        }
+      },
+      {
+        url: 'https://cwt.example.com/api',
+        logContextHeaders: {}
+      }
+    ])(
+      'should send the session ID and reference number only to forms services ($url)',
+      async ({ url, logContextHeaders }) => {
+        /** @type {any} */
+        const mockResponse = { statusCode: 200, headers: {} }
+        const context = createLogContext({
+          correlationId: 'correlation-id',
+          sessionId: 'session-id',
+          referenceNumber: 'reference-number'
+        })
+
+        vi.mocked(Wreck.request).mockResolvedValue(mockResponse)
+        vi.mocked(Wreck.read).mockResolvedValue({})
+
+        await runWithLogContext(context, () => request('get', new URL(url), {}))
+
+        expect(vi.mocked(Wreck.request)).toHaveBeenCalledWith('get', url, {
+          headers: {
+            'x-cdp-request-id': 'correlation-id',
+            ...logContextHeaders
+          }
+        })
+      }
+    )
 
     it('should throw Boom error for non-200 status with message in body', async () => {
       /** @type {any} */
