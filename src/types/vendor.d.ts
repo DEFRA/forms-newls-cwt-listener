@@ -1,6 +1,6 @@
 declare module '@defra/hapi-tracing' {
   export const tracing: {
-    plugin: import('@hapi/hapi').Plugin<{ tracingHeader: string }>
+    plugin: import('@hapi/hapi').Plugin<{ tracingHeader?: string }>
   }
 
   export function getTraceId(): string | undefined

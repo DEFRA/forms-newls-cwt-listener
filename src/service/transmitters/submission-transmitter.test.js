@@ -1,3 +1,5 @@
+import { createLogContext, runWithLogContext } from '@defra/forms-common'
+
 import { getDestinationSettings } from './destination-config.js'
 import { jsonFormDataHandler } from './handlers/json-form-data.js'
 import { send } from './submission-transmitter.js'
@@ -86,6 +88,32 @@ describe('submission-transmitter', () => {
         json_form_data: JSON.stringify(mockMessage)
       })
     })
+  })
+
+  it('should send the correlation ID but not the session ID or reference number', async () => {
+    mockFetch.mockResolvedValue({
+      ok: true,
+      status: 200,
+      text: vi.fn().mockResolvedValue('OK')
+    })
+
+    const context = createLogContext({
+      correlationId: 'correlation-id',
+      sessionId: 'session-id',
+      referenceNumber: 'DF-REF-123'
+    })
+    await runWithLogContext(context, () => send('universityApi', mockMessage))
+
+    expect(mockFetch).toHaveBeenCalledWith(
+      'http://example.com/api',
+      expect.objectContaining({
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'api-key': 'test-api-key',
+          'x-cdp-request-id': 'correlation-id'
+        }
+      })
+    )
   })
 
   it('should resolve on successful response', async () => {

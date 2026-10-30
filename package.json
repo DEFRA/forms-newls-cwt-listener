@@ -33,6 +33,7 @@
   "license": "OGL-UK-3.0",
   "dependencies": {
     "@aws-sdk/client-sqs": "3.1062.0",
+    "@defra/forms-common": "0.1.4",
     "@defra/forms-engine-plugin": "^5.0.0-alpha.28",
     "@defra/forms-model": "^4.0.0",
     "@defra/hapi-secure-context": "0.4.0",
