@@ -1,3 +1,4 @@
+import { getCorrelationId, getSessionId } from '@defra/forms-common'
 import { FormAdapterSubmissionSchemaVersion } from '@defra/forms-engine-plugin/engine/types/enums.js'
 
 import { deleteEventMessage } from '../messaging/event.js'
@@ -237,6 +238,49 @@ describe('events', () => {
       )
       expect(result.saved).toHaveLength(2)
       expect(result.failed).toHaveLength(2)
+    })
+
+    it('should handle each message in the log context of the message', async () => {
+      /** @type {{ correlationId?: string, sessionId?: string }[]} */
+      const contexts = []
+
+      handleFormSubmissionMock.mockImplementation(() => {
+        contexts.push({
+          correlationId: getCorrelationId(),
+          sessionId: getSessionId()
+        })
+        return Promise.resolve()
+      })
+
+      await handleFormSubmissionEvents(
+        [
+          {
+            ...message1,
+            MessageAttributes: {
+              correlationId: {
+                DataType: 'String',
+                StringValue: 'correlation-1'
+              },
+              sessionId: { DataType: 'String', StringValue: 'session-1' }
+            }
+          },
+          {
+            ...message2,
+            MessageAttributes: {
+              correlationId: {
+                DataType: 'String',
+                StringValue: 'correlation-2'
+              }
+            }
+          }
+        ],
+        formSubmissionService
+      )
+
+      expect(contexts).toEqual([
+        { correlationId: 'correlation-1', sessionId: 'session-1' },
+        { correlationId: 'correlation-2', sessionId: undefined }
+      ])
     })
   })
 })

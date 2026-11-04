@@ -9,6 +9,7 @@
  */
 
 import { createLogger } from '../../common/helpers/logging/logger.js'
+import { applyTraceHeaders } from '../../common/helpers/request-tracing.js'
 import { withRetry } from '../../lib/retry.js'
 import { getDestinationSettings } from './destination-config.js'
 
@@ -67,10 +68,12 @@ async function sendOnce(destination, message) {
   try {
     response = await fetch(url, {
       method: 'POST',
-      headers: {
+      // Only the correlation ID is sent. The session ID and form reference
+      // number are kept within forms services.
+      headers: applyTraceHeaders({
         'Content-Type': contentType,
         ...handler.authHeaders(destination.apiKey)
-      },
+      }),
       body
     })
   } catch (error) {

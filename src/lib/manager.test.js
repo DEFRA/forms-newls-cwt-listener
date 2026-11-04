@@ -6,7 +6,9 @@ import { getFormDefinition } from './manager.js'
 vi.mock('./fetch.js')
 vi.mock('../config.js', () => ({
   config: {
-    get: vi.fn().mockReturnValueOnce('http://forms-manager')
+    get: vi.fn((key) =>
+      key === 'managerUrl' ? 'http://forms-manager' : undefined
+    )
   }
 }))
 
