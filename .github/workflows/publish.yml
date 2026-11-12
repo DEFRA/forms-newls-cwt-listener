@@ -5,6 +5,12 @@ on:
     branches:
       - main
 
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version number manual override'
+        required: false
+
 permissions:
   id-token: write
   contents: write
